@@ -1,0 +1,57 @@
+[
+  {
+    "id": "sample_001",
+    "code": "\ndef get_user_data(user_id):\n    query = f\"SELECT * FROM users WHERE id = {user_id}\"\n    cursor.execute(query)\n    return cursor.fetchone()\n",
+    "label": 1,
+    "cwe_type": "CWE-89",
+    "severity": "high",
+    "metadata": {
+      "language": "python",
+      "source": "synthetic"
+    }
+  },
+  {
+    "id": "sample_002",
+    "code": "\ndef get_user_data(user_id):\n    query = \"SELECT * FROM users WHERE id = ?\"\n    cursor.execute(query, (user_id,))\n    return cursor.fetchone()\n",
+    "label": 0,
+    "cwe_type": null,
+    "severity": null,
+    "metadata": {
+      "language": "python",
+      "source": "synthetic"
+    }
+  },
+  {
+    "id": "sample_003",
+    "code": "\n@app.route('/search')\ndef search():\n    term = request.args.get('q')\n    return f\"<h1>Results for: {term}</h1>\"\n",
+    "label": 1,
+    "cwe_type": "CWE-79",
+    "severity": "medium",
+    "metadata": {
+      "language": "python",
+      "source": "synthetic"
+    }
+  },
+  {
+    "id": "sample_004",
+    "code": "\n@app.route('/search')\ndef search():\n    term = request.args.get('q', '')\n    safe_term = html.escape(term)\n    return f\"<h1>Results for: {safe_term}</h1>\"\n",
+    "label": 0,
+    "cwe_type": null,
+    "severity": null,
+    "metadata": {
+      "language": "python",
+      "source": "synthetic"
+    }
+  },
+  {
+    "id": "sample_005",
+    "code": "\nvoid copy_data(char* dest, char* src) {\n    strcpy(dest, src);\n}\n",
+    "label": 1,
+    "cwe_type": "CWE-120",
+    "severity": "high",
+    "metadata": {
+      "language": "c",
+      "source": "synthetic"
+    }
+  }
+]
