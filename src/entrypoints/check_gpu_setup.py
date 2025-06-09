@@ -12,8 +12,8 @@ import sys
 import torch
 import transformers
 
-from benchmark_framework import BenchmarkConfig, HuggingFaceLLM, ModelType, TaskType
-from config_manager import BenchmarkConfigManager
+from benchmark.benchmark_framework import BenchmarkConfig, HuggingFaceLLM, ModelType, TaskType
+from benchmark.config_manager import BenchmarkConfigManager
 
 
 def check_torch_cuda():

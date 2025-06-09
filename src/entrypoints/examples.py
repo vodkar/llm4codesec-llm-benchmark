@@ -11,9 +11,9 @@ This script demonstrates how to:
 import json
 from pathlib import Path
 
-from benchmark_framework import BenchmarkRunner
-from config_manager import BenchmarkConfigManager, create_sample_dataset
-from data_utils import DatasetAnalyzer
+from benchmark.benchmark_framework import BenchmarkRunner
+from benchmark.config_manager import BenchmarkConfigManager, create_sample_dataset
+from datasets.data_utils import DatasetAnalyzer
 
 
 def example_1_quick_benchmark():

@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, Self
 
-from benchmark_framework import BenchmarkConfig, ModelType, TaskType
+from benchmark.benchmark_framework import BenchmarkConfig, ModelType, TaskType
 
 
 class BenchmarkConfigManager:

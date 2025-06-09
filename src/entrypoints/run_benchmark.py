@@ -21,8 +21,8 @@ import json
 import sys
 from pathlib import Path
 
-from benchmark_framework import BenchmarkRunner
-from config_manager import BenchmarkConfigManager, create_sample_dataset
+from benchmark.benchmark_framework import BenchmarkRunner
+from benchmark.config_manager import BenchmarkConfigManager, create_sample_dataset
 
 
 def parse_arguments() -> argparse.Namespace:

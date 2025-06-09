@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 from typing import List, Optional
 
-from castle_dataset_loader import CastleDatasetLoader, filter_by_cwe, get_available_cwes
+from datasets.loaders.castle_dataset_loader import CastleDatasetLoader, filter_by_cwe, get_available_cwes
 
 
 def setup_logging(verbose: bool = False) -> None:

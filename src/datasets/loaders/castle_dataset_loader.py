@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 
-from benchmark_framework import BenchmarkSample, DatasetLoader
+from benchmark.benchmark_framework import BenchmarkSample, DatasetLoader
 
 
 @dataclass

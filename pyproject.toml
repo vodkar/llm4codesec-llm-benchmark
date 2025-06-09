@@ -6,6 +6,11 @@ authors = ["vodkar <boombarah@gmail.com>"]
 readme = "README.md"
 package-mode = false
 
+[tool.poetry.scripts]
+benchmark = "setup_env:run_script"
+castle-benchmark = "setup_env:run_script"
+test-framework = "setup_env:run_script"
+
 [tool.poetry.dependencies]
 python = "^3.10"
 torch = {version = ">=2.0.0", source = "pytorch"}

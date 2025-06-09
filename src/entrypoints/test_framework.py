@@ -20,7 +20,7 @@ def test_imports():
 def test_configuration():
     """Test configuration creation."""
     try:
-        from config_manager import BenchmarkConfigManager
+        from benchmark.config_manager import BenchmarkConfigManager
         
         config = BenchmarkConfigManager.create_config(
             model_key='qwen2.5-7b',
@@ -43,7 +43,7 @@ def test_configuration():
 def test_sample_data_creation():
     """Test sample data creation."""
     try:
-        from config_manager import create_sample_dataset
+        from benchmark.config_manager import create_sample_dataset
         
         create_sample_dataset("./test_sample.json")
         print("✓ Sample dataset created")

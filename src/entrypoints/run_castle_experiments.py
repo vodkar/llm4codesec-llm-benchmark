@@ -15,7 +15,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 
-from run_castle_benchmark import run_single_experiment, load_castle_config, setup_logging
+from .run_castle_benchmark import run_single_experiment, load_castle_config, setup_logging
 
 
 def run_experiment_plan(
