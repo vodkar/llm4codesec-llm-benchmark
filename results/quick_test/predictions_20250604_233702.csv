@@ -1,0 +1,6 @@
+sample_id,predicted_label,true_label,confidence,response_text,processing_time,tokens_used
+sample_001,1,1,,VULNERABLE<|endofassistant|>,345.6305236816406,168
+sample_002,0,0,,SAFE<|endofassistant|>,234.1711666584015,166
+sample_003,0,1,,SAFE<|endofassistant|>,237.78656768798828,165
+sample_004,0,0,,SAFE<|endofassistant|>,248.44553089141846,175
+sample_005,1,1,,VULNERABLE<|endofassistant|>,356.21261286735535,154

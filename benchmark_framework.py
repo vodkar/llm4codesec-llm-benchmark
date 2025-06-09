@@ -482,6 +482,7 @@ class BenchmarkRunner:
     def _setup_logging(self) -> None:
         """Setup logging configuration."""
         log_file = Path(self.config.output_dir) / "benchmark.log"
+        log_file.parent.mkdir(parents=True, exist_ok=True)
         logging.basicConfig(
             level=logging.INFO,
             format="%(asctime)s - %(levelname)s - %(message)s",
@@ -543,7 +544,7 @@ class BenchmarkRunner:
         )
 
         for i, sample in enumerate(samples):
-            logging.info(f"Processing sample {i+1}/{len(samples)}: {sample.id}")
+            logging.info(f"Processing sample {i + 1}/{len(samples)}: {sample.id}")
 
             user_prompt = self.prompt_generator.get_user_prompt(
                 self.config.task_type, sample.code, self.config.cwe_type
@@ -573,7 +574,7 @@ class BenchmarkRunner:
 
             # Log progress
             if (i + 1) % 10 == 0:
-                logging.info(f"Completed {i+1}/{len(samples)} predictions")
+                logging.info(f"Completed {i + 1}/{len(samples)} predictions")
 
         return predictions
 
