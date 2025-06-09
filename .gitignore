@@ -171,3 +171,4 @@ src/admin_panel/panorama-service
 datasets_processed/
 *.dataset.json
 castle_processed/
+

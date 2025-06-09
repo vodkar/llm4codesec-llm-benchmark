@@ -1,0 +1,200 @@
+{
+    "experiment_metadata": {
+        "name": "CVEFixes Benchmark LLM Evaluation",
+        "description": "Comprehensive evaluation of LLMs on CVEFixes benchmark with multiple prompt strategies",
+        "version": "1.0",
+        "dataset": "CVEFixes-Benchmark v1.0",
+        "created_date": "2025-06-09"
+    },
+    "dataset_configurations": {
+        "binary_c_file": {
+            "dataset_path": "datasets_processed/cvefixes/cvefixes_binary_c_file.json",
+            "task_type": "binary_vulnerability",
+            "description": "Binary classification: C file-level vulnerability detection"
+        },
+        "binary_c_method": {
+            "dataset_path": "datasets_processed/cvefixes/cvefixes_binary_c_method.json",
+            "task_type": "binary_vulnerability",
+            "description": "Binary classification: C method-level vulnerability detection"
+        },
+        "multiclass_c_file": {
+            "dataset_path": "datasets_processed/cvefixes/cvefixes_multiclass_c_file.json",
+            "task_type": "multiclass_vulnerability",
+            "description": "Multi-class classification: C file-level CWE identification"
+        },
+        "multiclass_c_method": {
+            "dataset_path": "datasets_processed/cvefixes/cvefixes_multiclass_c_method.json",
+            "task_type": "multiclass_vulnerability",
+            "description": "Multi-class classification: C method-level CWE identification"
+        },
+        "cwe_119": {
+            "dataset_path": "datasets_processed/cvefixes/cvefixes_cwe_119.json",
+            "task_type": "binary_cwe_specific",
+            "cwe_type": "CWE-119",
+            "description": "CWE-119: Improper Restriction of Operations within Bounds of Memory Buffer"
+        },
+        "cwe_120": {
+            "dataset_path": "datasets_processed/cvefixes/cvefixes_cwe_120.json",
+            "task_type": "binary_cwe_specific",
+            "cwe_type": "CWE-120",
+            "description": "CWE-120: Buffer Copy without Checking Size of Input (Classic Buffer Overflow)"
+        },
+        "cwe_125": {
+            "dataset_path": "datasets_processed/cvefixes/cvefixes_cwe_125.json",
+            "task_type": "binary_cwe_specific",
+            "cwe_type": "CWE-125",
+            "description": "CWE-125: Out-of-bounds Read"
+        },
+        "cwe_190": {
+            "dataset_path": "datasets_processed/cvefixes/cvefixes_cwe_190.json",
+            "task_type": "binary_cwe_specific",
+            "cwe_type": "CWE-190",
+            "description": "CWE-190: Integer Overflow or Wraparound"
+        },
+        "cwe_476": {
+            "dataset_path": "datasets_processed/cvefixes/cvefixes_cwe_476.json",
+            "task_type": "binary_cwe_specific",
+            "cwe_type": "CWE-476",
+            "description": "CWE-476: NULL Pointer Dereference"
+        },
+        "cwe_787": {
+            "dataset_path": "datasets_processed/cvefixes/cvefixes_cwe_787.json",
+            "task_type": "binary_cwe_specific",
+            "cwe_type": "CWE-787",
+            "description": "CWE-787: Out-of-bounds Write"
+        }
+    },
+    "prompt_strategies": {
+        "basic_security": {
+            "name": "Basic Security Analysis",
+            "system_prompt": "You are an expert security analyst specializing in static code analysis. Your task is to analyze code snippets and determine if they contain security vulnerabilities.\n\nInstructions:\n- Analyze the provided code carefully\n- Consider common vulnerability patterns (injection, buffer overflow, race conditions, etc.)\n- Respond with only \"VULNERABLE\" or \"SAFE\" - no additional explanation\n- Base your decision on concrete security risks, not coding style issues",
+            "user_prompt": "Analyze this code for security vulnerabilities:\n\n{code}"
+        },
+        "detailed_analysis": {
+            "name": "Detailed Security Analysis",
+            "system_prompt": "You are a senior security researcher with expertise in static code analysis and vulnerability detection. Your role is to perform thorough security assessments of code snippets.\n\nAnalysis Guidelines:\n1. Examine the code for potential security vulnerabilities\n2. Consider context and data flow patterns\n3. Look for common vulnerability types: buffer overflows, injection attacks, race conditions, memory corruption, etc.\n4. Evaluate input validation and boundary checking\n5. Consider both direct and indirect security implications\n\nResponse Format: Respond with exactly \"VULNERABLE\" or \"SAFE\" based on your analysis.",
+            "user_prompt": "Please perform a detailed security analysis of the following code snippet and determine if it contains any security vulnerabilities:\n\n```c\n{code}\n```\n\nProvide your assessment:"
+        },
+        "cve_focused": {
+            "name": "CVE-Focused Analysis",
+            "system_prompt": "You are a cybersecurity expert specializing in CVE (Common Vulnerabilities and Exposures) analysis. Your task is to identify security vulnerabilities in code that could lead to CVE entries.\n\nFocus Areas:\n- Memory safety issues (buffer overflows, use-after-free, etc.)\n- Input validation failures\n- Integer handling errors\n- Race conditions and concurrency issues\n- Authentication and authorization bypasses\n- Injection vulnerabilities\n\nRespond with \"VULNERABLE\" if the code contains security issues that could result in a CVE, or \"SAFE\" if no such issues are present.",
+            "user_prompt": "Analyze this code snippet for CVE-worthy security vulnerabilities:\n\n{code}\n\nAssessment:"
+        },
+        "cwe_specific": {
+            "name": "CWE-Specific Detection",
+            "system_prompt": "You are a specialized security analyst focused on detecting specific types of vulnerabilities classified by CWE (Common Weakness Enumeration).\n\nYour expertise includes:\n- CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer\n- CWE-120: Buffer Copy without Checking Size of Input\n- CWE-125: Out-of-bounds Read\n- CWE-190: Integer Overflow or Wraparound\n- CWE-476: NULL Pointer Dereference\n- CWE-787: Out-of-bounds Write\n\nAnalyze the code for the presence of these specific vulnerability types. Respond with \"VULNERABLE\" if any CWE-categorized weakness is present, or \"SAFE\" otherwise.",
+            "user_prompt": "Examine this code for CWE-categorized vulnerabilities:\n\n{code}"
+        },
+        "step_by_step": {
+            "name": "Step-by-Step Analysis",
+            "system_prompt": "You are a meticulous security analyst who performs systematic code reviews. Follow a structured approach to vulnerability detection.\n\nAnalysis Steps:\n1. Identify all input sources and user-controlled data\n2. Trace data flow through the code\n3. Check for proper input validation and sanitization\n4. Examine boundary conditions and error handling\n5. Look for unsafe function usage and memory operations\n6. Evaluate for race conditions and concurrency issues\n7. Assess overall security posture\n\nAfter your analysis, conclude with either \"VULNERABLE\" or \"SAFE\".",
+            "user_prompt": "Perform a systematic security analysis of this code:\n\n{code}\n\nProvide your final assessment:"
+        }
+    },
+    "model_configurations": {
+        "qwen2.5-7b": {
+            "model_name": "Qwen/Qwen2.5-7B-Instruct",
+            "model_type": "qwen",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "use_quantization": true,
+            "description": "Qwen 2.5 7B Instruct - General purpose coding model"
+        },
+        "llama2-7b-chat": {
+            "model_name": "meta-llama/Llama-2-7b-chat-hf",
+            "model_type": "llama",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "use_quantization": true,
+            "description": "Llama 2 7B Chat - Meta's conversational model"
+        },
+        "deepseek-coder": {
+            "model_name": "deepseek-ai/deepseek-coder-6.7b-instruct",
+            "model_type": "deepseek",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "use_quantization": true,
+            "description": "DeepSeek Coder 6.7B - Specialized coding model"
+        },
+        "codebert": {
+            "model_name": "microsoft/codebert-base",
+            "model_type": "codebert",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "use_quantization": false,
+            "description": "CodeBERT Base - Microsoft's code understanding model"
+        }
+    },
+    "experiment_configs": [
+        {
+            "name": "cvefixes_binary_basic",
+            "description": "Basic binary vulnerability detection on CVEFixes C files",
+            "model": "qwen2.5-7b",
+            "dataset": "binary_c_file",
+            "prompt_strategy": "basic_security",
+            "sample_limit": null
+        },
+        {
+            "name": "cvefixes_binary_detailed",
+            "description": "Detailed binary vulnerability detection on CVEFixes C files",
+            "model": "qwen2.5-7b",
+            "dataset": "binary_c_file",
+            "prompt_strategy": "detailed_analysis",
+            "sample_limit": null
+        },
+        {
+            "name": "cvefixes_method_basic",
+            "description": "Basic binary vulnerability detection on CVEFixes C methods",
+            "model": "qwen2.5-7b",
+            "dataset": "binary_c_method",
+            "prompt_strategy": "basic_security",
+            "sample_limit": null
+        },
+        {
+            "name": "cvefixes_cwe_specific",
+            "description": "CWE-specific vulnerability detection",
+            "model": "qwen2.5-7b",
+            "dataset": "cwe_119",
+            "prompt_strategy": "cwe_specific",
+            "sample_limit": null
+        },
+        {
+            "name": "cvefixes_multiclass",
+            "description": "Multi-class CWE identification",
+            "model": "qwen2.5-7b",
+            "dataset": "multiclass_c_file",
+            "prompt_strategy": "cwe_specific",
+            "sample_limit": null
+        }
+    ],
+    "execution_settings": {
+        "output_base_dir": "results/cvefixes_experiments",
+        "batch_size": 1,
+        "log_level": "INFO",
+        "save_intermediate_results": true,
+        "parallel_execution": false
+    },
+    "dataset_preparation": {
+        "cvefixes_database_path": "benchmarks/CVEfixes/Data/CVEfixes.db",
+        "programming_languages": [
+            "C",
+            "Java",
+            "Python"
+        ],
+        "change_levels": [
+            "file",
+            "method"
+        ],
+        "sample_limits": {
+            "development": 100,
+            "testing": 500,
+            "full": null
+        },
+        "quality_filters": {
+            "min_code_length": 50,
+            "max_code_length": 10000,
+            "exclude_test_files": true,
+            "require_cwe_mapping": false
+        }
+    }
+}

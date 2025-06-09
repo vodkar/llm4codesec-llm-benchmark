@@ -7,11 +7,11 @@ for use with the LLM code security benchmark framework.
 """
 
 import json
-import re
 import logging
-from pathlib import Path
-from typing import Dict, List, Any, Optional
+import re
 from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 from benchmark.benchmark_framework import BenchmarkSample, DatasetLoader
 
@@ -20,9 +20,7 @@ from benchmark.benchmark_framework import BenchmarkSample, DatasetLoader
 class CastleMetadata:
     """Metadata extracted from CASTLE file headers."""
     name: str
-    author: str
     version: str
-    compile_command: str
     vulnerable: bool
     description: str
     cwe: int
@@ -77,9 +75,7 @@ class CastleDatasetLoader:
         
         return CastleMetadata(
             name=metadata.get('name', ''),
-            author=metadata.get('author', ''),
             version=metadata.get('version', ''),
-            compile_command=metadata.get('compile', ''),
             vulnerable=vulnerable,
             description=metadata.get('description', ''),
             cwe=cwe
@@ -150,9 +146,7 @@ class CastleDatasetLoader:
         # Create comprehensive metadata
         sample_metadata = {
             "original_filename": file_path.name,
-            "author": metadata.author,
             "version": metadata.version,
-            "compile_command": metadata.compile_command,
             "description": metadata.description,
             "cwe_number": metadata.cwe,
             "vulnerable_line": vulnerable_line,
