@@ -1,0 +1,199 @@
+{
+    "experiment_metadata": {
+        "name": "CASTLE Benchmark LLM Evaluation",
+        "description": "Comprehensive evaluation of LLMs on CASTLE benchmark with multiple prompt strategies",
+        "version": "1.0",
+        "dataset": "CASTLE-Benchmark v1.2",
+        "created_date": "2025-06-09"
+    },
+    "dataset_configurations": {
+        "binary_all": {
+            "dataset_path": "datasets_processed/castle/castle_binary.json",
+            "task_type": "binary_vulnerability",
+            "description": "Binary classification: all vulnerability types"
+        },
+        "multiclass_all": {
+            "dataset_path": "datasets_processed/castle/castle_multiclass.json",
+            "task_type": "multiclass_vulnerability",
+            "description": "Multi-class classification: vulnerability type identification"
+        },
+        "cwe_125": {
+            "dataset_path": "datasets_processed/castle/castle_cwe_125.json",
+            "task_type": "binary_cwe_specific",
+            "cwe_type": "CWE-125",
+            "description": "CWE-125: Out-of-bounds Read detection"
+        },
+        "cwe_190": {
+            "dataset_path": "datasets_processed/castle/castle_cwe_190.json",
+            "task_type": "binary_cwe_specific",
+            "cwe_type": "CWE-190",
+            "description": "CWE-190: Integer Overflow detection"
+        },
+        "cwe_476": {
+            "dataset_path": "datasets_processed/castle/castle_cwe_476.json",
+            "task_type": "binary_cwe_specific",
+            "cwe_type": "CWE-476",
+            "description": "CWE-476: NULL Pointer Dereference detection"
+        },
+        "cwe_787": {
+            "dataset_path": "datasets_processed/castle/castle_cwe_787.json",
+            "task_type": "binary_cwe_specific",
+            "cwe_type": "CWE-787",
+            "description": "CWE-787: Out-of-bounds Write detection"
+        }
+    },
+    "prompt_strategies": {
+        "basic_security": {
+            "name": "Basic Security Analysis",
+            "system_prompt": "You are an expert security analyst specializing in static code analysis. Your task is to analyze code snippets and determine if they contain security vulnerabilities.\n\nInstructions:\n- Analyze the provided code carefully\n- Consider common vulnerability patterns (injection, buffer overflow, race conditions, etc.)\n- Respond with only \"VULNERABLE\" or \"SAFE\" - no additional explanation\n- Base your decision on concrete security risks, not coding style issues",
+            "user_prompt": "Analyze this code for security vulnerabilities:\n\n{code}"
+        },
+        "detailed_analysis": {
+            "name": "Detailed Security Analysis",
+            "system_prompt": "You are a senior cybersecurity expert with deep knowledge of common weakness enumeration (CWE) patterns. Your task is to perform thorough static analysis of C/C++ code to identify potential security vulnerabilities.\n\nAnalysis Guidelines:\n- Examine the code for buffer overflows, memory corruption, input validation issues\n- Check for proper bounds checking, integer overflow/underflow conditions\n- Look for race conditions, use-after-free, double-free patterns\n- Consider null pointer dereferences and uninitialized variables\n- Evaluate input sanitization and output encoding practices\n\nResponse Format: Respond with only \"VULNERABLE\" or \"SAFE\"",
+            "user_prompt": "Please analyze the following C code for security vulnerabilities:\n\n```c\n{code}\n```"
+        },
+        "cwe_focused": {
+            "name": "CWE-Focused Analysis",
+            "system_prompt": "You are a static analysis security expert specializing in detecting specific vulnerability patterns. Your task is to analyze code snippets for {cwe_type} vulnerabilities specifically.\n\nFocus Areas for {cwe_type}:\n- Look specifically for patterns that match {cwe_type} vulnerability characteristics\n- Ignore other types of vulnerabilities that don't match {cwe_type}\n- Consider the specific weakness enumeration definition for {cwe_type}\n\nInstructions:\n- Respond with only \"VULNERABLE\" or \"SAFE\" - no additional explanation\n- Base your decision solely on {cwe_type} patterns",
+            "user_prompt": "Analyze this code specifically for {cwe_type} vulnerabilities:\n\n{code}"
+        },
+        "context_aware": {
+            "name": "Context-Aware Analysis",
+            "system_prompt": "You are an experienced security code reviewer working on a critical system. Your responsibility is to identify potential security vulnerabilities that could be exploited in production.\n\nContext: You are reviewing C code that will be deployed in a security-sensitive environment. The code may contain subtle vulnerabilities that could lead to system compromise.\n\nAnalysis approach:\n- Consider both obvious and subtle vulnerability patterns\n- Think about how an attacker might exploit the code\n- Pay attention to edge cases and error conditions\n- Consider the full execution context\n\nRespond with only \"VULNERABLE\" or \"SAFE\"",
+            "user_prompt": "Review this production code for security vulnerabilities:\n\n{code}\n\nIs this code vulnerable to security exploits?"
+        },
+        "step_by_step": {
+            "name": "Step-by-Step Analysis",
+            "system_prompt": "You are a methodical security analyst who follows a systematic approach to vulnerability detection.\n\nAnalysis Steps:\n1. Read through the code to understand its purpose\n2. Identify all input sources and data flows\n3. Check for proper input validation and bounds checking\n4. Look for memory management issues\n5. Examine error handling and edge cases\n6. Determine if vulnerabilities exist\n\nFinal Answer: After your analysis, respond with only \"VULNERABLE\" or \"SAFE\"",
+            "user_prompt": "Systematically analyze this code for security vulnerabilities:\n\n{code}"
+        }
+    },
+    "model_configurations": {
+        "llama2-7b": {
+            "model_name": "meta-llama/Llama-2-7b-chat-hf",
+            "model_type": "LLAMA",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "batch_size": 1
+        },
+        "qwen2.5-7b": {
+            "model_name": "Qwen/Qwen2.5-7B-Instruct",
+            "model_type": "QWEN",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "batch_size": 1
+        },
+        "deepseek-coder": {
+            "model_name": "deepseek-ai/deepseek-coder-6.7b-instruct",
+            "model_type": "DEEPSEEK",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "batch_size": 1
+        }
+    },
+    "experiment_plans": {
+        "quick_test": {
+            "description": "Quick test with basic prompt on binary classification",
+            "datasets": [
+                "binary_all"
+            ],
+            "models": [
+                "qwen2.5-7b"
+            ],
+            "prompts": [
+                "basic_security"
+            ],
+            "sample_limit": 50
+        },
+        "prompt_comparison": {
+            "description": "Compare different prompt strategies on binary classification",
+            "datasets": [
+                "binary_all"
+            ],
+            "models": [
+                "qwen2.5-7b"
+            ],
+            "prompts": [
+                "basic_security",
+                "detailed_analysis",
+                "context_aware",
+                "step_by_step"
+            ],
+            "sample_limit": null
+        },
+        "model_comparison": {
+            "description": "Compare different models with best prompt",
+            "datasets": [
+                "binary_all"
+            ],
+            "models": [
+                "llama2-7b",
+                "qwen2.5-7b",
+                "deepseek-coder"
+            ],
+            "prompts": [
+                "detailed_analysis"
+            ],
+            "sample_limit": null
+        },
+        "cwe_specific_analysis": {
+            "description": "CWE-specific vulnerability detection",
+            "datasets": [
+                "cwe_125",
+                "cwe_190",
+                "cwe_476",
+                "cwe_787"
+            ],
+            "models": [
+                "qwen2.5-7b"
+            ],
+            "prompts": [
+                "cwe_focused"
+            ],
+            "sample_limit": null
+        },
+        "comprehensive_evaluation": {
+            "description": "Full evaluation across all configurations",
+            "datasets": [
+                "binary_all",
+                "multiclass_all",
+                "cwe_125",
+                "cwe_190",
+                "cwe_476",
+                "cwe_787"
+            ],
+            "models": [
+                "llama2-7b",
+                "qwen2.5-7b",
+                "deepseek-coder"
+            ],
+            "prompts": [
+                "basic_security",
+                "detailed_analysis",
+                "cwe_focused"
+            ],
+            "sample_limit": null
+        }
+    },
+    "output_settings": {
+        "base_output_dir": "results/castle_experiments",
+        "create_subdirs": true,
+        "save_predictions": true,
+        "save_metrics": true,
+        "save_detailed_report": true,
+        "include_timestamp": true
+    },
+    "evaluation_settings": {
+        "metrics": [
+            "accuracy",
+            "precision",
+            "recall",
+            "f1",
+            "auc"
+        ],
+        "calculate_per_cwe": true,
+        "create_confusion_matrix": true,
+        "analyze_errors": true
+    }
+}

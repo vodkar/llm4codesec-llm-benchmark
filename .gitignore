@@ -166,3 +166,8 @@ cython_debug/
 src/admin_panel/data/*
 src/admin_panel/panorama-service
 .nicegui/
+
+# Processed datasets (generated)
+datasets_processed/
+*.dataset.json
+castle_processed/
