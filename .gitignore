@@ -163,8 +163,6 @@ cython_debug/
 # VSCode
 .vscode/
 
-src/admin_panel/data/*
-src/admin_panel/panorama-service
 .nicegui/
 
 # Processed datasets (generated)

@@ -636,7 +636,10 @@ files = [
 [package.dependencies]
 filelock = "*"
 fsspec = ">=2023.5.0"
-hf-xet = {version = ">=1.1.2,<2.0.0", markers = "platform_machine == \"x86_64\" or platform_machine == \"amd64\" or platform_machine == \"arm64\" or platform_machine == \"aarch64\""}
+hf-xet = [
+    {version = ">=1.1.2,<2.0.0", markers = "platform_machine == \"x86_64\" or platform_machine == \"amd64\" or platform_machine == \"arm64\" or platform_machine == \"aarch64\""},
+    {version = ">=1.1.2,<2.0.0", optional = true, markers = "platform_machine == \"x86_64\" or platform_machine == \"amd64\" or platform_machine == \"arm64\" or platform_machine == \"aarch64\" or extra == \"hf-xet\""},
+]
 packaging = ">=20.9"
 pyyaml = ">=5.1"
 requests = "*"
@@ -2616,4 +2619,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "98fc7d3d35967b5323b1454f372b2b656f3ee70fcdc5919a9db9083cfe8b6697"
+content-hash = "7143dfb5d587601a5a90ce2786361109134bdb6afe3adbd29b862ac889ec2276"

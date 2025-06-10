@@ -1,0 +1,21 @@
+{
+  "plan_name": "quick_test",
+  "description": "Quick test with basic prompt on binary classification",
+  "start_time": "2025-06-10T20:06:47.486661",
+  "experiments": [
+    {
+      "experiment_name": "qwen3-4b_binary_all_basic_security",
+      "status": "failed",
+      "error": "'dict' object has no attribute 'true_label'",
+      "output_dir": "results\\castle_experiments\\plan_quick_test_20250610_200647\\qwen3-4b_binary_all_basic_security"
+    }
+  ],
+  "summary": {
+    "total_experiments": 1,
+    "successful": 0,
+    "failed": 1,
+    "success_rate": 0.0
+  },
+  "output_dir": "results\\castle_experiments\\plan_quick_test_20250610_200647",
+  "end_time": "2025-06-10T20:22:10.291927"
+}

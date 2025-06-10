@@ -46,7 +46,7 @@ class ModelType(Enum):
     QWEN3_30B_A3B = "Qwen/Qwen3-30B-A3B"
     
     # New DeepSeek models
-    DEEPSEEK_CODER_V2_INSTRUCT = "deepseek-ai/DeepSeek-Coder-V2-Instruct"
+    DEEPSEEK_CODER_V2_LITE_INSTRUCT = "deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct"
     DEEPSEEK_R1_DISTILL_QWEN_1_5B = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
     DEEPSEEK_R1_DISTILL_QWEN_32B = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
     
@@ -189,7 +189,7 @@ class BenchmarkConfig:
             ],
             "DeepSeek": [
                 ModelType.DEEPSEEK.value,
-                ModelType.DEEPSEEK_CODER_V2_INSTRUCT.value,
+                ModelType.DEEPSEEK_CODER_V2_LITE_INSTRUCT.value,
                 ModelType.DEEPSEEK_R1_DISTILL_QWEN_1_5B.value,
                 ModelType.DEEPSEEK_R1_DISTILL_QWEN_32B.value,
             ],
@@ -564,7 +564,7 @@ class MetricsCalculator:
         predictions: List[PredictionResult],
     ) -> Dict[str, float]:
         """Calculate metrics for binary classification."""
-        y_true = [pred.true_label if isinstance(pred.true_label, int) else  for pred in predictions]
+        y_true = [pred.true_label for pred in predictions]
         y_pred = [pred.predicted_label for pred in predictions]
 
         # Calculate confusion matrix

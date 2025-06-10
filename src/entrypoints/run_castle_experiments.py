@@ -13,9 +13,9 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Optional
 
-from .run_castle_benchmark import run_single_experiment, load_castle_config, setup_logging
+from entrypoints.run_castle_benchmark import load_castle_config, run_single_experiment, setup_logging
 
 
 def run_experiment_plan(
@@ -214,7 +214,7 @@ def main():
     
     parser.add_argument(
         "--plan",
-        choices=["quick_test", "prompt_comparison", "model_comparison", "cwe_specific_analysis", "comprehensive_evaluation"],
+        choices=["quick_test", "prompt_comparison", "model_comparison", "cwe_specific_analysis", "small_models_evaluation", "comprehensive_evaluation"],
         help="Experiment plan to run"
     )
     

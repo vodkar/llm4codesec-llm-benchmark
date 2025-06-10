@@ -11,7 +11,7 @@ import json
 import logging
 import sys
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 from datasets.loaders.cvefixes_dataset_loader import CVEFixesDatasetLoader
 

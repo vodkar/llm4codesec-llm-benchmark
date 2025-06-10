@@ -7,6 +7,7 @@ flexible configuration options for different vulnerability detection tasks.
 """
 
 import argparse
+import dataclasses
 import json
 import logging
 import sys
@@ -107,7 +108,7 @@ class CastleBenchmarkRunner:
                 "metrics": metrics,
                 "total_samples": len(samples),
                 "total_time": total_time,
-                "predictions": predictions
+                "predictions": [dataclasses.asdict(prediction) for prediction in predictions]
             }
             
             # Clean up
@@ -193,7 +194,7 @@ def run_single_experiment(
     castle_config: Dict[str, Any],
     sample_limit: Optional[int] = None,
     output_base_dir: str = "results/castle_experiments"
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Run a single benchmark experiment.
     
