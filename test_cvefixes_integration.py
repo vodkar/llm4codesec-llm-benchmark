@@ -149,7 +149,7 @@ def test_cvefixes_json_loader():
         assert isinstance(sample1, BenchmarkSample), "Sample is not BenchmarkSample instance"
         assert sample1.id == "CVE-2021-1234_file_0", f"Wrong ID: {sample1.id}"
         assert sample1.label == 1, f"Wrong label: {sample1.label}"
-        assert sample1.cwe_type == "CWE-119", f"Wrong CWE: {sample1.cwe_type}"
+        assert sample1.cwe_types == "CWE-119", f"Wrong CWE: {sample1.cwe_types}"
         assert sample1.severity == "HIGH", f"Wrong severity: {sample1.severity}"
         assert "strcpy" in sample1.code, "Code doesn't contain expected content"
         
@@ -160,7 +160,7 @@ def test_cvefixes_json_loader():
         # Check second sample
         sample2 = samples[1]
         assert sample2.id == "CVE-2021-5678_file_1"
-        assert sample2.cwe_type == "CWE-120"
+        assert sample2.cwe_types == "CWE-120"
         assert sample2.severity == "MEDIUM"
         assert "sprintf" in sample2.code
         
@@ -234,14 +234,14 @@ def test_benchmark_sample_compatibility():
                 "cwe_id": "120",
                 "programming_language": "C"
             },
-            cwe_type="CWE-120",
+            cwe_types="CWE-120",
             severity="HIGH"
         )
         
         # Validate sample
         assert sample.id == "CVE-2021-TEST_file_0"
         assert sample.label == 1
-        assert sample.cwe_type == "CWE-120"
+        assert sample.cwe_types == "CWE-120"
         assert sample.severity == "HIGH"
         assert "gets" in sample.code
         assert sample.metadata["cve_id"] == "CVE-2021-TEST"

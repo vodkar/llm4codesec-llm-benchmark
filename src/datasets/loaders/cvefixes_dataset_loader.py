@@ -206,7 +206,7 @@ class CVEFixesDatasetLoader:
             code=code,
             label=binary_label,
             metadata=metadata,
-            cwe_type=cwe_type,
+            cwe_types=cwe_type,
             severity=self._map_severity(severity)
         )
 
@@ -250,7 +250,7 @@ class CVEFixesDatasetLoader:
             code=code_to_analyze,
             label=binary_label,
             metadata=metadata,
-            cwe_type=cwe_type,
+            cwe_types=cwe_type,
             severity=self._map_severity(severity)
         )
 
@@ -301,13 +301,13 @@ class CVEFixesDatasetLoader:
                         if task_type == "binary":
                             sample.label = 1  # All CVEFixes samples are vulnerable
                         elif task_type == "multiclass":
-                            if sample.cwe_type:
-                                sample.label = sample.cwe_type
+                            if sample.cwe_types:
+                                sample.label = sample.cwe_types
                             else:
                                 sample.label = "UNKNOWN"
                         elif task_type.startswith("cwe_"):
                             target_cwe = task_type.upper()
-                            sample.label = 1 if sample.cwe_type == target_cwe else 0
+                            sample.label = 1 if sample.cwe_types == target_cwe else 0
                         
                         samples.append(sample)
                         
@@ -325,13 +325,13 @@ class CVEFixesDatasetLoader:
                         if task_type == "binary":
                             sample.label = 1  # All CVEFixes samples are vulnerable
                         elif task_type == "multiclass":
-                            if sample.cwe_type:
-                                sample.label = sample.cwe_type
+                            if sample.cwe_types:
+                                sample.label = sample.cwe_types
                             else:
                                 sample.label = "UNKNOWN"
                         elif task_type.startswith("cwe_"):
                             target_cwe = task_type.upper()
-                            sample.label = 1 if sample.cwe_type == target_cwe else 0
+                            sample.label = 1 if sample.cwe_types == target_cwe else 0
                         
                         samples.append(sample)
                         
@@ -371,7 +371,7 @@ class CVEFixesDatasetLoader:
         
         for sample in samples:
             # CWE distribution
-            cwe = sample.cwe_type or "UNKNOWN"
+            cwe = sample.cwe_types or "UNKNOWN"
             cwe_distribution[cwe] = cwe_distribution.get(cwe, 0) + 1
             
             # Severity distribution
@@ -400,7 +400,7 @@ class CVEFixesDatasetLoader:
                 "id": sample.id,
                 "code": sample.code,
                 "label": sample.label,
-                "cwe_type": sample.cwe_type,
+                "cwe_type": sample.cwe_types,
                 "severity": sample.severity,
                 "metadata": sample.metadata
             }
@@ -488,7 +488,7 @@ class CVEFixesJSONDatasetLoader(DatasetLoader):
                 code=sample_data["code"],
                 label=sample_data["label"],
                 metadata=sample_data["metadata"],
-                cwe_type=sample_data.get("cwe_type"),
+                cwe_types=sample_data.get("cwe_type"),
                 severity=sample_data.get("severity")
             )
             samples.append(sample)

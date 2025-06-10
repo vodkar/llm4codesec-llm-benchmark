@@ -120,7 +120,7 @@ def run_single_experiment(exp_name: str, config_file: str,
         return True
         
     except Exception as e:
-        logging.error(f"Error running experiment '{exp_name}': {e}")
+        logging.exception(f"Error running experiment '{exp_name}': {e}")
         return False
 
 
@@ -285,7 +285,7 @@ Examples:
         logging.info("Benchmark execution interrupted by user")
         return 1
     except Exception as e:
-        logging.error(f"Error running benchmark: {e}")
+        logging.exception(f"Error running benchmark: {e}")
         return 1
 
 

@@ -11,11 +11,11 @@ import json
 import logging
 import sys
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
 
-from benchmark.benchmark_framework import BenchmarkConfig, TaskType, ModelType
-from datasets.loaders.castle_dataset_loader import CastleDatasetLoaderFramework
+from benchmark.benchmark_framework import BenchmarkConfig, ModelType, TaskType
 from benchmark.config_manager import BenchmarkConfigManager
+from datasets.loaders.castle_dataset_loader import CastleDatasetLoaderFramework
 
 
 class CastleBenchmarkRunner:
@@ -27,13 +27,12 @@ class CastleBenchmarkRunner:
         
     def run_benchmark(self, sample_limit: Optional[int] = None):
         """Run benchmark with CASTLE-specific dataset loading."""
-        from benchmark.benchmark_framework import (
-            HuggingFaceLLM, PromptGenerator, ResponseParser, 
-            MetricsCalculator, PredictionResult
-        )
-        import time
         import logging
+        import time
         from pathlib import Path
+
+        from benchmark.benchmark_framework import (HuggingFaceLLM, MetricsCalculator, PredictionResult, PromptGenerator,
+                                                   ResponseParser)
         
         logging.info("Starting CASTLE benchmark execution")
         start_time = time.time()
@@ -118,7 +117,7 @@ class CastleBenchmarkRunner:
             return results
             
         except Exception as e:
-            logging.error(f"CASTLE benchmark failed: {e}")
+            logging.exception(f"CASTLE benchmark failed: {e}")
             raise
 
 

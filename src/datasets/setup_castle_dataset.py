@@ -122,7 +122,7 @@ def create_cwe_specific_datasets(
                 "id": sample.id,
                 "code": sample.code,
                 "label": sample.label,
-                "cwe_type": sample.cwe_type,
+                "cwe_type": sample.cwe_types,
                 "severity": sample.severity,
                 "metadata": sample.metadata
             }

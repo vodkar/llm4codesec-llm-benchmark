@@ -1,0 +1,185 @@
+{
+    "experiments": [
+        {
+            "name": "jitvul_binary_baseline",
+            "description": "Binary vulnerability detection on JitVul dataset",
+            "config": {
+                "model_name": "gpt-4",
+                "dataset_config": {
+                    "loader": "jitvul",
+                    "task_type": "binary",
+                    "data_file": "benchmarks/JitVul/data/final_benchmark.jsonl",
+                    "use_call_graph": true,
+                    "max_samples": null
+                },
+                "prompt_strategy": "default_vulnerability_detection",
+                "output_dir": "results/jitvul_experiments",
+                "max_tokens": 4096,
+                "temperature": 0.0,
+                "top_p": 1.0,
+                "batch_size": 10,
+                "save_predictions": true,
+                "save_metrics": true
+            }
+        },
+        {
+            "name": "jitvul_multiclass_baseline",
+            "description": "Multiclass CWE detection on JitVul dataset",
+            "config": {
+                "model_name": "gpt-4",
+                "dataset_config": {
+                    "loader": "jitvul",
+                    "task_type": "multiclass",
+                    "data_file": "benchmarks/JitVul/data/final_benchmark.jsonl",
+                    "use_call_graph": true,
+                    "max_samples": null
+                },
+                "prompt_strategy": "multiclass_vulnerability_detection",
+                "output_dir": "results/jitvul_experiments",
+                "max_tokens": 4096,
+                "temperature": 0.0,
+                "top_p": 1.0,
+                "batch_size": 10,
+                "save_predictions": true,
+                "save_metrics": true
+            }
+        },
+        {
+            "name": "jitvul_cwe_125_buffer_overflow",
+            "description": "CWE-125 Buffer Overflow detection on JitVul dataset",
+            "config": {
+                "model_name": "gpt-4",
+                "dataset_config": {
+                    "loader": "jitvul",
+                    "task_type": "cwe_specific",
+                    "data_file": "benchmarks/JitVul/data/final_benchmark.jsonl",
+                    "target_cwe": "CWE-125",
+                    "use_call_graph": true,
+                    "max_samples": null
+                },
+                "prompt_strategy": "cwe_specific_vulnerability_detection",
+                "output_dir": "results/jitvul_experiments",
+                "max_tokens": 4096,
+                "temperature": 0.0,
+                "top_p": 1.0,
+                "batch_size": 10,
+                "save_predictions": true,
+                "save_metrics": true
+            }
+        },
+        {
+            "name": "jitvul_cwe_787_buffer_overflow",
+            "description": "CWE-787 Buffer Overflow detection on JitVul dataset",
+            "config": {
+                "model_name": "gpt-4",
+                "dataset_config": {
+                    "loader": "jitvul",
+                    "task_type": "cwe_specific",
+                    "data_file": "benchmarks/JitVul/data/final_benchmark.jsonl",
+                    "target_cwe": "CWE-787",
+                    "use_call_graph": true,
+                    "max_samples": null
+                },
+                "prompt_strategy": "cwe_specific_vulnerability_detection",
+                "output_dir": "results/jitvul_experiments",
+                "max_tokens": 4096,
+                "temperature": 0.0,
+                "top_p": 1.0,
+                "batch_size": 10,
+                "save_predictions": true,
+                "save_metrics": true
+            }
+        },
+        {
+            "name": "jitvul_claude_binary",
+            "description": "Claude-3.5 Sonnet binary vulnerability detection",
+            "config": {
+                "model_name": "claude-3-5-sonnet-20241022",
+                "dataset_config": {
+                    "loader": "jitvul",
+                    "task_type": "binary",
+                    "data_file": "benchmarks/JitVul/data/final_benchmark.jsonl",
+                    "use_call_graph": true,
+                    "max_samples": 100
+                },
+                "prompt_strategy": "default_vulnerability_detection",
+                "output_dir": "results/jitvul_experiments",
+                "max_tokens": 4096,
+                "temperature": 0.0,
+                "top_p": 1.0,
+                "batch_size": 5,
+                "save_predictions": true,
+                "save_metrics": true
+            }
+        },
+        {
+            "name": "jitvul_llama_binary",
+            "description": "Llama-3.1-70B binary vulnerability detection",
+            "config": {
+                "model_name": "meta-llama/Llama-3.1-70B-Instruct",
+                "dataset_config": {
+                    "loader": "jitvul",
+                    "task_type": "binary",
+                    "data_file": "benchmarks/JitVul/data/final_benchmark.jsonl",
+                    "use_call_graph": true,
+                    "max_samples": 100
+                },
+                "prompt_strategy": "default_vulnerability_detection",
+                "output_dir": "results/jitvul_experiments",
+                "max_tokens": 4096,
+                "temperature": 0.0,
+                "top_p": 1.0,
+                "batch_size": 5,
+                "save_predictions": true,
+                "save_metrics": true
+            }
+        }
+    ],
+    "batch_configs": [
+        {
+            "name": "jitvul_baseline_comparison",
+            "description": "Compare binary vs multiclass performance on baseline models",
+            "experiments": [
+                "jitvul_binary_baseline",
+                "jitvul_multiclass_baseline"
+            ]
+        },
+        {
+            "name": "jitvul_cwe_specific_evaluation",
+            "description": "Evaluate CWE-specific detection capabilities",
+            "experiments": [
+                "jitvul_cwe_125_buffer_overflow",
+                "jitvul_cwe_787_buffer_overflow"
+            ]
+        },
+        {
+            "name": "jitvul_model_comparison",
+            "description": "Compare different LLM models on binary detection",
+            "experiments": [
+                "jitvul_binary_baseline",
+                "jitvul_claude_binary",
+                "jitvul_llama_binary"
+            ]
+        },
+        {
+            "name": "jitvul_full_evaluation",
+            "description": "Complete evaluation across all tasks and models",
+            "experiments": [
+                "jitvul_binary_baseline",
+                "jitvul_multiclass_baseline",
+                "jitvul_cwe_125_buffer_overflow",
+                "jitvul_cwe_787_buffer_overflow",
+                "jitvul_claude_binary",
+                "jitvul_llama_binary"
+            ]
+        }
+    ],
+    "global_settings": {
+        "retry_on_error": true,
+        "max_retries": 3,
+        "retry_delay": 5,
+        "save_intermediate_results": true,
+        "parallel_experiments": false,
+        "timeout_per_experiment": 3600
+    }
+}

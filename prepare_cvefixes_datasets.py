@@ -120,7 +120,7 @@ def prepare_cwe_specific_datasets(loader: CVEFixesDatasetLoader,
                 limit=sample_limit
             )
         except Exception as e:
-            logging.error(f"Error creating dataset for {cwe_type}: {e}")
+            logging.exception(f"Error creating dataset for {cwe_type}: {e}")
 
 
 def analyze_database(loader: CVEFixesDatasetLoader, output_dir: Path):
@@ -316,7 +316,7 @@ Examples:
         logging.info("Dataset preparation interrupted by user")
         return 1
     except Exception as e:
-        logging.error(f"Error during dataset preparation: {e}")
+        logging.exception(f"Error during dataset preparation: {e}")
         return 1
 
 

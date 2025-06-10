@@ -21,12 +21,7 @@ import numpy as np
 import pandas as pd
 import torch
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-from transformers import (
-    AutoModelForCausalLM,
-    AutoTokenizer,
-    BitsAndBytesConfig,
-    pipeline,
-)
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
 
 
 class TaskType(Enum):
@@ -40,10 +35,35 @@ class TaskType(Enum):
 class ModelType(Enum):
     """Enumeration of supported model types."""
 
+    # Legacy models
     LLAMA = "meta-llama/Llama-2-7b-chat-hf"
     QWEN = "Qwen/Qwen2.5-7B-Instruct"
     DEEPSEEK = "deepseek-ai/deepseek-coder-6.7b-instruct"
     CODEBERT = "microsoft/codebert-base"
+    
+    # New Qwen models
+    QWEN3_4B = "Qwen/Qwen3-4B"
+    QWEN3_30B_A3B = "Qwen/Qwen3-30B-A3B"
+    
+    # New DeepSeek models
+    DEEPSEEK_CODER_V2_INSTRUCT = "deepseek-ai/DeepSeek-Coder-V2-Instruct"
+    DEEPSEEK_R1_DISTILL_QWEN_1_5B = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
+    DEEPSEEK_R1_DISTILL_QWEN_32B = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
+    
+    # WizardCoder models
+    WIZARDCODER_PYTHON_34B = "WizardLMTeam/WizardCoder-Python-34B-V1.0"
+    
+    # New Llama models
+    LLAMA_3_2_3B_INSTRUCT = "meta-llama/Llama-3.2-3B-Instruct"
+    LLAMA_3_3_70B_INSTRUCT = "meta-llama/Llama-3.3-70B-Instruct"
+    
+    # Gemma models
+    GEMMA_3_1B_IT = "google/gemma-3-1b-it"
+    GEMMA_3_27B_IT = "google/gemma-3-27b-it"
+    
+    # OpenCoder models
+    OPENCODER_8B_INSTRUCT = "infly/OpenCoder-8B-Instruct"
+    
     CUSTOM = "custom"
 
 
@@ -55,7 +75,7 @@ class BenchmarkSample:
     code: str
     label: Union[int, str]
     metadata: Dict[str, Any]
-    cwe_type: Optional[str] = None
+    cwe_types: Optional[list[str]] = None
     severity: Optional[str] = None
 
 
@@ -89,6 +109,104 @@ class BenchmarkConfig:
     cwe_type: Optional[str] = None
     system_prompt_template: Optional[str] = None
     user_prompt_template: Optional[str] = None
+
+    @classmethod
+    def create_for_model(
+        cls,
+        model_type: ModelType,
+        task_type: TaskType,
+        dataset_path: str,
+        output_dir: str,
+        description: Optional[str] = None,
+        **kwargs
+    ) -> "BenchmarkConfig":
+        """
+        Factory method to create configuration for a specific model type.
+        
+        Args:
+            model_type: The model type to use
+            task_type: The task type to perform
+            dataset_path: Path to the dataset
+            output_dir: Output directory for results
+            description: Optional description
+            **kwargs: Additional configuration parameters
+            
+        Returns:
+            BenchmarkConfig: Configured benchmark instance
+        """
+        if description is None:
+            description = f"{model_type.name} on {task_type.value}"
+            
+        # Set model-specific defaults
+        defaults = {
+            "batch_size": 1,
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "use_quantization": True,
+        }
+        
+        # Override with model-specific settings
+        if "llama-3.3-70b" in model_type.value.lower():
+            defaults["max_tokens"] = 256  # Larger model, use fewer tokens
+            defaults["batch_size"] = 1
+        elif "gemma-3-1b" in model_type.value.lower():
+            defaults["use_quantization"] = False  # Smaller model, no need for quantization
+            defaults["max_tokens"] = 1024
+        elif "opencoder" in model_type.value.lower():
+            defaults["temperature"] = 0.0  # Code models often work better with deterministic output
+        
+        # Merge with user-provided kwargs
+        config_params = {**defaults, **kwargs}
+        
+        return cls(
+            model_name=model_type.value,
+            model_type=model_type,
+            task_type=task_type,
+            description=description,
+            dataset_path=dataset_path,
+            output_dir=output_dir,
+            **config_params
+        )
+
+    @staticmethod
+    def get_available_models() -> Dict[str, List[str]]:
+        """
+        Get a dictionary of available models organized by family.
+        
+        Returns:
+            Dict[str, List[str]]: Dictionary mapping model families to model names
+        """
+        return {
+            "Llama": [
+                ModelType.LLAMA.value,
+                ModelType.LLAMA_3_2_3B_INSTRUCT.value,
+                ModelType.LLAMA_3_3_70B_INSTRUCT.value,
+            ],
+            "Qwen": [
+                ModelType.QWEN.value,
+                ModelType.QWEN3_4B.value,
+                ModelType.QWEN3_30B_A3B.value,
+            ],
+            "DeepSeek": [
+                ModelType.DEEPSEEK.value,
+                ModelType.DEEPSEEK_CODER_V2_INSTRUCT.value,
+                ModelType.DEEPSEEK_R1_DISTILL_QWEN_1_5B.value,
+                ModelType.DEEPSEEK_R1_DISTILL_QWEN_32B.value,
+            ],
+            "WizardCoder": [
+                ModelType.WIZARDCODER_PYTHON_34B.value,
+            ],
+            "Gemma": [
+                ModelType.GEMMA_3_1B_IT.value,
+                ModelType.GEMMA_3_27B_IT.value,
+            ],
+            "OpenCoder": [
+                ModelType.OPENCODER_8B_INSTRUCT.value,
+            ],
+            "Other": [
+                ModelType.CODEBERT.value,
+            ],
+        }
 
 
 class DatasetLoader(Protocol):
@@ -128,7 +246,7 @@ class VulBenchLoader:
                     code=item["code"],
                     label=item["label"],
                     metadata=item.get("metadata", {}),
-                    cwe_type=item.get("cwe_type"),
+                    cwe_types=item.get("cwe_type"),
                     severity=item.get("severity"),
                 )
                 samples.append(sample)
@@ -141,7 +259,7 @@ class VulBenchLoader:
                     code=row["code"],
                     label=row["label"],
                     metadata={"source_file": row.get("source_file", "")},
-                    cwe_type=row.get("cwe_type"),
+                    cwe_types=row.get("cwe_type"),
                     severity=row.get("severity"),
                 )
                 samples.append(sample)
@@ -289,7 +407,7 @@ class HuggingFaceLLM(LLMInterface):
             logging.info(f"Model loaded successfully on {self.device}")
 
         except Exception as e:
-            logging.error(f"Failed to load model {self.config.model_name}: {e}")
+            logging.exception(f"Failed to load model {self.config.model_name}: {e}")
             raise
 
     def generate_response(
@@ -320,21 +438,54 @@ class HuggingFaceLLM(LLMInterface):
             return response_text, token_count
 
         except Exception as e:
-            logging.error(f"Error generating response: {e}")
+            logging.exception(f"Error generating response: {e}")
             return f"ERROR: {str(e)}", None
 
     def _format_prompt(self, system_prompt: str, user_prompt: str) -> str:
         """Format prompt based on model architecture."""
-        if "llama" in self.config.model_name.lower():
-            return (
-                f"<s>[INST] <<SYS>>\n{system_prompt}\n<</SYS>>\n\n{user_prompt} [/INST]"
-            )
-        elif "qwen" in self.config.model_name.lower():
-            return f"<|system|>\n{system_prompt}<|endofsystem|>\n<|user|>\n{user_prompt}<|endofuser|>\n<|assistant|>\n"
-        elif "deepseek" in self.config.model_name.lower():
-            return f"### System:\n{system_prompt}\n\n### User:\n{user_prompt}\n\n### Assistant:\n"
+        model_name_lower = self.config.model_name.lower()
+        
+        # Llama models (includes Llama-2, Llama-3.2, Llama-3.3)
+        if "llama" in model_name_lower:
+            if "llama-3" in model_name_lower:
+                # Llama-3.x models use newer chat format
+                return f"<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{user_prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+            else:
+                # Llama-2 format
+                return f"<s>[INST] <<SYS>>\n{system_prompt}\n<</SYS>>\n\n{user_prompt} [/INST]"
+        
+        # Qwen models (includes Qwen2.5, Qwen3)
+        elif "qwen" in model_name_lower:
+            if "qwen3" in model_name_lower:
+                # Qwen3 models may use updated format
+                return f"<|im_start|>system\n{system_prompt}<|im_end|>\n<|im_start|>user\n{user_prompt}<|im_end|>\n<|im_start|>assistant\n"
+            else:
+                # Qwen2.5 and earlier format
+                return f"<|system|>\n{system_prompt}<|endofsystem|>\n<|user|>\n{user_prompt}<|endofuser|>\n<|assistant|>\n"
+        
+        # DeepSeek models (includes original and V2, R1)
+        elif "deepseek" in model_name_lower:
+            if "r1" in model_name_lower:
+                # DeepSeek-R1 models use specific format
+                return f"<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{user_prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+            else:
+                # Standard DeepSeek format
+                return f"### System:\n{system_prompt}\n\n### User:\n{user_prompt}\n\n### Assistant:\n"
+        
+        # WizardCoder models
+        elif "wizard" in model_name_lower:
+            return f"### Instruction:\n{system_prompt}\n\n### Input:\n{user_prompt}\n\n### Response:\n"
+        
+        # Gemma models
+        elif "gemma" in model_name_lower:
+            return f"<bos><start_of_turn>user\n{system_prompt}\n\n{user_prompt}<end_of_turn>\n<start_of_turn>model\n"
+        
+        # OpenCoder models
+        elif "opencoder" in model_name_lower:
+            return f"<|im_start|>system\n{system_prompt}<|im_end|>\n<|im_start|>user\n{user_prompt}<|im_end|>\n<|im_start|>assistant\n"
+        
         else:
-            # Generic format
+            # Generic format for unknown models
             return f"System: {system_prompt}\n\nUser: {user_prompt}\n\nAssistant:"
 
     def cleanup(self) -> None:
@@ -413,7 +564,7 @@ class MetricsCalculator:
         predictions: List[PredictionResult],
     ) -> Dict[str, float]:
         """Calculate metrics for binary classification."""
-        y_true = [pred.true_label for pred in predictions]
+        y_true = [pred.true_label if isinstance(pred.true_label, int) else  for pred in predictions]
         y_pred = [pred.predicted_label for pred in predictions]
 
         # Calculate confusion matrix
@@ -527,7 +678,7 @@ class BenchmarkRunner:
             return report
 
         except Exception as e:
-            logging.error(f"Benchmark failed: {e}")
+            logging.exception(f"Benchmark failed: {e}")
             raise
         finally:
             if self.llm:
@@ -662,18 +813,64 @@ class BenchmarkRunner:
 def main():
     """Example usage of the benchmark framework."""
 
-    # Example configuration for binary vulnerability detection
-    config = BenchmarkConfig(
+    # Example configurations for different models
+    
+    # Example 1: Using the new factory method with Qwen3-4B
+    config_qwen = BenchmarkConfig.create_for_model(
+        model_type=ModelType.QWEN3_4B,
+        task_type=TaskType.BINARY_VULNERABILITY,
+        dataset_path="./data/vulbench_sample.json",
+        output_dir="./results/qwen3_4b",
+        description="Qwen3-4B Binary Vulnerability Detection",
+        max_tokens=256,
+        temperature=0.1,
+    )
+
+    # Example 2: Using DeepSeek-R1 model
+    config_deepseek = BenchmarkConfig.create_for_model(
+        model_type=ModelType.DEEPSEEK_R1_DISTILL_QWEN_1_5B,
+        task_type=TaskType.MULTICLASS_VULNERABILITY,
+        dataset_path="./data/vulbench_sample.json",
+        output_dir="./results/deepseek_r1",
+        temperature=0.0,  # Deterministic for code analysis
+    )
+
+    # Example 3: Using Llama-3.2 for CWE-specific detection
+    config_llama = BenchmarkConfig.create_for_model(
+        model_type=ModelType.LLAMA_3_2_3B_INSTRUCT,
+        task_type=TaskType.BINARY_CWE_SPECIFIC,
+        dataset_path="./data/vulbench_sample.json",
+        output_dir="./results/llama_3_2",
+        cwe_type="CWE-89",  # SQL Injection
+    )
+
+    # Example 4: Traditional configuration method
+    config_traditional = BenchmarkConfig(
         model_name="microsoft/DialoGPT-medium",  # Use a smaller model for testing
         model_type=ModelType.CUSTOM,
         task_type=TaskType.BINARY_VULNERABILITY,
+        description="Traditional configuration example",
         dataset_path="./data/vulbench_sample.json",
-        output_dir="./results",
+        output_dir="./results/traditional",
         batch_size=1,
         max_tokens=128,
         temperature=0.1,
         use_quantization=True,
     )
+
+    # Print available models
+    print("Available models by family:")
+    for family, models in BenchmarkConfig.get_available_models().items():
+        print(f"\n{family}:")
+        for model in models:
+            print(f"  - {model}")
+
+    # Choose which configuration to run (for this example, use the smaller model)
+    config = config_traditional
+    
+    print(f"\nRunning benchmark with: {config.description}")
+    print(f"Model: {config.model_name}")
+    print(f"Task: {config.task_type.value}")
 
     # Create and run benchmark
     runner = BenchmarkRunner(config)

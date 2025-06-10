@@ -172,7 +172,7 @@ class CVEFixesBenchmarkRunner:
             return results
             
         except Exception as e:
-            logging.error(f"Error during benchmark execution: {e}")
+            logging.exception(f"Error during benchmark execution: {e}")
             raise
 
 
@@ -421,7 +421,7 @@ Examples:
         logging.info("Benchmark execution interrupted by user")
         return 1
     except Exception as e:
-        logging.error(f"Error running benchmark: {e}")
+        logging.exception(f"Error running benchmark: {e}")
         return 1
 
 

@@ -91,7 +91,7 @@ def test_dataset_metadata_extraction():
             assert 'cwe_id' in sample.metadata
             assert 'severity' in sample.metadata
             assert 'programming_language' in sample.metadata
-            assert sample.cwe_type is not None
+            assert sample.cwe_types is not None
             
         print("✓ Dataset metadata extraction test passed!")
         return True
@@ -143,8 +143,8 @@ def test_task_type_processing():
         
         # Verify samples loaded correctly
         assert len(samples) == 2
-        assert samples[0].cwe_type == "CWE-89"
-        assert samples[1].cwe_type == "CWE-78"
+        assert samples[0].cwe_types == "CWE-89"
+        assert samples[1].cwe_types == "CWE-78"
         
         print("✓ Task type processing test passed!")
         return True
