@@ -85,7 +85,7 @@ metadata = {
 1. **CVEFixes Database**: Download the CVEFixes SQLite database
    ```bash
    # Follow instructions at: https://github.com/secureIT-project/CVEfixes
-   # Place database at: benchmarks/CVEfixes/Data/CVEfixes.db
+   # Place database at: datasets_processed/cvefixes/CVEfixes.db
    ```
 
 2. **Dependencies**: Install required Python packages
@@ -98,14 +98,14 @@ metadata = {
 1. **Analyze Database**:
    ```bash
    python prepare_cvefixes_datasets.py \
-     --database-path benchmarks/CVEfixes/Data/CVEfixes.db \
+     --database-path datasets_processed/cvefixes/CVEfixes.db \
      --analyze-only
    ```
 
 2. **Create All Datasets**:
    ```bash
    python prepare_cvefixes_datasets.py \
-     --database-path benchmarks/CVEfixes/Data/CVEfixes.db \
+     --database-path datasets_processed/cvefixes/CVEfixes.db \
      --output-dir datasets_processed/cvefixes
    ```
 
@@ -113,19 +113,19 @@ metadata = {
    ```bash
    # Binary classification only
    python prepare_cvefixes_datasets.py \
-     --database-path benchmarks/CVEfixes/Data/CVEfixes.db \
+     --database-path datasets_processed/cvefixes/CVEfixes.db \
      --dataset-types binary \
      --languages C Java
    
    # CWE-specific datasets
    python prepare_cvefixes_datasets.py \
-     --database-path benchmarks/CVEfixes/Data/CVEfixes.db \
+     --database-path datasets_processed/cvefixes/CVEfixes.db \
      --dataset-types cwe_specific \
      --cwe-types CWE-119 CWE-120 CWE-125
    
    # Limited samples for testing
    python prepare_cvefixes_datasets.py \
-     --database-path benchmarks/CVEfixes/Data/CVEfixes.db \
+     --database-path datasets_processed/cvefixes/CVEfixes.db \
      --sample-limit 1000
    ```
 
@@ -293,7 +293,7 @@ The dataset preparation includes quality filters:
 
 1. **Database not found**:
    ```
-   Error: CVEFixes database not found at benchmarks/CVEfixes/Data/CVEfixes.db
+   Error: CVEFixes database not found at datasets_processed/cvefixes/CVEfixes.db
    Solution: Download and place the CVEFixes database in the correct location
    ```
 

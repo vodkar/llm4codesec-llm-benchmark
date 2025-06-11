@@ -21,14 +21,14 @@ class CVEFixesDatasetLoader:
     def __init__(self, database_path: str = "benchmarks/CVEfixes/Data/CVEfixes.db"):
         """
         Initialize the CVEFixes dataset loader.
-        
+
         Args:
             database_path: Path to the CVEFixes SQLite database
         """
         self.database_path = Path(database_path)
         self.logger = logging.getLogger(__name__)
         self.conn: Optional[sqlite3.Connection] = None
-        
+
         if not self.database_path.exists():
             raise FileNotFoundError(
                 f"CVEFixes database not found at {database_path}. "
@@ -40,42 +40,59 @@ class CVEFixesDatasetLoader:
         try:
             return sqlite3.connect(str(self.database_path), timeout=10)
         except sqlite3.Error as e:
-            self.logger.error(f"Error connecting to database: {e}")
+            self.logger.exception(f"Error connecting to database: {e}")
             raise
 
     def _get_cwe_distribution(self) -> Dict[str, int]:
         """Get distribution of CWE types in the database."""
         if not self.conn:
             self.conn = self._create_connection()
-            
+
         query = """
         SELECT cc.cwe_id, COUNT(*) as count
         FROM cwe_classification cc
         GROUP BY cc.cwe_id
         ORDER BY count DESC
         """
-        
+
         cursor = self.conn.cursor()
         cursor.execute(query)
         results = cursor.fetchall()
-        
+
         return {f"CWE-{cwe_id}": count for cwe_id, count in results if cwe_id}
 
-    def _extract_file_level_data(self, programming_language: str = "C", 
-                                 limit: Optional[int] = None) -> List[Tuple[str, str, str, Optional[float], str, str, str, str, int, int, str, str, Optional[str]]]:
+    def _extract_file_level_data(
+        self, programming_language: str = "C", limit: Optional[int] = None
+    ) -> List[
+        Tuple[
+            str,
+            str,
+            str,
+            Optional[float],
+            str,
+            str,
+            str,
+            str,
+            int,
+            int,
+            str,
+            str,
+            Optional[str],
+        ]
+    ]:
         """
         Extract file-level vulnerability data from CVEFixes database.
-        
+
         Args:
             programming_language: Filter by programming language
             limit: Maximum number of samples to extract
-            
+
         Returns:
             List of tuples containing file-level data
         """
         if not self.conn:
             self.conn = self._create_connection()
-            
+
         query = """
         SELECT 
             cv.cve_id,
@@ -102,32 +119,51 @@ class CVEFixesDatasetLoader:
         AND LENGTH(f.code_before) > 50
         AND LENGTH(f.code_after) > 50
         """
-        
+
         params: List[Union[str, int]] = [programming_language]
-        
+
         if limit:
             query += " LIMIT ?"
             params.append(limit)
-            
+
         cursor = self.conn.cursor()
         cursor.execute(query, params)
         return cursor.fetchall()
 
-    def _extract_method_level_data(self, programming_language: str = "C",
-                                   limit: Optional[int] = None) -> List[Tuple[str, str, str, Optional[float], str, str, str, str, str, str, int, int, str, str, Optional[str]]]:
+    def _extract_method_level_data(
+        self, programming_language: str = "C", limit: Optional[int] = None
+    ) -> List[
+        Tuple[
+            str,
+            str,
+            str,
+            Optional[float],
+            str,
+            str,
+            str,
+            str,
+            str,
+            str,
+            int,
+            int,
+            str,
+            str,
+            Optional[str],
+        ]
+    ]:
         """
         Extract method-level vulnerability data from CVEFixes database.
-        
+
         Args:
             programming_language: Filter by programming language
             limit: Maximum number of samples to extract
-            
+
         Returns:
             List of tuples containing method-level data
         """
         if not self.conn:
             self.conn = self._create_connection()
-            
+
         query = """
         SELECT 
             cv.cve_id,
@@ -157,29 +193,59 @@ class CVEFixesDatasetLoader:
         AND LENGTH(m.code) > 20
         AND LENGTH(m.before_change) > 20
         """
-        
+
         params: List[Union[str, int]] = [programming_language]
-        
+
         if limit:
             query += " LIMIT ?"
             params.append(limit)
-            
+
         cursor = self.conn.cursor()
         cursor.execute(query, params)
         return cursor.fetchall()
 
-    def _create_sample_from_file_data(self, data: Tuple[str, str, str, Optional[float], str, str, str, str, int, int, str, str, Optional[str]], index: int) -> BenchmarkSample:
+    def _create_sample_from_file_data(
+        self,
+        data: Tuple[
+            str,
+            str,
+            str,
+            Optional[float],
+            str,
+            str,
+            str,
+            str,
+            int,
+            int,
+            str,
+            str,
+            Optional[str],
+        ],
+        index: int,
+    ) -> BenchmarkSample:
         """Create a BenchmarkSample from file-level data."""
-        (cve_id, description, published_date, severity, filename, programming_language,
-         code_before, code_after, lines_added, lines_deleted, commit_hash, 
-         repo_url, cwe_id) = data
-        
+        (
+            cve_id,
+            description,
+            published_date,
+            severity,
+            filename,
+            programming_language,
+            code_before,
+            code_after,
+            lines_added,
+            lines_deleted,
+            commit_hash,
+            repo_url,
+            cwe_id,
+        ) = data
+
         # Create sample ID
         sample_id = f"{cve_id}_file_{index}"
-        
+
         # Use vulnerable code (before fix) as the code to analyze
         code = code_before
-        
+
         # Create metadata
         metadata: Dict[str, Any] = {
             "cve_id": cve_id,
@@ -194,13 +260,13 @@ class CVEFixesDatasetLoader:
             "lines_added": lines_added,
             "lines_deleted": lines_deleted,
             "change_type": "file",
-            "code_after": code_after  # Keep for reference
+            "code_after": code_after,  # Keep for reference
         }
-        
+
         # Determine labels
         cwe_type = f"CWE-{cwe_id}" if cwe_id else "UNKNOWN"
         binary_label = 1  # All samples from CVEFixes are vulnerable by definition
-        
+
         return BenchmarkSample(
             id=sample_id,
             code=code,
@@ -208,20 +274,56 @@ class CVEFixesDatasetLoader:
             metadata=metadata,
             cwe_types=cwe_type,
             severity=self._map_severity(severity)
+            if isinstance(severity, (int, float))
+            else severity,
         )
 
-    def _create_sample_from_method_data(self, data: Tuple[str, str, str, Optional[float], str, str, str, str, str, str, int, int, str, str, Optional[str]], index: int) -> BenchmarkSample:
+    def _create_sample_from_method_data(
+        self,
+        data: Tuple[
+            str,
+            str,
+            str,
+            Optional[float],
+            str,
+            str,
+            str,
+            str,
+            str,
+            str,
+            int,
+            int,
+            str,
+            str,
+            Optional[str],
+        ],
+        index: int,
+    ) -> BenchmarkSample:
         """Create a BenchmarkSample from method-level data."""
-        (cve_id, description, published_date, severity, filename, programming_language,
-         method_name, signature, code, before_change, nloc, token_count,
-         commit_hash, repo_url, cwe_id) = data
-        
+        (
+            cve_id,
+            description,
+            published_date,
+            severity,
+            filename,
+            programming_language,
+            method_name,
+            signature,
+            code,
+            before_change,
+            nloc,
+            token_count,
+            commit_hash,
+            repo_url,
+            cwe_id,
+        ) = data
+
         # Create sample ID
         sample_id = f"{cve_id}_method_{index}"
-        
+
         # Use vulnerable code (before change) as the code to analyze
         code_to_analyze = before_change
-        
+
         # Create metadata
         metadata: Dict[str, Any] = {
             "cve_id": cve_id,
@@ -238,13 +340,13 @@ class CVEFixesDatasetLoader:
             "commit_hash": commit_hash,
             "repo_url": repo_url,
             "change_type": "method",
-            "code_after": code  # Keep for reference
+            "code_after": code,  # Keep for reference
         }
-        
+
         # Determine labels
         cwe_type = f"CWE-{cwe_id}" if cwe_id else "UNKNOWN"
         binary_label = 1  # All samples from CVEFixes are vulnerable by definition
-        
+
         return BenchmarkSample(
             id=sample_id,
             code=code_to_analyze,
@@ -252,13 +354,15 @@ class CVEFixesDatasetLoader:
             metadata=metadata,
             cwe_types=cwe_type,
             severity=self._map_severity(severity)
+            if isinstance(severity, (int, float))
+            else severity,
         )
 
     def _map_severity(self, severity: Optional[float]) -> Optional[str]:
         """Map numeric CVSS severity to categorical severity."""
         if severity is None:
             return None
-        
+
         if severity >= 9.0:
             return "CRITICAL"
         elif severity >= 7.0:
@@ -270,33 +374,36 @@ class CVEFixesDatasetLoader:
         else:
             return "NONE"
 
-    def load_dataset(self, task_type: str = "binary", 
-                     programming_language: str = "C",
-                     change_level: str = "file",
-                     limit: Optional[int] = None) -> List[BenchmarkSample]:
+    def load_dataset(
+        self,
+        task_type: str = "binary",
+        programming_language: str = "C",
+        change_level: str = "file",
+        limit: Optional[int] = None,
+    ) -> List[BenchmarkSample]:
         """
         Load CVEFixes dataset and convert to BenchmarkSample format.
-        
+
         Args:
             task_type: Type of task (binary, multiclass, cwe_specific)
             programming_language: Programming language to filter by
             change_level: Level of change to analyze (file or method)
             limit: Maximum number of samples to load
-            
+
         Returns:
             List of BenchmarkSample objects
         """
         samples: List[BenchmarkSample] = []
-        
+
         try:
             self.conn = self._create_connection()
-            
+
             if change_level == "file":
                 data_rows = self._extract_file_level_data(programming_language, limit)
                 for i, data in enumerate(data_rows):
                     try:
                         sample = self._create_sample_from_file_data(data, i)
-                        
+
                         # Apply task-specific label adjustments
                         if task_type == "binary":
                             sample.label = 1  # All CVEFixes samples are vulnerable
@@ -308,19 +415,19 @@ class CVEFixesDatasetLoader:
                         elif task_type.startswith("cwe_"):
                             target_cwe = task_type.upper()
                             sample.label = 1 if sample.cwe_types == target_cwe else 0
-                        
+
                         samples.append(sample)
-                        
+
                     except Exception as e:
-                        self.logger.error(f"Error processing file sample {i}: {e}")
+                        self.logger.exception(f"Error processing file sample {i}: {e}")
                         continue
-                        
+
             elif change_level == "method":
                 data_rows = self._extract_method_level_data(programming_language, limit)
                 for i, data in enumerate(data_rows):
                     try:
                         sample = self._create_sample_from_method_data(data, i)
-                        
+
                         # Apply task-specific label adjustments
                         if task_type == "binary":
                             sample.label = 1  # All CVEFixes samples are vulnerable
@@ -332,30 +439,35 @@ class CVEFixesDatasetLoader:
                         elif task_type.startswith("cwe_"):
                             target_cwe = task_type.upper()
                             sample.label = 1 if sample.cwe_types == target_cwe else 0
-                        
+
                         samples.append(sample)
-                        
+
                     except Exception as e:
-                        self.logger.error(f"Error processing method sample {i}: {e}")
+                        self.logger.exception(
+                            f"Error processing method sample {i}: {e}"
+                        )
                         continue
             else:
                 raise ValueError(f"Unsupported change_level: {change_level}")
-                
+
         finally:
             if self.conn:
                 self.conn.close()
-        
+
         self.logger.info(f"Loaded {len(samples)} samples from CVEFixes dataset")
         return samples
 
-    def create_dataset_json(self, output_path: str, 
-                           task_type: str = "binary",
-                           programming_language: str = "C",
-                           change_level: str = "file",
-                           limit: Optional[int] = None) -> None:
+    def create_dataset_json(
+        self,
+        output_path: str,
+        task_type: str = "binary",
+        programming_language: str = "C",
+        change_level: str = "file",
+        limit: Optional[int] = None,
+    ) -> None:
         """
         Create a JSON dataset file compatible with the benchmark framework.
-        
+
         Args:
             output_path: Path to output JSON file
             task_type: Type of task classification
@@ -363,21 +475,23 @@ class CVEFixesDatasetLoader:
             change_level: Level of change to analyze (file or method)
             limit: Maximum number of samples to include
         """
-        samples = self.load_dataset(task_type, programming_language, change_level, limit)
-        
+        samples = self.load_dataset(
+            task_type, programming_language, change_level, limit
+        )
+
         # Calculate statistics
         cwe_distribution: Dict[str, int] = {}
         severity_distribution: Dict[str, int] = {}
-        
+
         for sample in samples:
             # CWE distribution
             cwe = sample.cwe_types or "UNKNOWN"
             cwe_distribution[cwe] = cwe_distribution.get(cwe, 0) + 1
-            
+
             # Severity distribution
             severity = sample.severity or "UNKNOWN"
             severity_distribution[severity] = severity_distribution.get(severity, 0) + 1
-        
+
         # Create dataset dictionary
         dataset_dict: Dict[str, Any] = {
             "metadata": {
@@ -387,13 +501,15 @@ class CVEFixesDatasetLoader:
                 "programming_language": programming_language,
                 "change_level": change_level,
                 "total_samples": len(samples),
-                "vulnerable_samples": len(samples),  # All CVEFixes samples are vulnerable
+                "vulnerable_samples": len(
+                    samples
+                ),  # All CVEFixes samples are vulnerable
                 "cwe_distribution": cwe_distribution,
-                "severity_distribution": severity_distribution
+                "severity_distribution": severity_distribution,
             },
-            "samples": []
+            "samples": [],
         }
-        
+
         # Convert samples to dict format
         for sample in samples:
             sample_dict: Dict[str, Any] = {
@@ -402,35 +518,44 @@ class CVEFixesDatasetLoader:
                 "label": sample.label,
                 "cwe_type": sample.cwe_types,
                 "severity": sample.severity,
-                "metadata": sample.metadata
+                "metadata": sample.metadata,
             }
             dataset_dict["samples"].append(sample_dict)
-        
+
         # Write to file
         output_path_obj = Path(output_path)
         output_path_obj.parent.mkdir(parents=True, exist_ok=True)
-        
-        with open(output_path_obj, 'w', encoding='utf-8') as f:
+
+        with open(output_path_obj, "w", encoding="utf-8") as f:
             json.dump(dataset_dict, f, indent=2, ensure_ascii=False)
-        
-        self.logger.info(f"Created dataset JSON with {len(samples)} samples at {output_path}")
+
+        self.logger.info(
+            f"Created dataset JSON with {len(samples)} samples at {output_path}"
+        )
 
     def get_database_statistics(self) -> Dict[str, Any]:
         """Get comprehensive statistics about the CVEFixes database."""
         if not self.conn:
             self.conn = self._create_connection()
-            
+
         stats: Dict[str, Any] = {}
-        
+
         try:
             # Basic table counts
-            tables = ['cve', 'fixes', 'commits', 'repository', 'file_change', 'method_change']
+            tables = [
+                "cve",
+                "fixes",
+                "commits",
+                "repository",
+                "file_change",
+                "method_change",
+            ]
             for table in tables:
                 cursor = self.conn.cursor()
                 cursor.execute(f"SELECT COUNT(*) FROM {table}")
                 result = cursor.fetchone()
                 stats[f"{table}_count"] = result[0] if result else 0
-            
+
             # Programming language distribution
             cursor = self.conn.cursor()
             cursor.execute("""
@@ -441,10 +566,10 @@ class CVEFixesDatasetLoader:
                 ORDER BY count DESC
             """)
             stats["programming_languages"] = dict(cursor.fetchall())
-            
+
             # CWE distribution
             stats["cwe_distribution"] = self._get_cwe_distribution()
-            
+
             # Severity distribution
             cursor.execute("""
                 SELECT 
@@ -462,25 +587,25 @@ class CVEFixesDatasetLoader:
                 ORDER BY count DESC
             """)
             stats["severity_distribution"] = dict(cursor.fetchall())
-            
+
         finally:
             if self.conn:
                 self.conn.close()
-                
+
         return stats
 
 
 class CVEFixesJSONDatasetLoader(DatasetLoader):
     """Loads CVEFixes datasets from JSON files created by CVEFixesDatasetLoader."""
-    
+
     def __init__(self):
         self.logger = logging.getLogger(__name__)
-    
+
     def load_dataset(self, path: str) -> List[BenchmarkSample]:
         """Load dataset from JSON file."""
-        with open(path, 'r', encoding='utf-8') as f:
+        with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
-        
+
         samples: List[BenchmarkSample] = []
         for sample_data in data.get("samples", []):
             sample = BenchmarkSample(
@@ -489,9 +614,9 @@ class CVEFixesJSONDatasetLoader(DatasetLoader):
                 label=sample_data["label"],
                 metadata=sample_data["metadata"],
                 cwe_types=sample_data.get("cwe_type"),
-                severity=sample_data.get("severity")
+                severity=sample_data.get("severity"),
             )
             samples.append(sample)
-        
+
         self.logger.info(f"Loaded {len(samples)} samples from {path}")
         return samples

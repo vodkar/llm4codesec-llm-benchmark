@@ -27,8 +27,14 @@ class JitVulBenchmarkRunner:
     
     def run_benchmark(self, sample_limit: Optional[int] = None) -> Dict[str, Any]:
         """Run benchmark with JitVul-specific dataset loading."""
-        from benchmark.benchmark_framework import (HuggingFaceLLM, MetricsCalculator, PredictionResult, PromptGenerator,
-                                                   ResponseParser, TaskType)
+        from benchmark.benchmark_framework import (
+            HuggingFaceLLM,
+            MetricsCalculator,
+            PredictionResult,
+            PromptGenerator,
+            ResponseParser,
+            TaskType,
+        )
         
         logging.info("Starting JitVul benchmark execution")
         start_time = time.time()
@@ -156,7 +162,7 @@ class JitVulBenchmarkRunner:
             llm.cleanup()
             
             # Print summary
-            print(f"JitVul Benchmark Results Summary")
+            print("JitVul Benchmark Results Summary")
             print(f"{'='*60}")
             print(f"Model: {self.config.model_name}")
             print(f"Task: {self.config.task_type.value}")
@@ -164,7 +170,7 @@ class JitVulBenchmarkRunner:
                 print(f"CWE Type: {self.config.cwe_type}")
             print(f"Samples: {len(samples)}")
             print(f"Execution Time: {time.time() - start_time:.2f}s")
-            print(f"\nMetrics:")
+            print("\nMetrics:")
             
             if self.config.task_type in [TaskType.BINARY_VULNERABILITY, TaskType.BINARY_CWE_SPECIFIC]:
                 print(f"  Accuracy: {metrics['accuracy']:.4f}")
@@ -303,6 +309,11 @@ def main():
         
     except Exception as e:
         logging.exception(f"JitVul benchmark failed: {e}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()        logging.exception(f"JitVul benchmark failed: {e}")
         sys.exit(1)
 
 
