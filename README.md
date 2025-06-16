@@ -19,6 +19,7 @@ A comprehensive framework for benchmarking Large Language Models on static code 
 
 ### Prerequisites
 
+- Linux is recommended (windows is working too)
 - Python 3.10 or higher
 - CUDA-compatible GPU (recommended) or CPU
 - 16GB+ vRAM (40GB+ recommended for larger models)

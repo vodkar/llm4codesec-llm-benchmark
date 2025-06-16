@@ -15,7 +15,6 @@ ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     python3-pip \
-    python3-poetry \
     build-essential \
     git \
     curl \
@@ -32,16 +31,18 @@ RUN apt-get update && apt-get install -y \
 
 # Configure Poetry
 ENV POETRY_NO_INTERACTION=1 \
-    PIP_BREAK_SYSTEM_PACKAGES=1
+    POETRY_VIRTUALENVS_CREATE=0
 
 WORKDIR /app
 
 COPY pyproject.toml poetry.lock ./
 
-RUN poetry install --only main --no-root && \
-    poetry env activate && \
-    pip install flash-attn==2.7.4.post1 --no-build-isolation \
-    poetry cache clear PyPI --all
+RUN pip install poetry==2.1.3 && \
+    poetry install --no-root
+
+# Install flash attention
+# RUN pip install flash-attn==2.7.4.post1 --no-build-isolation && \
+RUN poetry cache clear PyPI --all  <<< "yes\n"
 
 WORKDIR /app
 

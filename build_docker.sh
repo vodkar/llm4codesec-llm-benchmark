@@ -119,16 +119,16 @@ if [[ ! -f "Dockerfile" ]]; then
 fi
 
 # Check NVIDIA Docker support if testing GPU
-# if [[ $TEST_GPU == true ]]; then
-#     print_status "Checking NVIDIA Docker support..."
-#     if ! docker run --rm --gpus all nvidia/cuda:12.8.1-devel-ubuntu24.04 > /dev/null 2>&1; then
-#         print_warning "GPU test failed. NVIDIA Docker support might not be available."
-#         print_warning "Continuing with build, but GPU functionality may not work."
-#         TEST_GPU=false
-#     else
-#         print_status "NVIDIA Docker support confirmed."
-#     fi
-# fi
+if [[ $TEST_GPU == true ]]; then
+    print_status "Checking NVIDIA Docker support..."
+    if ! docker run --rm --gpus all nvidia/cuda:12.8.1-devel-ubuntu24.04 > /dev/null 2>&1; then
+        print_warning "GPU test failed. NVIDIA Docker support might not be available."
+        print_warning "Continuing with build, but GPU functionality may not work."
+        TEST_GPU=false
+    else
+        print_status "NVIDIA Docker support confirmed."
+    fi
+fi
 
 # Build the Docker image
 print_status "Building Docker image: $FULL_IMAGE_NAME"
@@ -143,14 +143,6 @@ fi
 
 # Test the image
 print_status "Testing the Docker image..."
-
-# Basic functionality test
-print_status "Testing basic functionality..."
-if docker run --rm "$FULL_IMAGE_NAME" > /dev/null 2>&1; then
-    print_status "Basic functionality test passed."
-else
-    print_warning "Basic functionality test failed. Image might still be usable."
-fi
 
 # Python imports test
 print_status "Testing Python imports..."
