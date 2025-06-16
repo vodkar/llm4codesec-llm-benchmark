@@ -15,7 +15,7 @@ The CVEFixes benchmark provides vulnerability detection evaluation using the CVE
 
 ### Core Components
 - **Configuration File**: `src/configs/cvefixes_experiments.json`
-- **Refactored Runner**: `src/entrypoints/run_cvefixes_benchmark_new.py`
+- **Refactored Runner**: `src/entrypoints/run_cvefixes_benchmark.py`
 - **Unified Runner**: `src/entrypoints/run_unified_benchmark.py` (handles all datasets)
 - **Dataset Loader**: `src/datasets/cvefixes_dataset_loader.py` (unchanged)
 
@@ -69,7 +69,7 @@ All benchmark runners now use the same CLI arguments:
 #### Single Experiments
 ```bash
 # Run with specific model/dataset/prompt
-python src/entrypoints/run_cvefixes_benchmark_new.py \
+python src/entrypoints/run_cvefixes_benchmark.py \
   --model qwen2.5-7b \
   --dataset cvefixes_function_level \
   --prompt vulnerability_detection
@@ -85,7 +85,7 @@ python src/entrypoints/run_unified_benchmark.py \
 #### Experiment Plans
 ```bash
 # Run predefined experiment plan
-python src/entrypoints/run_cvefixes_benchmark_new.py --plan basic_evaluation
+python src/entrypoints/run_cvefixes_benchmark.py --plan basic_evaluation
 
 # With unified runner
 python src/entrypoints/run_unified_benchmark.py \
@@ -96,10 +96,10 @@ python src/entrypoints/run_unified_benchmark.py \
 #### Common Options
 ```bash
 # List available configurations
-python src/entrypoints/run_cvefixes_benchmark_new.py --list-configs
+python src/entrypoints/run_cvefixes_benchmark.py --list-configs
 
 # Limit samples and set output directory
-python src/entrypoints/run_cvefixes_benchmark_new.py \
+python src/entrypoints/run_cvefixes_benchmark.py \
   --plan basic_evaluation \
   --sample-limit 100 \
   --output-dir results/cvefixes_test
@@ -154,7 +154,7 @@ python src/entrypoints/run_cvefixes_benchmark.py \
 
 **New single experiment:**
 ```bash
-python src/entrypoints/run_cvefixes_benchmark_new.py \
+python src/entrypoints/run_cvefixes_benchmark.py \
   --model qwen2.5-7b \
   --dataset cvefixes_function_level \
   --prompt vulnerability_detection \
@@ -163,7 +163,7 @@ python src/entrypoints/run_cvefixes_benchmark_new.py \
 
 **New experiment plans:**
 ```bash
-python src/entrypoints/run_cvefixes_benchmark_new.py --plan basic_evaluation
+python src/entrypoints/run_cvefixes_benchmark.py --plan basic_evaluation
 ```
 
 ## Configuration Examples
@@ -204,10 +204,10 @@ python src/entrypoints/run_cvefixes_benchmark_new.py --plan basic_evaluation
 ### Common Command Fixes
 ```bash
 # Check available configurations
-python src/entrypoints/run_cvefixes_benchmark_new.py --list-configs
+python src/entrypoints/run_cvefixes_benchmark.py --list-configs
 
 # Run with minimal configuration
-python src/entrypoints/run_cvefixes_benchmark_new.py \
+python src/entrypoints/run_cvefixes_benchmark.py \
   --model qwen2.5-7b \
   --dataset cvefixes_function_level \
   --prompt vulnerability_detection \
@@ -230,7 +230,7 @@ src/
 ├── configs/
 │   └── cvefixes_experiments.json      # New configuration file
 ├── entrypoints/
-│   ├── run_cvefixes_benchmark_new.py      # New refactored runner
+│   ├── run_cvefixes_benchmark.py      # New refactored runner
 │   └── run_unified_benchmark.py           # Unified runner for all datasets
 ├── datasets/
 │   └── cvefixes_dataset_loader.py         # Dataset loader (unchanged)

@@ -10,10 +10,10 @@ The refactored benchmark system provides a unified, configuration-based approach
 
 ```bash
 # List JitVul configurations
-python src/entrypoints/run_jitvul_benchmark_new.py --list-configs
+python src/entrypoints/run_jitvul_benchmark.py --list-configs
 
 # List CVEFixes configurations  
-python src/entrypoints/run_cvefixes_benchmark_new.py --list-configs
+python src/entrypoints/run_cvefixes_benchmark.py --list-configs
 
 # List configurations via unified runner
 python src/entrypoints/run_unified_benchmark.py jitvul --list-configs
@@ -25,14 +25,14 @@ python src/entrypoints/run_unified_benchmark.py castle --list-configs
 
 ```bash
 # JitVul single experiment
-python src/entrypoints/run_jitvul_benchmark_new.py \
+python src/entrypoints/run_jitvul_benchmark.py \
   --model qwen3-4b \
   --dataset binary_all \
   --prompt basic_security \
   --sample-limit 50
 
 # CVEFixes single experiment  
-python src/entrypoints/run_cvefixes_benchmark_new.py \
+python src/entrypoints/run_cvefixes_benchmark.py \
   --model deepseek-coder-v2-lite-16b \
   --dataset binary_c_file \
   --prompt detailed_analysis \
@@ -50,12 +50,14 @@ python src/entrypoints/run_unified_benchmark.py jitvul \
 
 ```bash
 # Quick test plans for development
-python src/entrypoints/run_jitvul_benchmark_new.py --plan quick_test
-python src/entrypoints/run_cvefixes_benchmark_new.py --plan quick_test
+python src/entrypoints/run_jitvul_benchmark.py --plan quick_test
+python src/entrypoints/run_cvefixes_benchmark.py --plan quick_test
+python src/entrypoints/run_castle_benchmark.py --plan quick_test
+python src/entrypoints/run_vulbench_benchmark.py --plan quick_test
 
 # Model comparison studies
-python src/entrypoints/run_jitvul_benchmark_new.py --plan model_comparison
-python src/entrypoints/run_cvefixes_benchmark_new.py --plan model_comparison
+python src/entrypoints/run_jitvul_benchmark.py --plan model_comparison
+python src/entrypoints/run_cvefixes_benchmark.py --plan model_comparison
 
 # Comprehensive evaluations
 python src/entrypoints/run_unified_benchmark.py jitvul --plan comprehensive_evaluation
@@ -66,12 +68,12 @@ python src/entrypoints/run_unified_benchmark.py cvefixes --plan comprehensive_ev
 
 ```bash
 # Custom output directory
-python src/entrypoints/run_jitvul_benchmark_new.py \
+python src/entrypoints/run_jitvul_benchmark.py \
   --plan prompt_comparison \
   --output-dir results/jitvul_prompt_study
 
 # Enable verbose logging
-python src/entrypoints/run_cvefixes_benchmark_new.py \
+python src/entrypoints/run_cvefixes_benchmark.py \
   --model gemma3-1b \
   --dataset cwe_125 \
   --prompt cwe_specific \
@@ -134,7 +136,7 @@ python src/entrypoints/run_jitvul_benchmark.py \
 
 **New JitVul Command:**
 ```bash
-python src/entrypoints/run_jitvul_benchmark_new.py \
+python src/entrypoints/run_jitvul_benchmark.py \
   --model qwen3-4b \
   --dataset binary_all \
   --prompt basic_security
@@ -149,7 +151,7 @@ python src/entrypoints/run_cvefixes_benchmark.py \
 
 **New CVEFixes Command:**
 ```bash
-python src/entrypoints/run_cvefixes_benchmark_new.py \
+python src/entrypoints/run_cvefixes_benchmark.py \
   --model qwen3-4b \
   --dataset binary_c_file \
   --prompt basic_security
@@ -184,7 +186,7 @@ python src/entrypoints/run_cvefixes_benchmark_new.py \
 1. **Configuration not found**
    ```bash
    # List available configurations
-   python src/entrypoints/run_jitvul_benchmark_new.py --list-configs
+   python src/entrypoints/run_jitvul_benchmark.py --list-configs
    ```
 
 2. **Model not recognized**
@@ -204,8 +206,8 @@ python src/entrypoints/run_cvefixes_benchmark_new.py \
 ```bash
 # Test all systems are working
 cd src/
-python entrypoints/run_jitvul_benchmark_new.py --help
-python entrypoints/run_cvefixes_benchmark_new.py --help  
+python entrypoints/run_jitvul_benchmark.py --help
+python entrypoints/run_cvefixes_benchmark.py --help  
 python entrypoints/run_unified_benchmark.py --help
 ```
 

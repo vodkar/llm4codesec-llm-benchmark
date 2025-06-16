@@ -43,7 +43,7 @@ COPY pyproject.toml poetry.lock ./
 
 # Install dependencies with CUDA support
 RUN poetry install --no-dev --no-root && \
-    pip install flash-attn==2.7.4.post1 \
+    pip install flash-attn==2.7.4.post1 --no-build-isolation \
     rm -rf $POETRY_CACHE_DIR
 
 # Runtime stage - Optimized for GPU performance
