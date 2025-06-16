@@ -25,6 +25,16 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, FbgemmFp8Config, pipeline
 
 
+def _is_flash_attention_available() -> bool:
+    """Check if FlashAttention is available."""
+    try:
+        import flash_attn_interface
+        logging.info("FlashAttention is available")
+        return True
+    except ImportError:
+        logging.info("FlashAttention is not available! You can install it to optimize an inference")
+        return False
+
 class TaskType(Enum):
     """Enumeration of supported task types."""
 
@@ -441,7 +451,7 @@ class HuggingFaceLLM(LLMInterface):
                 torch_dtype=torch_dtype,
                 trust_remote_code=True,
                 token=os.getenv("HF_TOKEN", None),
-                attn_implementation="flash_attention_2" if gpu_memory >= 35 else None,  # Use FlashAttention on A100
+                attn_implementation="flash_attention_2" if _is_flash_attention_available() else None,  # Use FlashAttention on A100
             )
 
             # Create text generation pipeline

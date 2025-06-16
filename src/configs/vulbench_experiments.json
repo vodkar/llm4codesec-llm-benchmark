@@ -1,0 +1,279 @@
+{
+    "experiment_metadata": {
+        "name": "VulBench Benchmark LLM Evaluation",
+        "description": "Comprehensive evaluation of LLMs on VulBench benchmark with multiple prompt strategies",
+        "version": "1.0",
+        "dataset": "VulBench v1.0",
+        "created_date": "2025-01-16"
+    },
+    "dataset_configurations": {
+        "binary_d2a": {
+            "dataset_path": "datasets_processed/vulbench/vulbench_binary_d2a.json",
+            "task_type": "binary_vulnerability",
+            "description": "Binary classification: D2A vulnerability detection"
+        },
+        "binary_ctf": {
+            "dataset_path": "datasets_processed/vulbench/vulbench_binary_ctf.json",
+            "task_type": "binary_vulnerability",
+            "description": "Binary classification: CTF vulnerability detection"
+        },
+        "binary_magma": {
+            "dataset_path": "datasets_processed/vulbench/vulbench_binary_magma.json",
+            "task_type": "binary_vulnerability",
+            "description": "Binary classification: MAGMA vulnerability detection"
+        },
+        "binary_big_vul": {
+            "dataset_path": "datasets_processed/vulbench/vulbench_binary_big_vul.json",
+            "task_type": "binary_vulnerability",
+            "description": "Binary classification: Big-Vul vulnerability detection"
+        },
+        "binary_devign": {
+            "dataset_path": "datasets_processed/vulbench/vulbench_binary_devign.json",
+            "task_type": "binary_vulnerability",
+            "description": "Binary classification: Devign vulnerability detection"
+        },
+        "multiclass_d2a": {
+            "dataset_path": "datasets_processed/vulbench/vulbench_multiclass_d2a.json",
+            "task_type": "multiclass_vulnerability",
+            "description": "Multi-class classification: D2A vulnerability type identification"
+        },
+        "multiclass_ctf": {
+            "dataset_path": "datasets_processed/vulbench/vulbench_multiclass_ctf.json",
+            "task_type": "multiclass_vulnerability",
+            "description": "Multi-class classification: CTF vulnerability type identification"
+        },
+        "multiclass_magma": {
+            "dataset_path": "datasets_processed/vulbench/vulbench_multiclass_magma.json",
+            "task_type": "multiclass_vulnerability",
+            "description": "Multi-class classification: MAGMA vulnerability type identification"
+        },
+        "multiclass_big_vul": {
+            "dataset_path": "datasets_processed/vulbench/vulbench_multiclass_big_vul.json",
+            "task_type": "multiclass_vulnerability",
+            "description": "Multi-class classification: Big-Vul vulnerability type identification"
+        },
+        "multiclass_devign": {
+            "dataset_path": "datasets_processed/vulbench/vulbench_multiclass_devign.json",
+            "task_type": "multiclass_vulnerability",
+            "description": "Multi-class classification: Devign vulnerability type identification"
+        }
+    },
+    "prompt_strategies": {
+        "basic_security": {
+            "name": "Basic Security Analysis",
+            "system_prompt": "You are an expert security analyst specializing in static code analysis. Your task is to analyze code snippets and determine if they contain security vulnerabilities.\n\nInstructions:\n- Analyze the provided code carefully\n- Consider common vulnerability patterns (injection, buffer overflow, race conditions, etc.)\n- Respond with only \"VULNERABLE\" or \"SAFE\" - no additional explanation\n- Base your decision on concrete security risks, not coding style issues",
+            "user_prompt": "Analyze this code for security vulnerabilities:\n\n{code}"
+        },
+        "detailed_analysis": {
+            "name": "Detailed Security Analysis",
+            "system_prompt": "You are a security expert conducting a thorough code review for vulnerabilities.",
+            "user_prompt": "Please perform a detailed security analysis of the following code snippet and determine if it contains any security vulnerabilities:\n\n```c\n{code}\n```\n\nProvide your assessment:"
+        },
+        "step_by_step": {
+            "name": "Step-by-step Analysis",
+            "system_prompt": "You are an experienced security analyst. Analyze code step by step for vulnerabilities.",
+            "user_prompt": "Please review and analyze the following code, determine whether it is vulnerable. Think step by step. Answer as \"VULNERABLE: YES/NO\".\n\n{code}"
+        },
+        "vulnerability_focused": {
+            "name": "Vulnerability-focused Analysis",
+            "system_prompt": "You are a vulnerability detection expert. Focus specifically on identifying security flaws.",
+            "user_prompt": "Analyze this code snippet for security vulnerabilities. Focus on common vulnerability types like buffer overflows, integer overflows, null pointer dereferences, etc.:\n\n{code}\n\nAssessment:"
+        },
+        "cwe_classification": {
+            "name": "CWE Classification",
+            "system_prompt": "You are a security expert specializing in CWE (Common Weakness Enumeration) classification.",
+            "user_prompt": "Analyze the following code and identify what type of vulnerability it contains. Respond with the specific vulnerability type (e.g., Buffer-Overflow, Integer-Overflow, Null-Pointer-Dereference, etc.) or 'No-Vulnerability' if none exists:\n\n{code}\n\nVulnerability type:"
+        }
+    },
+    "model_configurations": {
+        "qwen3-4b": {
+            "model_name": "Qwen/Qwen3-4B",
+            "model_type": "QWEN",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "batch_size": 1
+        },
+        "qwen3-30b": {
+            "model_name": "Qwen/Qwen3-30B-A3B",
+            "model_type": "QWEN",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "batch_size": 1
+        },
+        "deepseek-coder-v2-lite-16b": {
+            "model_name": "deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct",
+            "model_type": "DEEPSEEK",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "batch_size": 1
+        },
+        "deepseek-r1-distill-qwen2.5-1.5b": {
+            "model_name": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+            "model_type": "DEEPSEEK",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "batch_size": 1
+        },
+        "deepseek-r1-distill-qwen2.5-32b": {
+            "model_name": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
+            "model_type": "DEEPSEEK",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "batch_size": 1
+        },
+        "wizard-coder-34b": {
+            "model_name": "WizardLMTeam/WizardCoder-Python-34B-V1.0",
+            "model_type": "WIZARD",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "batch_size": 1
+        },
+        "llama3.2-3B": {
+            "model_name": "meta-llama/Llama-3.2-3B-Instruct",
+            "model_type": "LLAMA",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "batch_size": 1
+        },
+        "llama3.3-70B": {
+            "model_name": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
+            "model_type": "LLAMA",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "batch_size": 1
+        },
+        "gemma3-1b": {
+            "model_name": "google/gemma-3-1b-it",
+            "model_type": "GEMMA",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "batch_size": 1
+        },
+        "gemma3-27b": {
+            "model_name": "google/gemma-3-27b-it",
+            "model_type": "GEMMA",
+            "max_tokens": 512,
+            "temperature": 0.1,
+            "batch_size": 1
+        }
+    },
+    "experiment_plans": {
+        "quick_test": {
+            "description": "Quick test with limited samples for development",
+            "sample_limit": 20,
+            "datasets": [
+                "binary_d2a"
+            ],
+            "models": [
+                "qwen3-4b"
+            ],
+            "prompts": [
+                "basic_security"
+            ]
+        },
+        "basic_evaluation": {
+            "description": "Basic evaluation across all datasets with one model",
+            "sample_limit": null,
+            "datasets": [
+                "binary_d2a",
+                "binary_ctf",
+                "binary_magma",
+                "binary_big_vul",
+                "binary_devign"
+            ],
+            "models": [
+                "qwen3-4b"
+            ],
+            "prompts": [
+                "basic_security",
+                "detailed_analysis"
+            ]
+        },
+        "prompt_comparison": {
+            "description": "Compare different prompt strategies on D2A dataset",
+            "sample_limit": null,
+            "datasets": [
+                "binary_d2a",
+                "multiclass_d2a"
+            ],
+            "models": [
+                "qwen3-4b"
+            ],
+            "prompts": [
+                "basic_security",
+                "detailed_analysis",
+                "step_by_step",
+                "vulnerability_focused",
+                "cwe_classification"
+            ]
+        },
+        "model_comparison": {
+            "description": "Compare different models on all datasets",
+            "sample_limit": null,
+            "datasets": [
+                "binary_d2a",
+                "binary_ctf",
+                "binary_magma",
+                "binary_big_vul",
+                "binary_devign"
+            ],
+            "models": [
+                "qwen3-4b",
+                "deepseek-coder-v2-lite-16b",
+                "llama3.2-3B"
+            ],
+            "prompts": [
+                "basic_security"
+            ]
+        },
+        "comprehensive_evaluation": {
+            "description": "Comprehensive evaluation across all configurations",
+            "sample_limit": null,
+            "datasets": [
+                "binary_d2a",
+                "binary_ctf",
+                "binary_magma",
+                "binary_big_vul",
+                "binary_devign",
+                "multiclass_d2a",
+                "multiclass_ctf",
+                "multiclass_magma",
+                "multiclass_big_vul",
+                "multiclass_devign"
+            ],
+            "models": [
+                "qwen3-4b",
+                "qwen3-30b",
+                "deepseek-coder-v2-lite-16b",
+                "deepseek-r1-distill-qwen2.5-32b",
+                "llama3.2-3B",
+                "wizard-coder-34b"
+            ],
+            "prompts": [
+                "basic_security",
+                "detailed_analysis",
+                "cwe_classification"
+            ]
+        }
+    },
+    "output_settings": {
+        "base_output_dir": "results/vulbench_experiments",
+        "create_subdirs": true,
+        "save_predictions": true,
+        "save_metrics": true,
+        "save_detailed_report": true,
+        "include_timestamp": true
+    },
+    "evaluation_settings": {
+        "metrics": [
+            "accuracy",
+            "precision",
+            "recall",
+            "f1",
+            "auc"
+        ],
+        "calculate_per_cwe": true,
+        "create_confusion_matrix": true,
+        "analyze_errors": true
+    }
+}

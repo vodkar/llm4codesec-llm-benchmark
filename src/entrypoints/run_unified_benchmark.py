@@ -2,7 +2,7 @@
 """
 Unified Benchmark Runner
 
-A unified script for running LLM benchmarks on CASTLE, JitVul, and CVEFixes datasets
+A unified script for running LLM benchmarks on CASTLE, JitVul, CVEFixes, and VulBench datasets
 with consistent CLI interface and experiment configuration patterns.
 """
 
@@ -21,10 +21,12 @@ if str(src_dir) not in sys.path:
 
 from entrypoints.run_castle_benchmark import load_castle_config
 from entrypoints.run_castle_benchmark import run_single_experiment as run_castle_experiment
-from entrypoints.run_cvefixes_benchmark_new import load_cvefixes_config
-from entrypoints.run_cvefixes_benchmark_new import run_single_experiment as run_cvefixes_experiment
-from entrypoints.run_jitvul_benchmark_new import load_jitvul_config
-from entrypoints.run_jitvul_benchmark_new import run_single_experiment as run_jitvul_experiment
+from entrypoints.run_cvefixes_benchmark import load_cvefixes_config
+from entrypoints.run_cvefixes_benchmark import run_single_experiment as run_cvefixes_experiment
+from entrypoints.run_jitvul_benchmark import load_jitvul_config
+from entrypoints.run_jitvul_benchmark import run_single_experiment as run_jitvul_experiment
+from entrypoints.run_vulbench_benchmark import load_vulbench_config
+from entrypoints.run_vulbench_benchmark import run_single_experiment as run_vulbench_experiment
 
 
 def setup_logging(verbose: bool = False) -> None:
@@ -47,7 +49,7 @@ def run_experiment_plan(
     Run a complete experiment plan with multiple configurations.
 
     Args:
-        dataset_type: Type of dataset ('castle', 'jitvul', 'cvefixes')
+        dataset_type: Type of dataset ('castle', 'jitvul', 'cvefixes', 'vulbench')
         plan_name: Name of the experiment plan to run
         config: Experiment configuration
         output_base_dir: Base output directory
@@ -119,6 +121,11 @@ def run_experiment_plan(
                             model_key, dataset_key, prompt_key,
                             config, plan_sample_limit, str(plan_output_dir)
                         )
+                    elif dataset_type == "vulbench":
+                        result = run_vulbench_experiment(
+                            model_key, dataset_key, prompt_key,
+                            config, plan_sample_limit, str(plan_output_dir)
+                        )
                     else:
                         raise ValueError(f"Unknown dataset type: {dataset_type}")
                     
@@ -170,6 +177,8 @@ def load_config(dataset_type: str, config_path: str) -> Dict[str, Any]:
         return load_jitvul_config(config_path)
     elif dataset_type == "cvefixes":
         return load_cvefixes_config(config_path)
+    elif dataset_type == "vulbench":
+        return load_vulbench_config(config_path)
     else:
         raise ValueError(f"Unknown dataset type: {dataset_type}")
 
@@ -196,6 +205,10 @@ def run_single_experiment_unified(
         return run_cvefixes_experiment(
             model_key, dataset_key, prompt_key, config, sample_limit, output_dir
         )
+    elif dataset_type == "vulbench":
+        return run_vulbench_experiment(
+            model_key, dataset_key, prompt_key, config, sample_limit, output_dir
+        )
     else:
         raise ValueError(f"Unknown dataset type: {dataset_type}")
 
@@ -203,7 +216,7 @@ def run_single_experiment_unified(
 def main():
     """Main function."""
     parser = argparse.ArgumentParser(
-        description="Unified benchmark runner for CASTLE, JitVul, and CVEFixes datasets",
+        description="Unified benchmark runner for CASTLE, JitVul, CVEFixes, and VulBench datasets",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -216,6 +229,9 @@ Examples:
   # Run experiment plan for CVEFixes with sample limit
   python run_unified_benchmark.py cvefixes --plan model_comparison --sample-limit 100
   
+  # Run experiment plan for VulBench
+  python run_unified_benchmark.py vulbench --plan quick_test
+  
   # List available configurations
   python run_unified_benchmark.py castle --list-configs
         """
@@ -223,7 +239,7 @@ Examples:
 
     parser.add_argument(
         "dataset_type",
-        choices=["castle", "jitvul", "cvefixes"],
+        choices=["castle", "jitvul", "cvefixes", "vulbench"],
         help="Type of dataset to run benchmark on"
     )
 
@@ -295,7 +311,8 @@ Examples:
             config_files = {
                 "castle": "castle_experiments.json",
                 "jitvul": "jitvul_experiments.json", 
-                "cvefixes": "cvefixes_experiments.json"
+                "cvefixes": "cvefixes_experiments.json",
+                "vulbench": "vulbench_experiments.json"
             }
             args.config = config_files[args.dataset_type]
 
