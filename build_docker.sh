@@ -15,7 +15,6 @@ IMAGE_NAME="llm4codesec-benchmark"
 TAG="latest"
 BUILD_ARGS=""
 TEST_GPU=true
-PUSH_IMAGE=false
 
 # Function to print colored output
 print_status() {
@@ -43,13 +42,11 @@ OPTIONS:
     -t, --tag TAG       Docker image tag (default: latest)
     -c, --cuda VERSION  CUDA version (default: 12.1)
     --no-gpu-test       Skip GPU functionality test
-    --push              Push image to registry after build
     --no-cache          Build without using cache
     --cpu-only          Build CPU-only version
 
 EXAMPLES:
     $0                          # Build with default settings
-    $0 -t v1.0 --push          # Build, tag as v1.0, and push
     $0 --cuda 11.8 --no-cache  # Build with CUDA 11.8, no cache
     $0 --cpu-only               # Build CPU-only version
 
@@ -77,10 +74,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         --no-gpu-test)
             TEST_GPU=false
-            shift
-            ;;
-        --push)
-            PUSH_IMAGE=true
             shift
             ;;
         --no-cache)
@@ -207,7 +200,8 @@ ENTRY_POINTS=("castle" "jitvul" "cvefixes" "unified" "benchmark")
 
 for entry_point in "${ENTRY_POINTS[@]}"; do
     print_status "Testing $entry_point entry point..."
-    if docker run --rm "$FULL_IMAGE_NAME" "$entry_point" --help > /dev/null 2>&1; then
+    print_status `docker run --rm "$FULL_IMAGE_NAME" entrypoints/run_"$entry_point"_benchmark.py --help`
+    if docker run --rm "$FULL_IMAGE_NAME" entrypoints/run_"$entry_point"_benchmark.py --help > /dev/null 2>&1; then
         print_status "$entry_point entry point test passed."
     else
         print_warning "$entry_point entry point test failed. This might be expected if the module is not implemented."
@@ -217,17 +211,6 @@ done
 # Show image information
 print_status "Docker image information:"
 docker images "$FULL_IMAGE_NAME" --format "table {{.Repository}}\t{{.Tag}}\t{{.ID}}\t{{.CreatedAt}}\t{{.Size}}"
-
-# Push image if requested
-if [[ $PUSH_IMAGE == true ]]; then
-    print_status "Pushing image to registry..."
-    if docker push "$FULL_IMAGE_NAME"; then
-        print_status "Image pushed successfully!"
-    else
-        print_error "Failed to push image!"
-        exit 1
-    fi
-fi
 
 # Show usage examples
 print_status "Build completed successfully!"

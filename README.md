@@ -19,7 +19,7 @@ A comprehensive framework for benchmarking Large Language Models on static code 
 
 ### Prerequisites
 
-- Linux is recommended (windows is working too)
+- Linux is recommended (windows is not tested)
 - Python 3.10 or higher
 - CUDA-compatible GPU (recommended) or CPU
 - 16GB+ vRAM (40GB+ recommended for larger models)
@@ -66,7 +66,7 @@ Check for actual instruction [here](https://docs.nvidia.com/datacenter/cloud-nat
 
 ##### OR b. 
 
-Use docker cuda ready VPC image. For example in [selectel]
+Use docker cuda ready VPC image. For example in [selectel](https://docs.selectel.ru/en/cloud-servers/images/about-images/#default-images)
 
 #### 1. Build docker image
 
@@ -74,7 +74,7 @@ Use docker cuda ready VPC image. For example in [selectel]
 ./build_docker.sh
 ```
 
-### W/o Docker
+### W/o Docker (not tested)
 
 #### 1. Install dependencies using Poetry (recommended):
 

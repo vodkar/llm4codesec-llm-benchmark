@@ -1,5 +1,5 @@
 # Multi-stage Dockerfile for LLM4CodeSec Benchmark with NVIDIA CUDA support
-FROM nvcr.io/nvidia/pytorch:24.04-py3
+FROM nvcr.io/nvidia/cuda:12.8.1-devel-ubuntu24.04
 
 # Set environment variables for non-interactive builds
 ENV DEBIAN_FRONTEND=noninteractive
@@ -7,42 +7,31 @@ ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PIP_NO_CACHE_DIR=1
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
-ENV CUDA_VISIBLE_DEVICES=all
-ENV NVIDIA_VISIBLE_DEVICES=all
-ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+ENV PYTHONPATH=/app
 
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     python3-pip \
-    build-essential \
-    git \
-    curl \
-    wget \
-    cmake \
+    python3-poetry \
     ninja-build \
-    pkg-config \
-    libssl-dev \
-    libffi-dev \
-    libjpeg-dev \
-    libpng-dev \
     && rm -rf /var/lib/apt/lists/*
 
 
 # Configure Poetry
 ENV POETRY_NO_INTERACTION=1 \
-    POETRY_VIRTUALENVS_CREATE=0
+    POETRY_VIRTUALENVS_IN_PROJECT=1
 
 WORKDIR /app
 
 COPY pyproject.toml poetry.lock ./
+    
+RUN poetry install
 
-RUN pip install poetry==2.1.3 && \
-    poetry install --no-root
 
 # Install flash attention
 # RUN pip install flash-attn==2.7.4.post1 --no-build-isolation && \
-RUN poetry cache clear PyPI --all  <<< "yes\n"
+# RUN poetry cache clear PyPI --all  <<< "yes\n"
 
 WORKDIR /app
 
