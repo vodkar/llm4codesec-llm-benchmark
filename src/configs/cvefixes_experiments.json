@@ -153,7 +153,7 @@
             "temperature": 0.1,
             "use_quantization": true
         },
-        "llama3.3-70B": {
+        "llama4-scout-17b-16e": {
             "model_name": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
             "model_type": "LLAMA",
             "batch_size": 1,
@@ -182,15 +182,21 @@
         "quick_test": {
             "description": "Quick test with limited samples for development",
             "datasets": [
-                "binary_c_file"
+                "binary_c_file",
+                "multiclass_c_file"
             ],
             "models": [
-                "qwen3-4b"
+                "qwen3-4b",
+                "llama3.2-3B",
+                "gemma3-1b",
+                "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
-                "basic_security"
+                "basic_security",
+                "detailed_analysis",
+                "context_aware"
             ],
-            "sample_limit": 20
+            "sample_limit": 10
         },
         "prompt_comparison": {
             "description": "Compare different prompt strategies",

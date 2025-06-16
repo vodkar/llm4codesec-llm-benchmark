@@ -2,7 +2,7 @@
 # Built for optimal performance with CUDA-enabled GPUs
 
 # Build stage - Poetry setup and dependency installation
-FROM nvidia/cuda:12.9.0-devel-ubuntu24.04 as builder
+FROM nvidia/cuda:12.8.1-devel-ubuntu24.04 as builder
 
 # Set environment variables for non-interactive builds
 ENV DEBIAN_FRONTEND=noninteractive
@@ -13,10 +13,6 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    python3.12 \
-    python3.12-venv \
-    python3.12-dev \
-    python3-pip \
     build-essential \
     git \
     curl \
@@ -29,10 +25,6 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libpng-dev \
     && rm -rf /var/lib/apt/lists/*
-
-# Create python3 symlink
-RUN ln -sf /usr/bin/python3.12 /usr/bin/python3 && \
-    ln -sf /usr/bin/python3.12 /usr/bin/python
 
 # Install Poetry
 RUN pip3 install --upgrade pip && \
@@ -55,7 +47,7 @@ RUN poetry install --no-dev --no-root && \
     rm -rf $POETRY_CACHE_DIR
 
 # Runtime stage - Optimized for GPU performance
-FROM nvidia/cuda:12.9.0-runtime-ubuntu24.04
+FROM nvcr.io/nvidia/pytorch:24.04-py3
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
@@ -108,5 +100,5 @@ CMD []
 LABEL maintainer="llm4codesec-benchmark"
 LABEL description="LLM4CodeSec Benchmark with NVIDIA CUDA support for vulnerability detection"
 LABEL version="0.1.0"
-LABEL cuda.version="12.9"
+LABEL cuda.version="12.8.1"
 LABEL python.version="3.12"

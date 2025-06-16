@@ -135,7 +135,7 @@
             "temperature": 0.1,
             "batch_size": 1
         },
-        "llama3.3-70B": {
+        "llama4-scout-17b-16e": {
             "model_name": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
             "model_type": "LLAMA",
             "max_tokens": 512,
@@ -160,16 +160,22 @@
     "experiment_plans": {
         "quick_test": {
             "description": "Quick test with limited samples for development",
-            "sample_limit": 20,
             "datasets": [
-                "binary_d2a"
+                "binary_d2a",
+                "multiclass_d2a"
             ],
             "models": [
-                "qwen3-4b"
+                "qwen3-4b",
+                "llama3.2-3B",
+                "gemma3-1b",
+                "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
-                "basic_security"
-            ]
+                "basic_security",
+                "detailed_analysis",
+                "context_aware"
+            ],
+            "sample_limit": 10
         },
         "basic_evaluation": {
             "description": "Basic evaluation across all datasets with one model",

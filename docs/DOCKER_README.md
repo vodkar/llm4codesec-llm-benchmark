@@ -154,7 +154,7 @@ docker run --gpus all llm4codesec-benchmark:latest unified castle --help
 docker run --gpus all \
   -e CUDA_VISIBLE_DEVICES=0 \
   llm4codesec-benchmark:latest castle \
-  --model llama3.3-70b \
+  --model llama4-scout-17b-16e \
   --use-quantization
 
 # Limit GPU memory usage
