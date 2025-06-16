@@ -21,7 +21,7 @@ A comprehensive framework for benchmarking Large Language Models on static code 
 
 - Python 3.10 or higher
 - CUDA-compatible GPU (recommended) or CPU
-- 16GB+ RAM (32GB+ recommended for larger models)
+- 16GB+ vRAM (40GB+ recommended for larger models)
 
 ### Setup
 
@@ -30,6 +30,7 @@ A comprehensive framework for benchmarking Large Language Models on static code 
 ```bash
 git clone <your-repo-url>
 cd llm4codesec-llm-benchmark
+git submodule update --init --recursive
 ```
 
 2. Install dependencies using Poetry (recommended):
@@ -37,42 +38,66 @@ cd llm4codesec-llm-benchmark
 ```bash
 pip install poetry
 poetry install
-poetry shell
+poetry env activate
 ```
 
-Or using pip:
+3. Setup your .env variables
 
 ```bash
-pip install -r requirements.txt
+cp .default.env .env
 ```
 
-3. Install additional dependencies for specific models (if needed):
+Put your hugging face token in `HF_TOKEN`. You can get your token [here](https://huggingface.co/settings/tokens)
+Your `.env` should looks like:
 
-```bash
-# For Llama models (requires HF token)
-huggingface-cli login
+```
+PYTHONPATH=src/
 
-# For GPU support
-pip install nvidia-ml-py3
+LOG_LEVEL=INFO
+LOG_FORMAT='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+HF_TOKEN='hf_blabla...'
+
+PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 ```
 
 ## Quick Start
 
-### 1. Create Sample Data and Run Quick Test
+### Using Docker
+
+#### 1. Setup nvidia container drivers
+
+##### a. 
+
+Check for actual instruction [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
+
+##### OR b. 
+
+Use docker cuda ready VPC image. For example in [selectel]
+
+#### 1. Build docker image
+
+```bash
+./build_docker.sh
+```
+
+### W/o Docker
+
+#### 1. Create Sample Data and Run Quick Test
 
 ```bash
 # Create sample dataset and run quick benchmark
 python run_benchmark.py --quick
 ```
 
-### 2. List Available Configurations
+#### 2. List Available Configurations
 
 ```bash
 # See all available models and tasks
 python run_benchmark.py --list-configs
 ```
 
-### 3. Run Specific Benchmarks
+#### 3. Run Specific Benchmarks
 
 ```bash
 # Binary vulnerability detection with Qwen2.5
