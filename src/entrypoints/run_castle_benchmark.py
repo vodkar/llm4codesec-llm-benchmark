@@ -160,7 +160,9 @@ def create_benchmark_config(
         "LLAMA": ModelType.LLAMA,
         "QWEN": ModelType.QWEN, 
         "DEEPSEEK": ModelType.DEEPSEEK,
-        "CODEBERT": ModelType.CODEBERT
+        "CODEBERT": ModelType.CODEBERT,
+        "WIZARD": ModelType.CUSTOM,
+        "GEMMA": ModelType.CUSTOM
     }
     
     # Map string task types to enum
@@ -183,7 +185,8 @@ def create_benchmark_config(
         use_quantization=model_config.get("use_quantization", True),
         cwe_type=dataset_config.get("cwe_type"),
         system_prompt_template=prompt_config["system_prompt"],
-        user_prompt_template=prompt_config["user_prompt"]
+        user_prompt_template=prompt_config["user_prompt"],
+        enable_thinking=prompt_config.get("enable_thinking", False),
     )
 
 

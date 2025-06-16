@@ -1,54 +1,251 @@
-# CVEFixes Benchmark Integration
-
-This document describes the integration of the CVEFixes benchmark dataset with the LLM Code Security Benchmark Framework.
+# CVEFixes Benchmark - Configuration-Based Runner
 
 ## Overview
 
-CVEFixes is a comprehensive dataset containing real-world vulnerabilities from open-source projects. Unlike CASTLE which provides synthetic vulnerability examples, CVEFixes contains actual CVE (Common Vulnerabilities and Exposures) fixes extracted from Git repositories, making it an excellent complement to the existing benchmark suite.
+The CVEFixes benchmark provides vulnerability detection evaluation using the CVEFixes dataset containing real-world CVE fixes from open-source projects. The system has been refactored to use a unified configuration-based approach that matches the CASTLE benchmark pattern for consistency across all datasets.
 
+## New Configuration-Based System
+
+### Key Improvements ✅
+- **Unified Configuration**: JSON-based experiment configuration following CASTLE pattern
+- **Consistent CLI**: Same command-line interface across all benchmarks (CASTLE, JitVul, CVEFixes)
+- **Flexible Experiments**: Easy definition of model/dataset/prompt combinations
+- **Single Entry Point**: All experiments configurable through JSON files
+- **Model Synchronization**: Consistent model definitions across all datasets
+
+### Core Components
+- **Configuration File**: `src/configs/cvefixes_experiments.json`
+- **Refactored Runner**: `src/entrypoints/run_cvefixes_benchmark_new.py`
+- **Unified Runner**: `src/entrypoints/run_unified_benchmark.py` (handles all datasets)
+- **Dataset Loader**: `src/datasets/cvefixes_dataset_loader.py` (unchanged)
+
+## Configuration Structure
+
+The CVEFixes configuration follows the same structure as CASTLE for consistency:
+
+```json
+{
+  "experiment_metadata": {
+    "benchmark_name": "CVEFixes",
+    "version": "1.0.0",
+    "description": "Real-world vulnerability detection using CVEFixes dataset"
+  },
+  "dataset_configurations": {
+    "cvefixes_function_level": {
+      "dataset_name": "CVEFixes Function Level",
+      "dataset_path": "benchmarks/CVEFixes/data/cvefixes_function_level.json",
+      "task_type": "function_level_vulnerability_detection"
+    }
+  },
+  "prompt_strategies": {
+    "vulnerability_detection": {
+      "strategy_name": "CVE Vulnerability Detection",
+      "description": "Detect vulnerabilities in real-world code changes"
+    }
+  },
+  "model_configurations": {
+    "qwen2.5-7b": {
+      "model_name": "Qwen/Qwen2.5-7B-Instruct",
+      "model_type": "QWEN",
+      "config": {
+        "max_tokens": 4096,
+        "temperature": 0.1
+      }
+    }
+  },
+  "experiment_plans": {
+    "basic_evaluation": {
+      "datasets": ["cvefixes_function_level"],
+      "models": ["qwen2.5-7b"],
+      "prompts": ["vulnerability_detection"]
+    }
+  }
+## Command Line Interface
+
+### New Unified Interface
+
+All benchmark runners now use the same CLI arguments:
+
+#### Single Experiments
+```bash
+# Run with specific model/dataset/prompt
+python src/entrypoints/run_cvefixes_benchmark_new.py \
+  --model qwen2.5-7b \
+  --dataset cvefixes_function_level \
+  --prompt vulnerability_detection
+
+# Using unified runner (handles all datasets)
+python src/entrypoints/run_unified_benchmark.py \
+  --dataset-type cvefixes \
+  --model qwen2.5-7b \
+  --dataset cvefixes_function_level \
+  --prompt vulnerability_detection
+```
+
+#### Experiment Plans
+```bash
+# Run predefined experiment plan
+python src/entrypoints/run_cvefixes_benchmark_new.py --plan basic_evaluation
+
+# With unified runner
+python src/entrypoints/run_unified_benchmark.py \
+  --dataset-type cvefixes \
+  --plan basic_evaluation
+```
+
+#### Common Options
+```bash
+# List available configurations
+python src/entrypoints/run_cvefixes_benchmark_new.py --list-configs
+
+# Limit samples and set output directory
+python src/entrypoints/run_cvefixes_benchmark_new.py \
+  --plan basic_evaluation \
+  --sample-limit 100 \
+  --output-dir results/cvefixes_test
+```
+
+## Supported Models
+
+The CVEFixes benchmark supports all models available in the unified configuration:
+
+- **QWEN Series**: Qwen2.5-7B, Qwen2.5-32B, Qwen2.5-72B, Qwen2.5-Coder variants
+- **DeepSeek Series**: DeepSeek-Coder-V2, DeepSeek-R1-Distill variants
+- **Llama Series**: Llama-3.2-1B, Llama-3.2-3B, CodeLlama variants
+- **Gemma Series**: Gemma-3-1B, Gemma-3-27B
+- **Wizard Series**: WizardCoder-Python-34B
+- **CodeBERT**: microsoft/codebert-base
+
+## Available Task Types
+
+- **function_level_vulnerability_detection**: Function-level vulnerability detection
+- **file_level_vulnerability_detection**: File-level vulnerability detection
+- **cwe_classification**: CWE type classification
 ## Key Features
 
-- **Real-world vulnerabilities**: Actual CVEs from production code
-- **Multi-language support**: C, Java, Python, and other languages
-- **Multi-granularity analysis**: Both file-level and method-level vulnerability detection
-- **Rich metadata**: CVE IDs, CWE classifications, CVSS scores, commit information
-- **Database-driven**: SQLite database for flexible querying and filtering
+### 1. Configuration-Driven Experiments
+- **JSON Configuration**: All experiments defined in `cvefixes_experiments.json`
+- **Flexible Combinations**: Easy model/dataset/prompt combinations
+- **Experiment Plans**: Predefined experimental setups
+- **Consistent Interface**: Same CLI across all benchmarks
 
-## Architecture
+### 2. Real-World Vulnerability Data
+- **Actual CVEs**: Real vulnerabilities from production code
+- **Multi-language Support**: C, Java, Python, and other languages
+- **Rich Metadata**: CVE IDs, CWE classifications, CVSS scores
+- **Database-driven**: SQLite database for flexible querying
 
-### Components
+### 3. Comprehensive Evaluation
+- **Standard Metrics**: Accuracy, Precision, Recall, F1-score, AUC-ROC
+- **CVE-specific Analysis**: Per-CVE type performance
+- **Framework Integration**: Uses benchmark framework evaluation system
 
-1. **CVEFixesDatasetLoader**: Extracts data from CVEFixes SQLite database
-2. **CVEFixesJSONDatasetLoader**: Loads processed JSON datasets
-3. **CVEFixesBenchmarkRunner**: Specialized runner for CVEFixes experiments
-4. **Dataset preparation scripts**: Tools to create processed datasets
+## Migration from Old System
 
-### Data Flow
+### Old Commands → New Commands
+
+**Old single experiment:**
+```bash
+python src/entrypoints/run_cvefixes_benchmark.py \
+  --model Qwen/Qwen2.5-7B-Instruct \
+  --dataset-path cvefixes_data.json \
+  --output-dir results/test_run
+```
+
+**New single experiment:**
+```bash
+python src/entrypoints/run_cvefixes_benchmark_new.py \
+  --model qwen2.5-7b \
+  --dataset cvefixes_function_level \
+  --prompt vulnerability_detection \
+  --output-dir results/test_run
+```
+
+**New experiment plans:**
+```bash
+python src/entrypoints/run_cvefixes_benchmark_new.py --plan basic_evaluation
+```
+
+## Configuration Examples
+
+### Custom Experiment Plan
+```json
+{
+  "experiment_plans": {
+    "comprehensive_evaluation": {
+      "datasets": ["cvefixes_function_level", "cvefixes_file_level"],
+      "models": ["qwen2.5-7b", "deepseek-coder-v2-lite", "llama-3.2-3b"],
+      "prompts": ["vulnerability_detection"]
+    }
+  }
+}
+```
+
+### Adding New Dataset Configuration
+```json
+{
+  "dataset_configurations": {
+    "cvefixes_custom": {
+      "dataset_name": "CVEFixes Custom Dataset",
+      "dataset_path": "benchmarks/CVEFixes/data/custom_dataset.json",
+      "task_type": "custom_vulnerability_detection"
+    }
+  }
+}
+```
+
+## Troubleshooting
+
+### Configuration Issues
+- **Model not found**: Check `model_configurations` section in config file
+- **Dataset path error**: Verify `dataset_path` in `dataset_configurations`
+- **Invalid experiment plan**: Ensure all referenced models/datasets/prompts exist
+
+### Common Command Fixes
+```bash
+# Check available configurations
+python src/entrypoints/run_cvefixes_benchmark_new.py --list-configs
+
+# Run with minimal configuration
+python src/entrypoints/run_cvefixes_benchmark_new.py \
+  --model qwen2.5-7b \
+  --dataset cvefixes_function_level \
+  --prompt vulnerability_detection \
+  --sample-limit 10
+```
+
+## Integration with Framework
+
+The refactored CVEFixes implementation maintains full compatibility with the benchmark framework:
+
+- **Standard Interfaces**: Uses `BenchmarkSample`, `PredictionResult`, `BenchmarkConfig`
+- **Consistent Patterns**: Matches CASTLE and JitVul implementation patterns  
+- **Framework Integration**: `CVEFixesJSONDatasetLoader` unchanged
+- **Unified Metrics**: Framework-standard evaluation metrics
+
+## Files Structure
 
 ```
-CVEFixes SQLite DB → CVEFixesDatasetLoader → JSON Datasets → Benchmark Runner → Results
+src/
+├── configs/
+│   └── cvefixes_experiments.json      # New configuration file
+├── entrypoints/
+│   ├── run_cvefixes_benchmark_new.py      # New refactored runner
+│   └── run_unified_benchmark.py           # Unified runner for all datasets
+├── datasets/
+│   └── cvefixes_dataset_loader.py         # Dataset loader (unchanged)
+└── docs/
+    └── CVEFIXES_README.md                 # This updated documentation
 ```
 
 ## Dataset Structure
-
-### Database Schema
-
-The CVEFixes database contains the following key tables:
-
-- **cve**: CVE information, descriptions, CVSS scores
-- **fixes**: Links CVEs to commit hashes
-- **commits**: Git commit metadata
-- **file_change**: File-level changes and code
-- **method_change**: Method-level changes and code
-- **cwe_classification**: CWE mappings for CVEs
-- **repository**: Repository metadata
 
 ### Sample Format
 
 Each processed sample follows the `BenchmarkSample` structure:
 
 ```python
-@dataclass
+@dataclass  
 class BenchmarkSample:
     id: str                    # CVE_ID_type_index (e.g., "CVE-2021-1234_file_0")
     code: str                  # Vulnerable code (before fix)
@@ -63,7 +260,7 @@ class BenchmarkSample:
 ```python
 metadata = {
     "cve_id": "CVE-2021-1234",
-    "cwe_id": "119",
+    "cwe_id": "119", 
     "severity": 7.5,
     "description": "Buffer overflow in...",
     "published_date": "2021-01-15",
@@ -78,284 +275,19 @@ metadata = {
 }
 ```
 
-## Setup and Usage
+## Conclusion
 
-### Prerequisites
+The CVEFixes benchmark has been successfully refactored to use a unified configuration-based approach that matches the CASTLE benchmark pattern. This provides:
 
-1. **CVEFixes Database**: Download the CVEFixes SQLite database
-   ```bash
-   # Follow instructions at: https://github.com/secureIT-project/CVEfixes
-   # Place database at: datasets_processed/cvefixes/CVEfixes.db
-   ```
+- **Consistent Interface**: Same CLI arguments across all benchmarks
+- **Flexible Configuration**: JSON-based experiment definitions
+- **Model Synchronization**: Consistent model support across datasets
+- **Simplified Usage**: Single entry point with unified runner
+- **Maintained Compatibility**: Full framework integration preserved
 
-2. **Dependencies**: Install required Python packages
-   ```bash
-   pip install -r requirements.txt
-   ```
+The new system makes it easier to define experiments, compare models across real-world vulnerability data, and maintain consistency across the entire benchmark suite.
 
-### Dataset Preparation
+---
 
-1. **Analyze Database**:
-   ```bash
-   python prepare_cvefixes_datasets.py \
-     --database-path datasets_processed/cvefixes/CVEfixes.db \
-     --analyze-only
-   ```
-
-2. **Create All Datasets**:
-   ```bash
-   python prepare_cvefixes_datasets.py \
-     --database-path datasets_processed/cvefixes/CVEfixes.db \
-     --output-dir datasets_processed/cvefixes
-   ```
-
-3. **Create Specific Datasets**:
-   ```bash
-   # Binary classification only
-   python prepare_cvefixes_datasets.py \
-     --database-path datasets_processed/cvefixes/CVEfixes.db \
-     --dataset-types binary \
-     --languages C Java
-   
-   # CWE-specific datasets
-   python prepare_cvefixes_datasets.py \
-     --database-path datasets_processed/cvefixes/CVEfixes.db \
-     --dataset-types cwe_specific \
-     --cwe-types CWE-119 CWE-120 CWE-125
-   
-   # Limited samples for testing
-   python prepare_cvefixes_datasets.py \
-     --database-path datasets_processed/cvefixes/CVEfixes.db \
-     --sample-limit 1000
-   ```
-
-### Running Benchmarks
-
-1. **List Available Experiments**:
-   ```bash
-   python run_cvefixes_benchmark.py --list
-   ```
-
-2. **Run Single Experiment**:
-   ```bash
-   python run_cvefixes_benchmark.py --experiment cvefixes_binary_basic
-   ```
-
-3. **Run Multiple Experiments**:
-   ```bash
-   python run_cvefixes_benchmark.py \
-     --experiment cvefixes_binary_basic cvefixes_method_basic
-   ```
-
-4. **Run with Custom Configuration**:
-   ```bash
-   python run_cvefixes_benchmark.py \
-     --config custom_cvefixes_config.json \
-     --experiment my_experiment
-   ```
-
-5. **Direct Runner Usage**:
-   ```bash
-   python src/entrypoints/run_cvefixes_benchmark.py \
-     --dataset-path datasets_processed/cvefixes/cvefixes_binary_c_file.json \
-     --model-type qwen \
-     --task-type binary
-   ```
-
-## Configuration
-
-### Experiment Configuration
-
-The `cvefixes_experiments_config.json` file defines:
-
-- **Dataset configurations**: Different dataset types and parameters
-- **Model configurations**: LLM models and their parameters
-- **Prompt strategies**: Different prompting approaches
-- **Experiment configs**: Predefined experiment combinations
-
-Example configuration:
-
-```json
-{
-  "dataset_configurations": {
-    "binary_c_file": {
-      "dataset_path": "datasets_processed/cvefixes/cvefixes_binary_c_file.json",
-      "task_type": "binary_vulnerability",
-      "description": "Binary classification: C file-level vulnerability detection"
-    }
-  },
-  "model_configurations": {
-    "qwen2.5-7b": {
-      "model_name": "Qwen/Qwen2.5-7B-Instruct",
-      "model_type": "qwen",
-      "max_tokens": 512,
-      "temperature": 0.1,
-      "use_quantization": true
-    }
-  },
-  "prompt_strategies": {
-    "basic_security": {
-      "name": "Basic Security Analysis",
-      "system_prompt": "You are an expert security analyst...",
-      "user_prompt": "Analyze this code for security vulnerabilities:\n\n{code}"
-    }
-  }
-}
-```
-
-## Task Types
-
-### Binary Vulnerability Detection
-
-- **Task**: Determine if code contains any security vulnerability
-- **Labels**: 1 (vulnerable) or 0 (safe)
-- **Note**: All CVEFixes samples are vulnerable by definition
-
-### Multi-class CWE Classification
-
-- **Task**: Identify the specific type of vulnerability (CWE)
-- **Labels**: CWE types (e.g., "CWE-119", "CWE-120", etc.)
-- **Use case**: Fine-grained vulnerability classification
-
-### CWE-Specific Detection
-
-- **Task**: Detect specific vulnerability types
-- **Labels**: 1 (contains target CWE) or 0 (doesn't contain target CWE)
-- **Use case**: Specialized detection for specific vulnerability classes
-
-## Dataset Types
-
-### File-Level Analysis
-
-- Analyzes entire files that were modified to fix vulnerabilities
-- Provides broader context but may include unrelated code
-- Good for understanding vulnerability patterns in larger codebases
-
-### Method-Level Analysis
-
-- Focuses on specific methods that were changed
-- More targeted analysis with less noise
-- Better for understanding localized vulnerability patterns
-
-## Programming Languages
-
-Currently supported languages:
-- **C**: Primary focus, largest number of samples
-- **Java**: Good coverage for enterprise applications
-- **Python**: Growing collection of vulnerabilities
-- **Others**: Limited samples available
-
-## Quality Filters
-
-The dataset preparation includes quality filters:
-
-- **Minimum code length**: Excludes trivial code snippets
-- **Maximum code length**: Excludes extremely large files
-- **Non-null checks**: Ensures both vulnerable and fixed code exist
-- **CWE mapping**: Optional requirement for CWE classification
-
-## Comparison with CASTLE
-
-| Aspect | CASTLE | CVEFixes |
-|--------|--------|----------|
-| **Source** | Synthetic vulnerabilities | Real-world CVEs |
-| **Scale** | ~10K samples | ~100K+ samples |
-| **Languages** | Primarily C | Multi-language |
-| **Metadata** | Basic CWE, description | Rich CVE data, CVSS scores |
-| **Quality** | Consistent, curated | Variable, real-world |
-| **Use Case** | Controlled evaluation | Realistic assessment |
-
-## Best Practices
-
-### Dataset Selection
-
-1. **Start with file-level C datasets** for initial evaluation
-2. **Use method-level datasets** for focused analysis
-3. **Apply sample limits** during development and testing
-4. **Consider severity filtering** for critical vulnerabilities only
-
-### Experimental Design
-
-1. **Compare with CASTLE results** to understand model behavior differences
-2. **Use multiple prompt strategies** to assess robustness
-3. **Analyze by CWE type** to identify model strengths/weaknesses
-4. **Consider temporal aspects** (older vs. newer CVEs)
-
-### Performance Considerations
-
-1. **Large datasets**: CVEFixes can be much larger than CASTLE
-2. **Memory usage**: Consider sample limits for resource-constrained environments
-3. **Processing time**: Real-world code may be more complex to analyze
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Database not found**:
-   ```
-   Error: CVEFixes database not found at datasets_processed/cvefixes/CVEfixes.db
-   Solution: Download and place the CVEFixes database in the correct location
-   ```
-
-2. **Empty datasets**:
-   ```
-   Issue: No samples found for specific language/CWE combination
-   Solution: Check database contents, adjust filters, or try different parameters
-   ```
-
-3. **Memory errors**:
-   ```
-   Issue: Out of memory when loading large datasets
-   Solution: Use --sample-limit to reduce dataset size
-   ```
-
-4. **Model loading failures**:
-   ```
-   Issue: CUDA out of memory or model loading errors
-   Solution: Enable quantization or use smaller models
-   ```
-
-### Debugging
-
-1. **Enable debug logging**: `--log-level DEBUG`
-2. **Check database statistics**: Use `--analyze-only` flag
-3. **Validate datasets**: Inspect generated JSON files
-4. **Test with small samples**: Use `--sample-limit 10`
-
-## Future Enhancements
-
-1. **Additional languages**: Expand support for more programming languages
-2. **Temporal analysis**: Track vulnerability trends over time
-3. **Severity-based evaluation**: Focus on critical/high severity vulnerabilities
-4. **Cross-project analysis**: Compare performance across different repositories
-5. **Integration with CASTLE**: Combined evaluation strategies
-
-## Contributing
-
-To contribute to the CVEFixes integration:
-
-1. Follow the existing code style and patterns
-2. Add appropriate logging and error handling
-3. Include unit tests for new functionality
-4. Update documentation for any new features
-5. Test with multiple dataset configurations
-
-## References
-
-- [CVEFixes Project](https://github.com/secureIT-project/CVEfixes)
-- [CVEFixes Paper](https://arxiv.org/abs/2111.08625)
-- [Common Weakness Enumeration (CWE)](https://cwe.mitre.org/)
-- [Common Vulnerabilities and Exposures (CVE)](https://cve.mitre.org/)
-
-## Status
-
-✅ **COMPLETED** - CVEFixes benchmark integration is fully functional
-- All type annotation issues have been resolved
-- CVEFixes dataset loader with proper SQLite database integration
-- CVEFixes benchmark runner compatible with existing framework
-- Comprehensive configuration system supporting multiple task types
-- Dataset preparation scripts for processing CVEFixes database
-- Integration tests confirming compatibility with CASTLE benchmark
-- Complete documentation and usage examples
-
-The CVEFixes benchmark is ready for production use and can be run alongside CASTLE benchmarks.
+**Status**: ✅ REFACTORED AND READY FOR USE  
+**Last Updated**: January 2025

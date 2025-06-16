@@ -7,14 +7,20 @@ flexible configuration options for different vulnerability detection tasks.
 """
 
 import argparse
+import dataclasses
 import json
 import logging
 import sys
+import time
 from pathlib import Path
-from typing import Optional
+from typing import Any, Dict, Optional
+
+# Add the src directory to Python path if not already there
+src_dir = Path(__file__).parent.parent
+if str(src_dir) not in sys.path:
+    sys.path.insert(0, str(src_dir))
 
 from benchmark.benchmark_framework import BenchmarkConfig, ModelType, TaskType
-from benchmark.config_manager import BenchmarkConfigManager
 from datasets.loaders.cvefixes_dataset_loader import CVEFixesJSONDatasetLoader
 
 
@@ -25,74 +31,56 @@ class CVEFixesBenchmarkRunner:
         self.config = config
         self.dataset_loader = CVEFixesJSONDatasetLoader()
 
-    def run_benchmark(self, sample_limit: Optional[int] = None):
+    def run_benchmark(self, sample_limit: Optional[int] = None) -> Dict[str, Any]:
         """Run benchmark with CVEFixes-specific dataset loading."""
-        import logging
-        import time
-        from pathlib import Path
-
-        from benchmark.benchmark_framework import (
-            HuggingFaceLLM,
-            MetricsCalculator,
-            PredictionResult,
-            PromptGenerator,
-            ResponseParser,
-        )
-
+        from benchmark.benchmark_framework import (HuggingFaceLLM, MetricsCalculator, PredictionResult, PromptGenerator,
+                                                   ResponseParser, TaskType)
+        
         logging.info("Starting CVEFixes benchmark execution")
         start_time = time.time()
-
+        
         try:
             # Load dataset using CVEFixes loader
             logging.info(f"Loading CVEFixes dataset from: {self.config.dataset_path}")
             samples = self.dataset_loader.load_dataset(self.config.dataset_path)
-
+            
             # Apply sample limit if specified
             if sample_limit and sample_limit < len(samples):
                 samples = samples[:sample_limit]
                 logging.info(f"Limited to {sample_limit} samples")
-
+            
             logging.info(f"Loaded {len(samples)} samples")
-
+            
             # Initialize components
             llm = HuggingFaceLLM(self.config)
             prompt_generator = PromptGenerator()
             response_parser = ResponseParser(self.config.task_type)
             metrics_calculator = MetricsCalculator()
-
+            
             # Create output directory
             Path(self.config.output_dir).mkdir(parents=True, exist_ok=True)
-
+            
             # Run predictions
             predictions = []
-            system_prompt = (
-                self.config.system_prompt_template
-                or prompt_generator.get_system_prompt(
-                    self.config.task_type, self.config.cwe_type
-                )
+            system_prompt = self.config.system_prompt_template or prompt_generator.get_system_prompt(
+                self.config.task_type, self.config.cwe_type
             )
-
+            
             for i, sample in enumerate(samples):
                 logging.info(f"Processing sample {i + 1}/{len(samples)}: {sample.id}")
-
-                user_prompt = (
-                    self.config.user_prompt_template.format(code=sample.code)
-                    if self.config.user_prompt_template
-                    else prompt_generator.get_user_prompt(
-                        self.config.task_type, sample.code, self.config.cwe_type
-                    )
+                
+                user_prompt = self.config.user_prompt_template.format(code=sample.code) if self.config.user_prompt_template else prompt_generator.get_user_prompt(
+                    self.config.task_type, sample.code, self.config.cwe_type
                 )
-
+                
                 # Generate response
                 start_time_sample = time.time()
-                response_text, tokens_used = llm.generate_response(
-                    system_prompt, user_prompt
-                )
+                response_text, tokens_used = llm.generate_response(system_prompt, user_prompt)
                 processing_time = time.time() - start_time_sample
-
+                
                 # Parse response
                 predicted_label = response_parser.parse_response(response_text)
-
+                
                 prediction = PredictionResult(
                     sample_id=sample.id,
                     predicted_label=predicted_label,
@@ -102,343 +90,348 @@ class CVEFixesBenchmarkRunner:
                     processing_time=processing_time,
                     tokens_used=tokens_used,
                 )
-
+                
                 predictions.append(prediction)
-
+                
                 if (i + 1) % 10 == 0:
                     logging.info(f"Completed {i + 1}/{len(samples)} predictions")
-
+            
             # Calculate metrics
-            if self.config.task_type in [
-                TaskType.BINARY_VULNERABILITY,
-                TaskType.BINARY_CWE_SPECIFIC,
-            ]:
+            if self.config.task_type in [TaskType.BINARY_VULNERABILITY, TaskType.BINARY_CWE_SPECIFIC]:
                 metrics = metrics_calculator.calculate_binary_metrics(predictions)
             else:
                 metrics = metrics_calculator.calculate_multiclass_metrics(predictions)
-
-            # Create results
+            
+            # Generate results
+            total_time = time.time() - start_time
             results = {
-                "config": {
-                    "model_name": self.config.model_name,
-                    "task_type": self.config.task_type.value,
-                    "dataset_path": str(self.config.dataset_path),
-                    "cwe_type": self.config.cwe_type,
-                    "total_samples": len(samples),
-                    "sample_limit": sample_limit,
-                },
+                "accuracy": metrics.get("accuracy", 0.0),
                 "metrics": metrics,
-                "predictions": [
-                    {
-                        "sample_id": p.sample_id,
-                        "predicted_label": p.predicted_label,
-                        "true_label": p.true_label,
-                        "confidence": p.confidence,
-                        "response_text": p.response_text,
-                        "processing_time": p.processing_time,
-                        "tokens_used": p.tokens_used,
-                    }
-                    for p in predictions
-                ],
-                "execution_time": time.time() - start_time,
+                "total_samples": len(samples),
+                "total_time": total_time,
+                "predictions": [dataclasses.asdict(prediction) for prediction in predictions]
             }
-
-            # Save results
-            timestamp = int(time.time())
-            model_name_safe = self.config.model_name.replace("/", "_")
-            task_name = self.config.task_type.value
-
-            if self.config.cwe_type:
-                output_filename = f"{model_name_safe}_{task_name}_{self.config.cwe_type.lower()}_{timestamp}.json"
-            else:
-                output_filename = f"{model_name_safe}_{task_name}_{timestamp}.json"
-
-            output_path = Path(self.config.output_dir) / output_filename
-
-            with open(output_path, "w", encoding="utf-8") as f:
-                json.dump(results, f, indent=2, ensure_ascii=False)
-
-            logging.info(f"Results saved to: {output_path}")
-            logging.info(
-                f"Total execution time: {time.time() - start_time:.2f} seconds"
-            )
-
-            # Print summary
-            print(f"\n{'=' * 60}")
-            print("CVEFixes Benchmark Results Summary")
-            print(f"{'=' * 60}")
-            print(f"Model: {self.config.model_name}")
-            print(f"Task: {self.config.task_type.value}")
-            if self.config.cwe_type:
-                print(f"CWE Type: {self.config.cwe_type}")
-            print(f"Samples: {len(samples)}")
-            print(f"Execution Time: {time.time() - start_time:.2f}s")
-            print("\nMetrics:")
-
-            if self.config.task_type in [
-                TaskType.BINARY_VULNERABILITY,
-                TaskType.BINARY_CWE_SPECIFIC,
-            ]:
-                print(f"  Accuracy: {metrics['accuracy']:.4f}")
-                print(f"  Precision: {metrics['precision']:.4f}")
-                print(f"  Recall: {metrics['recall']:.4f}")
-                print(f"  F1-Score: {metrics['f1_score']:.4f}")
-            else:
-                print(f"  Accuracy: {metrics['accuracy']:.4f}")
-                print(f"  Macro F1: {metrics['macro_f1']:.4f}")
-                print(f"  Weighted F1: {metrics['weighted_f1']:.4f}")
-
-            print(f"\nResults saved to: {output_path}")
-            print(f"{'=' * 60}")
-
+            
+            # Clean up
+            llm.cleanup()
+            
+            logging.info("CVEFixes benchmark completed successfully")
             return results
-
+            
         except Exception as e:
-            logging.exception(f"Error during benchmark execution: {e}")
+            logging.exception(f"CVEFixes benchmark failed: {e}")
             raise
 
 
-def create_cvefixes_config_from_args(args) -> BenchmarkConfig:
-    """Create a BenchmarkConfig from command line arguments for CVEFixes."""
+def setup_logging(verbose: bool = False) -> None:
+    """Setup logging configuration."""
+    level = logging.DEBUG if verbose else logging.INFO
+    logging.basicConfig(
+        level=level,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
 
-    # Map string task types to enum
-    task_type_map = {
-        "binary": TaskType.BINARY_VULNERABILITY,
-        "multiclass": TaskType.MULTICLASS_VULNERABILITY,
-        "cwe_specific": TaskType.BINARY_CWE_SPECIFIC,
-    }
 
+def load_cvefixes_config(config_path: str) -> Dict[str, Any]:
+    """Load CVEFixes experiment configuration."""
+    with open(config_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+
+def create_benchmark_config(
+    model_config: Dict[str, Any],
+    dataset_config: Dict[str, Any], 
+    prompt_config: Dict[str, Any],
+    output_dir: str
+) -> BenchmarkConfig:
+    """
+    Create a BenchmarkConfig from experiment configuration.
+    
+    Args:
+        model_config: Model configuration dict
+        dataset_config: Dataset configuration dict
+        prompt_config: Prompt configuration dict
+        output_dir: Output directory path
+        
+    Returns:
+        BenchmarkConfig: Complete benchmark configuration
+    """
     # Map string model types to enum
     model_type_map = {
-        "llama": ModelType.LLAMA,
-        "qwen": ModelType.QWEN,
-        "deepseek": ModelType.DEEPSEEK,
-        "codebert": ModelType.CODEBERT,
-        "custom": ModelType.CUSTOM,
+        "LLAMA": ModelType.LLAMA,
+        "QWEN": ModelType.QWEN, 
+        "DEEPSEEK": ModelType.DEEPSEEK,
+        "CODEBERT": ModelType.CODEBERT,
+        "WIZARD": ModelType.CUSTOM,
+        "GEMMA": ModelType.CUSTOM
     }
-
-    task_type = task_type_map.get(args.task_type, TaskType.BINARY_VULNERABILITY)
-    model_type = model_type_map.get(args.model_type, ModelType.QWEN)
-
+    
+    # Map string task types to enum
+    task_type_map = {
+        "binary_vulnerability": TaskType.BINARY_VULNERABILITY,
+        "binary_cwe_specific": TaskType.BINARY_CWE_SPECIFIC,
+        "multiclass_vulnerability": TaskType.MULTICLASS_VULNERABILITY
+    }
+    
     return BenchmarkConfig(
-        model_name=args.model_name,
-        model_type=model_type,
-        task_type=task_type,
-        description=f"CVEFixes {args.task_type} vulnerability detection",
-        dataset_path=args.dataset_path,
-        output_dir=args.output_dir,
-        batch_size=args.batch_size,
-        max_tokens=args.max_tokens,
-        temperature=args.temperature,
-        use_quantization=args.use_quantization,
-        cwe_type=args.cwe_type,
-        system_prompt_template=args.system_prompt,
-        user_prompt_template=args.user_prompt,
+        model_name=model_config["model_name"],
+        model_type=model_type_map[model_config["model_type"]],
+        task_type=task_type_map[dataset_config["task_type"]],
+        description=f"{prompt_config['name']} - {dataset_config['description']}",
+        dataset_path=dataset_config["dataset_path"],
+        output_dir=output_dir,
+        batch_size=model_config.get("batch_size", 1),
+        max_tokens=model_config.get("max_tokens", 512),
+        temperature=model_config.get("temperature", 0.1),
+        use_quantization=model_config.get("use_quantization", True),
+        cwe_type=dataset_config.get("cwe_type"),
+        system_prompt_template=prompt_config.get("system_prompt"),
+        user_prompt_template=prompt_config["user_prompt"]
     )
 
 
-def setup_logging(log_level: str = "INFO"):
-    """Set up logging configuration."""
-    numeric_level = getattr(logging, log_level.upper(), None)
-    if not isinstance(numeric_level, int):
-        raise ValueError(f"Invalid log level: {log_level}")
-
-    logging.basicConfig(
-        level=numeric_level,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        handlers=[
-            logging.FileHandler("cvefixes_benchmark.log"),
-            logging.StreamHandler(sys.stdout),
-        ],
+def run_single_experiment(
+    model_key: str,
+    dataset_key: str,
+    prompt_key: str,
+    cvefixes_config: Dict[str, Any],
+    sample_limit: Optional[int] = None,
+    output_base_dir: str = "results/cvefixes_experiments"
+) -> Dict[str, Any]:
+    """
+    Run a single benchmark experiment.
+    
+    Args:
+        model_key: Model configuration key
+        dataset_key: Dataset configuration key  
+        prompt_key: Prompt configuration key
+        cvefixes_config: CVEFixes experiment configuration
+        sample_limit: Limit number of samples (for testing)
+        output_base_dir: Base output directory
+        
+    Returns:
+        Dict containing experiment results
+    """
+    logger = logging.getLogger(__name__)
+    
+    # Get configurations
+    model_config = cvefixes_config["model_configurations"][model_key]
+    dataset_config = cvefixes_config["dataset_configurations"][dataset_key] 
+    prompt_config = cvefixes_config["prompt_strategies"][prompt_key]
+    
+    # Create output directory
+    experiment_name = f"{model_key}_{dataset_key}_{prompt_key}"
+    output_dir = Path(output_base_dir) / experiment_name
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
+    logger.info(f"Running experiment: {experiment_name}")
+    logger.info(f"Model: {model_config['model_name']}")
+    logger.info(f"Dataset: {dataset_config['description']}")
+    logger.info(f"Prompt: {prompt_config['name']}")
+    
+    # Create benchmark configuration
+    config = create_benchmark_config(
+        model_config, dataset_config, prompt_config, str(output_dir)
     )
+    
+    # Initialize and run benchmark  
+    runner = CVEFixesBenchmarkRunner(config)
+    
+    try:
+        results = runner.run_benchmark(sample_limit=sample_limit)
+        
+        # Save results
+        results_file = output_dir / "results.json"
+        with open(results_file, "w", encoding="utf-8") as f:
+            json.dump(results, f, indent=2, default=str)
+        
+        logger.info(f"Experiment completed: {experiment_name}")
+        logger.info(f"Accuracy: {results['accuracy']:.3f}")
+        logger.info(f"Results saved to: {results_file}")
+        
+        return {
+            "experiment_name": experiment_name,
+            "status": "success",
+            "accuracy": results["accuracy"],
+            "total_samples": results["total_samples"],
+            "total_time": results["total_time"],
+            "output_dir": str(output_dir)
+        }
+        
+    except Exception as e:
+        logger.exception(f"Experiment failed: {experiment_name}")
+        return {
+            "experiment_name": experiment_name,
+            "status": "failed",
+            "error": str(e),
+            "output_dir": str(output_dir)
+        }
 
 
 def main():
-    """Main entry point for CVEFixes benchmark runner."""
+    """Main function."""
     parser = argparse.ArgumentParser(
-        description="Run LLM benchmark on CVEFixes dataset",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Run binary vulnerability detection
-  python src/entrypoints/run_cvefixes_benchmark.py--dataset-path datasets_processed/cvefixes/cvefixes_binary_c.json
-
-  # Run CWE-specific detection
-  python src/entrypoints/run_cvefixes_benchmark.py--task-type cwe_specific --cwe-type CWE-119 --dataset-path datasets_processed/cvefixes/cvefixes_cwe_119.json
-
-  # Use custom model
-  python src/entrypoints/run_cvefixes_benchmark.py--model-type custom --model-name "microsoft/codebert-base" --dataset-path datasets_processed/cvefixes/cvefixes_binary_c.json
-
-  # Limit samples for testing
-  python src/entrypoints/run_cvefixes_benchmark.py--dataset-path datasets_processed/cvefixes/cvefixes_binary_c.json --sample-limit 100
-        """,
+        description="Run CVEFixes benchmark experiments",
+        formatter_class=argparse.RawDescriptionHelpFormatter
     )
-
-    # Required arguments
+    
     parser.add_argument(
-        "--dataset-path",
-        type=str,
-        required=True,
-        help="Path to CVEFixes dataset JSON file",
+        "--config", 
+        default="cvefixes_experiments.json",
+        help="Path to CVEFixes experiments configuration file"
     )
-
-    # Model configuration
+    
     parser.add_argument(
-        "--model-type",
-        type=str,
-        choices=["llama", "qwen", "deepseek", "codebert", "custom"],
-        default="qwen",
-        help="Type of model to use (default: qwen)",
+        "--model",
+        help="Model to use for benchmark"
     )
-
+    
     parser.add_argument(
-        "--model-name",
-        type=str,
-        help="Specific model name (overrides model-type if provided)",
+        "--dataset",
+        help="Dataset configuration to use"
     )
-
-    # Task configuration
+    
     parser.add_argument(
-        "--task-type",
-        type=str,
-        choices=["binary", "multiclass", "cwe_specific"],
-        default="binary",
-        help="Type of vulnerability detection task (default: binary)",
+        "--prompt",
+        help="Prompt strategy to use"
     )
-
+    
     parser.add_argument(
-        "--cwe-type",
-        type=str,
-        help="Specific CWE type for cwe_specific task (e.g., CWE-119)",
+        "--plan",
+        help="Experiment plan to run"
     )
-
-    # Generation parameters
+    
     parser.add_argument(
-        "--max-tokens",
+        "--list-configs",
+        action="store_true",
+        help="List available configurations and exit"
+    )
+    
+    parser.add_argument(
+        "--sample-limit",
         type=int,
-        default=512,
-        help="Maximum tokens to generate (default: 512)",
+        help="Limit number of samples for testing"
     )
-
-    parser.add_argument(
-        "--temperature",
-        type=float,
-        default=0.1,
-        help="Temperature for generation (default: 0.1)",
-    )
-
-    parser.add_argument(
-        "--batch-size",
-        type=int,
-        default=1,
-        help="Batch size for processing (default: 1)",
-    )
-
-    # System configuration
+    
     parser.add_argument(
         "--output-dir",
-        type=str,
         default="results/cvefixes_experiments",
-        help="Output directory for results (default: results/cvefixes_experiments)",
+        help="Base output directory for results"
     )
-
-    parser.add_argument(
-        "--use-quantization",
-        action="store_true",
-        default=True,
-        help="Use 4-bit quantization (default: True)",
-    )
-
-    parser.add_argument(
-        "--no-quantization", action="store_true", help="Disable quantization"
-    )
-
-    # Prompt customization
-    parser.add_argument(
-        "--system-prompt", type=str, help="Custom system prompt template"
-    )
-
-    parser.add_argument(
-        "--user-prompt",
-        type=str,
-        help="Custom user prompt template (use {code} placeholder)",
-    )
-
-    # Execution options
-    parser.add_argument(
-        "--sample-limit", type=int, help="Limit number of samples for testing"
-    )
-
-    parser.add_argument(
-        "--config-file", type=str, help="Load configuration from JSON file"
-    )
-
+    
     parser.add_argument(
         "--log-level",
-        type=str,
         choices=["DEBUG", "INFO", "WARNING", "ERROR"],
         default="INFO",
-        help="Logging level (default: INFO)",
+        help="Logging level"
     )
-
+    
+    parser.add_argument(
+        "--verbose", "-v",
+        action="store_true",
+        help="Enable verbose logging"
+    )
+    
     args = parser.parse_args()
-
-    # Set up logging
-    setup_logging(args.log_level)
-
+    
+    # Setup logging
+    setup_logging(args.verbose)
+    logger = logging.getLogger(__name__)
+    
     try:
-        # Handle quantization flags
-        if args.no_quantization:
-            args.use_quantization = False
+        # Load configuration
+        config_path = Path(args.config)
+        if not config_path.exists():
+            # Try relative to configs directory
+            config_path = Path("configs") / args.config
+        if not config_path.exists():
+            # Try relative to parent directory
+            config_path = Path("../configs") / args.config
+        if not config_path.exists():
+            # Try absolute path from project root
+            project_root = Path(__file__).parent.parent.parent
+            config_path = project_root / "src" / "configs" / args.config
 
-        # Load configuration from file if provided
-        if args.config_file:
-            config_manager = BenchmarkConfigManager()
-            config = config_manager.load_config(args.config_file)
-
-            # Override with command line arguments if provided
-            if args.dataset_path:
-                config.dataset_path = args.dataset_path
-            if args.model_name:
-                config.model_name = args.model_name
-            if args.output_dir != "results/cvefixes_experiments":
-                config.output_dir = args.output_dir
-        else:
-            # Create configuration from arguments
-            config = create_cvefixes_config_from_args(args)
-
-        # Set model name based on type if not specified
-        if not args.model_name:
-            model_names = {
-                "llama": "meta-llama/Llama-2-7b-chat-hf",
-                "qwen": "Qwen/Qwen2.5-7B-Instruct",
-                "deepseek": "deepseek-ai/deepseek-coder-6.7b-instruct",
-                "codebert": "microsoft/codebert-base",
-            }
-            config.model_name = model_names.get(
-                args.model_type, "Qwen/Qwen2.5-7B-Instruct"
+        if not config_path.exists():
+            raise FileNotFoundError(f"Configuration file not found: {args.config}")
+        
+        cvefixes_config = load_cvefixes_config(str(config_path))
+        
+        # Handle list-configs option
+        if args.list_configs:
+            print("Available CVEFixes Configurations:")
+            print("\nDatasets:")
+            for key, dataset in cvefixes_config["dataset_configurations"].items():
+                print(f"  {key}: {dataset['description']}")
+            
+            print("\nModels:")
+            for key, model in cvefixes_config["model_configurations"].items():
+                print(f"  {key}: {model['model_name']}")
+            
+            print("\nPrompts:")
+            for key, prompt in cvefixes_config["prompt_strategies"].items():
+                print(f"  {key}: {prompt['name']}")
+            
+            print("\nExperiment Plans:")
+            for key, plan in cvefixes_config["experiment_plans"].items():
+                print(f"  {key}: {plan['description']}")
+            
+            return
+        
+        if args.plan:
+            # Run experiment plan
+            if args.plan not in cvefixes_config["experiment_plans"]:
+                raise ValueError(f"Experiment plan '{args.plan}' not found")
+            
+            plan = cvefixes_config["experiment_plans"][args.plan]
+            sample_limit = plan.get("sample_limit", args.sample_limit)
+            
+            logger.info(f"Running experiment plan: {args.plan}")
+            logger.info(f"Description: {plan['description']}")
+            
+            results = []
+            for dataset_key in plan["datasets"]:
+                for model_key in plan["models"]:
+                    for prompt_key in plan["prompts"]:
+                        result = run_single_experiment(
+                            model_key, dataset_key, prompt_key,
+                            cvefixes_config, sample_limit, args.output_dir
+                        )
+                        results.append(result)
+            
+            # Save plan results
+            plan_results_file = Path(args.output_dir) / f"plan_{args.plan}_results.json"
+            with open(plan_results_file, "w", encoding="utf-8") as f:
+                json.dump(results, f, indent=2, default=str)
+            
+            logger.info(f"Plan results saved to: {plan_results_file}")
+            
+        elif args.model and args.dataset and args.prompt:
+            # Run single experiment
+            result = run_single_experiment(
+                args.model, args.dataset, args.prompt,
+                cvefixes_config, args.sample_limit, args.output_dir
             )
-
-        # Validate CWE type for cwe_specific task
-        if args.task_type == "cwe_specific" and not args.cwe_type:
-            parser.error("--cwe-type is required when --task-type is cwe_specific")
-
-        # Validate dataset path
-        if not Path(args.dataset_path).exists():
-            parser.error(f"Dataset file not found: {args.dataset_path}")
-
-        # Create and run benchmark
-        runner = CVEFixesBenchmarkRunner(config)
-        results = runner.run_benchmark(args.sample_limit)
-
-        return 0
-
-    except KeyboardInterrupt:
-        logging.info("Benchmark execution interrupted by user")
-        return 1
+            
+            if result["status"] == "success":
+                print(f"Experiment completed successfully: {result['experiment_name']}")
+                print(f"Accuracy: {result['accuracy']:.3f}")
+            else:
+                print(f"Experiment failed: {result['experiment_name']}")
+                print(f"Error: {result['error']}")
+                sys.exit(1)
+        
+        else:
+            parser.print_help()
+            print("\nAvailable configurations:")
+            print("Models:", list(cvefixes_config["model_configurations"].keys()))
+            print("Datasets:", list(cvefixes_config["dataset_configurations"].keys()))
+            print("Prompts:", list(cvefixes_config["prompt_strategies"].keys()))
+            print("Plans:", list(cvefixes_config["experiment_plans"].keys()))
+            
     except Exception as e:
-        logging.exception(f"Error running benchmark: {e}")
-        return 1
+        logger.exception(f"CVEFixes benchmark failed: {e}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

@@ -7,12 +7,18 @@ flexible configuration options for different vulnerability detection tasks.
 """
 
 import argparse
+import dataclasses
 import json
 import logging
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
+
+# Add the src directory to Python path if not already there
+src_dir = Path(__file__).parent.parent
+if str(src_dir) not in sys.path:
+    sys.path.insert(0, str(src_dir))
 
 from benchmark.benchmark_framework import BenchmarkConfig, ModelType, TaskType
 from datasets.loaders.jitvul_dataset_loader import JitVulDatasetLoaderFramework
@@ -27,14 +33,8 @@ class JitVulBenchmarkRunner:
     
     def run_benchmark(self, sample_limit: Optional[int] = None) -> Dict[str, Any]:
         """Run benchmark with JitVul-specific dataset loading."""
-        from benchmark.benchmark_framework import (
-            HuggingFaceLLM,
-            MetricsCalculator,
-            PredictionResult,
-            PromptGenerator,
-            ResponseParser,
-            TaskType,
-        )
+        from benchmark.benchmark_framework import (HuggingFaceLLM, MetricsCalculator, PredictionResult, PromptGenerator,
+                                                   ResponseParser, TaskType)
         
         logging.info("Starting JitVul benchmark execution")
         start_time = time.time()
@@ -42,20 +42,12 @@ class JitVulBenchmarkRunner:
         try:
             # Load dataset using JitVul loader
             logging.info(f"Loading JitVul dataset from: {self.config.dataset_path}")
-            
-            # Determine task type and prepare loading parameters
-            if self.config.task_type == TaskType.BINARY_VULNERABILITY:
-                task_type = "binary"
-            elif self.config.task_type == TaskType.BINARY_CWE_SPECIFIC:
-                task_type = "cwe_specific"
-                if not self.config.cwe_type:
-                    raise ValueError("CWE type must be specified for CWE-specific tasks")
-            elif self.config.task_type == TaskType.MULTICLASS_VULNERABILITY:
-                task_type = "multiclass"
-            else:
-                task_type = "binary"  # default
-            
             samples = self.dataset_loader.load_dataset(self.config.dataset_path)
+            
+            # Apply sample limit if specified
+            if sample_limit and sample_limit < len(samples):
+                samples = samples[:sample_limit]
+                logging.info(f"Limited to {sample_limit} samples")
             
             logging.info(f"Loaded {len(samples)} samples")
             
@@ -69,18 +61,19 @@ class JitVulBenchmarkRunner:
             Path(self.config.output_dir).mkdir(parents=True, exist_ok=True)
             
             # Run predictions
-            predictions: List[PredictionResult] = []
+            predictions = []
             system_prompt = self.config.system_prompt_template or prompt_generator.get_system_prompt(
                 self.config.task_type, self.config.cwe_type
             )
             
-            for i, sample in enumerate(samples[:10]):
+            for i, sample in enumerate(samples):
                 logging.info(f"Processing sample {i + 1}/{len(samples)}: {sample.id}")
                 
-                # Create user prompt with optional call graph context
-                code_with_context = self._augment_code_with_context(sample)
-                user_prompt = self.config.user_prompt_template.format(code=code_with_context) if self.config.user_prompt_template else prompt_generator.get_user_prompt(
-                    self.config.task_type, code_with_context, self.config.cwe_type
+                # Augment code with call graph context if available
+                code = self._augment_code_with_context(sample)
+                
+                user_prompt = self.config.user_prompt_template.format(code=code) if self.config.user_prompt_template else prompt_generator.get_user_prompt(
+                    self.config.task_type, code, self.config.cwe_type
                 )
                 
                 # Generate response
@@ -94,105 +87,38 @@ class JitVulBenchmarkRunner:
                 prediction = PredictionResult(
                     sample_id=sample.id,
                     predicted_label=predicted_label,
-                    true_label=sample.label,
+                    true_label=sample.label if isinstance(sample.label, int) else response_parser.parse_response(sample.label),
                     confidence=None,
                     response_text=response_text,
                     processing_time=processing_time,
-                    tokens_used=tokens_used
+                    tokens_used=tokens_used,
                 )
+                
                 predictions.append(prediction)
+                
+                if (i + 1) % 10 == 0:
+                    logging.info(f"Completed {i + 1}/{len(samples)} predictions")
             
             # Calculate metrics
-            logging.info("Calculating metrics...")
             if self.config.task_type in [TaskType.BINARY_VULNERABILITY, TaskType.BINARY_CWE_SPECIFIC]:
                 metrics = metrics_calculator.calculate_binary_metrics(predictions)
             else:
                 metrics = metrics_calculator.calculate_multiclass_metrics(predictions)
             
-            # Prepare results
-            results: Dict[str, Any] = {
-                "benchmark_config": {
-                    "model_name": self.config.model_name,
-                    "model_type": self.config.model_type.value,
-                    "task_type": self.config.task_type.value,
-                    "dataset_path": str(self.config.dataset_path),
-                    "cwe_type": self.config.cwe_type,
-                    "temperature": self.config.temperature,
-                    "max_tokens": self.config.max_tokens,
-                    "system_prompt_template": self.config.system_prompt_template,
-                    "user_prompt_template": self.config.user_prompt_template
-                },
-                "dataset_info": {
-                    "total_samples": len(samples),
-                    "task_type": task_type
-                },
+            # Generate results
+            total_time = time.time() - start_time
+            results = {
+                "accuracy": metrics.get("accuracy", 0.0),
                 "metrics": metrics,
-                "predictions": [
-                    {
-                        "sample_id": p.sample_id,
-                        "predicted_label": p.predicted_label,
-                        "true_label": p.true_label,
-                        "response_text": p.response_text,
-                        "tokens_used": p.tokens_used,
-                        "processing_time": p.processing_time
-                    }
-                    for p in predictions
-                ],
-                "execution_info": {
-                    "total_time": time.time() - start_time,
-                    "average_time_per_sample": (time.time() - start_time) / len(samples) if samples else 0,
-                    "total_tokens": sum(p.tokens_used or 0 for p in predictions),
-                    "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
-                }
+                "total_samples": len(samples),
+                "total_time": total_time,
+                "predictions": [dataclasses.asdict(prediction) for prediction in predictions]
             }
-            
-            # Save results
-            timestamp = time.strftime("%Y%m%d_%H%M%S")
-            model_name_safe = self.config.model_name.replace("/", "_").replace(":", "_")
-            task_name = self.config.task_type.value
-            cwe_suffix = f"_{self.config.cwe_type}" if self.config.cwe_type else ""
-            
-            output_filename = f"jitvul_{model_name_safe}_{task_name}{cwe_suffix}_{timestamp}.json"
-            output_path = Path(self.config.output_dir) / output_filename
-            
-            with open(output_path, "w", encoding="utf-8") as f:
-                json.dump(results, f, indent=2, ensure_ascii=False, default=str)
             
             # Clean up
             llm.cleanup()
             
-            # Print summary
-            print("JitVul Benchmark Results Summary")
-            print(f"{'='*60}")
-            print(f"Model: {self.config.model_name}")
-            print(f"Task: {self.config.task_type.value}")
-            if self.config.cwe_type:
-                print(f"CWE Type: {self.config.cwe_type}")
-            print(f"Samples: {len(samples)}")
-            print(f"Execution Time: {time.time() - start_time:.2f}s")
-            print("\nMetrics:")
-            
-            if self.config.task_type in [TaskType.BINARY_VULNERABILITY, TaskType.BINARY_CWE_SPECIFIC]:
-                print(f"  Accuracy: {metrics['accuracy']:.4f}")
-                print(f"  Precision: {metrics['precision']:.4f}")
-                print(f"  Recall: {metrics['recall']:.4f}")
-                print(f"  F1-Score: {metrics['f1_score']:.4f}")
-            else:
-                print(f"  Accuracy: {metrics['accuracy']:.4f}")
-                if 'classification_report' in metrics and isinstance(metrics['classification_report'], dict):
-                    report: Dict[str, Any] = metrics['classification_report']
-                    if 'macro avg' in report:
-                        macro_avg: Dict[str, Any] = report['macro avg']
-                        if 'f1-score' in macro_avg:
-                            print(f"  Macro F1: {macro_avg['f1-score']:.4f}")
-                    if 'weighted avg' in report:
-                        weighted_avg: Dict[str, Any] = report['weighted avg']
-                        if 'f1-score' in weighted_avg:
-                            print(f"  Weighted F1: {weighted_avg['f1-score']:.4f}")
-            
-            print(f"\nResults saved to: {output_path}")
-            print(f"{'='*60}")
-            
+            logging.info("JitVul benchmark completed successfully")
             return results
             
         except Exception as e:
@@ -215,105 +141,319 @@ class JitVulBenchmarkRunner:
         if sample.metadata and "call_graph" in sample.metadata:
             call_graph = sample.metadata["call_graph"]
             if call_graph:
-                # Add call graph as context comment
-                context = f"/* Call Graph Context:\n{call_graph}\n*/\n\n"
-                code = context + code
+                code = f"// Call graph context:\n// {call_graph}\n\n{code}"
         
         return code
 
 
-def create_jitvul_config_from_args(args: Any) -> BenchmarkConfig:
-    """Create a BenchmarkConfig from command line arguments."""
-    return BenchmarkConfig(
-        model_name=args.model_name,
-        model_type=ModelType(args.model_type),
-        task_type=TaskType(args.task_type),
-        description=f"JitVul benchmark using {args.model_name}",
-        dataset_path=args.dataset_path,
-        output_dir=args.output_dir,
-        cwe_type=args.cwe_type,
-        temperature=args.temperature,
-        max_tokens=args.max_tokens,
-        system_prompt_template=args.system_prompt,
-        user_prompt_template=args.user_prompt
+def setup_logging(verbose: bool = False) -> None:
+    """Setup logging configuration."""
+    level = logging.DEBUG if verbose else logging.INFO
+    logging.basicConfig(
+        level=level,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
 
 
+def load_jitvul_config(config_path: str) -> Dict[str, Any]:
+    """Load JitVul experiment configuration."""
+    with open(config_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+
+def create_benchmark_config(
+    model_config: Dict[str, Any],
+    dataset_config: Dict[str, Any], 
+    prompt_config: Dict[str, Any],
+    output_dir: str
+) -> BenchmarkConfig:
+    """
+    Create a BenchmarkConfig from experiment configuration.
+    
+    Args:
+        model_config: Model configuration dict
+        dataset_config: Dataset configuration dict
+        prompt_config: Prompt configuration dict
+        output_dir: Output directory path
+        
+    Returns:
+        BenchmarkConfig: Complete benchmark configuration
+    """
+    # Map string model types to enum
+    model_type_map = {
+        "LLAMA": ModelType.LLAMA,
+        "QWEN": ModelType.QWEN, 
+        "DEEPSEEK": ModelType.DEEPSEEK,
+        "CODEBERT": ModelType.CODEBERT,
+        "WIZARD": ModelType.CUSTOM,
+        "GEMMA": ModelType.CUSTOM
+    }
+    
+    # Map string task types to enum
+    task_type_map = {
+        "binary_vulnerability": TaskType.BINARY_VULNERABILITY,
+        "binary_cwe_specific": TaskType.BINARY_CWE_SPECIFIC,
+        "multiclass_vulnerability": TaskType.MULTICLASS_VULNERABILITY
+    }
+    
+    return BenchmarkConfig(
+        model_name=model_config["model_name"],
+        model_type=model_type_map[model_config["model_type"]],
+        task_type=task_type_map[dataset_config["task_type"]],
+        description=f"{prompt_config['name']} - {dataset_config['description']}",
+        dataset_path=dataset_config["dataset_path"],
+        output_dir=output_dir,
+        batch_size=model_config.get("batch_size", 1),
+        max_tokens=model_config.get("max_tokens", 512),
+        temperature=model_config.get("temperature", 0.1),
+        use_quantization=model_config.get("use_quantization", True),
+        cwe_type=dataset_config.get("cwe_type"),
+        system_prompt_template=prompt_config.get("system_prompt"),
+        user_prompt_template=prompt_config["user_prompt"]
+    )
+
+
+def run_single_experiment(
+    model_key: str,
+    dataset_key: str,
+    prompt_key: str,
+    jitvul_config: Dict[str, Any],
+    sample_limit: Optional[int] = None,
+    output_base_dir: str = "results/jitvul_experiments"
+) -> Dict[str, Any]:
+    """
+    Run a single benchmark experiment.
+    
+    Args:
+        model_key: Model configuration key
+        dataset_key: Dataset configuration key  
+        prompt_key: Prompt configuration key
+        jitvul_config: JitVul experiment configuration
+        sample_limit: Limit number of samples (for testing)
+        output_base_dir: Base output directory
+        
+    Returns:
+        Dict containing experiment results
+    """
+    logger = logging.getLogger(__name__)
+    
+    # Get configurations
+    model_config = jitvul_config["model_configurations"][model_key]
+    dataset_config = jitvul_config["dataset_configurations"][dataset_key] 
+    prompt_config = jitvul_config["prompt_strategies"][prompt_key]
+    
+    # Create output directory
+    experiment_name = f"{model_key}_{dataset_key}_{prompt_key}"
+    output_dir = Path(output_base_dir) / experiment_name
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
+    logger.info(f"Running experiment: {experiment_name}")
+    logger.info(f"Model: {model_config['model_name']}")
+    logger.info(f"Dataset: {dataset_config['description']}")
+    logger.info(f"Prompt: {prompt_config['name']}")
+    
+    # Create benchmark configuration
+    config = create_benchmark_config(
+        model_config, dataset_config, prompt_config, str(output_dir)
+    )
+    
+    # Initialize and run benchmark  
+    runner = JitVulBenchmarkRunner(config)
+    
+    try:
+        results = runner.run_benchmark(sample_limit=sample_limit)
+        
+        # Save results
+        results_file = output_dir / "results.json"
+        with open(results_file, "w", encoding="utf-8") as f:
+            json.dump(results, f, indent=2, default=str)
+        
+        logger.info(f"Experiment completed: {experiment_name}")
+        logger.info(f"Accuracy: {results['accuracy']:.3f}")
+        logger.info(f"Results saved to: {results_file}")
+        
+        return {
+            "experiment_name": experiment_name,
+            "status": "success",
+            "accuracy": results["accuracy"],
+            "total_samples": results["total_samples"],
+            "total_time": results["total_time"],
+            "output_dir": str(output_dir)
+        }
+        
+    except Exception as e:
+        logger.exception(f"Experiment failed: {experiment_name}")
+        return {
+            "experiment_name": experiment_name,
+            "status": "failed",
+            "error": str(e),
+            "output_dir": str(output_dir)
+        }
+
+
 def main():
-    """Main entry point for JitVul benchmark runner."""
-    parser = argparse.ArgumentParser(description="Run JitVul benchmark evaluation")
+    """Main function."""
+    parser = argparse.ArgumentParser(
+        description="Run JitVul benchmark experiments",
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     
-    # Model configuration
-    parser.add_argument("--model-name", required=True, help="Name of the model to evaluate")
-    parser.add_argument("--model-type", required=True, help="Type of model")
+    parser.add_argument(
+        "--config", 
+        default="jitvul_experiments.json",
+        help="Path to JitVul experiments configuration file"
+    )
     
-    # Task configuration
-    parser.add_argument("--task-type", choices=["binary_vulnerability", "binary_cwe_specific", "multiclass_vulnerability"], 
-                       default="binary_vulnerability", help="Type of vulnerability detection task")
-    parser.add_argument("--cwe-type", help="Specific CWE type for CWE-specific tasks")
+    parser.add_argument(
+        "--model",
+        help="Model to use for benchmark"
+    )
     
-    # Dataset configuration
-    parser.add_argument("--dataset-path", required=True, help="Path to JitVul dataset file")
-    parser.add_argument("--sample-limit", type=int, help="Maximum number of samples to process")
+    parser.add_argument(
+        "--dataset",
+        help="Dataset configuration to use"
+    )
     
-    # Generation parameters
-    parser.add_argument("--temperature", type=float, default=0.1, help="Temperature for text generation")
-    parser.add_argument("--max-tokens", type=int, default=100, help="Maximum tokens to generate")
+    parser.add_argument(
+        "--prompt",
+        help="Prompt strategy to use"
+    )
     
-    # Prompt templates
-    parser.add_argument("--system-prompt", help="Custom system prompt template")
-    parser.add_argument("--user-prompt", help="Custom user prompt template")
+    parser.add_argument(
+        "--plan",
+        help="Experiment plan to run"
+    )
     
-    # Output configuration
-    parser.add_argument("--output-dir", default="results/jitvul", help="Directory to save results")
-    parser.add_argument("--config-file", help="JSON configuration file")
+    parser.add_argument(
+        "--list-configs",
+        action="store_true",
+        help="List available configurations and exit"
+    )
     
-    # Logging
-    parser.add_argument("--log-level", choices=["DEBUG", "INFO", "WARNING", "ERROR"], 
-                       default="INFO", help="Logging level")
+    parser.add_argument(
+        "--sample-limit",
+        type=int,
+        help="Limit number of samples for testing"
+    )
+    
+    parser.add_argument(
+        "--output-dir",
+        default="results/jitvul_experiments",
+        help="Base output directory for results"
+    )
+    
+    parser.add_argument(
+        "--log-level",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR"],
+        default="INFO",
+        help="Logging level"
+    )
+    
+    parser.add_argument(
+        "--verbose", "-v",
+        action="store_true",
+        help="Enable verbose logging"
+    )
     
     args = parser.parse_args()
     
     # Setup logging
-    logging.basicConfig(
-        level=getattr(logging, args.log_level),
-        format='%(asctime)s - %(levelname)s - %(message)s'
-    )
+    setup_logging(args.verbose)
+    logger = logging.getLogger(__name__)
     
     try:
-        # Load configuration from file if provided
-        if args.config_file:
-            # Load config from JSON file directly since BenchmarkConfigManager doesn't have load_config
-            with open(args.config_file, 'r') as f:
-                config_data = json.load(f)
-            config = BenchmarkConfig(**config_data)
-            # Override with command line arguments
-            if args.model_name:
-                config.model_name = args.model_name
-            if args.dataset_path:
-                config.dataset_path = args.dataset_path
-            if args.cwe_type:
-                config.cwe_type = args.cwe_type
-            if args.output_dir != "results/jitvul":
-                config.output_dir = args.output_dir
+        # Load configuration
+        config_path = Path(args.config)
+        if not config_path.exists():
+            # Try relative to configs directory
+            config_path = Path("configs") / args.config
+        if not config_path.exists():
+            # Try relative to parent directory
+            config_path = Path("../configs") / args.config
+        if not config_path.exists():
+            # Try absolute path from project root
+            project_root = Path(__file__).parent.parent.parent
+            config_path = project_root / "src" / "configs" / args.config
+
+        if not config_path.exists():
+            raise FileNotFoundError(f"Configuration file not found: {args.config}")
+        
+        jitvul_config = load_jitvul_config(str(config_path))
+        
+        # Handle list-configs option
+        if args.list_configs:
+            print("Available JitVul Configurations:")
+            print("\nDatasets:")
+            for key, dataset in jitvul_config["dataset_configurations"].items():
+                print(f"  {key}: {dataset['description']}")
+            
+            print("\nModels:")
+            for key, model in jitvul_config["model_configurations"].items():
+                print(f"  {key}: {model['model_name']}")
+            
+            print("\nPrompts:")
+            for key, prompt in jitvul_config["prompt_strategies"].items():
+                print(f"  {key}: {prompt['name']}")
+            
+            print("\nExperiment Plans:")
+            for key, plan in jitvul_config["experiment_plans"].items():
+                print(f"  {key}: {plan['description']}")
+            
+            return
+        
+        if args.plan:
+            # Run experiment plan
+            if args.plan not in jitvul_config["experiment_plans"]:
+                raise ValueError(f"Experiment plan '{args.plan}' not found")
+            
+            plan = jitvul_config["experiment_plans"][args.plan]
+            sample_limit = plan.get("sample_limit", args.sample_limit)
+            
+            logger.info(f"Running experiment plan: {args.plan}")
+            logger.info(f"Description: {plan['description']}")
+            
+            results = []
+            for dataset_key in plan["datasets"]:
+                for model_key in plan["models"]:
+                    for prompt_key in plan["prompts"]:
+                        result = run_single_experiment(
+                            model_key, dataset_key, prompt_key,
+                            jitvul_config, sample_limit, args.output_dir
+                        )
+                        results.append(result)
+            
+            # Save plan results
+            plan_results_file = Path(args.output_dir) / f"plan_{args.plan}_results.json"
+            with open(plan_results_file, "w", encoding="utf-8") as f:
+                json.dump(results, f, indent=2, default=str)
+            
+            logger.info(f"Plan results saved to: {plan_results_file}")
+            
+        elif args.model and args.dataset and args.prompt:
+            # Run single experiment
+            result = run_single_experiment(
+                args.model, args.dataset, args.prompt,
+                jitvul_config, args.sample_limit, args.output_dir
+            )
+            
+            if result["status"] == "success":
+                print(f"Experiment completed successfully: {result['experiment_name']}")
+                print(f"Accuracy: {result['accuracy']:.3f}")
+            else:
+                print(f"Experiment failed: {result['experiment_name']}")
+                print(f"Error: {result['error']}")
+                sys.exit(1)
+        
         else:
-            config = create_jitvul_config_from_args(args)
-        
-        # Create and run benchmark
-        runner = JitVulBenchmarkRunner(config)
-        runner.run_benchmark(sample_limit=args.sample_limit)
-
-        # Print completion message
-        print(f"Benchmark completed successfully. Results saved to: {config.output_dir}")
-        logging.info("JitVul benchmark completed successfully")
-        
+            parser.print_help()
+            print("\nAvailable configurations:")
+            print("Models:", list(jitvul_config["model_configurations"].keys()))
+            print("Datasets:", list(jitvul_config["dataset_configurations"].keys()))
+            print("Prompts:", list(jitvul_config["prompt_strategies"].keys()))
+            print("Plans:", list(jitvul_config["experiment_plans"].keys()))
+            
     except Exception as e:
-        logging.exception(f"JitVul benchmark failed: {e}")
-        sys.exit(1)
-
-
-if __name__ == "__main__":
-    main()        logging.exception(f"JitVul benchmark failed: {e}")
+        logger.exception(f"JitVul benchmark failed: {e}")
         sys.exit(1)
 
 

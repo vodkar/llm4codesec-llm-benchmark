@@ -1,98 +1,152 @@
-# JitVul Benchmark Implementation - Complete Guide
+# JitVul Benchmark - Configuration-Based Runner
 
 ## Overview
 
-The JitVul benchmark implementation for the LLM4CodeSec framework is now complete and ready for use. This implementation provides comprehensive vulnerability detection evaluation capabilities using the JitVul dataset.
+The JitVul benchmark provides comprehensive vulnerability detection evaluation using the JitVul dataset. The system has been refactored to use a unified configuration-based approach that matches the CASTLE benchmark pattern for consistency across all datasets.
 
-## Implementation Status ✅
+## New Configuration-Based System
 
-### Core Components - COMPLETED
-- ✅ **JitVul Dataset Loader** (`jitvul_dataset_loader.py`)
-  - JSONL format parsing for JitVul data
-  - Support for binary, multiclass, and CWE-specific tasks
-  - Call graph context integration
-  - Framework-compatible interface
-  - Severity classification system
+### Key Improvements ✅
+- **Unified Configuration**: JSON-based experiment configuration following CASTLE pattern
+- **Consistent CLI**: Same command-line interface across all benchmarks (CASTLE, JitVul, CVEFixes)
+- **Flexible Experiments**: Easy definition of model/dataset/prompt combinations
+- **Single Entry Point**: All experiments configurable through JSON files
+- **Model Synchronization**: Consistent model definitions across all datasets
 
-- ✅ **Benchmark Runner** (`run_jitvul_benchmark.py`)
-  - Individual experiment execution
-  - Comprehensive command-line interface
-  - Results generation and metrics calculation
-  - Integration with existing benchmark framework
+### Core Components
+- **Configuration File**: `src/configs/jitvul_experiments.json`
+- **Refactored Runner**: `src/entrypoints/run_jitvul_benchmark_new.py`
+- **Unified Runner**: `src/entrypoints/run_unified_benchmark.py` (handles all datasets)
+- **Dataset Loader**: `src/datasets/jitvul_dataset_loader.py` (unchanged)
 
-- ✅ **Batch Experiment Runner** (`run_jitvul_batch.py`)
-  - Multiple experiment orchestration
-  - Predefined experiment configurations
-  - Batch result aggregation and analysis
-  - Progress tracking and error handling
+## Configuration Structure
 
-### Configuration and Setup - COMPLETED
-- ✅ **Experiment Configuration** (`jitvul_experiments_config.json`)
-  - 8 predefined experiments covering different scenarios
-  - 4 batch configurations for comparative studies
-  - Model comparison, task type evaluation, ablation studies
+The JitVul configuration follows the same structure as CASTLE for consistency:
 
-- ✅ **Dataset Preparation** (`prepare_jitvul_dataset.py`)
-  - Data validation and integrity checking
-  - Comprehensive dataset statistics
-  - Sample experiment generation
-  - Loading capability testing
+```json
+{
+  "experiment_metadata": {
+    "benchmark_name": "JitVul",
+    "version": "2.2.0",
+    "description": "Vulnerability detection benchmark using JitVul dataset"
+  },
+  "dataset_configurations": {
+    "jitvul_binary": {
+      "dataset_name": "JitVul Binary Classification",
+      "dataset_path": "benchmarks/JitVul/data/final_benchmark.jsonl",
+      "task_type": "binary_vulnerability"
+    }
+  },
+  "prompt_strategies": {
+    "detect_vulnerabilities": {
+      "strategy_name": "Vulnerability Detection",
+      "description": "Detect if code contains security vulnerabilities"
+    }
+  },
+  "model_configurations": {
+    "qwen2.5-7b": {
+      "model_name": "Qwen/Qwen2.5-7B-Instruct",
+      "model_type": "QWEN",
+      "config": {
+        "max_tokens": 4096,
+        "temperature": 0.1
+      }
+    }
+  },
+  "experiment_plans": {
+    "basic_evaluation": {
+      "datasets": ["jitvul_binary"],
+      "models": ["qwen2.5-7b"],
+      "prompts": ["detect_vulnerabilities"]
+    }
+  }
+}
+```
 
-- ✅ **Setup Script** (`setup_jitvul.py`)
-  - Automated environment preparation
-  - Directory structure creation
-  - Quick start configuration generation
-  - Integration validation
+## Command Line Interface
 
-### Documentation and Testing - COMPLETED
-- ✅ **Comprehensive README** (`README.md`)
-  - Complete usage documentation
-  - Configuration examples
-  - Troubleshooting guide
-  - Integration instructions
+### New Unified Interface
 
-- ✅ **Integration Tests** (`test_jitvul_integration.py`)
-  - Component integration validation
-  - Data loading verification
-  - Framework compatibility testing
-  - Configuration validation
+All benchmark runners now use the same CLI arguments:
+
+#### Single Experiments
+```bash
+# Run with specific model/dataset/prompt
+python src/entrypoints/run_jitvul_benchmark_new.py \
+  --model qwen2.5-7b \
+  --dataset jitvul_binary \
+  --prompt detect_vulnerabilities
+
+# Using unified runner (handles all datasets)
+python src/entrypoints/run_unified_benchmark.py \
+  --dataset-type jitvul \
+  --model qwen2.5-7b \
+  --dataset jitvul_binary \
+  --prompt detect_vulnerabilities
+```
+
+#### Experiment Plans
+```bash
+# Run predefined experiment plan
+python src/entrypoints/run_jitvul_benchmark_new.py --plan basic_evaluation
+
+# With unified runner
+python src/entrypoints/run_unified_benchmark.py \
+  --dataset-type jitvul \
+  --plan basic_evaluation
+```
+
+#### Common Options
+```bash
+# List available configurations
+python src/entrypoints/run_jitvul_benchmark_new.py --list-configs
+
+# Limit samples and set output directory
+python src/entrypoints/run_jitvul_benchmark_new.py \
+  --plan basic_evaluation \
+  --sample-limit 100 \
+  --output-dir results/jitvul_test
+```
+## Supported Models
+
+The JitVul benchmark supports all models available in the unified configuration:
+
+- **QWEN Series**: Qwen2.5-7B, Qwen2.5-32B, Qwen2.5-72B, Qwen2.5-Coder variants
+- **DeepSeek Series**: DeepSeek-Coder-V2, DeepSeek-R1-Distill variants
+- **Llama Series**: Llama-3.2-1B, Llama-3.2-3B, CodeLlama variants
+- **Gemma Series**: Gemma-3-1B, Gemma-3-27B
+- **Wizard Series**: WizardCoder-Python-34B
+- **CodeBERT**: microsoft/codebert-base
+
+## Available Task Types
+
+- **binary_vulnerability**: Binary classification (vulnerable vs. non-vulnerable)
+- **multiclass_vulnerability**: Multiclass CWE type prediction
+- **cwe_specific**: Targeted vulnerability type detection
 
 ## Key Features
 
-### 1. Multiple Task Types
-- **Binary Classification**: Vulnerable vs. non-vulnerable code detection
-- **Multiclass Classification**: Specific CWE type prediction
-- **CWE-Specific Detection**: Targeted vulnerability type detection
+### 1. Configuration-Driven Experiments
+- **JSON Configuration**: All experiments defined in `jitvul_experiments.json`
+- **Flexible Combinations**: Easy model/dataset/prompt combinations
+- **Experiment Plans**: Predefined experimental setups
+- **Consistent Interface**: Same CLI across all benchmarks
 
-### 2. Enhanced Context
-- **Call Graph Integration**: Function relationship context for improved analysis
-- **Severity Classification**: Automatic vulnerability severity determination
-- **Rich Metadata**: Project information, commit details, function hashes
+### 2. Enhanced Context Support
+- **Call Graph Integration**: Function relationship context
+- **Severity Classification**: Vulnerability severity determination
+- **Rich Metadata**: Project info, commit details, function hashes
 
 ### 3. Comprehensive Evaluation
 - **Standard Metrics**: Accuracy, Precision, Recall, F1-score, AUC-ROC
-- **Per-Class Analysis**: Individual CWE type performance metrics
-- **Confusion Matrices**: Detailed prediction analysis
+- **Per-Class Analysis**: Individual CWE type performance
+- **Framework Integration**: Uses benchmark framework evaluation system
 
-### 4. Flexible Configuration
-- **Model Support**: Compatible with GPT, Claude, Code Llama, and other LLMs
-- **Sampling Control**: Configurable dataset size and sampling strategies
-- **Context Control**: Toggle call graph context, adjust token limits
+## Migration from Old System
 
-### 5. Batch Processing
-- **Predefined Experiments**: Ready-to-use experimental configurations
-- **Comparative Studies**: Model comparison, ablation studies, task type evaluation
-- **Result Aggregation**: Automatic summarization and analysis
+### Old Commands → New Commands
 
-## Quick Start Commands
-
-### 1. Setup Environment
-```bash
-python src/datasets/setup_jitvul_dataset.py --all --data-file benchmarks\JitVul\data\final_benchmark.jsonl
-```
-
-
-### 2. Run Single Experiment
+**Old single experiment:**
 ```bash
 python src/entrypoints/run_jitvul_benchmark.py \
   --model Qwen/Qwen2.5-7B-Instruct \
@@ -101,47 +155,99 @@ python src/entrypoints/run_jitvul_benchmark.py \
   --output-dir results/test_run
 ```
 
-### 3. Run Batch Experiments
+**New single experiment:**
 ```bash
-python src/entrypoints/run_jitvul_benchmark.py   --model-name Qwen/Qwen2.5-7B-Instruct --model-type Qwen/Qwen2.5-7B-Instruct  --task-type binary_vulnerability   --dataset-path benchmarks/JitVul/data/final_benchmark.jsonl    --output-dir results/test_run_jitvul
+python src/entrypoints/run_jitvul_benchmark_new.py \
+  --model qwen2.5-7b \
+  --dataset jitvul_binary \
+  --prompt detect_vulnerabilities \
+  --output-dir results/test_run
+```
+
+**Old batch experiments:**
+```bash
+python src/entrypoints/run_jitvul_batch.py --config batch_config.json
+```
+
+**New experiment plans:**
+```bash
+python src/entrypoints/run_jitvul_benchmark_new.py --plan basic_evaluation
+```
+
+## Configuration Examples
+
+### Custom Experiment Plan
+```json
+{
+  "experiment_plans": {
+    "my_custom_plan": {
+      "datasets": ["jitvul_binary", "jitvul_multiclass"],
+      "models": ["qwen2.5-7b", "deepseek-coder-v2-lite"],
+      "prompts": ["detect_vulnerabilities"]
+    }
+  }
+}
+```
+
+### Adding New Model
+```json
+{
+  "model_configurations": {
+    "my_custom_model": {
+      "model_name": "custom/my-model",
+      "model_type": "CUSTOM",
+      "config": {
+        "max_tokens": 2048,
+        "temperature": 0.0
+      }
+    }
+  }
+}
+```
+
+## Troubleshooting
+
+### Configuration Issues
+- **Model not found**: Check `model_configurations` section in config file
+- **Dataset path error**: Verify `dataset_path` in `dataset_configurations`
+- **Invalid experiment plan**: Ensure all referenced models/datasets/prompts exist
+
+### Common Command Fixes
+```bash
+# Check available configurations
+python src/entrypoints/run_jitvul_benchmark_new.py --list-configs
+
+# Run with minimal configuration
+python src/entrypoints/run_jitvul_benchmark_new.py \
+  --model qwen2.5-7b \
+  --dataset jitvul_binary \
+  --prompt detect_vulnerabilities \
+  --sample-limit 10
 ```
 
 ## Integration with Framework
 
-The JitVul implementation seamlessly integrates with the existing benchmark framework:
+The refactored JitVul implementation maintains full compatibility with the benchmark framework:
 
-- **Compatible Interfaces**: Uses `BenchmarkSample`, `PredictionResult`, `BenchmarkConfig`
-- **Standard Patterns**: Follows CASTLE/CVEFixes implementation patterns
-- **Framework Registration**: `JitVulDatasetLoaderFramework` for framework integration
-- **Consistent Metrics**: Uses framework-standard evaluation metrics
+- **Standard Interfaces**: Uses `BenchmarkSample`, `PredictionResult`, `BenchmarkConfig`  
+- **Consistent Patterns**: Matches CASTLE and CVEFixes implementation patterns
+- **Framework Integration**: `JitVulDatasetLoaderFramework` unchanged
+- **Unified Metrics**: Framework-standard evaluation metrics
 
-## Contributing and Extension
+## Files Structure
 
-The implementation is designed for extensibility:
-
-### Adding New Task Types
-1. Extend `load_dataset()` method in `JitVulDatasetLoader`
-2. Add task-specific configuration options
-3. Update batch configuration templates
-
-### Custom Metrics
-1. Extend metrics calculation in benchmark runners
-2. Add new evaluation functions
-3. Update result formatting and aggregation
-
-### Prompt Engineering
-1. Add new prompt strategies in configuration
-2. Implement prompt-specific preprocessing
-3. Test with different vulnerability types
-
-## Validation and Testing
-
-The implementation includes comprehensive testing:
-
-- **Unit Tests**: Individual component validation
-- **Integration Tests**: End-to-end workflow verification
-- **Configuration Tests**: Experiment configuration validation
-- **Data Tests**: Dataset format and integrity checking
+```
+src/
+├── configs/
+│   └── jitvul_experiments.json        # New configuration file
+├── entrypoints/
+│   ├── run_jitvul_benchmark_new.py        # New refactored runner
+│   └── run_unified_benchmark.py           # Unified runner for all datasets
+├── datasets/
+│   └── jitvul_dataset_loader.py           # Dataset loader (unchanged)
+└── docs/
+    └── JITVUL_README.md                   # This updated documentation
+```
 
 ## Research Applications
 
@@ -181,11 +287,17 @@ When using this implementation, please cite both the original JitVul dataset and
 
 ## Conclusion
 
-The JitVul benchmark implementation provides a comprehensive, production-ready evaluation framework for LLM vulnerability detection capabilities. With support for multiple task types, extensive configuration options, and seamless framework integration, it enables rigorous evaluation and comparison of different models and approaches.
+The JitVul benchmark has been successfully refactored to use a unified configuration-based approach that matches the CASTLE benchmark pattern. This provides:
 
-The implementation is designed for both researchers conducting systematic studies and practitioners evaluating LLM performance on vulnerability detection tasks. The extensive documentation, validation tools, and predefined experimental configurations make it accessible for users with varying levels of expertise.
+- **Consistent Interface**: Same CLI arguments across all benchmarks
+- **Flexible Configuration**: JSON-based experiment definitions 
+- **Model Synchronization**: Consistent model support across datasets
+- **Simplified Usage**: Single entry point with unified runner
+- **Maintained Compatibility**: Full framework integration preserved
+
+The new system makes it easier to define experiments, compare models, and maintain consistency across the entire benchmark suite.
 
 ---
 
-**Implementation Status**: ✅ COMPLETE AND READY FOR USE
-**Last Updated**: 06/10/2025
+**Status**: ✅ REFACTORED AND READY FOR USE  
+**Last Updated**: January 2025

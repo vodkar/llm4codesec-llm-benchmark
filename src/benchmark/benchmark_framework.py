@@ -8,6 +8,7 @@ Supports binary and multi-class vulnerability detection with configurable models
 
 import json
 import logging
+import os
 import re
 import time
 from abc import ABC, abstractmethod
@@ -21,7 +22,7 @@ import numpy as np
 import pandas as pd
 import torch
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, FbgemmFp8Config, pipeline
 
 
 class TaskType(Enum):
@@ -55,7 +56,7 @@ class ModelType(Enum):
     
     # New Llama models
     LLAMA_3_2_3B_INSTRUCT = "meta-llama/Llama-3.2-3B-Instruct"
-    LLAMA_3_3_70B_INSTRUCT = "meta-llama/Llama-3.3-70B-Instruct"
+    LLAMA_4_SCOUT_17B_INSTRUCT = "meta-llama/Llama-4-Scout-17B-16E-Instruct"
     
     # Gemma models
     GEMMA_3_1B_IT = "google/gemma-3-1b-it"
@@ -106,6 +107,7 @@ class BenchmarkConfig:
     max_tokens: int = 512
     temperature: float = 0.1
     use_quantization: bool = True
+    enable_thinking: bool = False
     cwe_type: Optional[str] = None
     system_prompt_template: Optional[str] = None
     user_prompt_template: Optional[str] = None
@@ -155,6 +157,25 @@ class BenchmarkConfig:
         elif "opencoder" in model_type.value.lower():
             defaults["temperature"] = 0.0  # Code models often work better with deterministic output
         
+        # A100 40GB optimized settings
+        if torch.cuda.is_available():
+            gpu_memory = torch.cuda.get_device_properties(0).total_memory / 1024**3  # GB
+            
+            if gpu_memory >= 35:  # A100 40GB detected
+                # Model-specific optimization for A100
+                if any(size in model_type.value.lower() for size in ["70b", "72b"]):
+                    defaults["use_quantization"] = True
+                    defaults["quantization_type"] = "4bit"  # Still need 4-bit for 70B models
+                elif any(size in model_type.value.lower() for size in ["30b", "32b", "34b"]):
+                    defaults["use_quantization"] = True
+                    defaults["quantization_type"] = "8bit"  # 8-bit perfect for 30B+ models
+                elif any(size in model_type.value.lower() for size in ["7b", "8b", "13b", "17b"]):
+                    defaults["use_quantization"] = False    # No quantization needed for smaller models
+                    defaults["torch_dtype"] = "bfloat16"    # Use native bfloat16 instead
+                else:
+                    defaults["use_quantization"] = True
+                    defaults["quantization_type"] = "8bit"  # Default to 8-bit
+    
         # Merge with user-provided kwargs
         config_params = {**defaults, **kwargs}
         
@@ -180,7 +201,7 @@ class BenchmarkConfig:
             "Llama": [
                 ModelType.LLAMA.value,
                 ModelType.LLAMA_3_2_3B_INSTRUCT.value,
-                ModelType.LLAMA_3_3_70B_INSTRUCT.value,
+                ModelType.LLAMA_4_SCOUT_17B_INSTRUCT.value,
             ],
             "Qwen": [
                 ModelType.QWEN.value,
@@ -367,17 +388,47 @@ class HuggingFaceLLM(LLMInterface):
 
         # Configure quantization if requested
         quantization_config = None
-        if self.config.use_quantization and torch.cuda.is_available():
-            quantization_config = BitsAndBytesConfig(
-                load_in_4bit=True,
-                bnb_4bit_compute_dtype=torch.float16,
-                bnb_4bit_use_double_quant=True,
-                bnb_4bit_quant_type="nf4",
-            )
+        torch_dtype = torch.float32
+        
+        if torch.cuda.is_available():
+            gpu_memory = torch.cuda.get_device_properties(0).total_memory / 1024**3
+            logging.info(f"Detected GPU memory: {gpu_memory:.1f}GB")
+            
+            if self.config.use_quantization:
+                if self.config.model_name == ModelType.LLAMA_4_SCOUT_17B_INSTRUCT.value:
+                    quantization_config = FbgemmFp8Config()
+                else:
+                    # Determine quantization type based on model size and GPU memory
+                    quantization_type = getattr(self.config, 'quantization_type', '8bit')
+                    
+                    if quantization_type == '8bit' and gpu_memory >= 35:
+                        quantization_config = BitsAndBytesConfig(
+                            load_in_8bit=True,
+                            llm_int8_enable_fp32_cpu_offload=False,
+                            llm_int8_has_fp16_weight=True,
+                            llm_int8_threshold=6.0,
+                        )
+                        logging.info("Using 8-bit quantization for A100")
+                    else:
+                        # Fallback to 4-bit for very large models or smaller GPUs
+                        quantization_config = BitsAndBytesConfig(
+                            load_in_4bit=True,
+                            bnb_4bit_compute_dtype=torch.bfloat16,  # Better than float16
+                            bnb_4bit_use_double_quant=True,
+                            bnb_4bit_quant_type="nf4",
+                        )
+                        logging.info("Using 4-bit quantization")
+            else:
+                # No quantization - use optimal native precision
+                torch_dtype = torch.bfloat16 if gpu_memory >= 35 else torch.float16
+                logging.info(f"No quantization, using {torch_dtype}")
 
         try:
             self.tokenizer = AutoTokenizer.from_pretrained(
-                self.config.model_name, trust_remote_code=True, padding_side="left"
+                self.config.model_name, 
+                trust_remote_code=True, 
+                padding_side="left", 
+                token=os.getenv("HF_TOKEN", None)
             )
 
             if self.tokenizer.pad_token is None:
@@ -386,11 +437,11 @@ class HuggingFaceLLM(LLMInterface):
             self.model = AutoModelForCausalLM.from_pretrained(
                 self.config.model_name,
                 quantization_config=quantization_config,
-                device_map="auto" if torch.cuda.is_available() else None,
-                torch_dtype=torch.float16
-                if torch.cuda.is_available()
-                else torch.float32,
+                device_map="auto",
+                torch_dtype=torch_dtype,
                 trust_remote_code=True,
+                token=os.getenv("HF_TOKEN", None),
+                attn_implementation="flash_attention_2" if gpu_memory >= 35 else "eager",  # Use FlashAttention on A100
             )
 
             # Create text generation pipeline
@@ -442,7 +493,33 @@ class HuggingFaceLLM(LLMInterface):
             return f"ERROR: {str(e)}", None
 
     def _format_prompt(self, system_prompt: str, user_prompt: str) -> str:
-        """Format prompt based on model architecture."""
+        """Format prompt using tokenizer's chat template."""
+        if not self.tokenizer:
+            raise RuntimeError("Tokenizer not loaded")
+        
+        # Prepare messages in standard chat format
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ]
+        
+        try:
+            # Use tokenizer's apply_chat_template method
+            formatted_prompt = self.tokenizer.apply_chat_template( # type: ignore
+                messages,
+                tokenize=False,
+                add_generation_prompt=True,
+                enable_thinking=self.config.enable_thinking,
+            )
+            return formatted_prompt
+            
+        except Exception as e:
+            # Fallback to generic format if chat template is not available
+            logging.warning(f"Chat template not available for {self.config.model_name}, using fallback format: {e}")
+            return self._format_prompt_fallback(system_prompt, user_prompt)
+    
+    def _format_prompt_fallback(self, system_prompt: str, user_prompt: str) -> str:
+        """Fallback prompt formatting for models without chat templates."""
         model_name_lower = self.config.model_name.lower()
         
         # Llama models (includes Llama-2, Llama-3.2, Llama-3.3)
@@ -568,7 +645,7 @@ class MetricsCalculator:
         y_pred = [pred.predicted_label for pred in predictions]
 
         # Calculate confusion matrix
-        tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+        tn, fp, fn, tp = confusion_matrix(y_true, y_pred, labels=[0, 1]).ravel()
 
         # Calculate metrics
         accuracy = accuracy_score(y_true, y_pred)
@@ -714,7 +791,7 @@ class BenchmarkRunner:
             prediction = PredictionResult(
                 sample_id=sample.id,
                 predicted_label=predicted_label,
-                true_label=sample.label,
+                true_label=sample.label if isinstance(sample.label, int) else self.response_parser.parse_response(sample.label),
                 confidence=None,  # Could be enhanced to extract confidence
                 response_text=response_text,
                 processing_time=processing_time,

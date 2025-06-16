@@ -38,10 +38,10 @@ class JitVulDatasetLoader:
         max_samples: Optional[int] = None
     ) -> List[BenchmarkSample]:
         """
-        Load JitVul dataset from JSONL file.
+        Load JitVul dataset from either JSONL (raw) or JSON (processed) file.
         
         Args:
-            data_file: Path to the JitVul JSONL dataset file
+            data_file: Path to the JitVul dataset file
             task_type: Type of task ("binary", "multiclass", "cwe_specific")
             target_cwe: Target CWE for cwe_specific task (e.g., "CWE-125")
             use_call_graph: Whether to include call graph context
@@ -54,40 +54,105 @@ class JitVulDatasetLoader:
         if not data_path.exists():
             raise FileNotFoundError(f"Dataset file not found: {data_file}")
         
-        samples: List[BenchmarkSample] = []
-        
-        try:
-            with open(data_path, 'r', encoding='utf-8') as f:
-                for line_num, line in enumerate(f, 1):
-                    if max_samples and len(samples) >= max_samples:
-                        break
-                        
-                    line = line.strip()
-                    if not line:
-                        continue
-                    
-                    try:
-                        item = json.loads(line)
-                        # Convert each item to samples based on task type
-                        jitvul_samples = self._convert_jitvul_item_to_samples(
-                            item, line_num, task_type, target_cwe, use_call_graph
-                        )
-                        samples.extend(jitvul_samples)
-                    except json.JSONDecodeError as e:
-                        self.logger.warning(f"Skipping invalid JSON at line {line_num}: {e}")
-                        continue
-                    except Exception as e:
-                        self.logger.warning(f"Error processing line {line_num}: {e}")
-                        continue
-        
+        # Determine if this is processed JSON or raw JSONL based on file content
+        try:                
+            # Check if it's processed JSON format (starts with { and contains "metadata")
+            if data_path.suffix == ".json":
+                return self._load_processed_dataset(data_path, max_samples)
+            else:
+                # Raw JSONL format
+                return self._load_raw_dataset(data_path, task_type, target_cwe, use_call_graph, max_samples)
+                
         except Exception as e:
             raise RuntimeError(f"Error loading JitVul dataset: {e}")
+    
+    def _load_processed_dataset(self, data_path: Path, max_samples: Optional[int] = None) -> List[BenchmarkSample]:
+        """
+        Load processed JSON dataset format.
         
-        # Apply final sample limit if needed
-        if max_samples and len(samples) > max_samples:
-            samples = samples[:max_samples]
+        Args:
+            data_path: Path to the processed JSON file
+            max_samples: Maximum number of samples to load
+            
+        Returns:
+            List of BenchmarkSample objects
+        """
+        with open(data_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
         
-        self.logger.info(f"Loaded {len(samples)} samples from JitVul dataset")
+        samples = []
+        raw_samples = data.get('samples', [])
+        
+        for sample_data in raw_samples:
+            if max_samples and len(samples) >= max_samples:
+                break
+                
+            try:
+                # Convert dict to BenchmarkSample
+                sample = BenchmarkSample(
+                    id=sample_data.get('id', ''),
+                    code=sample_data.get('code', ''),
+                    label=sample_data.get('label', ''),
+                    metadata=sample_data.get('metadata', {}),
+                    cwe_types=sample_data.get('cwe_type'),
+                    severity=sample_data.get('severity')
+                )
+                samples.append(sample)
+                
+            except Exception as e:
+                self.logger.warning(f"Error processing sample {sample_data.get('id', 'unknown')}: {e}")
+                continue
+        
+        self.logger.info(f"Loaded {len(samples)} samples from processed JitVul dataset")
+        return samples
+    
+    def _load_raw_dataset(
+        self, 
+        data_path: Path, 
+        task_type: str,
+        target_cwe: Optional[str],
+        use_call_graph: bool,
+        max_samples: Optional[int]
+    ) -> List[BenchmarkSample]:
+        """
+        Load raw JSONL dataset format.
+        
+        Args:
+            data_path: Path to the raw JSONL file
+            task_type: Type of task being performed
+            target_cwe: Target CWE for cwe_specific task
+            use_call_graph: Whether to include call graph context
+            max_samples: Maximum number of samples to load
+            
+        Returns:
+            List of BenchmarkSample objects
+        """
+        samples: List[BenchmarkSample] = []
+        
+        with open(data_path, 'r', encoding='utf-8') as f:
+            for line_num, line in enumerate(f, 1):
+                if max_samples and len(samples) >= max_samples:
+                    break
+                    
+                line = line.strip()
+                if not line:
+                    continue
+                
+                try:
+                    item = json.loads(line)
+                    # Convert each item to samples based on task type
+                    jitvul_samples = self._convert_jitvul_item_to_samples(
+                        item, line_num, task_type, target_cwe, use_call_graph
+                    )
+                    samples.extend(jitvul_samples)
+                except json.JSONDecodeError as e:
+                    self.logger.warning(f"Skipping invalid JSON at line {line_num}: {e}")
+                    continue
+                except Exception as e:
+                    self.logger.warning(f"Error processing line {line_num}: {e}")
+                    continue
+        
+        self.logger.info(f"Loaded {len(samples)} samples from raw JitVul dataset")
         return samples
     
     def _convert_jitvul_item_to_samples(
@@ -221,12 +286,12 @@ class JitVulDatasetLoader:
         context = "\n".join(context_lines) + "\n\n"
         return context + code
     
-    def _get_cwe_severity(self, cwe: list[str]) -> str:
+    def _get_cwe_severity(self, cwe) -> str:
         """
         Determine severity level for a CWE.
         
         Args:
-            cwe: CWE identifier (e.g., "CWE-125")
+            cwe: CWE identifier (string or list of strings, e.g., "CWE-125" or ["CWE-125"])
             
         Returns:
             Severity level (HIGH, MEDIUM, LOW)
@@ -234,8 +299,15 @@ class JitVulDatasetLoader:
         if not cwe:
             return "LOW"
         
+        # Handle both string and list formats
+        if isinstance(cwe, list):
+            if not cwe or not cwe[0]:
+                return "LOW"
+            single_cwe = cwe[0]
+        else:
+            single_cwe = cwe
+        
         # Extract numeric part
-        single_cwe = cwe[0] 
         cwe_num = single_cwe.replace("CWE-", "")
         
         # High severity CWEs
