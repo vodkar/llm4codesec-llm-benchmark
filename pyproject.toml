@@ -32,7 +32,7 @@ ninja = "^1.11.1.4"
 
 [[tool.poetry.source]]
 name = "pytorch"
-url = "https://download.pytorch.org/whl/cu121"
+url = "https://download.pytorch.org/whl/cu128"
 priority = "explicit"
 
 

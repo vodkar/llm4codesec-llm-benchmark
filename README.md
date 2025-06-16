@@ -4,12 +4,12 @@ A comprehensive framework for benchmarking Large Language Models on static code 
 
 ## Features
 
-- **Multiple Model Support**: Llama2, Qwen2.5, DeepSeek Coder, CodeBERT, and custom models
+- **Multiple Model Support**: Llama3.2 and Llama4, Qwen3, DeepSeek (R1, V2, Coder), Wizard Coder, Gemma.
 - **Flexible Task Types**:
   - Binary vulnerability detection
   - CWE-specific vulnerability detection  
   - Multi-class vulnerability classification
-- **Dataset Agnostic**: Support for VulBench, JitVul, CASTLE, and custom datasets
+- **Dataset Agnostic**: Support for VulBench, JitVul, CASTLE, CVEFixes, VulDetectBench, VulnerabilityDetection
 - **Comprehensive Metrics**: Accuracy, Precision, Recall, F1-score, Confusion Matrix
 - **Production Ready**: Full type annotations, logging, error handling, and result persistence
 - **Easy Configuration**: Template-based configuration management
@@ -33,15 +33,7 @@ cd llm4codesec-llm-benchmark
 git submodule update --init --recursive
 ```
 
-2. Install dependencies using Poetry (recommended):
-
-```bash
-pip install poetry
-poetry install
-poetry env activate
-```
-
-3. Setup your .env variables
+2. Setup your .env variables
 
 ```bash
 cp .default.env .env
@@ -83,21 +75,29 @@ Use docker cuda ready VPC image. For example in [selectel]
 
 ### W/o Docker
 
-#### 1. Create Sample Data and Run Quick Test
+#### 1. Install dependencies using Poetry (recommended):
+
+```bash
+pip install poetry
+poetry install
+poetry env activate
+```
+
+#### 2. Create Sample Data and Run Quick Test
 
 ```bash
 # Create sample dataset and run quick benchmark
 python run_benchmark.py --quick
 ```
 
-#### 2. List Available Configurations
+#### 3. List Available Configurations
 
 ```bash
 # See all available models and tasks
 python run_benchmark.py --list-configs
 ```
 
-#### 3. Run Specific Benchmarks
+#### 4. Run Specific Benchmarks
 
 ```bash
 # Binary vulnerability detection with Qwen2.5

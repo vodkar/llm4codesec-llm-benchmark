@@ -2162,7 +2162,7 @@ optree = ["optree (>=0.12.0)"]
 
 [package.source]
 type = "legacy"
-url = "https://download.pytorch.org/whl/cu121"
+url = "https://download.pytorch.org/whl/cu128"
 reference = "pytorch"
 
 [[package]]
@@ -2189,7 +2189,7 @@ torch = "2.5.1"
 
 [package.source]
 type = "legacy"
-url = "https://download.pytorch.org/whl/cu121"
+url = "https://download.pytorch.org/whl/cu128"
 reference = "pytorch"
 
 [[package]]
@@ -2222,7 +2222,7 @@ scipy = ["scipy"]
 
 [package.source]
 type = "legacy"
-url = "https://download.pytorch.org/whl/cu121"
+url = "https://download.pytorch.org/whl/cu128"
 reference = "pytorch"
 
 [[package]]
@@ -2647,4 +2647,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "633205eb030741d1fa693de9523e98c2811e3b6c72220303641a235f94ac56cf"
+content-hash = "c10873fac590f70d3bc7448d66d28c58d17621b07636832628f5030d7645aeae"
