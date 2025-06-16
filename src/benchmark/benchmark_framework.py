@@ -388,7 +388,7 @@ class HuggingFaceLLM(LLMInterface):
 
         # Configure quantization if requested
         quantization_config = None
-        torch_dtype = torch.float32
+        torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32
         
         if torch.cuda.is_available():
             gpu_memory = torch.cuda.get_device_properties(0).total_memory / 1024**3
@@ -413,7 +413,7 @@ class HuggingFaceLLM(LLMInterface):
                         # Fallback to 4-bit for very large models or smaller GPUs
                         quantization_config = BitsAndBytesConfig(
                             load_in_4bit=True,
-                            bnb_4bit_compute_dtype=torch.bfloat16,  # Better than float16
+                            bnb_4bit_compute_dtype=torch.float16,
                             bnb_4bit_use_double_quant=True,
                             bnb_4bit_quant_type="nf4",
                         )
@@ -441,7 +441,7 @@ class HuggingFaceLLM(LLMInterface):
                 torch_dtype=torch_dtype,
                 trust_remote_code=True,
                 token=os.getenv("HF_TOKEN", None),
-                attn_implementation="flash_attention_2" if gpu_memory >= 35 else "eager",  # Use FlashAttention on A100
+                attn_implementation="flash_attention_2" if gpu_memory >= 35 else None,  # Use FlashAttention on A100
             )
 
             # Create text generation pipeline

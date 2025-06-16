@@ -27,6 +27,8 @@ datasets = ">=2.14.0"
 tqdm = ">=4.65.0"
 psutil = ">=5.9.0"
 huggingface-hub = {version = "^0.32.4", extras = ["hf_xet"]}
+packaging = "^25.0"
+ninja = "^1.11.1.4"
 
 [[tool.poetry.source]]
 name = "pytorch"

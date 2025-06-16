@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  llm4codesec-benchmark:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: llm4codesec-benchmark:latest
+    container_name: llm4codesec-benchmark
+    
+    # GPU configuration
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    
+    # Alternative GPU configuration for older docker-compose versions
+    # runtime: nvidia
+    
+    environment:
+      # CUDA settings
+      - NVIDIA_VISIBLE_DEVICES=all
+      - CUDA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      
+      # Performance optimizations
+      - CUDA_LAUNCH_BLOCKING=0
+      - CUDA_CACHE_DISABLE=0
+      - TORCH_CUDA_ARCH_LIST=6.0;6.1;7.0;7.5;8.0;8.6;8.9;9.0
+      - TORCH_ALLOW_TF32_CUBLAS_OVERRIDE=1
+      
+      # Python settings
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      
+      # Hugging Face cache (optional)
+      - HF_HOME=/app/.cache/huggingface
+      - TRANSFORMERS_CACHE=/app/.cache/huggingface/transformers
+      
+    volumes:
+      # Persistent storage for results
+      - ./results:/app/results
+      - ./datasets_processed:/app/datasets_processed
+      - ./benchmarks:/app/benchmarks
+      
+      # Optional: Cache directories for models (to avoid re-downloading)
+      - huggingface_cache:/app/.cache/huggingface
+      - torch_cache:/app/.cache/torch
+      
+      # Optional: Mount config files
+      - ./configs:/app/configs:ro
+      
+    working_dir: /app
+    
+    # Resource limits (adjust based on your system)
+    mem_limit: 32g
+    memswap_limit: 32g
+    shm_size: 8g
+    
+    # Network mode for better performance
+    network_mode: host
+    
+    # Keep container running for interactive use
+    tty: true
+    stdin_open: true
+    
+    # Optional: Restart policy
+    restart: unless-stopped
+
+  # Alternative service for CPU-only benchmarks
+  llm4codesec-benchmark-cpu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    image: llm4codesec-benchmark:cpu
+    container_name: llm4codesec-benchmark-cpu
+    
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - CUDA_VISIBLE_DEVICES=""  # Disable CUDA
+      
+    volumes:
+      - ./results:/app/results
+      - ./datasets_processed:/app/datasets_processed
+      - ./benchmarks:/app/benchmarks
+      
+    working_dir: /app
+    mem_limit: 16g
+    
+    profiles:
+      - cpu-only
+
+volumes:
+  huggingface_cache:
+    driver: local
+  torch_cache:
+    driver: local
+
+networks:
+  default:
+    driver: bridge
