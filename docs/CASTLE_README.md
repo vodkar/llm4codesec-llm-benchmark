@@ -28,8 +28,11 @@ python run_setup_castle_dataset.py --cwes CWE-125 CWE-190 CWE-476 CWE-787
 ### 2. Run a Quick Test
 
 ```powershell
-# Quick test with 50 samples
-python run_castle_benchmark.py --model qwen2.5-7b --dataset binary_all --prompt basic_security --sample-limit 50
+# Quick test for binary classification with 10 samples
+python run_castle_benchmark.py --model qwen3-4b --dataset binary_all --prompt basic_security --sample-limit 10
+
+# Quick test for multiclass classification with 10 samples
+python run_castle_benchmark.py --model qwen3-4b --dataset multiclass_all --prompt multiclass_basic --sample-limit 10
 ```
 
 ### 3. Run Experiment Plans
@@ -38,11 +41,17 @@ python run_castle_benchmark.py --model qwen2.5-7b --dataset binary_all --prompt 
 # List available experiment plans
 python run_castle_experiments.py --list-plans
 
-# Run prompt comparison experiment
+# Run binary prompt comparison experiment
 python run_castle_experiments.py --plan prompt_comparison
 
-# Run comprehensive evaluation
-python run_castle_experiments.py --plan comprehensive_evaluation
+# Run multiclass prompt comparison experiment
+python run_castle_experiments.py --plan multiclass_prompt_comparison
+
+# Run small models on binary tasks
+python run_castle_experiments.py --plan small_models_binary
+
+# Run small models on multiclass tasks
+python run_castle_experiments.py --plan small_models_multiclass
 ```
 
 ## File Structure
@@ -82,47 +91,102 @@ python run_castle_experiments.py --plan comprehensive_evaluation
 
 ## Prompt Strategies
 
+### Binary Classification Prompts
+
 ### 1. Basic Security (`basic_security`)
-Simple, direct security analysis prompt.
+Simple, direct security analysis prompt for binary vulnerability detection.
 
 ### 2. Detailed Analysis (`detailed_analysis`)
-Comprehensive security analysis with specific guidelines.
+Comprehensive security analysis with specific guidelines for binary classification.
 
-### 3. CWE-Focused (`cwe_focused`)
-Specialized prompt for CWE-specific vulnerability detection.
+### 3. Context-Aware (`context_aware`)
+Production environment focused analysis for binary classification.
 
-### 4. Context-Aware (`context_aware`)
-Production environment focused analysis.
+### 4. Step-by-Step (`step_by_step`)
+Systematic analysis approach with defined steps for binary classification.
 
-### 5. Step-by-Step (`step_by_step`)
-Systematic analysis approach with defined steps.
+### CWE-Specific Prompts
+
+### 5. CWE-Focused (`cwe_focused`)
+Specialized prompt for CWE-specific vulnerability detection in binary classification tasks.
+
+### Multiclass Classification Prompts
+
+### 6. Multiclass Basic (`multiclass_basic`)
+Simple, direct vulnerability classification prompt that identifies specific CWE types or marks code as safe.
+
+### 7. Multiclass Detailed (`multiclass_detailed`)
+Comprehensive multiclass analysis with detailed CWE pattern descriptions and systematic vulnerability type identification.
+
+### 8. Multiclass Comprehensive (`multiclass_comprehensive`)
+Production-level context-aware multiclass analysis considering exploitation patterns and edge cases for precise CWE classification.
 
 ## Experiment Plans
 
-### Quick Test (`quick_test`)
-- **Purpose**: Fast validation with limited samples
-- **Configuration**: Single model, single prompt, 50 samples
+### Quick Testing Plans
+
+#### Quick Test (`quick_test`)
+- **Purpose**: Fast validation with limited samples for binary classification
+- **Configuration**: Multiple small models, binary prompts, 10 samples
 - **Duration**: ~5-10 minutes
 
-### Prompt Comparison (`prompt_comparison`)
-- **Purpose**: Compare different prompt strategies
-- **Configuration**: Single model, all prompts, binary classification
+#### Multiclass Quick Test (`multiclass_quick_test`)
+- **Purpose**: Fast validation with limited samples for multiclass classification
+- **Configuration**: Multiple small models, multiclass prompts, 10 samples
+- **Duration**: ~5-10 minutes
+
+### Prompt Comparison Plans
+
+#### Prompt Comparison (`prompt_comparison`)
+- **Purpose**: Compare different binary classification prompt strategies
+- **Configuration**: Single model, all binary prompts, binary classification
+- **Duration**: ~15-30 minutes
+
+#### Multiclass Prompt Comparison (`multiclass_prompt_comparison`)
+- **Purpose**: Compare different multiclass classification prompt strategies
+- **Configuration**: Single model, all multiclass prompts, multiclass classification
+- **Duration**: ~15-30 minutes
+
+### Model Comparison Plans
+
+#### Model Comparison (`model_comparison`)
+- **Purpose**: Compare different LLM models on binary classification
+- **Configuration**: Multiple models, best binary prompt, binary classification
 - **Duration**: ~30-60 minutes
 
-### Model Comparison (`model_comparison`)
-- **Purpose**: Compare different LLM models
-- **Configuration**: All models, best prompt, binary classification
-- **Duration**: ~1-3 hours
+#### Multiclass Model Comparison (`multiclass_model_comparison`)
+- **Purpose**: Compare different LLM models on multiclass classification
+- **Configuration**: Multiple models, best multiclass prompt, multiclass classification
+- **Duration**: ~30-60 minutes
 
-### CWE-Specific Analysis (`cwe_specific_analysis`)
+### Specialized Analysis Plans
+
+#### CWE-Specific Analysis (`cwe_specific_analysis`)
 - **Purpose**: Evaluate CWE-specific detection capabilities
-- **Configuration**: Single model, CWE-focused prompt, all CWE datasets
+- **Configuration**: Multiple models, CWE-focused prompt, all CWE datasets
+- **Duration**: ~1-2 hours
+
+### Comprehensive Evaluation Plans
+
+#### Small Models Binary (`small_models_binary`)
+- **Purpose**: Full evaluation of small models on binary classification tasks
+- **Configuration**: Small models, binary prompts, binary + CWE datasets
 - **Duration**: ~2-4 hours
 
-### Comprehensive Evaluation (`comprehensive_evaluation`)
-- **Purpose**: Full evaluation across all configurations
-- **Configuration**: All models, key prompts, all datasets
-- **Duration**: ~6-12 hours
+#### Small Models Multiclass (`small_models_multiclass`)
+- **Purpose**: Full evaluation of small models on multiclass classification
+- **Configuration**: Small models, multiclass prompts, multiclass dataset
+- **Duration**: ~1-2 hours
+
+#### Large Models Binary (`large_models_binary`)
+- **Purpose**: Full evaluation of large models on binary classification tasks
+- **Configuration**: Large models, binary prompts, binary + CWE datasets
+- **Duration**: ~4-8 hours
+
+#### Large Models Multiclass (`large_models_multiclass`)
+- **Purpose**: Full evaluation of large models on multiclass classification
+- **Configuration**: Large models, multiclass prompts, multiclass dataset
+- **Duration**: ~2-4 hours
 
 ## Usage Examples
 
@@ -131,13 +195,19 @@ Systematic analysis approach with defined steps.
 ```powershell
 # Run binary classification with basic prompt
 python run_castle_benchmark.py \
-    --model qwen2.5-7b \
+    --model qwen3-4b \
     --dataset binary_all \
     --prompt basic_security
 
+# Run multiclass classification with detailed prompt
+python run_castle_benchmark.py \
+    --model qwen3-4b \
+    --dataset multiclass_all \
+    --prompt multiclass_detailed
+
 # Run CWE-125 detection with focused prompt
 python run_castle_benchmark.py \
-    --model deepseek-coder \
+    --model deepseek-r1-distill-qwen2.5-1.5b \
     --dataset cwe_125 \
     --prompt cwe_focused
 ```
@@ -145,27 +215,38 @@ python run_castle_benchmark.py \
 ### Batch Experiments
 
 ```powershell
-# Run model comparison (test all models with same prompt/dataset)
+# Run binary model comparison (test multiple models on binary classification)
 python run_castle_experiments.py --plan model_comparison
 
-# Run with sample limit for testing
-python run_castle_experiments.py --plan comprehensive_evaluation --sample-limit 100
+# Run multiclass model comparison (test multiple models on multiclass classification)
+python run_castle_experiments.py --plan multiclass_model_comparison
+
+# Run comprehensive binary evaluation with sample limit for testing
+python run_castle_experiments.py --plan small_models_binary --sample-limit 100
+
+# Run comprehensive multiclass evaluation with sample limit for testing
+python run_castle_experiments.py --plan small_models_multiclass --sample-limit 100
 ```
 
 ### Custom Configurations
 
-Edit `castle_experiments_config.json` to:
+Edit `castle_experiments.json` to:
 - Add new models
 - Create custom prompt strategies
 - Define new experiment plans
 - Modify evaluation settings
+
+**Important**: Ensure prompt strategies match task types:
+- Use binary prompts (`basic_security`, `detailed_analysis`, `context_aware`, `step_by_step`) for binary classification
+- Use multiclass prompts (`multiclass_basic`, `multiclass_detailed`, `multiclass_comprehensive`) for multiclass classification
+- Use CWE-focused prompts (`cwe_focused`) for CWE-specific detection
 
 ## Configuration Details
 
 ### Model Configurations
 ```json
 {
-  "model_name": "meta-llama/Llama-2-7b-chat-hf",
+  "model_name": "meta-llama/Llama-3.2-3B-Instruct",
   "model_type": "LLAMA",
   "max_tokens": 512,
   "temperature": 0.1,
@@ -182,7 +263,7 @@ Edit `castle_experiments_config.json` to:
 }
 ```
 
-### Prompt Strategies
+### Binary Classification Prompt Strategies
 ```json
 {
   "name": "Basic Security Analysis",
@@ -191,14 +272,30 @@ Edit `castle_experiments_config.json` to:
 }
 ```
 
+### Multiclass Classification Prompt Strategies
+```json
+{
+  "name": "Basic Multiclass Vulnerability Analysis",
+  "system_prompt": "You are an expert security analyst specializing in vulnerability classification...",
+  "user_prompt": "Classify the vulnerability type in this code:\n\n{code}"
+}
+```
+
 ## Results and Analysis
 
 ### Output Structure
 ```
 results/castle_experiments/
-├── plan_prompt_comparison_20250609_143022/
+├── plan_prompt_comparison_20250617_143022/
 │   ├── experiment_plan_results.json
-│   ├── qwen2.5-7b_binary_all_basic_security/
+│   ├── qwen3-4b_binary_all_basic_security/
+│   │   ├── benchmark_report_*.json
+│   │   ├── metrics_summary_*.json
+│   │   └── predictions_*.csv
+│   └── ...
+├── plan_multiclass_prompt_comparison_20250617_153022/
+│   ├── experiment_plan_results.json
+│   ├── qwen3-4b_multiclass_all_multiclass_basic/
 │   │   ├── benchmark_report_*.json
 │   │   ├── metrics_summary_*.json
 │   │   └── predictions_*.csv
@@ -206,11 +303,23 @@ results/castle_experiments/
 ```
 
 ### Key Metrics
+
+#### Binary Classification
 - **Accuracy**: Overall correctness
 - **Precision**: True positive rate
 - **Recall**: Detection rate for vulnerabilities
 - **F1 Score**: Harmonic mean of precision and recall
 - **AUC**: Area under ROC curve
+
+#### Multiclass Classification
+- **Accuracy**: Overall correctness across all classes
+- **Per-class Precision/Recall/F1**: Metrics for each CWE type
+- **Macro/Micro Averages**: Aggregated performance metrics
+- **Confusion Matrix**: Detailed classification breakdown
+
+#### CWE-Specific Detection
+- **Binary metrics**: Applied to specific CWE vs. non-CWE classification
+- **Per-CWE Analysis**: Individual performance for each vulnerability type
 
 ### Analysis Features
 - Per-CWE performance breakdown
@@ -220,13 +329,43 @@ results/castle_experiments/
 
 ## Advanced Usage
 
+### Task Type Separation and Best Practices
+
+The CASTLE integration now properly separates different task types to ensure optimal performance:
+
+#### Binary Classification Tasks
+- **Datasets**: `binary_all`, `cwe_*` (for CWE-specific binary detection)
+- **Prompts**: `basic_security`, `detailed_analysis`, `context_aware`, `step_by_step`, `cwe_focused`
+- **Output Format**: "VULNERABLE" or "SAFE"
+- **Use Cases**: General vulnerability detection, specific CWE presence detection
+
+#### Multiclass Classification Tasks
+- **Datasets**: `multiclass_all`
+- **Prompts**: `multiclass_basic`, `multiclass_detailed`, `multiclass_comprehensive`
+- **Output Format**: "CWE-XXX" (e.g., "CWE-125", "CWE-190") or "SAFE"
+- **Use Cases**: Vulnerability type identification, precise security categorization
+
+#### Experiment Planning Guidelines
+1. **Don't mix task types**: Use binary prompts for binary datasets and multiclass prompts for multiclass datasets
+2. **Start small**: Use quick test plans to validate configurations before running comprehensive evaluations
+3. **Resource planning**: Multiclass classification typically requires more computational resources and time
+4. **Evaluation focus**: Binary classification for general detection capability, multiclass for precise categorization
+
 ### Custom Prompt Development
 
-1. Edit `castle_experiments_config.json`
+1. Edit `castle_experiments.json`
 2. Add new prompt strategy in `prompt_strategies` section
-3. Test with single experiment:
+3. Ensure prompt matches intended task type:
+   - Binary prompts should output "VULNERABLE" or "SAFE"
+   - Multiclass prompts should output specific CWE identifiers (e.g., "CWE-125") or "SAFE"
+   - CWE-focused prompts should output "VULNERABLE" or "SAFE" for specific CWE detection
+4. Test with single experiment:
    ```powershell
-   python run_castle_benchmark.py --model qwen2.5-7b --dataset binary_all --prompt your_new_prompt
+   # Test binary prompt
+   python run_castle_benchmark.py --model qwen3-4b --dataset binary_all --prompt your_new_binary_prompt
+   
+   # Test multiclass prompt
+   python run_castle_benchmark.py --model qwen3-4b --dataset multiclass_all --prompt your_new_multiclass_prompt
    ```
 
 ### Adding New Models
@@ -235,57 +374,23 @@ results/castle_experiments/
 2. Ensure model is supported by the framework
 3. Test with quick experiment first
 
-### Dataset Filtering
-
-For specialized experiments, you can filter datasets:
-
-```python
-from castle_dataset_loader import CastleDatasetLoader, filter_by_cwe
-
-loader = CastleDatasetLoader()
-samples = loader.load_dataset()
-cwe_125_samples = filter_by_cwe(samples, "CWE-125")
-```
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Missing Datasets**
-   ```powershell
-   python run_setup_castle_dataset.py
-   ```
-
-2. **GPU Memory Issues**
-   - Reduce batch size in model configuration
-   - Enable quantization
-   - Use smaller models
-
-3. **Slow Experiments**
-   - Use `--sample-limit` for testing
-   - Start with `quick_test` plan
 
 ### Validation Commands
 
 ```powershell
-# Check if datasets exist
+# Validate all datasets exist
 python run_castle_experiments.py --validate-datasets
 
-# Test setup without running experiments
-python run_castle_benchmark.py --setup-only
+# List available experiment plans
+python run_castle_experiments.py --list-plans
+
+# Test configuration with minimal samples
+python run_castle_experiments.py --plan quick_test --sample-limit 5
+python run_castle_experiments.py --plan multiclass_quick_test --sample-limit 5
 ```
-
-## Contributing
-
-To extend the CASTLE integration:
-
-1. **New Task Types**: Add to `TaskType` enum and update dataset loader
-2. **New Metrics**: Extend evaluation in benchmark framework
-3. **New Prompts**: Add to configuration and test thoroughly
-4. **New Models**: Ensure compatibility with framework model types
 
 ## References
 
-- [CASTLE Benchmark Paper](https://github.com/CASTLE-Benchmark)
+- [CASTLE Benchmark Works](https://github.com/CASTLE-Benchmark)
 - [Original CASTLE Repository](https://github.com/CASTLE-Benchmark/CASTLE-Benchmark)
 - [LLM Benchmark Framework Documentation](README.md)

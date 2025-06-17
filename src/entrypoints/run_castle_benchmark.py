@@ -335,12 +335,6 @@ def main():
     )
 
     parser.add_argument(
-        "--setup-only",
-        action="store_true",
-        help="Only setup datasets, don't run experiments",
-    )
-
-    parser.add_argument(
         "--verbose", "-v", action="store_true", help="Enable verbose logging"
     )
 
@@ -358,15 +352,6 @@ def main():
         castle_config = load_castle_config(args.config)
         logger.info(f"Loaded configuration from {args.config}")
 
-        # Setup datasets if requested
-        if args.setup_only:
-            logger.info("Setting up CASTLE datasets...")
-            from entrypoints.run_setup_castle_datasetset import create_castle_datasets
-
-            create_castle_datasets()
-            logger.info("Dataset setup completed")
-            return
-
         # Validate required arguments
         if not all([args.model, args.dataset, args.prompt]):
             logger.error("Model, dataset, and prompt must be specified")
@@ -379,7 +364,6 @@ def main():
 
         if not dataset_path.exists():
             logger.error(f"Dataset file not found: {dataset_path}")
-            logger.error("Run with --setup-only first to create processed datasets")
             sys.exit(1)
 
         # Run experiment

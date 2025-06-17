@@ -54,6 +54,17 @@ HF_TOKEN='hf_blabla...'
 PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 ```
 
+## ⚡️ Comprehensive experiment VERY QUICKSTART
+
+Watch carefully for any warning/errors logs! You might get wrong results in case of incorrect configuration
+
+```shell
+./build_docker.sh
+alias run_benchmark="docker-compose run --rm llm4codesec-benchmark python"
+run_benchmark entrypoints/run_setup_castle_dataset.py
+run_benchmark entrypoints/run_castle_experiments.py --plan small_models_evaluation
+```
+
 ## Quick Start
 
 ### Using Docker
@@ -106,15 +117,6 @@ python src/entrypoints/run_jitvul_benchmark.py \
   --output-dir results/jitvul_test
 ```
 
-## ⚡️ Comprehensive experiment VERY QUICKSTART
-
-```shell
-./build_docker.sh
-alias run_benchmark="docker-compose run --rm llm4codesec-benchmark python"
-run_benchmark entrypoints/run_setup_castle_dataset.py
-run_benchmark entrypoints/run_castle_experiments.py --plan small_models_evaluation
-```
-
 ## Metrics
 
 ### Binary Classification
@@ -152,6 +154,15 @@ print(f"F1-Score: {results['metrics']['f1_score']:.4f}")
 predictions_df = pd.read_csv('./results/predictions_20241203_143022.csv')
 print(predictions_df.groupby(['true_label', 'predicted_label']).size())
 ```
+
+## Documentation
+
+Additional documentation can be found in [docs/](docs/) directory
+
+### Datasets
+
+- [CASTLE](docs/CASTLE_README.md)
+- [CVEFixes](docs/CVEFIXES_README.md)
 
 ## Citation
 

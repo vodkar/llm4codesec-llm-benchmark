@@ -67,6 +67,21 @@
             "name": "Step-by-Step Analysis",
             "system_prompt": "You are a methodical security analyst who follows a systematic approach to vulnerability detection.\n\nAnalysis Steps:\n1. Read through the code to understand its purpose\n2. Identify all input sources and data flows\n3. Check for proper input validation and bounds checking\n4. Look for memory management issues\n5. Examine error handling and edge cases\n6. Determine if vulnerabilities exist\n\nFinal Answer: After your analysis, respond with only \"VULNERABLE\" or \"SAFE\"",
             "user_prompt": "Systematically analyze this code for security vulnerabilities:\n\n{code}"
+        },
+        "multiclass_basic": {
+            "name": "Basic Multiclass Vulnerability Analysis",
+            "system_prompt": "You are an expert security analyst specializing in vulnerability classification. Your task is to analyze code snippets and identify the specific type of vulnerability present, or determine if the code is safe.\n\nInstructions:\n- Analyze the provided code carefully for security vulnerabilities\n- If vulnerable, identify the specific CWE (Common Weakness Enumeration) type\n- If safe, respond with \"SAFE\"\n- Common vulnerability types include: CWE-125 (Out-of-bounds Read), CWE-134 (Format String), CWE-190 (Integer Overflow), CWE-22 (Path Traversal), CWE-253 (Incorrect Check), CWE-327 (Weak Crypto), CWE-362 (Race Condition), CWE-369 (Divide by Zero), CWE-401 (Memory Leak), CWE-415 (Double Free), CWE-416 (Use After Free), CWE-476 (NULL Pointer Dereference), CWE-787 (Out-of-bounds Write), etc.\n- Respond with only the CWE identifier (e.g., \"CWE-125\") or \"SAFE\" - no additional explanation",
+            "user_prompt": "Classify the vulnerability type in this code:\n\n{code}"
+        },
+        "multiclass_detailed": {
+            "name": "Detailed Multiclass Vulnerability Analysis",
+            "system_prompt": "You are a senior cybersecurity expert with deep knowledge of Common Weakness Enumeration (CWE) patterns. Your task is to perform thorough static analysis of C/C++ code to identify and classify specific vulnerability types.\n\nAnalysis Guidelines:\n- Examine the code for various vulnerability patterns:\n  * Buffer overflows/underflows (CWE-125, CWE-787)\n  * Integer overflows/underflows (CWE-190)\n  * Memory management issues (CWE-401, CWE-415, CWE-416)\n  * Null pointer dereferences (CWE-476)\n  * Format string vulnerabilities (CWE-134)\n  * Path traversal issues (CWE-22)\n  * Race conditions (CWE-362)\n  * Cryptographic weaknesses (CWE-327)\n  * Division by zero (CWE-369)\n  * Incorrect validation (CWE-253)\n- Consider the specific characteristics of each CWE type\n- Pay attention to context and data flow\n\nResponse Format: Respond with only the specific CWE identifier (e.g., \"CWE-125\") or \"SAFE\" if no vulnerabilities are found",
+            "user_prompt": "Analyze and classify the vulnerability type in this C code:\n\n```c\n{code}\n```"
+        },
+        "multiclass_comprehensive": {
+            "name": "Comprehensive Multiclass Analysis",
+            "system_prompt": "You are an experienced security code reviewer specializing in vulnerability classification for production systems. Your responsibility is to identify and classify the specific type of security vulnerability present in code snippets.\n\nContext: You are reviewing C code that needs precise vulnerability classification for security assessment. Each vulnerability type has distinct characteristics and exploitation patterns.\n\nClassification approach:\n- Systematically examine the code for known vulnerability patterns\n- Consider the root cause and exploitation mechanism\n- Match patterns to specific CWE classifications\n- Distinguish between similar vulnerability types (e.g., CWE-125 vs CWE-787)\n- Consider edge cases and subtle vulnerability indicators\n\nAvailable CWE types: CWE-125, CWE-134, CWE-190, CWE-22, CWE-253, CWE-327, CWE-362, CWE-369, CWE-401, CWE-415, CWE-416, CWE-476, CWE-787\n\nRespond with only the specific CWE identifier or \"SAFE\"",
+            "user_prompt": "Classify the specific vulnerability type in this production code:\n\n{code}\n\nWhat is the precise CWE classification?"
         }
     },
     "model_configurations": {
@@ -156,8 +171,7 @@
         "quick_test": {
             "description": "Quick test with limited samples for development",
             "datasets": [
-                "binary_all",
-                "multiclass_all"
+                "binary_all"
             ],
             "models": [
                 "qwen3-4b",
@@ -169,6 +183,22 @@
                 "basic_security",
                 "detailed_analysis",
                 "context_aware"
+            ],
+            "sample_limit": 10
+        },
+        "multiclass_quick_test": {
+            "description": "Quick test for multiclass classification with limited samples",
+            "datasets": [
+                "multiclass_all"
+            ],
+            "models": [
+                "qwen3-4b",
+                "llama3.2-3B",
+                "gemma3-1b"
+            ],
+            "prompts": [
+                "multiclass_basic",
+                "multiclass_detailed"
             ],
             "sample_limit": 10
         },
@@ -188,6 +218,21 @@
             ],
             "sample_limit": null
         },
+        "multiclass_prompt_comparison": {
+            "description": "Compare different prompt strategies on multiclass classification",
+            "datasets": [
+                "multiclass_all"
+            ],
+            "models": [
+                "qwen3-4b"
+            ],
+            "prompts": [
+                "multiclass_basic",
+                "multiclass_detailed",
+                "multiclass_comprehensive"
+            ],
+            "sample_limit": null
+        },
         "model_comparison": {
             "description": "Compare different models with best prompt",
             "datasets": [
@@ -199,6 +244,22 @@
             ],
             "prompts": [
                 "detailed_analysis"
+            ],
+            "sample_limit": null
+        },
+        "multiclass_model_comparison": {
+            "description": "Compare different models on multiclass classification",
+            "datasets": [
+                "multiclass_all"
+            ],
+            "models": [
+                "llama3.2-3B",
+                "qwen3-4b",
+                "gemma3-1b",
+                "deepseek-r1-distill-qwen2.5-1.5b"
+            ],
+            "prompts": [
+                "multiclass_detailed"
             ],
             "sample_limit": null
         },
@@ -221,11 +282,10 @@
             ],
             "sample_limit": null
         },
-        "small_models_evaluation": {
-            "description": "Full evaluation across all configurations",
+        "small_models_binary": {
+            "description": "Small models evaluation on binary classification tasks",
             "datasets": [
                 "binary_all",
-                "multiclass_all",
                 "cwe_125",
                 "cwe_190",
                 "cwe_476",
@@ -244,11 +304,28 @@
             ],
             "sample_limit": null
         },
-        "comprehensive_evaluation": {
-            "description": "Full evaluation across all configurations",
+        "small_models_multiclass": {
+            "description": "Small models evaluation on multiclass classification",
+            "datasets": [
+                "multiclass_all"
+            ],
+            "models": [
+                "qwen3-4b",
+                "deepseek-r1-distill-qwen2.5-1.5b",
+                "llama3.2-3B",
+                "gemma3-1b"
+            ],
+            "prompts": [
+                "multiclass_basic",
+                "multiclass_detailed",
+                "multiclass_comprehensive"
+            ],
+            "sample_limit": null
+        },
+        "large_models_binary": {
+            "description": "Large models evaluation on binary classification tasks",
             "datasets": [
                 "binary_all",
-                "multiclass_all",
                 "cwe_125",
                 "cwe_190",
                 "cwe_476",
@@ -267,6 +344,27 @@
                 "basic_security",
                 "detailed_analysis",
                 "cwe_focused"
+            ],
+            "sample_limit": null
+        },
+        "large_models_multiclass": {
+            "description": "Large models evaluation on multiclass classification",
+            "datasets": [
+                "multiclass_all"
+            ],
+            "models": [
+                "qwen3-30b",
+                "qwen3-30b-thinking",
+                "deepseek-coder-v2-lite-16b",
+                "deepseek-r1-distill-qwen2.5-32b",
+                "wizard-coder-34b",
+                "llama4-scout-17b-16e",
+                "gemma3-27b"
+            ],
+            "prompts": [
+                "multiclass_basic",
+                "multiclass_detailed",
+                "multiclass_comprehensive"
             ],
             "sample_limit": null
         }
