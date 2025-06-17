@@ -100,7 +100,7 @@
             "max_tokens": 512,
             "temperature": 0.1,
             "use_quantization": true,
-            "enabile_thinking": false
+            "enable_thinking": false
         },
         "qwen3-30b-thinking": {
             "model_name": "Qwen/Qwen3-30B-A3B",
@@ -109,7 +109,7 @@
             "max_tokens": 512,
             "temperature": 0.1,
             "use_quantization": true,
-            "enabile_thinking": true
+            "enable_thinking": true
         },
         "deepseek-coder-v2-lite-16b": {
             "model_name": "deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct",
