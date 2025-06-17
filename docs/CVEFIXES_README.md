@@ -1,96 +1,154 @@
-# CVEFixes Benchmark - Configuration-Based Runner
+# CVEFixes Benchmark - Multi-Language Vulnerability Detection
 
 ## Overview
 
-The CVEFixes benchmark provides vulnerability detection evaluation using the CVEFixes dataset containing real-world CVE fixes from open-source projects. The system has been refactored to use a unified configuration-based approach that matches the CASTLE benchmark pattern for consistency across all datasets.
+The CVEFixes benchmark provides comprehensive vulnerability detection evaluation using the CVEFixes dataset containing real-world CVE fixes from open-source projects. The system supports **multi-language vulnerability detection** across C, Java, and Python codebases with both binary and multiclass classification tasks.
 
-## New Configuration-Based System
+## Pre-requisites
 
-### Key Improvements ✅
-- **Unified Configuration**: JSON-based experiment configuration following CASTLE pattern
-- **Consistent CLI**: Same command-line interface across all benchmarks (CASTLE, JitVul, CVEFixes)
-- **Flexible Experiments**: Easy definition of model/dataset/prompt combinations
-- **Single Entry Point**: All experiments configurable through JSON files
-- **Model Synchronization**: Consistent model definitions across all datasets
+1. Check [instruction](https://github.com/secureIT-project/CVEfixes/blob/main/INSTALL.md) how to download a db to your machine
 
-### Core Components
-- **Configuration File**: `src/configs/cvefixes_experiments.json`
-- **Refactored Runner**: `src/entrypoints/run_cvefixes_benchmark.py`
-- **Unified Runner**: `src/entrypoints/run_unified_benchmark.py` (handles all datasets)
-- **Dataset Loader**: `src/datasets/cvefixes_dataset_loader.py` (unchanged)
+2. Place database file to `datasets_processed\cvefixes\CVEfixes.db` project path
+
+## Multi-Language Support ✅
+
+### Supported Languages
+- **C/C++**: Traditional memory safety vulnerabilities
+- **Java**: Object-oriented and runtime vulnerabilities  
+- **Python**: Scripting and dynamic language vulnerabilities
+
+### Dataset Coverage
+- **18 total datasets** across 3 languages and 2 granularities
+- **Binary classification**: Vulnerable vs. Safe detection
+- **Multiclass classification**: Specific CWE type identification
+- **CWE-specific detection**: Focused analysis for specific vulnerability types
 
 ## Configuration Structure
 
-The CVEFixes configuration follows the same structure as CASTLE for consistency:
+The CVEFixes configuration follows a unified structure with comprehensive multi-language support:
 
 ```json
 {
   "experiment_metadata": {
-    "benchmark_name": "CVEFixes",
-    "version": "1.0.0",
-    "description": "Real-world vulnerability detection using CVEFixes dataset"
+    "name": "CVEFixes Benchmark LLM Evaluation",
+    "description": "Comprehensive evaluation of LLMs on CVEFixes benchmark with multiple prompt strategies",
+    "version": "1.0",
+    "dataset": "CVEFixes-Benchmark v1.0",
+    "created_date": "2025-06-12"
   },
   "dataset_configurations": {
-    "cvefixes_function_level": {
-      "dataset_name": "CVEFixes Function Level",
-      "dataset_path": "benchmarks/CVEFixes/data/cvefixes_function_level.json",
-      "task_type": "function_level_vulnerability_detection"
+    "binary_c_file": {
+      "dataset_path": "datasets_processed/cvefixes/cvefixes_binary_c_file.json",
+      "task_type": "binary_vulnerability",
+      "description": "Binary classification: C file-level vulnerability detection"
+    },
+    "multiclass_java_method": {
+      "dataset_path": "datasets_processed/cvefixes/cvefixes_multiclass_java_method.json",
+      "task_type": "multiclass_vulnerability", 
+      "description": "Multi-class classification: Java method-level CWE identification"
+    },
+    "cwe_119": {
+      "dataset_path": "datasets_processed/cvefixes/cvefixes_cwe_119.json",
+      "task_type": "binary_cwe_specific",
+      "cwe_type": "CWE-119",
+      "description": "CWE-119: Improper Restriction of Operations within Bounds of Memory Buffer"
     }
   },
   "prompt_strategies": {
-    "vulnerability_detection": {
-      "strategy_name": "CVE Vulnerability Detection",
-      "description": "Detect vulnerabilities in real-world code changes"
-    }
-  },
-  "model_configurations": {
-    "qwen2.5-7b": {
-      "model_name": "Qwen/Qwen2.5-7B-Instruct",
-      "model_type": "QWEN",
-      "config": {
-        "max_tokens": 4096,
-        "temperature": 0.1
-      }
-    }
-  },
-  "experiment_plans": {
-    "basic_evaluation": {
-      "datasets": ["cvefixes_function_level"],
-      "models": ["qwen2.5-7b"],
-      "prompts": ["vulnerability_detection"]
+    "basic_security": {
+      "name": "Basic Security Analysis",
+      "system_prompt": "Multi-language security analysis prompt...",
+      "user_prompt": "Analyze this code for security vulnerabilities:\n\n{code}"
+    },
+    "multiclass_detailed": {
+      "name": "Detailed Multiclass Vulnerability Analysis", 
+      "system_prompt": "Language-agnostic CWE classification prompt...",
+      "user_prompt": "Analyze and classify the vulnerability type in this code:\n\n```\n{code}\n```"
     }
   }
+}
+```
+
+## Available Datasets
+
+### Binary Classification (12 datasets)
+**File-level detection:**
+- `binary_c_file` - C file-level vulnerability detection
+- `binary_java_file` - Java file-level vulnerability detection  
+- `binary_python_file` - Python file-level vulnerability detection
+
+**Method-level detection:**
+- `binary_c_method` - C method-level vulnerability detection
+- `binary_java_method` - Java method-level vulnerability detection
+- `binary_python_method` - Python method-level vulnerability detection
+
+**CWE-specific detection:**
+- `cwe_119` - CWE-119: Improper Restriction of Operations within Bounds of Memory Buffer
+- `cwe_120` - CWE-120: Buffer Copy without Checking Size of Input (Classic Buffer Overflow)
+- `cwe_125` - CWE-125: Out-of-bounds Read
+- `cwe_190` - CWE-190: Integer Overflow or Wraparound
+- `cwe_476` - CWE-476: NULL Pointer Dereference
+- `cwe_787` - CWE-787: Out-of-bounds Write
+
+### Multiclass Classification (6 datasets)
+**File-level CWE identification:**
+- `multiclass_c_file` - C file-level CWE identification
+- `multiclass_java_file` - Java file-level CWE identification
+- `multiclass_python_file` - Python file-level CWE identification
+
+**Method-level CWE identification:**
+- `multiclass_c_method` - C method-level CWE identification
+- `multiclass_java_method` - Java method-level CWE identification
+- `multiclass_python_method` - Python method-level CWE identification
+
+## Prompt Strategies
+
+### Binary Classification Prompts
+- `basic_security` - Basic vulnerability detection across languages
+- `detailed_analysis` - Comprehensive security analysis with language-specific patterns
+- `cwe_focused` - Focused analysis for specific CWE types
+- `context_aware` - Production context-aware security review
+- `step_by_step` - Methodical systematic analysis
+
+### Multiclass Classification Prompts  
+- `multiclass_basic` - Basic CWE type classification
+- `multiclass_detailed` - Detailed CWE analysis with language-specific patterns
+- `multiclass_comprehensive` - Comprehensive production-level CWE classification
+
+All prompts are **language-agnostic** and work effectively across C, Java, and Python code.
+
 ## Command Line Interface
 
-### New Unified Interface
-
-All benchmark runners now use the same CLI arguments:
+### Core Entry Points
+- **Main Runner**: `src/entrypoints/run_cvefixes_benchmark.py`
+- **Batch Runner**: `src/entrypoints/run_cvefixes_experiments.py`
+- **Dataset Preparation**: `src/entrypoints/prepare_cvefixes_datasets.py`
 
 #### Single Experiments
 ```bash
-# Run with specific model/dataset/prompt
+# Run specific model/dataset/prompt combination
 python src/entrypoints/run_cvefixes_benchmark.py \
-  --model qwen2.5-7b \
-  --dataset cvefixes_function_level \
-  --prompt vulnerability_detection
+  --model qwen3-4b \
+  --dataset binary_java_file \
+  --prompt detailed_analysis
 
-# Using unified runner (handles all datasets)
-python src/entrypoints/run_unified_benchmark.py \
-  --dataset-type cvefixes \
-  --model qwen2.5-7b \
-  --dataset cvefixes_function_level \
-  --prompt vulnerability_detection
+# Multi-language comparison
+python src/entrypoints/run_cvefixes_benchmark.py \
+  --model deepseek-coder-v2-lite-16b \
+  --dataset multiclass_python_method \
+  --prompt multiclass_detailed
 ```
 
 #### Experiment Plans
 ```bash
 # Run predefined experiment plan
-python src/entrypoints/run_cvefixes_benchmark.py --plan basic_evaluation
+python src/entrypoints/run_cvefixes_benchmark.py --plan quick_test
 
-# With unified runner
-python src/entrypoints/run_unified_benchmark.py \
-  --dataset-type cvefixes \
-  --plan basic_evaluation
+# Multi-language comparison plan
+python src/entrypoints/run_cvefixes_benchmark.py --plan language_comparison_binary
+
+# Batch experiment execution
+python src/entrypoints/run_cvefixes_experiments.py --plan comprehensive_evaluation
 ```
 
 #### Common Options
@@ -100,194 +158,166 @@ python src/entrypoints/run_cvefixes_benchmark.py --list-configs
 
 # Limit samples and set output directory
 python src/entrypoints/run_cvefixes_benchmark.py \
-  --plan basic_evaluation \
+  --plan multiclass_quick_test \
   --sample-limit 100 \
   --output-dir results/cvefixes_test
 ```
 
 ## Supported Models
 
-The CVEFixes benchmark supports all models available in the unified configuration:
+### Current Model Support (11 models)
+- **QWEN Series**: qwen3-4b, qwen3-30b, qwen3-30b-thinking
+- **DeepSeek Series**: deepseek-coder-v2-lite-16b, deepseek-r1-distill-qwen2.5-1.5b, deepseek-r1-distill-qwen2.5-32b
+- **Llama Series**: llama3.2-3B, llama4-scout-17b-16e
+- **Gemma Series**: gemma3-1b, gemma3-27b
+- **Wizard Series**: wizard-coder-34b
 
-- **QWEN Series**: Qwen2.5-7B, Qwen2.5-32B, Qwen2.5-72B, Qwen2.5-Coder variants
-- **DeepSeek Series**: DeepSeek-Coder-V2, DeepSeek-R1-Distill variants
-- **Llama Series**: Llama-3.2-1B, Llama-3.2-3B, CodeLlama variants
-- **Gemma Series**: Gemma-3-1B, Gemma-3-27B
-- **Wizard Series**: WizardCoder-Python-34B
-- **CodeBERT**: microsoft/codebert-base
-
+All models support quantization and are configured for vulnerability detection tasks.
 ## Available Task Types
 
-- **function_level_vulnerability_detection**: Function-level vulnerability detection
-- **file_level_vulnerability_detection**: File-level vulnerability detection
-- **cwe_classification**: CWE type classification
+- **binary_vulnerability**: Binary classification (Vulnerable vs. Safe)
+- **multiclass_vulnerability**: Multi-class CWE type classification  
+- **binary_cwe_specific**: CWE-specific binary classification
+
+## Experiment Plans
+
+### Quick Testing (2 plans)
+- `quick_test` - Binary classification quick test (10 samples)
+- `multiclass_quick_test` - Multiclass classification quick test (10 samples)
+
+### Prompt Comparison (2 plans)  
+- `prompt_comparison` - Compare binary classification prompts
+- `multiclass_prompt_comparison` - Compare multiclass classification prompts
+
+### Model Comparison (2 plans)
+- `model_comparison` - Compare models on binary classification
+- `multiclass_model_comparison` - Compare models on multiclass classification
+
+### Comprehensive Evaluation (4 plans)
+- `small_models_binary` - Small models on all binary tasks
+- `small_models_multiclass` - Small models on all multiclass tasks  
+- `large_models_binary` - Large models on all binary tasks
+- `large_models_multiclass` - Large models on all multiclass tasks
+
+### Cross-Language Analysis (3 plans)
+- `language_comparison_binary` - Compare binary detection across C, Java, Python
+- `language_comparison_multiclass` - Compare multiclass classification across languages
+- `granularity_comparison` - Compare file-level vs method-level analysis
+
+### CWE-Specific Analysis (1 plan)
+- `cwe_specific_analysis` - Focused analysis on specific CWE types
+
 ## Key Features
 
-### 1. Configuration-Driven Experiments
-- **JSON Configuration**: All experiments defined in `cvefixes_experiments.json`
-- **Flexible Combinations**: Easy model/dataset/prompt combinations
-- **Experiment Plans**: Predefined experimental setups
-- **Consistent Interface**: Same CLI across all benchmarks
+### 1. Multi-Language Vulnerability Detection
+- **Cross-Language Prompts**: Language-agnostic prompts work across C, Java, Python
+- **Language-Specific Patterns**: Prompts consider language-specific vulnerability patterns
+- **Comprehensive Coverage**: Both memory safety (C) and logic vulnerabilities (Java/Python)
 
-### 2. Real-World Vulnerability Data
+### 2. Multiple Analysis Granularities
+- **File-Level Analysis**: Broader context, inter-function vulnerabilities
+- **Method-Level Analysis**: Focused analysis, function-specific vulnerabilities
+- **Comparative Studies**: Built-in experiments to compare granularities
+
+### 3. Real-World Vulnerability Data
 - **Actual CVEs**: Real vulnerabilities from production code
-- **Multi-language Support**: C, Java, Python, and other languages
-- **Rich Metadata**: CVE IDs, CWE classifications, CVSS scores
-- **Database-driven**: SQLite database for flexible querying
+- **Rich Metadata**: CVE IDs, CWE classifications, CVSS scores, commit information
+- **Multi-Language Corpus**: Vulnerabilities across different programming paradigms
 
-### 3. Comprehensive Evaluation
-- **Standard Metrics**: Accuracy, Precision, Recall, F1-score, AUC-ROC
-- **CVE-specific Analysis**: Per-CVE type performance
-- **Framework Integration**: Uses benchmark framework evaluation system
+### 4. Comprehensive Task Coverage
+- **Binary Classification**: Basic vulnerable/safe detection
+- **Multiclass Classification**: Specific CWE type identification
+- **CWE-Specific Detection**: Focused analysis for particular vulnerability types
 
-## Migration from Old System
+### 5. Advanced Experiment Plans
+- **Cross-Language Comparison**: Compare model performance across languages
+- **Granularity Analysis**: File vs method-level detection effectiveness
+- **Model Size Studies**: Small vs large model performance analysis
 
-### Old Commands → New Commands
+## Dataset Preparation
 
-**Old single experiment:**
+### Prerequisites
+- CVEFixes SQLite database: `datasets_processed/cvefixes/CVEfixes.db`
+- Available through CVEFixes dataset repository
+
+### Generate Processed Datasets
 ```bash
+# Generate all language datasets
+python src/entrypoints/prepare_cvefixes_datasets.py \
+  --database-path datasets_processed/cvefixes/CVEfixes.db \
+  --languages C Java Python
+
+# Generate specific language datasets
+python src/entrypoints/prepare_cvefixes_datasets.py \
+  --database-path datasets_processed/cvefixes/CVEfixes.db \
+  --languages Java \
+  --output-dir datasets_processed/cvefixes
+```
+
+## Usage Examples
+
+### Quick Multi-Language Test
+```bash
+# Test binary classification across languages
+python src/entrypoints/run_cvefixes_benchmark.py --plan quick_test
+
+# Test multiclass classification
+python src/entrypoints/run_cvefixes_benchmark.py --plan multiclass_quick_test
+```
+
+### Language Comparison Studies
+```bash
+# Compare binary detection across C, Java, Python
+python src/entrypoints/run_cvefixes_benchmark.py --plan language_comparison_binary
+
+# Compare multiclass classification across languages  
+python src/entrypoints/run_cvefixes_benchmark.py --plan language_comparison_multiclass
+```
+
+### Comprehensive Model Evaluation
+```bash
+# Small models comprehensive evaluation
+python src/entrypoints/run_cvefixes_experiments.py --plan small_models_binary
+
+# Large models with all tasks
+python src/entrypoints/run_cvefixes_experiments.py --plan large_models_multiclass
+```
+
+### Custom Experiments
+```bash
+# Java-specific method-level analysis
 python src/entrypoints/run_cvefixes_benchmark.py \
-  --model Qwen/Qwen2.5-7B-Instruct \
-  --dataset-path cvefixes_data.json \
-  --output-dir results/test_run
-```
+  --model deepseek-coder-v2-lite-16b \
+  --dataset multiclass_java_method \
+  --prompt multiclass_comprehensive \
+  --sample-limit 500
 
-**New single experiment:**
-```bash
+# Python file-level binary classification
 python src/entrypoints/run_cvefixes_benchmark.py \
-  --model qwen2.5-7b \
-  --dataset cvefixes_function_level \
-  --prompt vulnerability_detection \
-  --output-dir results/test_run
-```
-
-**New experiment plans:**
-```bash
-python src/entrypoints/run_cvefixes_benchmark.py --plan basic_evaluation
-```
-
-## Configuration Examples
-
-### Custom Experiment Plan
-```json
-{
-  "experiment_plans": {
-    "comprehensive_evaluation": {
-      "datasets": ["cvefixes_function_level", "cvefixes_file_level"],
-      "models": ["qwen2.5-7b", "deepseek-coder-v2-lite", "llama-3.2-3b"],
-      "prompts": ["vulnerability_detection"]
-    }
-  }
-}
-```
-
-### Adding New Dataset Configuration
-```json
-{
-  "dataset_configurations": {
-    "cvefixes_custom": {
-      "dataset_name": "CVEFixes Custom Dataset",
-      "dataset_path": "benchmarks/CVEFixes/data/custom_dataset.json",
-      "task_type": "custom_vulnerability_detection"
-    }
-  }
-}
-```
-
-## Troubleshooting
-
-### Configuration Issues
-- **Model not found**: Check `model_configurations` section in config file
-- **Dataset path error**: Verify `dataset_path` in `dataset_configurations`
-- **Invalid experiment plan**: Ensure all referenced models/datasets/prompts exist
-
-### Common Command Fixes
-```bash
-# Check available configurations
-python src/entrypoints/run_cvefixes_benchmark.py --list-configs
-
-# Run with minimal configuration
-python src/entrypoints/run_cvefixes_benchmark.py \
-  --model qwen2.5-7b \
-  --dataset cvefixes_function_level \
-  --prompt vulnerability_detection \
-  --sample-limit 10
-```
-
-## Integration with Framework
-
-The refactored CVEFixes implementation maintains full compatibility with the benchmark framework:
-
-- **Standard Interfaces**: Uses `BenchmarkSample`, `PredictionResult`, `BenchmarkConfig`
-- **Consistent Patterns**: Matches CASTLE and JitVul implementation patterns  
-- **Framework Integration**: `CVEFixesJSONDatasetLoader` unchanged
-- **Unified Metrics**: Framework-standard evaluation metrics
-
-## Files Structure
-
-```
-src/
-├── configs/
-│   └── cvefixes_experiments.json      # New configuration file
-├── entrypoints/
-│   ├── run_cvefixes_benchmark.py      # New refactored runner
-│   └── run_unified_benchmark.py           # Unified runner for all datasets
-├── datasets/
-│   └── cvefixes_dataset_loader.py         # Dataset loader (unchanged)
-└── docs/
-    └── CVEFIXES_README.md                 # This updated documentation
-```
-
-## Dataset Structure
-
-### Sample Format
-
-Each processed sample follows the `BenchmarkSample` structure:
-
-```python
-@dataclass  
-class BenchmarkSample:
-    id: str                    # CVE_ID_type_index (e.g., "CVE-2021-1234_file_0")
-    code: str                  # Vulnerable code (before fix)
-    label: Union[int, str]     # 1 for vulnerable, CWE type for multiclass
-    metadata: Dict[str, Any]   # Rich metadata including CVE details
-    cwe_type: Optional[str]    # CWE classification (e.g., "CWE-119")
-    severity: Optional[str]    # CVSS severity (CRITICAL, HIGH, MEDIUM, LOW)
-```
-
-### Metadata Fields
-
-```python
-metadata = {
-    "cve_id": "CVE-2021-1234",
-    "cwe_id": "119", 
-    "severity": 7.5,
-    "description": "Buffer overflow in...",
-    "published_date": "2021-01-15",
-    "programming_language": "C",
-    "filename": "src/vulnerable.c",
-    "commit_hash": "abc123...",
-    "repo_url": "https://github.com/org/repo",
-    "lines_added": 2,
-    "lines_deleted": 1,
-    "change_type": "file",
-    "code_after": "/* fixed code */"
-}
+  --model qwen3-30b \
+  --dataset binary_python_file \
+  --prompt context_aware
 ```
 
 ## Conclusion
 
-The CVEFixes benchmark has been successfully refactored to use a unified configuration-based approach that matches the CASTLE benchmark pattern. This provides:
+The CVEFixes benchmark provides comprehensive **multi-language vulnerability detection** evaluation with:
 
-- **Consistent Interface**: Same CLI arguments across all benchmarks
-- **Flexible Configuration**: JSON-based experiment definitions
-- **Model Synchronization**: Consistent model support across datasets
-- **Simplified Usage**: Single entry point with unified runner
-- **Maintained Compatibility**: Full framework integration preserved
+- **18 datasets** across C, Java, Python with file/method granularity
+- **8 language-agnostic prompts** for binary and multiclass classification
+- **14 experiment plans** including cross-language and granularity comparisons
+- **11 state-of-the-art models** optimized for code security analysis
+- **Real-world CVE data** from production codebases
 
-The new system makes it easier to define experiments, compare models across real-world vulnerability data, and maintain consistency across the entire benchmark suite.
+The system enables researchers to:
+- Compare vulnerability detection across programming languages
+- Evaluate model performance on different vulnerability types
+- Study the impact of analysis granularity (file vs method level)
+- Conduct comprehensive security-focused LLM evaluations
 
 ---
 
-**Status**: ✅ REFACTORED AND READY FOR USE  
-**Last Updated**: January 2025
+**Status**: ✅ MULTI-LANGUAGE READY  
+**Last Updated**: June 2025  
+**Dataset Coverage**: C, Java, Python  
+**Total Configurations**: 18 datasets × 8 prompts × 11 models = 1,584 possible experiments

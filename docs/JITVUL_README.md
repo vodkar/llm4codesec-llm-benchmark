@@ -2,302 +2,225 @@
 
 ## Overview
 
-The JitVul benchmark provides comprehensive vulnerability detection evaluation using the JitVul dataset. The system has been refactored to use a unified configuration-based approach that matches the CASTLE benchmark pattern for consistency across all datasets.
+The JitVul benchmark provides comprehensive vulnerability detection evaluation using the JitVul dataset. The system has been unified with the CASTLE and CVEFixes benchmarks to use consistent configuration-based approaches and prompt strategies across all datasets.
 
-## New Configuration-Based System
+## New Unified Configuration System
 
 ### Key Improvements ✅
-- **Unified Configuration**: JSON-based experiment configuration following CASTLE pattern
+- **Unified Configuration**: JSON-based experiment configuration following CASTLE/CVEFixes pattern
 - **Consistent CLI**: Same command-line interface across all benchmarks (CASTLE, JitVul, CVEFixes)
+- **Unified Prompts**: Standardized prompt strategies across all benchmarks
+- **Separated Task Types**: Distinct experiment plans for binary and multiclass classification
 - **Flexible Experiments**: Easy definition of model/dataset/prompt combinations
 - **Single Entry Point**: All experiments configurable through JSON files
 - **Model Synchronization**: Consistent model definitions across all datasets
 
 ### Core Components
 - **Configuration File**: `src/configs/jitvul_experiments.json`
-- **Refactored Runner**: `src/entrypoints/run_jitvul_benchmark.py`
-- **Unified Runner**: `src/entrypoints/run_unified_benchmark.py` (handles all datasets)
-- **Dataset Loader**: `src/datasets/jitvul_dataset_loader.py` (unchanged)
+- **Unified Runner**: `src/entrypoints/run_jitvul_benchmark.py`
+- **Universal Runner**: `src/entrypoints/run_unified_benchmark.py` (handles all datasets)
+- **Dataset Loader**: `src/datasets/jitvul_dataset_loader.py`
 
 ## Configuration Structure
 
-The JitVul configuration follows the same structure as CASTLE for consistency:
+The JitVul configuration now follows the same structure as CASTLE and CVEFixes for consistency:
 
 ```json
 {
   "experiment_metadata": {
-    "benchmark_name": "JitVul",
-    "version": "2.2.0",
-    "description": "Vulnerability detection benchmark using JitVul dataset"
+    "name": "JitVul Benchmark LLM Evaluation",
+    "description": "Comprehensive evaluation of LLMs on JitVul benchmark with multiple prompt strategies",
+    "version": "1.0",
+    "dataset": "JitVul-Benchmark v1.0"
   },
   "dataset_configurations": {
-    "jitvul_binary": {
-      "dataset_name": "JitVul Binary Classification",
-      "dataset_path": "benchmarks/JitVul/data/final_benchmark.jsonl",
-      "task_type": "binary_vulnerability"
+    "binary_all": {
+      "dataset_path": "datasets_processed/jitvul/jitvul_binary.json",
+      "task_type": "binary_vulnerability",
+      "description": "Binary classification: all vulnerability types"
+    },
+    "multiclass_all": {
+      "dataset_path": "datasets_processed/jitvul/jitvul_multiclass.json",
+      "task_type": "multiclass_vulnerability", 
+      "description": "Multi-class classification: vulnerability type identification"
     }
   },
   "prompt_strategies": {
-    "detect_vulnerabilities": {
-      "strategy_name": "Vulnerability Detection",
-      "description": "Detect if code contains security vulnerabilities"
-    }
-  },
-  "model_configurations": {
-    "qwen2.5-7b": {
-      "model_name": "Qwen/Qwen2.5-7B-Instruct",
-      "model_type": "QWEN",
-      "config": {
-        "max_tokens": 4096,
-        "temperature": 0.1
-      }
-    }
-  },
-  "experiment_plans": {
-    "basic_evaluation": {
-      "datasets": ["jitvul_binary"],
-      "models": ["qwen2.5-7b"],
-      "prompts": ["detect_vulnerabilities"]
+    "basic_security": {
+      "name": "Basic Security Analysis",
+      "system_prompt": "...",
+      "user_prompt": "Analyze this code for security vulnerabilities:\n\n{code}"
     }
   }
 }
 ```
 
+## Available Prompt Strategies
+
+### Binary Classification Prompts
+- **`basic_security`**: Simple vulnerability detection analysis
+- **`detailed_analysis`**: Comprehensive security analysis with CWE knowledge
+- **`cwe_focused`**: Targeted analysis for specific CWE types (use with CWE-specific datasets)
+- **`context_aware`**: Production-focused analysis considering real-world exploitation
+- **`step_by_step`**: Methodical analysis following systematic steps
+
+### Multiclass Classification Prompts
+- **`multiclass_basic`**: Basic vulnerability type classification
+- **`multiclass_detailed`**: Detailed CWE pattern analysis and classification
+- **`multiclass_comprehensive`**: Comprehensive vulnerability classification for production systems
+
+## Dataset Types
+
+### Binary Classification
+- **`binary_all`**: Vulnerable vs. safe classification across all vulnerability types
+
+### Multiclass Classification
+- **`multiclass_all`**: CWE type identification and classification
+
+### CWE-Specific Detection
+- **`cwe_125`**: Out-of-bounds Read detection
+- **`cwe_190`**: Integer Overflow detection
+- **`cwe_476`**: NULL Pointer Dereference detection
+- **`cwe_787`**: Out-of-bounds Write detection
+
 ## Command Line Interface
 
-### New Unified Interface
-
-All benchmark runners now use the same CLI arguments:
-
-#### Single Experiments
+### Individual Experiments
 ```bash
-# Run with specific model/dataset/prompt
+# Binary classification experiment
 python src/entrypoints/run_jitvul_benchmark.py \
-  --model qwen2.5-7b \
-  --dataset jitvul_binary \
-  --prompt detect_vulnerabilities
+  --model qwen3-4b \
+  --dataset binary_all \
+  --prompt detailed_analysis
+
+# Multiclass classification experiment  
+python src/entrypoints/run_jitvul_benchmark.py \
+  --model qwen3-4b \
+  --dataset multiclass_all \
+  --prompt multiclass_detailed
+
+# CWE-specific analysis
+python src/entrypoints/run_jitvul_benchmark.py \
+  --model deepseek-coder-v2-lite-16b \
+  --dataset cwe_125 \
+  --prompt cwe_focused
 
 # Using unified runner (handles all datasets)
 python src/entrypoints/run_unified_benchmark.py \
   --dataset-type jitvul \
-  --model qwen2.5-7b \
-  --dataset jitvul_binary \
-  --prompt detect_vulnerabilities
+  --model qwen3-4b \
+  --dataset binary_all \
+  --prompt detailed_analysis
 ```
 
-#### Experiment Plans
+### Experiment Plans
 ```bash
-# Run predefined experiment plan
-python src/entrypoints/run_jitvul_benchmark.py --plan basic_evaluation
+# Quick testing
+python src/entrypoints/run_jitvul_benchmark.py --plan quick_test
+python src/entrypoints/run_jitvul_benchmark.py --plan multiclass_quick_test
 
-# With unified runner
-python src/entrypoints/run_unified_benchmark.py \
-  --dataset-type jitvul \
-  --plan basic_evaluation
+# Prompt strategy comparison
+python src/entrypoints/run_jitvul_benchmark.py --plan prompt_comparison
+python src/entrypoints/run_jitvul_benchmark.py --plan multiclass_prompt_comparison
+
+# Model size comparison
+python src/entrypoints/run_jitvul_benchmark.py --plan model_comparison
+python src/entrypoints/run_jitvul_benchmark.py --plan multiclass_model_comparison
+
+# Model category evaluation
+python src/entrypoints/run_jitvul_benchmark.py --plan small_models_binary
+python src/entrypoints/run_jitvul_benchmark.py --plan small_models_multiclass
+python src/entrypoints/run_jitvul_benchmark.py --plan large_models_binary
+python src/entrypoints/run_jitvul_benchmark.py --plan large_models_multiclass
+
+# CWE-specific analysis
+python src/entrypoints/run_jitvul_benchmark.py --plan cwe_specific_analysis
+
+# Comprehensive evaluation
+python src/entrypoints/run_jitvul_benchmark.py --plan comprehensive_evaluation
 ```
 
-#### Common Options
+### Common Options
 ```bash
 # List available configurations
 python src/entrypoints/run_jitvul_benchmark.py --list-configs
 
 # Limit samples and set output directory
 python src/entrypoints/run_jitvul_benchmark.py \
-  --plan basic_evaluation \
+  --plan prompt_comparison \
   --sample-limit 100 \
   --output-dir results/jitvul_test
+
+# Enable verbose logging
+python src/entrypoints/run_jitvul_benchmark.py \
+  --plan quick_test \
+  --verbose
 ```
-## Supported Models
 
-The JitVul benchmark supports all models available in the unified configuration:
+## Available Experiment Plans
 
-- **QWEN Series**: Qwen2.5-7B, Qwen2.5-32B, Qwen2.5-72B, Qwen2.5-Coder variants
-- **DeepSeek Series**: DeepSeek-Coder-V2, DeepSeek-R1-Distill variants
-- **Llama Series**: Llama-3.2-1B, Llama-3.2-3B, CodeLlama variants
-- **Gemma Series**: Gemma-3-1B, Gemma-3-27B
-- **Wizard Series**: WizardCoder-Python-34B
-- **CodeBERT**: microsoft/codebert-base
+### Quick Testing
+- **`quick_test`**: Binary classification with 10 samples for development
+- **`multiclass_quick_test`**: Multiclass classification with 10 samples for development
 
-## Available Task Types
+### Prompt Strategy Analysis
+- **`prompt_comparison`**: Compare all binary classification prompts
+- **`multiclass_prompt_comparison`**: Compare all multiclass classification prompts
 
-- **binary_vulnerability**: Binary classification (vulnerable vs. non-vulnerable)
-- **multiclass_vulnerability**: Multiclass CWE type prediction
-- **cwe_specific**: Targeted vulnerability type detection
+### Model Performance Analysis
+- **`model_comparison`**: Compare models on binary classification
+- **`multiclass_model_comparison`**: Compare models on multiclass classification
+- **`small_models_binary`**: Evaluate small models (≤4B parameters) on binary tasks
+- **`small_models_multiclass`**: Evaluate small models on multiclass tasks
+- **`large_models_binary`**: Evaluate large models (>4B parameters) on binary tasks
+- **`large_models_multiclass`**: Evaluate large models on multiclass tasks
+
+### Specialized Analysis
+- **`cwe_specific_analysis`**: CWE-specific vulnerability detection
+- **`comprehensive_evaluation`**: Full evaluation across all datasets and models
 
 ## Key Features
 
-### 1. Configuration-Driven Experiments
+### 1. Unified Configuration System
+- **Consistent Prompts**: Same prompt strategies as CASTLE and CVEFixes benchmarks
+- **Task Separation**: Distinct prompts and experiments for binary vs. multiclass tasks
 - **JSON Configuration**: All experiments defined in `jitvul_experiments.json`
 - **Flexible Combinations**: Easy model/dataset/prompt combinations
 - **Experiment Plans**: Predefined experimental setups
-- **Consistent Interface**: Same CLI across all benchmarks
 
 ### 2. Enhanced Context Support
-- **Call Graph Integration**: Function relationship context
+- **Call Graph Integration**: Function relationship context when available
 - **Severity Classification**: Vulnerability severity determination
 - **Rich Metadata**: Project info, commit details, function hashes
 
 ### 3. Comprehensive Evaluation
-- **Standard Metrics**: Accuracy, Precision, Recall, F1-score, AUC-ROC
-- **Per-Class Analysis**: Individual CWE type performance
-- **Framework Integration**: Uses benchmark framework evaluation system
+- **Standard Metrics**: AUC-ROC (primary), Accuracy, Precision, Recall, F1-score
+- **Per-Class Analysis**: Individual CWE type performance  
+- **Framework Integration**: Uses unified benchmark framework evaluation system
+- **Error Analysis**: Detailed analysis of misclassifications
 
-## Migration from Old System
+## Task Types
 
-### Old Commands → New Commands
+### Binary Vulnerability Detection
+- **Purpose**: Determine if code contains any security vulnerability
+- **Output**: `VULNERABLE` or `SAFE`
+- **Datasets**: `binary_all`
+- **Prompts**: `basic_security`, `detailed_analysis`, `context_aware`, `step_by_step`
 
-**Old single experiment:**
-```bash
-python src/entrypoints/run_jitvul_benchmark.py \
-  --model Qwen/Qwen2.5-7B-Instruct \
-  --task-type binary_vulnerability \
-  --dataset-path jitvul/ \
-  --output-dir results/test_run
-```
+### Multiclass Vulnerability Classification  
+- **Purpose**: Identify specific CWE type of vulnerability
+- **Output**: Specific CWE identifier (e.g., `CWE-125`) or `SAFE`
+- **Datasets**: `multiclass_all`
+- **Prompts**: `multiclass_basic`, `multiclass_detailed`, `multiclass_comprehensive`
 
-**New single experiment:**
-```bash
-python src/entrypoints/run_jitvul_benchmark.py \
-  --model qwen2.5-7b \
-  --dataset jitvul_binary \
-  --prompt detect_vulnerabilities \
-  --output-dir results/test_run
-```
-
-**Old batch experiments:**
-```bash
-python src/entrypoints/run_jitvul_batch.py --config batch_config.json
-```
-
-**New experiment plans:**
-```bash
-python src/entrypoints/run_jitvul_benchmark.py --plan basic_evaluation
-```
-
-## Configuration Examples
-
-### Custom Experiment Plan
-```json
-{
-  "experiment_plans": {
-    "my_custom_plan": {
-      "datasets": ["jitvul_binary", "jitvul_multiclass"],
-      "models": ["qwen2.5-7b", "deepseek-coder-v2-lite"],
-      "prompts": ["detect_vulnerabilities"]
-    }
-  }
-}
-```
-
-### Adding New Model
-```json
-{
-  "model_configurations": {
-    "my_custom_model": {
-      "model_name": "custom/my-model",
-      "model_type": "CUSTOM",
-      "config": {
-        "max_tokens": 2048,
-        "temperature": 0.0
-      }
-    }
-  }
-}
-```
-
-## Troubleshooting
-
-### Configuration Issues
-- **Model not found**: Check `model_configurations` section in config file
-- **Dataset path error**: Verify `dataset_path` in `dataset_configurations`
-- **Invalid experiment plan**: Ensure all referenced models/datasets/prompts exist
-
-### Common Command Fixes
-```bash
-# Check available configurations
-python src/entrypoints/run_jitvul_benchmark.py --list-configs
-
-# Run with minimal configuration
-python src/entrypoints/run_jitvul_benchmark.py \
-  --model qwen2.5-7b \
-  --dataset jitvul_binary \
-  --prompt detect_vulnerabilities \
-  --sample-limit 10
-```
-
-## Integration with Framework
-
-The refactored JitVul implementation maintains full compatibility with the benchmark framework:
-
-- **Standard Interfaces**: Uses `BenchmarkSample`, `PredictionResult`, `BenchmarkConfig`  
-- **Consistent Patterns**: Matches CASTLE and CVEFixes implementation patterns
-- **Framework Integration**: `JitVulDatasetLoaderFramework` unchanged
-- **Unified Metrics**: Framework-standard evaluation metrics
-
-## Files Structure
-
-```
-src/
-├── configs/
-│   └── jitvul_experiments.json        # New configuration file
-├── entrypoints/
-│   ├── run_jitvul_benchmark.py        # New refactored runner
-│   └── run_unified_benchmark.py           # Unified runner for all datasets
-├── datasets/
-│   └── jitvul_dataset_loader.py           # Dataset loader (unchanged)
-└── docs/
-    └── JITVUL_README.md                   # This updated documentation
-```
-
-## Research Applications
-
-This implementation supports various research directions:
-
-### Model Comparison Studies
-- Systematic evaluation across different LLMs
-- Performance analysis on specific vulnerability types
-- Context sensitivity studies
-
-### Prompt Engineering Research
-- Vulnerability-specific prompt optimization
-- Context augmentation strategies
-- Few-shot vs zero-shot performance
-
-### Dataset Analysis
-- Vulnerability distribution studies
-- Difficulty assessment across CWE types
-- Project-specific vulnerability patterns
-
-### Methodological Research
-- Evaluation metric comparison
-- Sampling strategy effects
-
-## Citation and Attribution
-
-When using this implementation, please cite both the original JitVul dataset and this implementation:
-
-```bibtex
-@misc{jitvul_benchmark_implementation,
-  title={JitVul Benchmark Implementation for LLM Vulnerability Detection},
-  author={LLM4CodeSec Benchmark Framework},
-  year={2024},
-  url={https://github.com/your-repo/llm4codesec-llm-benchmark}
-}
-```
-
-## Conclusion
-
-The JitVul benchmark has been successfully refactored to use a unified configuration-based approach that matches the CASTLE benchmark pattern. This provides:
-
-- **Consistent Interface**: Same CLI arguments across all benchmarks
-- **Flexible Configuration**: JSON-based experiment definitions 
-- **Model Synchronization**: Consistent model support across datasets
-- **Simplified Usage**: Single entry point with unified runner
-- **Maintained Compatibility**: Full framework integration preserved
-
-The new system makes it easier to define experiments, compare models, and maintain consistency across the entire benchmark suite.
+### CWE-Specific Detection
+- **Purpose**: Detect specific types of vulnerabilities
+- **Output**: `VULNERABLE` or `SAFE` for the specific CWE type
+- **Datasets**: `cwe_125`, `cwe_787`
+- **Prompts**: `cwe_focused`
 
 ---
 
-**Status**: ✅ REFACTORED AND READY FOR USE  
-**Last Updated**: January 2025
+**Status**: ✅ UNIFIED AND READY FOR USE  
+**Last Updated**: June 2025  
+**Configuration Aligned**: ✅ Castle, CVEFixes, JitVul

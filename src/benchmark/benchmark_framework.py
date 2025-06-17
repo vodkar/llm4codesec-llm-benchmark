@@ -43,15 +43,17 @@ def _is_flash_attention_available() -> bool:
         )
         return False
 
+
 def _is_flash_attention_supported() -> bool:
     """Check if a GPU supports FlashAttention 2."""
     major, minor = torch.cuda.get_device_capability(0)
-    
+
     # Check if the GPU architecture is Ampere (SM 8.x) or newer (SM 9.0)
     is_sm8x = major == 8 and minor >= 0
     is_sm90 = major == 9 and minor == 0
 
     return is_sm8x or is_sm90
+
 
 class TaskType(Enum):
     """Enumeration of supported task types."""

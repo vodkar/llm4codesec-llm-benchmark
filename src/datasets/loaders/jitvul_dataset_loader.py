@@ -96,9 +96,9 @@ class JitVulDatasetLoader:
                 sample = BenchmarkSample(
                     id=sample_data.get("id", ""),
                     code=sample_data.get("code", ""),
-                    label=sample_data.get("label", ""),
+                    label=sample_data.get("label", "")[0],
                     metadata=sample_data.get("metadata", {}),
-                    cwe=sample_data.get("cwe_type"),
+                    cwe_types=sample_data.get("cwe_type"),
                     severity=sample_data.get("severity"),
                 )
                 samples.append(sample)
