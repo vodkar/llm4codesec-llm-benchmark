@@ -34,8 +34,6 @@ from transformers import (
 
 def _is_flash_attention_available() -> bool:
     """Check if FlashAttention is available."""
-    importlib.util.find_spec("flash_attn_interface")
-
     if importlib.util.find_spec("flash_attn_interface"):
         logging.info("FlashAttention is available")
         return True
