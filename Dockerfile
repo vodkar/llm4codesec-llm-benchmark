@@ -26,7 +26,7 @@ WORKDIR /app
 
 COPY pyproject.toml poetry.lock ./
     
-RUN poetry install
+RUN --mount=type=cache,target=/root/.cache/ poetry install --only main
 
 
 # Install flash attention
