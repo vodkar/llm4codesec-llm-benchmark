@@ -88,7 +88,7 @@ poetry env activate
 
 ```bash
 # Create sample dataset and run quick benchmark
-python run_benchmark.py --quick
+python run_castle_experiments.py --plan prompt_comparison
 ```
 
 #### 3. List Available Configurations
@@ -121,105 +121,6 @@ python run_benchmark.py \
     --task multiclass_vulnerability \
     --dataset ./data/mixed_vulnerabilities.json \
     --output ./results/deepseek_multiclass
-```
-
-## Dataset Format
-
-The framework expects datasets in JSON format with the following structure:
-
-```json
-[
-    {
-        "id": "sample_001",
-        "code": "def get_user(user_id):\n    query = f\"SELECT * FROM users WHERE id = {user_id}\"\n    return db.execute(query)",
-        "label": 1,
-        "cwe_type": "CWE-89",
-        "severity": "high",
-        "metadata": {
-            "language": "python",
-            "source": "synthetic"
-        }
-    },
-    {
-        "id": "sample_002", 
-        "code": "def get_user(user_id):\n    query = \"SELECT * FROM users WHERE id = ?\"\n    return db.execute(query, (user_id,))",
-        "label": 0,
-        "cwe_type": null,
-        "severity": null,
-        "metadata": {
-            "language": "python",
-            "source": "synthetic"
-        }
-    }
-]
-```
-
-### Required Fields
-
-- `id`: Unique identifier for the sample
-- `code`: Source code to analyze
-- `label`: Ground truth label (0/1 for binary, string for multiclass)
-
-### Optional Fields
-
-- `cwe_type`: CWE identifier (e.g., "CWE-79", "CWE-89")
-- `severity`: Vulnerability severity ("low", "medium", "high")
-- `metadata`: Additional information about the sample
-
-## Configuration
-
-### Using Configuration Files
-
-Create a JSON configuration file:
-
-```json
-{
-    "model": "qwen2.5-7b",
-    "task": "binary_vulnerability", 
-    "dataset": "./data/my_dataset.json",
-    "output": "./results/my_experiment",
-    "temperature": 0.1,
-    "max_tokens": 512,
-    "use_quantization": true
-}
-```
-
-Then run:
-
-```bash
-python run_benchmark.py --config ./my_config.json
-```
-
-### Available Models
-
-| Model Key | Model Name | Description |
-|-----------|------------|-------------|
-| `llama2-7b` | meta-llama/Llama-2-7b-chat-hf | Llama2 7B Chat |
-| `qwen2.5-7b` | Qwen/Qwen2.5-7B-Instruct | Qwen2.5 7B Instruct |
-| `deepseek-coder` | deepseek-ai/deepseek-coder-6.7b-instruct | DeepSeek Coder 6.7B |
-| `codebert` | microsoft/codebert-base | Microsoft CodeBERT |
-
-### Available Tasks
-
-| Task Key | Description | Output Format |
-|----------|-------------|---------------|
-| `binary_vulnerability` | General vulnerability detection | 0 (safe) / 1 (vulnerable) |
-| `cwe79_detection` | XSS vulnerability detection | 0 (safe) / 1 (vulnerable) |
-| `cwe89_detection` | SQL injection detection | 0 (safe) / 1 (vulnerable) |
-| `multiclass_vulnerability` | Vulnerability type classification | "SAFE" / "CWE-XX" |
-
-## Results and Analysis
-
-### Output Structure
-
-Each benchmark run generates:
-
-```
-results/
-├── benchmark_report_YYYYMMDD_HHMMSS.json    # Complete results
-├── metrics_summary_YYYYMMDD_HHMMSS.json     # Metrics only
-├── predictions_YYYYMMDD_HHMMSS.csv          # Individual predictions
-└── benchmark.log                             # Execution log
 ```
 
 ### Metrics
