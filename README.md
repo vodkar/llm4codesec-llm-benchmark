@@ -58,7 +58,7 @@ PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 
 ### Using Docker
 
-#### 1. Setup nvidia container drivers
+#### Setup nvidia container drivers
 
 ##### a. 
 
@@ -68,7 +68,7 @@ Check for actual instruction [here](https://docs.nvidia.com/datacenter/cloud-nat
 
 Use docker cuda ready VPC image. For example in [selectel](https://docs.selectel.ru/en/cloud-servers/images/about-images/#default-images)
 
-#### 1. Build docker image
+#### Build docker image
 
 ```bash
 ./build_docker.sh
@@ -76,7 +76,7 @@ Use docker cuda ready VPC image. For example in [selectel](https://docs.selectel
 
 ### W/o Docker (not tested)
 
-#### 1. Install dependencies using Poetry (recommended):
+#### Install dependencies using Poetry (recommended):
 
 ```bash
 pip install poetry
@@ -84,48 +84,40 @@ poetry install
 poetry env activate
 ```
 
-#### 2. Create Sample Data and Run Quick Test
+### How to run
+
+#### Run quick experiment
 
 ```bash
-# Create sample dataset and run quick benchmark
-python run_castle_experiments.py --plan prompt_comparison
+python src/entrypoints/run_castle_experiments.py --plan quick_test
 ```
 
-#### 3. List Available Configurations
+#### Run Specific Benchmarks
 
 ```bash
-# See all available models and tasks
-python run_benchmark.py --list-configs
+python src/entrypoints/run_cvefixes_benchmark.py \
+  --plan basic_evaluation \
+  --sample-limit 100 \
+  --output-dir results/cvefixes_test
+
+python src/entrypoints/run_jitvul_benchmark.py \
+  --plan basic_evaluation \
+  --sample-limit 100 \
+  --output-dir results/jitvul_test
 ```
 
-#### 4. Run Specific Benchmarks
+## ⚡️ Comprehensive experiment VERY QUICKSTART
 
-```bash
-# Binary vulnerability detection with Qwen2.5
-python run_benchmark.py \
-    --model qwen2.5-7b \
-    --task binary_vulnerability \
-    --dataset ./data/vulbench.json \
-    --output ./results/qwen_binary
-
-# CWE-79 (XSS) detection with Llama2
-python run_benchmark.py \
-    --model llama2-7b \
-    --task cwe79_detection \
-    --dataset ./data/xss_dataset.json \
-    --output ./results/llama_xss
-
-# Multi-class vulnerability classification with DeepSeek
-python run_benchmark.py \
-    --model deepseek-coder \
-    --task multiclass_vulnerability \
-    --dataset ./data/mixed_vulnerabilities.json \
-    --output ./results/deepseek_multiclass
+```shell
+./build_docker.sh
+alias run_benchmark="docker-compose run --rm llm4codesec-benchmark python"
+run_benchmark entrypoints/run_setup_castle_dataset.py
+run_benchmark entrypoints/run_castle_experiments.py --plan small_models_evaluation
 ```
 
-### Metrics
+## Metrics
 
-#### Binary Classification
+### Binary Classification
 
 - Accuracy
 - Precision
@@ -134,7 +126,7 @@ python run_benchmark.py \
 - Specificity
 - Confusion Matrix (TP, TN, FP, FN)
 
-#### Multi-class Classification
+### Multi-class Classification
 
 - Accuracy
 - Per-class Precision, Recall, F1-score
@@ -160,108 +152,6 @@ print(f"F1-Score: {results['metrics']['f1_score']:.4f}")
 predictions_df = pd.read_csv('./results/predictions_20241203_143022.csv')
 print(predictions_df.groupby(['true_label', 'predicted_label']).size())
 ```
-
-## Advanced Usage
-
-### Custom Models
-
-To add support for custom models:
-
-```python
-from benchmark_framework import BenchmarkConfig, ModelType, TaskType
-
-config = BenchmarkConfig(
-    model_name="your-org/your-model",
-    model_type=ModelType.CUSTOM,
-    task_type=TaskType.BINARY_VULNERABILITY,
-    dataset_path="./data/your_dataset.json",
-    output_dir="./results/custom_model"
-)
-```
-
-### Custom Prompts
-
-Override default prompts by modifying the `PromptGenerator` class or providing custom templates in the configuration.
-
-### Batch Processing
-
-For processing multiple configurations:
-
-```python
-from config_manager import BenchmarkConfigManager
-from benchmark_framework import BenchmarkRunner
-
-models = ["llama2-7b", "qwen2.5-7b", "deepseek-coder"]
-tasks = ["binary_vulnerability", "multiclass_vulnerability"]
-
-for model in models:
-    for task in tasks:
-        config = BenchmarkConfigManager.create_config(
-            model_key=model,
-            task_key=task,
-            dataset_path="./data/benchmark_dataset.json",
-            output_dir=f"./results/{model}_{task}"
-        )
-        
-        runner = BenchmarkRunner(config)
-        results = runner.run_benchmark()
-        print(f"Completed {model} on {task}: {results['metrics']['accuracy']:.4f}")
-```
-
-## Performance Optimization
-
-### Memory Management
-
-- Use quantization for large models: `--no-quantization` to disable
-- Adjust batch size based on available memory
-- Monitor GPU memory usage during execution
-
-### Speed Optimization
-
-- Use GPU when available
-- Enable mixed precision training
-- Reduce `max_tokens` for faster inference
-- Use smaller model variants for initial testing
-
-## Troubleshooting
-
-### Common Issues
-
-1. **CUDA Out of Memory**:
-   - Enable quantization
-   - Reduce batch size
-   - Use smaller model
-
-2. **Model Loading Fails**:
-   - Check model name spelling
-   - Ensure HuggingFace token is set for gated models
-   - Verify internet connection
-
-3. **Dataset Loading Errors**:
-   - Check JSON format
-   - Verify required fields are present
-   - Ensure file path is correct
-
-### Debugging
-
-Enable detailed logging:
-
-```python
-import logging
-logging.basicConfig(level=logging.DEBUG)
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Add tests for new functionality
-4. Ensure code follows type hints and style guidelines
-5. Submit a pull request
-
-## License
-
-[Your license here]
 
 ## Citation
 

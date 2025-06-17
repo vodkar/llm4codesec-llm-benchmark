@@ -15,6 +15,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional
 
+from consts import CONFIG_DIRECTORY
 from entrypoints.run_castle_benchmark import (
     load_castle_config,
     run_single_experiment,
@@ -210,7 +211,9 @@ def validate_datasets_exist(castle_config: Dict[str, Any]) -> bool:
         logger.error("Missing dataset files:")
         for path in missing_datasets:
             logger.error(f"  - {path}")
-        logger.error("Run setup_castle_dataset.py first to create processed datasets")
+        logger.error(
+            "Run run_setup_castle_dataset.py first to create processed datasets"
+        )
         return False
 
     return True
@@ -225,20 +228,12 @@ def main():
 
     parser.add_argument(
         "--config",
-        default="castle_experiments_config.json",
+        default=(CONFIG_DIRECTORY / "castle_experiments.json").absolute(),
         help="Path to CASTLE experiments configuration file",
     )
 
     parser.add_argument(
         "--plan",
-        choices=[
-            "quick_test",
-            "prompt_comparison",
-            "model_comparison",
-            "cwe_specific_analysis",
-            "small_models_evaluation",
-            "comprehensive_evaluation",
-        ],
         help="Experiment plan to run",
     )
 

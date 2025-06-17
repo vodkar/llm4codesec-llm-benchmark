@@ -389,7 +389,7 @@ def main():
             logger.info(f"  - {file.name}")
 
     except Exception as e:
-        logger.error(f"Dataset setup failed: {e}")
+        logger.exception(f"Dataset setup failed: {e}")
         sys.exit(1)
 
 

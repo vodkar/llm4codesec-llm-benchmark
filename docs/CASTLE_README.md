@@ -19,10 +19,10 @@ First, ensure the CASTLE source is available and set up the processed datasets:
 
 ```powershell
 # Setup processed datasets with all CWEs
-python setup_castle_dataset.py --create-prompts --update-gitignore
+python run_setup_castle_dataset.py --create-prompts --update-gitignore
 
 # Or setup only specific CWEs
-python setup_castle_dataset.py --cwes CWE-125 CWE-190 CWE-476 CWE-787
+python run_setup_castle_dataset.py --cwes CWE-125 CWE-190 CWE-476 CWE-787
 ```
 
 ### 2. Run a Quick Test
@@ -49,7 +49,7 @@ python run_castle_experiments.py --plan comprehensive_evaluation
 
 ```
 ├── castle_dataset_loader.py          # CASTLE dataset loader and processing
-├── setup_castle_dataset.py           # Dataset setup and processing script
+├── run_setup_castle_dataset.py           # Dataset setup and processing script
 ├── run_castle_benchmark.py           # Single experiment runner
 ├── run_castle_experiments.py         # Batch experiment runner
 ├── castle_experiments_config.json    # Experiment configurations
@@ -253,7 +253,7 @@ cwe_125_samples = filter_by_cwe(samples, "CWE-125")
 
 1. **Missing Datasets**
    ```powershell
-   python setup_castle_dataset.py
+   python run_setup_castle_dataset.py
    ```
 
 2. **GPU Memory Issues**

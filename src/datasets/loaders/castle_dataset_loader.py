@@ -159,7 +159,7 @@ class CastleDatasetLoader:
             code=code,
             label=binary_label,  # Default to binary label
             metadata=sample_metadata,
-            cwe=cwe_label,
+            cwe_types=[cwe_label],
             severity="high" if metadata.vulnerable else "none",
         )
 
@@ -195,7 +195,10 @@ class CastleDatasetLoader:
 
                     # Adjust label based on task type
                     if task_type == "multiclass":
-                        sample.label = sample.cwe_types
+                        if not sample.cwe_types:
+                            raise ValueError(f"No CWE types found for {c_file.name}")
+                        # We don't have multiclass labels in CASTLE
+                        sample.label = sample.cwe_types[0]
                     elif task_type == "cwe_specific":
                         # For CWE-specific tasks, we might filter later
                         pass
@@ -296,7 +299,7 @@ class CastleDatasetLoaderFramework(DatasetLoader):
                 code=sample_dict["code"],
                 label=sample_dict["label"],
                 metadata=sample_dict["metadata"],
-                cwe=sample_dict.get("cwe_type"),
+                cwe_types=sample_dict.get("cwe_type"),
                 severity=sample_dict.get("severity"),
             )
             samples.append(sample)
@@ -320,7 +323,7 @@ def filter_by_cwe(
     filtered = []
     for sample in samples:
         sample_cwe = f"CWE-{sample.metadata.get('cwe_number', 0)}"
-        if sample_cwe == target_cwe or sample.cwe == "SAFE":
+        if sample_cwe == target_cwe or sample.cwe_types == ["SAFE"]:
             # Create a copy with binary label for CWE-specific task
             sample_copy = BenchmarkSample(
                 id=sample.id,

@@ -361,7 +361,7 @@ def main():
         # Setup datasets if requested
         if args.setup_only:
             logger.info("Setting up CASTLE datasets...")
-            from datasets.setup_castle_dataset import create_castle_datasets
+            from entrypoints.run_setup_castle_datasetset import create_castle_datasets
 
             create_castle_datasets()
             logger.info("Dataset setup completed")
