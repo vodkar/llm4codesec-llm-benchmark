@@ -13,6 +13,7 @@ ENV PYTHONPATH=/app
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     python3-pip \
+    python3-packaging \
     python3-poetry \
     ninja-build \
     && rm -rf /var/lib/apt/lists/*
@@ -26,12 +27,11 @@ WORKDIR /app
 
 COPY pyproject.toml poetry.lock ./
     
-RUN --mount=type=cache,target=/root/.cache/ poetry install --only main
-
+RUN poetry install --only main
 
 # Install flash attention
-# RUN pip install flash-attn==2.7.4.post1 --no-build-isolation && \
-# RUN poetry cache clear PyPI --all  <<< "yes\n"
+RUN poetry run pip install ninja && \
+    FLASH_ATTN_CUDA_ARCHS=120 MAX_JOBS=8 poetry run pip install flash-attn==2.8.0.post2 --no-build-isolation
 
 WORKDIR /app
 
