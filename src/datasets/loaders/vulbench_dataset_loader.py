@@ -124,7 +124,7 @@ class VulBenchDatasetLoader:
                 code=code,
                 label=label,
                 metadata={**base_metadata, "original_vulnerable": vulnerable},
-                cwe_types=vulnerability_types if vulnerability_types else None,
+                cwe=vulnerability_types if vulnerability_types else None,
                 severity=self._get_vulnerability_severity(vulnerability_types)
             )
             samples.append(sample)
@@ -143,7 +143,7 @@ class VulBenchDatasetLoader:
                 code=code,
                 label=label,
                 metadata={**base_metadata, "original_vulnerable": vulnerable, "all_vulnerability_types": vulnerability_types},
-                cwe_types=vulnerability_types if vulnerability_types else None,
+                cwe=vulnerability_types if vulnerability_types else None,
                 severity=self._get_vulnerability_severity(vulnerability_types)
             )
             samples.append(sample)

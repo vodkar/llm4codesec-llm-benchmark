@@ -27,6 +27,8 @@ from entrypoints.run_jitvul_benchmark import load_jitvul_config
 from entrypoints.run_jitvul_benchmark import run_single_experiment as run_jitvul_experiment
 from entrypoints.run_vulbench_benchmark import load_vulbench_config
 from entrypoints.run_vulbench_benchmark import run_single_experiment as run_vulbench_experiment
+from entrypoints.run_vuldetectbench_benchmark import load_vuldetectbench_config
+from entrypoints.run_vuldetectbench_benchmark import run_single_experiment as run_vuldetectbench_experiment
 
 
 def setup_logging(verbose: bool = False) -> None:
@@ -126,6 +128,11 @@ def run_experiment_plan(
                             model_key, dataset_key, prompt_key,
                             config, plan_sample_limit, str(plan_output_dir)
                         )
+                    elif dataset_type == "vuldetectbench":
+                        result = run_vuldetectbench_experiment(
+                            model_key, dataset_key, prompt_key,
+                            config, plan_sample_limit, str(plan_output_dir)
+                        )
                     else:
                         raise ValueError(f"Unknown dataset type: {dataset_type}")
                     
@@ -179,6 +186,8 @@ def load_config(dataset_type: str, config_path: str) -> Dict[str, Any]:
         return load_cvefixes_config(config_path)
     elif dataset_type == "vulbench":
         return load_vulbench_config(config_path)
+    elif dataset_type == "vuldetectbench":
+        return load_vuldetectbench_config(config_path)
     else:
         raise ValueError(f"Unknown dataset type: {dataset_type}")
 
@@ -209,6 +218,10 @@ def run_single_experiment_unified(
         return run_vulbench_experiment(
             model_key, dataset_key, prompt_key, config, sample_limit, output_dir
         )
+    elif dataset_type == "vuldetectbench":
+        return run_vuldetectbench_experiment(
+            model_key, dataset_key, prompt_key, config, sample_limit, output_dir
+        )
     else:
         raise ValueError(f"Unknown dataset type: {dataset_type}")
 
@@ -216,7 +229,7 @@ def run_single_experiment_unified(
 def main():
     """Main function."""
     parser = argparse.ArgumentParser(
-        description="Unified benchmark runner for CASTLE, JitVul, CVEFixes, and VulBench datasets",
+        description="Unified benchmark runner for CASTLE, JitVul, CVEFixes, VulBench, and VulDetectBench datasets",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -232,6 +245,9 @@ Examples:
   # Run experiment plan for VulBench
   python run_unified_benchmark.py vulbench --plan quick_test
   
+  # Run experiment plan for VulDetectBench
+  python run_unified_benchmark.py vuldetectbench --plan task1_evaluation
+  
   # List available configurations
   python run_unified_benchmark.py castle --list-configs
         """
@@ -239,7 +255,7 @@ Examples:
 
     parser.add_argument(
         "dataset_type",
-        choices=["castle", "jitvul", "cvefixes", "vulbench"],
+        choices=["castle", "jitvul", "cvefixes", "vulbench", "vuldetectbench"],
         help="Type of dataset to run benchmark on"
     )
 
@@ -312,7 +328,8 @@ Examples:
                 "castle": "castle_experiments.json",
                 "jitvul": "jitvul_experiments.json", 
                 "cvefixes": "cvefixes_experiments.json",
-                "vulbench": "vulbench_experiments.json"
+                "vulbench": "vulbench_experiments.json",
+                "vuldetectbench": "vuldetectbench_experiments.json"
             }
             args.config = config_files[args.dataset_type]
 

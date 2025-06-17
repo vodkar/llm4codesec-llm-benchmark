@@ -272,7 +272,7 @@ class CVEFixesDatasetLoader:
             code=code,
             label=binary_label,
             metadata=metadata,
-            cwe_types=cwe_type,
+            cwe=cwe_type,
             severity=self._map_severity(severity)
             if isinstance(severity, (int, float))
             else severity,
@@ -352,7 +352,7 @@ class CVEFixesDatasetLoader:
             code=code_to_analyze,
             label=binary_label,
             metadata=metadata,
-            cwe_types=cwe_type,
+            cwe=cwe_type,
             severity=self._map_severity(severity)
             if isinstance(severity, (int, float))
             else severity,
@@ -613,7 +613,7 @@ class CVEFixesJSONDatasetLoader(DatasetLoader):
                 code=sample_data["code"],
                 label=sample_data["label"],
                 metadata=sample_data["metadata"],
-                cwe_types=sample_data.get("cwe_type"),
+                cwe=sample_data.get("cwe_type"),
                 severity=sample_data.get("severity"),
             )
             samples.append(sample)

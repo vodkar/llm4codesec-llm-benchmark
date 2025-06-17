@@ -8,7 +8,6 @@ for use with the VulBench benchmark runner.
 import json
 import logging
 from pathlib import Path
-from typing import Dict, List
 
 from datasets.loaders.vulbench_dataset_loader import VulBenchDatasetLoader
 

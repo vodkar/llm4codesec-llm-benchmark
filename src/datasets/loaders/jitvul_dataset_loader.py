@@ -94,7 +94,7 @@ class JitVulDatasetLoader:
                     code=sample_data.get('code', ''),
                     label=sample_data.get('label', ''),
                     metadata=sample_data.get('metadata', {}),
-                    cwe_types=sample_data.get('cwe_type'),
+                    cwe=sample_data.get('cwe_type'),
                     severity=sample_data.get('severity')
                 )
                 samples.append(sample)
@@ -205,7 +205,7 @@ class JitVulDatasetLoader:
                 code=self._augment_code_with_context(vuln_func, item, use_call_graph),
                 label="VULNERABLE",
                 metadata={**base_metadata, "function_type": "vulnerable", "original_cwe": cwe},
-                cwe_types=cwe if cwe else None,
+                cwe=cwe if cwe else None,
                 severity=self._get_cwe_severity(cwe)
             )
             
@@ -214,7 +214,7 @@ class JitVulDatasetLoader:
                 code=self._augment_code_with_context(non_vuln_func, item, use_call_graph),
                 label="NOT_VULNERABLE",
                 metadata={**base_metadata, "function_type": "non_vulnerable"},
-                cwe_types=None,
+                cwe=None,
                 severity=None
             )
             
@@ -228,7 +228,7 @@ class JitVulDatasetLoader:
                     code=self._augment_code_with_context(vuln_func, item, use_call_graph),
                     label=cwe,
                     metadata={**base_metadata, "function_type": "vulnerable"},
-                    cwe_types=cwe,
+                    cwe=cwe,
                     severity=self._get_cwe_severity(cwe)
                 )
                 samples.append(vuln_sample)
@@ -242,7 +242,7 @@ class JitVulDatasetLoader:
                     code=self._augment_code_with_context(vuln_func, item, use_call_graph),
                     label="VULNERABLE",
                     metadata={**base_metadata, "function_type": "vulnerable", "target_cwe": target_cwe},
-                    cwe_types=cwe,
+                    cwe=cwe,
                     severity=self._get_cwe_severity(cwe)
                 )
                 
@@ -251,7 +251,7 @@ class JitVulDatasetLoader:
                     code=self._augment_code_with_context(non_vuln_func, item, use_call_graph),
                     label="NOT_VULNERABLE", 
                     metadata={**base_metadata, "function_type": "non_vulnerable", "target_cwe": target_cwe},
-                    cwe_types=None,
+                    cwe=None,
                     severity=None
                 )
                 

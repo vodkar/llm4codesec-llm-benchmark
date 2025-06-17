@@ -234,7 +234,7 @@ def test_benchmark_sample_compatibility():
                 "cwe_id": "120",
                 "programming_language": "C"
             },
-            cwe_types="CWE-120",
+            cwe="CWE-120",
             severity="HIGH"
         )
         

@@ -16,7 +16,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Protocol, Tuple, Union
+from typing import Any, Optional, Protocol, Tuple
 
 import numpy as np
 import pandas as pd
@@ -84,10 +84,10 @@ class BenchmarkSample:
 
     id: str
     code: str
-    label: Union[int, str]
-    metadata: Dict[str, Any]
+    label: int | str
+    metadata: dict[str, Any]
     cwe_types: Optional[list[str]] = None
-    severity: Optional[str] = None
+    severity: str | None = None
 
 
 @dataclass
@@ -95,8 +95,8 @@ class PredictionResult:
     """Data structure for model prediction results."""
 
     sample_id: str
-    predicted_label: Union[int, str]
-    true_label: Union[int, str]
+    predicted_label: int | str
+    true_label: int | str
     confidence: Optional[float]
     response_text: str
     processing_time: float
@@ -118,9 +118,9 @@ class BenchmarkConfig:
     temperature: float = 0.1
     use_quantization: bool = True
     enable_thinking: bool = False
-    cwe_type: Optional[str] = None
-    system_prompt_template: Optional[str] = None
-    user_prompt_template: Optional[str] = None
+    cwe_type: str | None = None
+    system_prompt_template: str | None = None
+    user_prompt_template: str | None = None
 
     @classmethod
     def create_for_model(
@@ -129,7 +129,7 @@ class BenchmarkConfig:
         task_type: TaskType,
         dataset_path: str,
         output_dir: str,
-        description: Optional[str] = None,
+        description: str | None = None,
         **kwargs
     ) -> "BenchmarkConfig":
         """
@@ -200,12 +200,12 @@ class BenchmarkConfig:
         )
 
     @staticmethod
-    def get_available_models() -> Dict[str, List[str]]:
+    def get_available_models() -> dict[str, list[str]]:
         """
         Get a dictionary of available models organized by family.
         
         Returns:
-            Dict[str, List[str]]: Dictionary mapping model families to model names
+            dict[str, list[str]]: dictionary mapping model families to model names
         """
         return {
             "Llama": [
@@ -243,7 +243,7 @@ class BenchmarkConfig:
 class DatasetLoader(Protocol):
     """Protocol for dataset loading implementations."""
 
-    def load_dataset(self, path: str) -> List[BenchmarkSample]:
+    def load_dataset(self, path: str) -> list[BenchmarkSample]:
         """Load dataset from the specified path."""
         ...
 
@@ -251,7 +251,7 @@ class DatasetLoader(Protocol):
 class VulBenchLoader:
     """Loader for VulBench dataset format."""
 
-    def load_dataset(self, path: str) -> List[BenchmarkSample]:
+    def load_dataset(self, path: str) -> list[BenchmarkSample]:
         """
         Load VulBench dataset.
 
@@ -259,13 +259,13 @@ class VulBenchLoader:
             path (str): Path to the dataset file
 
         Returns:
-            List[BenchmarkSample]: Loaded samples
+            list[BenchmarkSample]: Loaded samples
         """
         data_path = Path(path)
         if not data_path.exists():
             raise FileNotFoundError(f"Dataset not found: {path}")
 
-        samples: List[BenchmarkSample] = []
+        samples: list[BenchmarkSample] = []
 
         if data_path.suffix == ".json":
             with open(data_path, "r", encoding="utf-8") as f:
@@ -335,7 +335,7 @@ Instructions:
     }
 
     def get_system_prompt(
-        self, task_type: TaskType, cwe_type: Optional[str] = None
+        self, task_type: TaskType, cwe_type: str | None = None
     ) -> str:
         """Generate system prompt for the given task type."""
         prompt = self.SYSTEM_PROMPTS[task_type]
@@ -344,7 +344,7 @@ Instructions:
         return prompt
 
     def get_user_prompt(
-        self, task_type: TaskType, code: str, cwe_type: Optional[str] = None
+        self, task_type: TaskType, code: str, cwe_type: str | None = None
     ) -> str:
         """Generate user prompt for the given task type and code."""
         prompt = self.USER_PROMPTS[task_type]
@@ -592,7 +592,7 @@ class ResponseParser:
     def __init__(self, task_type: TaskType):
         self.task_type = task_type
 
-    def parse_response(self, response: str) -> Union[int, str]:
+    def parse_response(self, response: str) -> int | str:
         """
         Parse model response into standardized format.
 
@@ -600,7 +600,7 @@ class ResponseParser:
             response (str): Raw model response
 
         Returns:
-            Union[int, str]: Parsed response
+            int | str: Parsed response
         """
         response = response.strip().upper()
 
@@ -648,8 +648,8 @@ class MetricsCalculator:
 
     @staticmethod
     def calculate_binary_metrics(
-        predictions: List[PredictionResult],
-    ) -> Dict[str, float]:
+        predictions: list[PredictionResult],
+    ) -> dict[str, float]:
         """Calculate metrics for binary classification."""
         y_true = [pred.true_label for pred in predictions]
         y_pred = [pred.predicted_label for pred in predictions]
@@ -682,8 +682,8 @@ class MetricsCalculator:
 
     @staticmethod
     def calculate_multiclass_metrics(
-        predictions: List[PredictionResult],
-    ) -> Dict[str, Any]:
+        predictions: list[PredictionResult],
+    ) -> dict[str, Any]:
         """Calculate metrics for multiclass classification."""
         y_true = [pred.true_label for pred in predictions]
         y_pred = [pred.predicted_label for pred in predictions]
@@ -727,12 +727,12 @@ class BenchmarkRunner:
             handlers=[logging.FileHandler(log_file), logging.StreamHandler()],
         )
 
-    def run_benchmark(self) -> Dict[str, Any]:
+    def run_benchmark(self) -> dict[str, Any]:
         """
         Execute the complete benchmark.
 
         Returns:
-            Dict[str, Any]: Benchmark results
+            dict[str, Any]: Benchmark results
         """
         logging.info("Starting benchmark execution")
         start_time = time.time()
@@ -772,10 +772,10 @@ class BenchmarkRunner:
                 self.llm.cleanup()
 
     def _run_predictions(
-        self, samples: List[BenchmarkSample]
-    ) -> List[PredictionResult]:
+        self, samples: list[BenchmarkSample]
+    ) -> list[PredictionResult]:
         """Run model predictions on all samples."""
-        predictions: List[PredictionResult] = []
+        predictions: list[PredictionResult] = []
 
         system_prompt = self.prompt_generator.get_system_prompt(
             self.config.task_type, self.config.cwe_type
@@ -816,7 +816,7 @@ class BenchmarkRunner:
 
         return predictions
 
-    def _calculate_metrics(self, predictions: List[PredictionResult]) -> Dict[str, Any]:
+    def _calculate_metrics(self, predictions: list[PredictionResult]) -> dict[str, Any]:
         """Calculate evaluation metrics."""
         if self.config.task_type in [
             TaskType.BINARY_VULNERABILITY,
@@ -828,11 +828,11 @@ class BenchmarkRunner:
 
     def _generate_report(
         self,
-        samples: List[BenchmarkSample],
-        predictions: List[PredictionResult],
-        metrics: Dict[str, Any],
+        samples: list[BenchmarkSample],
+        predictions: list[PredictionResult],
+        metrics: dict[str, Any],
         total_time: float,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Generate comprehensive benchmark report."""
 
         report = {
@@ -864,7 +864,7 @@ class BenchmarkRunner:
 
         return report
 
-    def _save_results(self, report: Dict[str, Any]) -> None:
+    def _save_results(self, report: dict[str, Any]) -> None:
         """Save benchmark results to files."""
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
