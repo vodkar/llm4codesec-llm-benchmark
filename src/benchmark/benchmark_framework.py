@@ -455,7 +455,6 @@ class HuggingFaceLLM(LLMInterface):
                         quantization_config = BitsAndBytesConfig(
                             load_in_8bit=True,
                             llm_int8_enable_fp32_cpu_offload=False,
-                            llm_int8_has_fp16_weight=True,
                             llm_int8_threshold=6.0,
                         )
                         logging.info("Using 8-bit quantization for A100")
@@ -463,7 +462,7 @@ class HuggingFaceLLM(LLMInterface):
                         # Fallback to 4-bit for very large models or smaller GPUs
                         quantization_config = BitsAndBytesConfig(
                             load_in_4bit=True,
-                            bnb_4bit_compute_dtype=torch.float16,
+                            bnb_4bit_compute_dtype=torch.bfloat16,
                             bnb_4bit_use_double_quant=True,
                             bnb_4bit_quant_type="nf4",
                         )
