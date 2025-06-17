@@ -5,18 +5,13 @@ VulBench Benchmark Runner (New Configuration-Based)
 A specialized script for running LLM benchmarks on the VulBench dataset with
 unified configuration approach matching CASTLE, JitVul, and CVEFixes patterns.
 """
+
 import argparse
 import json
 import logging
-import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional
-
-# Add the src directory to Python path if not already there
-src_dir = Path(__file__).parent.parent
-if str(src_dir) not in sys.path:
-    sys.path.insert(0, str(src_dir))
 
 from benchmark.benchmark_framework import BenchmarkConfig, ModelType, TaskType
 from datasets.loaders.vulbench_dataset_loader import VulBenchDatasetLoaderFramework
@@ -24,89 +19,109 @@ from datasets.loaders.vulbench_dataset_loader import VulBenchDatasetLoaderFramew
 
 class VulBenchBenchmarkRunner:
     """Custom benchmark runner for VulBench datasets."""
-    
+
     def __init__(self, config: BenchmarkConfig):
         self.config = config
         self.logger = logging.getLogger(__name__)
-        
+
         # Initialize dataset loader
         self.dataset_loader = VulBenchDatasetLoaderFramework()
-        
+
     def run_benchmark(self, sample_limit: Optional[int] = None) -> Dict[str, Any]:
         """Run benchmark with VulBench-specific dataset loading."""
         import dataclasses
         import time
         from pathlib import Path
 
-        from benchmark.benchmark_framework import (HuggingFaceLLM, MetricsCalculator, PredictionResult, PromptGenerator,
-                                                   ResponseParser, TaskType)
-        
+        from benchmark.benchmark_framework import (
+            HuggingFaceLLM,
+            MetricsCalculator,
+            PredictionResult,
+            PromptGenerator,
+            ResponseParser,
+            TaskType,
+        )
+
         logging.info("Starting VulBench benchmark execution")
         start_time = time.time()
-        
+
         try:
             # Load dataset using VulBench loader
             logging.info(f"Loading VulBench dataset from: {self.config.dataset_path}")
             samples = self.dataset_loader.load_dataset(self.config.dataset_path)
-            
+
             # Apply sample limit if specified
             if sample_limit and sample_limit < len(samples):
                 samples = samples[:sample_limit]
                 logging.info(f"Limited to {sample_limit} samples")
-            
+
             logging.info(f"Loaded {len(samples)} samples")
-            
+
             # Initialize components
             llm = HuggingFaceLLM(self.config)
             prompt_generator = PromptGenerator()
             response_parser = ResponseParser(self.config.task_type)
             metrics_calculator = MetricsCalculator()
-            
+
             # Create output directory
             Path(self.config.output_dir).mkdir(parents=True, exist_ok=True)
-            
+
             # Run predictions
             predictions = []
-            system_prompt = self.config.system_prompt_template or prompt_generator.get_system_prompt(
-                self.config.task_type, self.config.cwe_type
+            system_prompt = (
+                self.config.system_prompt_template
+                or prompt_generator.get_system_prompt(
+                    self.config.task_type, self.config.cwe_type
+                )
             )
-            
+
             for i, sample in enumerate(samples):
                 logging.info(f"Processing sample {i + 1}/{len(samples)}: {sample.id}")
-                
-                user_prompt = self.config.user_prompt_template.format(code=sample.code) if self.config.user_prompt_template else prompt_generator.get_user_prompt(
-                    self.config.task_type, sample.code, self.config.cwe_type
+
+                user_prompt = (
+                    self.config.user_prompt_template.format(code=sample.code)
+                    if self.config.user_prompt_template
+                    else prompt_generator.get_user_prompt(
+                        self.config.task_type, sample.code, self.config.cwe_type
+                    )
                 )
-                
-                # Generate response  
+
+                # Generate response
                 start_time_sample = time.time()
-                response_text, tokens_used = llm.generate_response(system_prompt, user_prompt)
+                response_text, tokens_used = llm.generate_response(
+                    system_prompt, user_prompt
+                )
                 processing_time = time.time() - start_time_sample
-                
+
                 # Parse response
                 predicted_label = response_parser.parse_response(response_text)
-                
+
                 prediction = PredictionResult(
                     sample_id=sample.id,
                     predicted_label=predicted_label,
-                    true_label=sample.label if isinstance(sample.label, int) else response_parser.parse_response(sample.label),
+                    true_label=sample.label
+                    if isinstance(sample.label, int)
+                    else response_parser.parse_response(sample.label),
                     confidence=None,
                     response_text=response_text,
                     processing_time=processing_time,
                     tokens_used=tokens_used,
                 )
-                
+
                 predictions.append(prediction)
-                
+
                 if (i + 1) % 10 == 0:
                     logging.info(f"Completed {i + 1}/{len(samples)} predictions")
-            
+
             # Calculate metrics
-            if self.config.task_type in [TaskType.BINARY_VULNERABILITY, TaskType.BINARY_CWE_SPECIFIC]:
+            if self.config.task_type in [
+                TaskType.BINARY_VULNERABILITY,
+                TaskType.BINARY_CWE_SPECIFIC,
+            ]:
                 metrics = metrics_calculator.calculate_binary_metrics(predictions)
             else:
                 metrics = metrics_calculator.calculate_multiclass_metrics(predictions)
-            
+
             # Generate results
             total_time = time.time() - start_time
             results = {
@@ -114,15 +129,17 @@ class VulBenchBenchmarkRunner:
                 "metrics": metrics,
                 "total_samples": len(samples),
                 "total_time": total_time,
-                "predictions": [dataclasses.asdict(prediction) for prediction in predictions]
+                "predictions": [
+                    dataclasses.asdict(prediction) for prediction in predictions
+                ],
             }
-            
+
             # Clean up
             llm.cleanup()
-            
+
             logging.info("VulBench benchmark completed successfully")
             return results
-            
+
         except Exception as e:
             logging.exception(f"VulBench benchmark failed: {e}")
             raise
@@ -132,52 +149,51 @@ def setup_logging(verbose: bool = False) -> None:
     """Setup logging configuration."""
     level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(
-        level=level,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        level=level, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
 
 
 def load_vulbench_config(config_path: str) -> Dict[str, Any]:
     """Load VulBench experiment configuration."""
-    with open(config_path, 'r', encoding='utf-8') as f:
+    with open(config_path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def create_benchmark_config(
     model_config: Dict[str, Any],
-    dataset_config: Dict[str, Any], 
+    dataset_config: Dict[str, Any],
     prompt_config: Dict[str, Any],
-    output_dir: str
+    output_dir: str,
 ) -> BenchmarkConfig:
     """
     Create a BenchmarkConfig from experiment configuration.
-    
+
     Args:
         model_config: Model configuration dict
         dataset_config: Dataset configuration dict
         prompt_config: Prompt configuration dict
         output_dir: Output directory path
-        
+
     Returns:
         BenchmarkConfig: Complete benchmark configuration
     """
     # Map string model types to enum
     model_type_map = {
         "LLAMA": ModelType.LLAMA,
-        "QWEN": ModelType.QWEN, 
+        "QWEN": ModelType.QWEN,
         "DEEPSEEK": ModelType.DEEPSEEK,
         "CODEBERT": ModelType.CODEBERT,
         "WIZARD": ModelType.CUSTOM,
-        "GEMMA": ModelType.CUSTOM
+        "GEMMA": ModelType.CUSTOM,
     }
-    
+
     # Map string task types to enum
     task_type_map = {
         "binary_vulnerability": TaskType.BINARY_VULNERABILITY,
         "binary_cwe_specific": TaskType.BINARY_CWE_SPECIFIC,
-        "multiclass_vulnerability": TaskType.MULTICLASS_VULNERABILITY
+        "multiclass_vulnerability": TaskType.MULTICLASS_VULNERABILITY,
     }
-    
+
     return BenchmarkConfig(
         model_name=model_config["model_name"],
         model_type=model_type_map[model_config["model_type"]],
@@ -191,7 +207,7 @@ def create_benchmark_config(
         use_quantization=model_config.get("use_quantization", True),
         cwe_type=dataset_config.get("cwe_type"),
         system_prompt_template=prompt_config.get("system_prompt"),
-        user_prompt_template=prompt_config["user_prompt"]
+        user_prompt_template=prompt_config["user_prompt"],
     )
 
 
@@ -201,60 +217,60 @@ def run_single_experiment(
     prompt_key: str,
     vulbench_config: Dict[str, Any],
     sample_limit: Optional[int] = None,
-    output_base_dir: str = "results/vulbench_experiments"
+    output_base_dir: str = "results/vulbench_experiments",
 ) -> Dict[str, Any]:
     """
     Run a single benchmark experiment.
-    
+
     Args:
         model_key: Model configuration key
-        dataset_key: Dataset configuration key  
+        dataset_key: Dataset configuration key
         prompt_key: Prompt configuration key
         vulbench_config: VulBench experiment configuration
         sample_limit: Limit number of samples (for testing)
         output_base_dir: Base output directory
-        
+
     Returns:
         Dict containing experiment results
     """
     logger = logging.getLogger(__name__)
-    
+
     # Get configurations
     model_config = vulbench_config["model_configurations"][model_key]
-    dataset_config = vulbench_config["dataset_configurations"][dataset_key] 
+    dataset_config = vulbench_config["dataset_configurations"][dataset_key]
     prompt_config = vulbench_config["prompt_strategies"][prompt_key]
-    
+
     # Create output directory
     experiment_name = f"{model_key}_{dataset_key}_{prompt_key}"
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_dir = Path(output_base_dir) / f"{experiment_name}_{timestamp}"
     output_dir.mkdir(parents=True, exist_ok=True)
-    
+
     logger.info(f"Starting experiment: {experiment_name}")
     logger.info(f"Model: {model_config['model_name']}")
     logger.info(f"Dataset: {dataset_config['description']}")
     logger.info(f"Prompt: {prompt_config['name']}")
     logger.info(f"Output: {output_dir}")
-    
+
     try:
         # Create benchmark configuration
         config = create_benchmark_config(
             model_config, dataset_config, prompt_config, str(output_dir)
         )
-        
+
         # Run benchmark
         runner = VulBenchBenchmarkRunner(config)
         results = runner.run_benchmark(sample_limit=sample_limit)
-        
+
         # Save results
         results_file = output_dir / "results.json"
         with open(results_file, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=2, default=str)
-        
+
         logger.info(f"Experiment completed: {experiment_name}")
         logger.info(f"Accuracy: {results['accuracy']:.3f}")
         logger.info(f"Results saved to: {results_file}")
-        
+
         return {
             "experiment_name": experiment_name,
             "status": "success",
@@ -262,16 +278,16 @@ def run_single_experiment(
             "total_samples": results["total_samples"],
             "total_time": results["total_time"],
             "output_dir": str(output_dir),
-            "results_file": str(results_file)
+            "results_file": str(results_file),
         }
-        
+
     except Exception as e:
         logger.error(f"Experiment failed: {experiment_name} - {e}")
         return {
             "experiment_name": experiment_name,
             "status": "failed",
             "error": str(e),
-            "output_dir": str(output_dir)
+            "output_dir": str(output_dir),
         }
 
 
@@ -349,7 +365,7 @@ def run_experiment_plan(
                         prompt_key=prompt_key,
                         vulbench_config=vulbench_config,
                         sample_limit=plan_sample_limit,
-                        output_base_dir=str(plan_output_dir)
+                        output_base_dir=str(plan_output_dir),
                     )
 
                     results["experiments"].append(result)
@@ -362,11 +378,13 @@ def run_experiment_plan(
                 except Exception as e:
                     logger.error(f"Experiment failed: {e}")
                     failed_experiments += 1
-                    results["experiments"].append({
-                        "experiment_name": f"{model_key}_{dataset_key}_{prompt_key}",
-                        "status": "failed",
-                        "error": str(e)
-                    })
+                    results["experiments"].append(
+                        {
+                            "experiment_name": f"{model_key}_{dataset_key}_{prompt_key}",
+                            "status": "failed",
+                            "error": str(e),
+                        }
+                    )
 
     # Complete results
     results["end_time"] = datetime.now().isoformat()
@@ -395,20 +413,26 @@ def run_experiment_plan(
 def list_available_configs(vulbench_config: Dict[str, Any]) -> None:
     """List all available configurations."""
     print("=== VulBench Benchmark Configurations ===\n")
-    
+
     print("📊 Available Datasets:")
     for key, config in vulbench_config["dataset_configurations"].items():
         print(f"  {key}: {config['description']}")
-    
-    print(f"\n🤖 Available Models ({len(vulbench_config['model_configurations'])} total):")
+
+    print(
+        f"\n🤖 Available Models ({len(vulbench_config['model_configurations'])} total):"
+    )
     for key, config in vulbench_config["model_configurations"].items():
         print(f"  {key}: {config['model_name']}")
-    
-    print(f"\n💬 Available Prompts ({len(vulbench_config['prompt_strategies'])} total):")
+
+    print(
+        f"\n💬 Available Prompts ({len(vulbench_config['prompt_strategies'])} total):"
+    )
     for key, config in vulbench_config["prompt_strategies"].items():
         print(f"  {key}: {config['name']}")
-    
-    print(f"\n📋 Available Experiment Plans ({len(vulbench_config['experiment_plans'])} total):")
+
+    print(
+        f"\n📋 Available Experiment Plans ({len(vulbench_config['experiment_plans'])} total):"
+    )
     for key, config in vulbench_config["experiment_plans"].items():
         print(f"  {key}: {config['description']}")
 
@@ -427,64 +451,48 @@ Examples:
   
   # List available configurations
   python run_vulbench_benchmark_new.py --list-configs
-        """
+        """,
     )
 
     parser.add_argument(
         "--config",
         default="vulbench_experiments.json",
-        help="Path to experiment configuration file"
+        help="Path to experiment configuration file",
     )
 
-    parser.add_argument(
-        "--model",
-        help="Model configuration to use"
-    )
+    parser.add_argument("--model", help="Model configuration to use")
+
+    parser.add_argument("--dataset", help="Dataset configuration to use")
+
+    parser.add_argument("--prompt", help="Prompt strategy to use")
+
+    parser.add_argument("--plan", help="Experiment plan to run")
 
     parser.add_argument(
-        "--dataset",
-        help="Dataset configuration to use"
-    )
-
-    parser.add_argument(
-        "--prompt",
-        help="Prompt strategy to use"
-    )
-
-    parser.add_argument(
-        "--plan",
-        help="Experiment plan to run"
-    )
-
-    parser.add_argument(
-        "--sample-limit",
-        type=int,
-        help="Limit number of samples for testing"
+        "--sample-limit", type=int, help="Limit number of samples for testing"
     )
 
     parser.add_argument(
         "--output-dir",
         default="results/vulbench_experiments",
-        help="Base output directory for results"
+        help="Base output directory for results",
     )
 
     parser.add_argument(
         "--list-configs",
         action="store_true",
-        help="List available configurations and exit"
+        help="List available configurations and exit",
     )
 
     parser.add_argument(
         "--log-level",
         choices=["DEBUG", "INFO", "WARNING", "ERROR"],
         default="INFO",
-        help="Logging level"
+        help="Logging level",
     )
 
     parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Enable verbose logging"
+        "--verbose", "-v", action="store_true", help="Enable verbose logging"
     )
 
     args = parser.parse_args()
@@ -522,47 +530,63 @@ Examples:
             # Run experiment plan
             if args.plan not in vulbench_config["experiment_plans"]:
                 logger.error(f"Unknown experiment plan: {args.plan}")
-                logger.info("Available plans: " + ", ".join(vulbench_config["experiment_plans"].keys()))
+                logger.info(
+                    "Available plans: "
+                    + ", ".join(vulbench_config["experiment_plans"].keys())
+                )
                 return
 
             logger.info(f"Running experiment plan: {args.plan}")
-            results = run_experiment_plan(
+            run_experiment_plan(
                 plan_name=args.plan,
                 vulbench_config=vulbench_config,
                 output_base_dir=args.output_dir,
-                sample_limit=args.sample_limit
+                sample_limit=args.sample_limit,
             )
 
         elif args.model and args.dataset and args.prompt:
             # Run single experiment
             if args.model not in vulbench_config["model_configurations"]:
                 logger.error(f"Unknown model: {args.model}")
-                logger.info("Available models: " + ", ".join(vulbench_config["model_configurations"].keys()))
+                logger.info(
+                    "Available models: "
+                    + ", ".join(vulbench_config["model_configurations"].keys())
+                )
                 return
 
             if args.dataset not in vulbench_config["dataset_configurations"]:
                 logger.error(f"Unknown dataset: {args.dataset}")
-                logger.info("Available datasets: " + ", ".join(vulbench_config["dataset_configurations"].keys()))
+                logger.info(
+                    "Available datasets: "
+                    + ", ".join(vulbench_config["dataset_configurations"].keys())
+                )
                 return
 
             if args.prompt not in vulbench_config["prompt_strategies"]:
                 logger.error(f"Unknown prompt: {args.prompt}")
-                logger.info("Available prompts: " + ", ".join(vulbench_config["prompt_strategies"].keys()))
+                logger.info(
+                    "Available prompts: "
+                    + ", ".join(vulbench_config["prompt_strategies"].keys())
+                )
                 return
 
-            logger.info(f"Running single experiment: {args.model} + {args.dataset} + {args.prompt}")
-            results = run_single_experiment(
+            logger.info(
+                f"Running single experiment: {args.model} + {args.dataset} + {args.prompt}"
+            )
+            run_single_experiment(
                 model_key=args.model,
                 dataset_key=args.dataset,
                 prompt_key=args.prompt,
                 vulbench_config=vulbench_config,
                 sample_limit=args.sample_limit,
-                output_base_dir=args.output_dir
+                output_base_dir=args.output_dir,
             )
 
         else:
             parser.print_help()
-            print("\nError: Either specify --plan or provide --model, --dataset, and --prompt")
+            print(
+                "\nError: Either specify --plan or provide --model, --dataset, and --prompt"
+            )
             return
 
         logger.info("Benchmark completed successfully!")

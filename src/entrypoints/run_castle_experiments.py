@@ -15,7 +15,11 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-from entrypoints.run_castle_benchmark import load_castle_config, run_single_experiment, setup_logging
+from entrypoints.run_castle_benchmark import (
+    load_castle_config,
+    run_single_experiment,
+    setup_logging,
+)
 
 
 def run_experiment_plan(

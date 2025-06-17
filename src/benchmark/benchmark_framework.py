@@ -6,6 +6,7 @@ A comprehensive framework for benchmarking Large Language Models on static code 
 Supports binary and multi-class vulnerability detection with configurable models and datasets.
 """
 
+import importlib.util
 import json
 import logging
 import os
@@ -22,18 +23,28 @@ import numpy as np
 import pandas as pd
 import torch
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, FbgemmFp8Config, pipeline
+from transformers import (
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    BitsAndBytesConfig,
+    FbgemmFp8Config,
+    pipeline,
+)
 
 
 def _is_flash_attention_available() -> bool:
     """Check if FlashAttention is available."""
-    try:
-        import flash_attn_interface
+    importlib.util.find_spec("flash_attn_interface")
+
+    if importlib.util.find_spec("flash_attn_interface"):
         logging.info("FlashAttention is available")
         return True
-    except ImportError:
-        logging.info("FlashAttention is not available! You can install it to optimize an inference")
+    else:
+        logging.info(
+            "FlashAttention is not available! You can install it to optimize an inference"
+        )
         return False
+
 
 class TaskType(Enum):
     """Enumeration of supported task types."""
@@ -51,30 +62,30 @@ class ModelType(Enum):
     QWEN = "Qwen/Qwen2.5-7B-Instruct"
     DEEPSEEK = "deepseek-ai/deepseek-coder-6.7b-instruct"
     CODEBERT = "microsoft/codebert-base"
-    
+
     # New Qwen models
     QWEN3_4B = "Qwen/Qwen3-4B"
     QWEN3_30B_A3B = "Qwen/Qwen3-30B-A3B"
-    
+
     # New DeepSeek models
     DEEPSEEK_CODER_V2_LITE_INSTRUCT = "deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct"
     DEEPSEEK_R1_DISTILL_QWEN_1_5B = "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B"
     DEEPSEEK_R1_DISTILL_QWEN_32B = "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B"
-    
+
     # WizardCoder models
     WIZARDCODER_PYTHON_34B = "WizardLMTeam/WizardCoder-Python-34B-V1.0"
-    
+
     # New Llama models
     LLAMA_3_2_3B_INSTRUCT = "meta-llama/Llama-3.2-3B-Instruct"
     LLAMA_4_SCOUT_17B_INSTRUCT = "meta-llama/Llama-4-Scout-17B-16E-Instruct"
-    
+
     # Gemma models
     GEMMA_3_1B_IT = "google/gemma-3-1b-it"
     GEMMA_3_27B_IT = "google/gemma-3-27b-it"
-    
+
     # OpenCoder models
     OPENCODER_8B_INSTRUCT = "infly/OpenCoder-8B-Instruct"
-    
+
     CUSTOM = "custom"
 
 
@@ -130,11 +141,11 @@ class BenchmarkConfig:
         dataset_path: str,
         output_dir: str,
         description: str | None = None,
-        **kwargs
+        **kwargs,
     ) -> "BenchmarkConfig":
         """
         Factory method to create configuration for a specific model type.
-        
+
         Args:
             model_type: The model type to use
             task_type: The task type to perform
@@ -142,13 +153,13 @@ class BenchmarkConfig:
             output_dir: Output directory for results
             description: Optional description
             **kwargs: Additional configuration parameters
-            
+
         Returns:
             BenchmarkConfig: Configured benchmark instance
         """
         if description is None:
             description = f"{model_type.name} on {task_type.value}"
-            
+
         # Set model-specific defaults
         defaults = {
             "batch_size": 1,
@@ -156,39 +167,56 @@ class BenchmarkConfig:
             "temperature": 0.1,
             "use_quantization": True,
         }
-        
+
         # Override with model-specific settings
         if "llama-3.3-70b" in model_type.value.lower():
             defaults["max_tokens"] = 256  # Larger model, use fewer tokens
             defaults["batch_size"] = 1
         elif "gemma-3-1b" in model_type.value.lower():
-            defaults["use_quantization"] = False  # Smaller model, no need for quantization
+            defaults["use_quantization"] = (
+                False  # Smaller model, no need for quantization
+            )
             defaults["max_tokens"] = 1024
         elif "opencoder" in model_type.value.lower():
-            defaults["temperature"] = 0.0  # Code models often work better with deterministic output
-        
+            defaults["temperature"] = (
+                0.0  # Code models often work better with deterministic output
+            )
+
         # A100 40GB optimized settings
         if torch.cuda.is_available():
-            gpu_memory = torch.cuda.get_device_properties(0).total_memory / 1024**3  # GB
-            
+            gpu_memory = (
+                torch.cuda.get_device_properties(0).total_memory / 1024**3
+            )  # GB
+
             if gpu_memory >= 35:  # A100 40GB detected
                 # Model-specific optimization for A100
                 if any(size in model_type.value.lower() for size in ["70b", "72b"]):
                     defaults["use_quantization"] = True
-                    defaults["quantization_type"] = "4bit"  # Still need 4-bit for 70B models
-                elif any(size in model_type.value.lower() for size in ["30b", "32b", "34b"]):
+                    defaults["quantization_type"] = (
+                        "4bit"  # Still need 4-bit for 70B models
+                    )
+                elif any(
+                    size in model_type.value.lower() for size in ["30b", "32b", "34b"]
+                ):
                     defaults["use_quantization"] = True
-                    defaults["quantization_type"] = "8bit"  # 8-bit perfect for 30B+ models
-                elif any(size in model_type.value.lower() for size in ["7b", "8b", "13b", "17b"]):
-                    defaults["use_quantization"] = False    # No quantization needed for smaller models
-                    defaults["torch_dtype"] = "bfloat16"    # Use native bfloat16 instead
+                    defaults["quantization_type"] = (
+                        "8bit"  # 8-bit perfect for 30B+ models
+                    )
+                elif any(
+                    size in model_type.value.lower()
+                    for size in ["7b", "8b", "13b", "17b"]
+                ):
+                    defaults["use_quantization"] = (
+                        False  # No quantization needed for smaller models
+                    )
+                    defaults["torch_dtype"] = "bfloat16"  # Use native bfloat16 instead
                 else:
                     defaults["use_quantization"] = True
                     defaults["quantization_type"] = "8bit"  # Default to 8-bit
-    
+
         # Merge with user-provided kwargs
         config_params = {**defaults, **kwargs}
-        
+
         return cls(
             model_name=model_type.value,
             model_type=model_type,
@@ -196,14 +224,14 @@ class BenchmarkConfig:
             description=description,
             dataset_path=dataset_path,
             output_dir=output_dir,
-            **config_params
+            **config_params,
         )
 
     @staticmethod
     def get_available_models() -> dict[str, list[str]]:
         """
         Get a dictionary of available models organized by family.
-        
+
         Returns:
             dict[str, list[str]]: dictionary mapping model families to model names
         """
@@ -399,19 +427,21 @@ class HuggingFaceLLM(LLMInterface):
         # Configure quantization if requested
         quantization_config = None
         torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32
-        
+
         if torch.cuda.is_available():
             gpu_memory = torch.cuda.get_device_properties(0).total_memory / 1024**3
             logging.info(f"Detected GPU memory: {gpu_memory:.1f}GB")
-            
+
             if self.config.use_quantization:
                 if self.config.model_name == ModelType.LLAMA_4_SCOUT_17B_INSTRUCT.value:
                     quantization_config = FbgemmFp8Config()
                 else:
                     # Determine quantization type based on model size and GPU memory
-                    quantization_type = getattr(self.config, 'quantization_type', '8bit')
-                    
-                    if quantization_type == '8bit' and gpu_memory >= 35:
+                    quantization_type = getattr(
+                        self.config, "quantization_type", "8bit"
+                    )
+
+                    if quantization_type == "8bit" and gpu_memory >= 35:
                         quantization_config = BitsAndBytesConfig(
                             load_in_8bit=True,
                             llm_int8_enable_fp32_cpu_offload=False,
@@ -435,10 +465,10 @@ class HuggingFaceLLM(LLMInterface):
 
         try:
             self.tokenizer = AutoTokenizer.from_pretrained(
-                self.config.model_name, 
-                trust_remote_code=True, 
-                padding_side="left", 
-                token=os.getenv("HF_TOKEN", None)
+                self.config.model_name,
+                trust_remote_code=True,
+                padding_side="left",
+                token=os.getenv("HF_TOKEN", None),
             )
 
             if self.tokenizer.pad_token is None:
@@ -451,7 +481,9 @@ class HuggingFaceLLM(LLMInterface):
                 torch_dtype=torch_dtype,
                 trust_remote_code=True,
                 token=os.getenv("HF_TOKEN", None),
-                attn_implementation="flash_attention_2" if _is_flash_attention_available() else None,  # Use FlashAttention on A100
+                attn_implementation="flash_attention_2"
+                if _is_flash_attention_available()
+                else None,  # Use FlashAttention on A100
             )
 
             # Create text generation pipeline
@@ -506,32 +538,34 @@ class HuggingFaceLLM(LLMInterface):
         """Format prompt using tokenizer's chat template."""
         if not self.tokenizer:
             raise RuntimeError("Tokenizer not loaded")
-        
+
         # Prepare messages in standard chat format
         messages = [
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
+            {"role": "user", "content": user_prompt},
         ]
-        
+
         try:
             # Use tokenizer's apply_chat_template method
-            formatted_prompt = self.tokenizer.apply_chat_template( # type: ignore
+            formatted_prompt = self.tokenizer.apply_chat_template(  # type: ignore
                 messages,
                 tokenize=False,
                 add_generation_prompt=True,
                 enable_thinking=self.config.enable_thinking,
             )
             return formatted_prompt
-            
+
         except Exception as e:
             # Fallback to generic format if chat template is not available
-            logging.warning(f"Chat template not available for {self.config.model_name}, using fallback format: {e}")
+            logging.warning(
+                f"Chat template not available for {self.config.model_name}, using fallback format: {e}"
+            )
             return self._format_prompt_fallback(system_prompt, user_prompt)
-    
+
     def _format_prompt_fallback(self, system_prompt: str, user_prompt: str) -> str:
         """Fallback prompt formatting for models without chat templates."""
         model_name_lower = self.config.model_name.lower()
-        
+
         # Llama models (includes Llama-2, Llama-3.2, Llama-3.3)
         if "llama" in model_name_lower:
             if "llama-3" in model_name_lower:
@@ -540,7 +574,7 @@ class HuggingFaceLLM(LLMInterface):
             else:
                 # Llama-2 format
                 return f"<s>[INST] <<SYS>>\n{system_prompt}\n<</SYS>>\n\n{user_prompt} [/INST]"
-        
+
         # Qwen models (includes Qwen2.5, Qwen3)
         elif "qwen" in model_name_lower:
             if "qwen3" in model_name_lower:
@@ -549,7 +583,7 @@ class HuggingFaceLLM(LLMInterface):
             else:
                 # Qwen2.5 and earlier format
                 return f"<|system|>\n{system_prompt}<|endofsystem|>\n<|user|>\n{user_prompt}<|endofuser|>\n<|assistant|>\n"
-        
+
         # DeepSeek models (includes original and V2, R1)
         elif "deepseek" in model_name_lower:
             if "r1" in model_name_lower:
@@ -558,19 +592,19 @@ class HuggingFaceLLM(LLMInterface):
             else:
                 # Standard DeepSeek format
                 return f"### System:\n{system_prompt}\n\n### User:\n{user_prompt}\n\n### Assistant:\n"
-        
+
         # WizardCoder models
         elif "wizard" in model_name_lower:
             return f"### Instruction:\n{system_prompt}\n\n### Input:\n{user_prompt}\n\n### Response:\n"
-        
+
         # Gemma models
         elif "gemma" in model_name_lower:
             return f"<bos><start_of_turn>user\n{system_prompt}\n\n{user_prompt}<end_of_turn>\n<start_of_turn>model\n"
-        
+
         # OpenCoder models
         elif "opencoder" in model_name_lower:
             return f"<|im_start|>system\n{system_prompt}<|im_end|>\n<|im_start|>user\n{user_prompt}<|im_end|>\n<|im_start|>assistant\n"
-        
+
         else:
             # Generic format for unknown models
             return f"System: {system_prompt}\n\nUser: {user_prompt}\n\nAssistant:"
@@ -801,7 +835,9 @@ class BenchmarkRunner:
             prediction = PredictionResult(
                 sample_id=sample.id,
                 predicted_label=predicted_label,
-                true_label=sample.label if isinstance(sample.label, int) else self.response_parser.parse_response(sample.label),
+                true_label=sample.label
+                if isinstance(sample.label, int)
+                else self.response_parser.parse_response(sample.label),
                 confidence=None,  # Could be enhanced to extract confidence
                 response_text=response_text,
                 processing_time=processing_time,
@@ -901,9 +937,9 @@ def main():
     """Example usage of the benchmark framework."""
 
     # Example configurations for different models
-    
+
     # Example 1: Using the new factory method with Qwen3-4B
-    config_qwen = BenchmarkConfig.create_for_model(
+    BenchmarkConfig.create_for_model(
         model_type=ModelType.QWEN3_4B,
         task_type=TaskType.BINARY_VULNERABILITY,
         dataset_path="./data/vulbench_sample.json",
@@ -914,7 +950,7 @@ def main():
     )
 
     # Example 2: Using DeepSeek-R1 model
-    config_deepseek = BenchmarkConfig.create_for_model(
+    BenchmarkConfig.create_for_model(
         model_type=ModelType.DEEPSEEK_R1_DISTILL_QWEN_1_5B,
         task_type=TaskType.MULTICLASS_VULNERABILITY,
         dataset_path="./data/vulbench_sample.json",
@@ -923,7 +959,7 @@ def main():
     )
 
     # Example 3: Using Llama-3.2 for CWE-specific detection
-    config_llama = BenchmarkConfig.create_for_model(
+    BenchmarkConfig.create_for_model(
         model_type=ModelType.LLAMA_3_2_3B_INSTRUCT,
         task_type=TaskType.BINARY_CWE_SPECIFIC,
         dataset_path="./data/vulbench_sample.json",
@@ -954,7 +990,7 @@ def main():
 
     # Choose which configuration to run (for this example, use the smaller model)
     config = config_traditional
-    
+
     print(f"\nRunning benchmark with: {config.description}")
     print(f"Model: {config.model_name}")
     print(f"Task: {config.task_type.value}")
@@ -970,4 +1006,5 @@ def main():
 
 
 if __name__ == "__main__":
+    main()
     main()

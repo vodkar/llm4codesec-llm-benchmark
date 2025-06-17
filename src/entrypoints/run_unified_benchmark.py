@@ -14,32 +14,39 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional
 
-# Add the src directory to Python path if not already there
-src_dir = Path(__file__).parent.parent
-if str(src_dir) not in sys.path:
-    sys.path.insert(0, str(src_dir))
-
 from entrypoints.run_castle_benchmark import load_castle_config
-from entrypoints.run_castle_benchmark import run_single_experiment as run_castle_experiment
+from entrypoints.run_castle_benchmark import (
+    run_single_experiment as run_castle_experiment,
+)
 from entrypoints.run_cvefixes_benchmark import load_cvefixes_config
-from entrypoints.run_cvefixes_benchmark import run_single_experiment as run_cvefixes_experiment
+from entrypoints.run_cvefixes_benchmark import (
+    run_single_experiment as run_cvefixes_experiment,
+)
 from entrypoints.run_jitvul_benchmark import load_jitvul_config
-from entrypoints.run_jitvul_benchmark import run_single_experiment as run_jitvul_experiment
+from entrypoints.run_jitvul_benchmark import (
+    run_single_experiment as run_jitvul_experiment,
+)
 from entrypoints.run_vulbench_benchmark import load_vulbench_config
-from entrypoints.run_vulbench_benchmark import run_single_experiment as run_vulbench_experiment
+from entrypoints.run_vulbench_benchmark import (
+    run_single_experiment as run_vulbench_experiment,
+)
 from entrypoints.run_vuldetectbench_benchmark import load_vuldetectbench_config
-from entrypoints.run_vuldetectbench_benchmark import run_single_experiment as run_vuldetectbench_experiment
-from entrypoints.run_vulnerabilitydetection_benchmark import load_vulnerabilitydetection_config
-from entrypoints.run_vulnerabilitydetection_benchmark import \
-    run_single_experiment as run_vulnerabilitydetection_experiment
+from entrypoints.run_vuldetectbench_benchmark import (
+    run_single_experiment as run_vuldetectbench_experiment,
+)
+from entrypoints.run_vulnerabilitydetection_benchmark import (
+    load_vulnerabilitydetection_config,
+)
+from entrypoints.run_vulnerabilitydetection_benchmark import (
+    run_single_experiment as run_vulnerabilitydetection_experiment,
+)
 
 
 def setup_logging(verbose: bool = False) -> None:
     """Setup logging configuration."""
     level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(
-        level=level,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        level=level, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     )
 
 
@@ -66,7 +73,9 @@ def run_experiment_plan(
     logger = logging.getLogger(__name__)
 
     if plan_name not in config["experiment_plans"]:
-        raise ValueError(f"Experiment plan '{plan_name}' not found in {dataset_type} config")
+        raise ValueError(
+            f"Experiment plan '{plan_name}' not found in {dataset_type} config"
+        )
 
     plan = config["experiment_plans"][plan_name]
     logger.info(f"Starting experiment plan: {plan_name} for {dataset_type}")
@@ -107,58 +116,88 @@ def run_experiment_plan(
         for model_key in plan["models"]:
             for prompt_key in plan["prompts"]:
                 experiment_count += 1
-                logger.info(f"Running experiment {experiment_count}/{total_experiments}")
-                
+                logger.info(
+                    f"Running experiment {experiment_count}/{total_experiments}"
+                )
+
                 try:
                     # Choose the appropriate runner function
                     if dataset_type == "castle":
                         result = run_castle_experiment(
-                            model_key, dataset_key, prompt_key,
-                            config, plan_sample_limit, str(plan_output_dir)
+                            model_key,
+                            dataset_key,
+                            prompt_key,
+                            config,
+                            plan_sample_limit,
+                            str(plan_output_dir),
                         )
                     elif dataset_type == "jitvul":
                         result = run_jitvul_experiment(
-                            model_key, dataset_key, prompt_key,
-                            config, plan_sample_limit, str(plan_output_dir)
+                            model_key,
+                            dataset_key,
+                            prompt_key,
+                            config,
+                            plan_sample_limit,
+                            str(plan_output_dir),
                         )
                     elif dataset_type == "cvefixes":
                         result = run_cvefixes_experiment(
-                            model_key, dataset_key, prompt_key,
-                            config, plan_sample_limit, str(plan_output_dir)
+                            model_key,
+                            dataset_key,
+                            prompt_key,
+                            config,
+                            plan_sample_limit,
+                            str(plan_output_dir),
                         )
                     elif dataset_type == "vulbench":
                         result = run_vulbench_experiment(
-                            model_key, dataset_key, prompt_key,
-                            config, plan_sample_limit, str(plan_output_dir)
+                            model_key,
+                            dataset_key,
+                            prompt_key,
+                            config,
+                            plan_sample_limit,
+                            str(plan_output_dir),
                         )
                     elif dataset_type == "vuldetectbench":
                         result = run_vuldetectbench_experiment(
-                            model_key, dataset_key, prompt_key,
-                            config, plan_sample_limit, str(plan_output_dir)
+                            model_key,
+                            dataset_key,
+                            prompt_key,
+                            config,
+                            plan_sample_limit,
+                            str(plan_output_dir),
                         )
                     elif dataset_type == "vulnerabilitydetection":
                         result = run_vulnerabilitydetection_experiment(
-                            model_key, dataset_key, prompt_key,
-                            config, plan_sample_limit, str(plan_output_dir)
+                            model_key,
+                            dataset_key,
+                            prompt_key,
+                            config,
+                            plan_sample_limit,
+                            str(plan_output_dir),
                         )
                     else:
                         raise ValueError(f"Unknown dataset type: {dataset_type}")
-                    
+
                     if result["status"] == "success":
                         successful_experiments += 1
                     else:
                         failed_experiments += 1
-                    
+
                     results["experiments"].append(result)
-                    
+
                 except Exception as e:
-                    logger.exception(f"Experiment failed: {model_key}_{dataset_key}_{prompt_key}")
+                    logger.exception(
+                        f"Experiment failed: {model_key}_{dataset_key}_{prompt_key}"
+                    )
                     failed_experiments += 1
-                    results["experiments"].append({
-                        "experiment_name": f"{model_key}_{dataset_key}_{prompt_key}",
-                        "status": "failed",
-                        "error": str(e)
-                    })
+                    results["experiments"].append(
+                        {
+                            "experiment_name": f"{model_key}_{dataset_key}_{prompt_key}",
+                            "status": "failed",
+                            "error": str(e),
+                        }
+                    )
 
     # Complete results
     results["end_time"] = datetime.now().isoformat()
@@ -209,7 +248,7 @@ def run_single_experiment_unified(
     prompt_key: str,
     config: Dict[str, Any],
     sample_limit: Optional[int] = None,
-    output_dir: str = "results"
+    output_dir: str = "results",
 ) -> Dict[str, Any]:
     """Run a single experiment for any dataset type."""
     if dataset_type == "castle":
@@ -270,69 +309,58 @@ Examples:
   
   # List available configurations
   python run_unified_benchmark.py castle --list-configs
-        """
+        """,
     )
 
     parser.add_argument(
         "dataset_type",
-        choices=["castle", "jitvul", "cvefixes", "vulbench", "vuldetectbench", "vulnerabilitydetection"],
-        help="Type of dataset to run benchmark on"
+        choices=[
+            "castle",
+            "jitvul",
+            "cvefixes",
+            "vulbench",
+            "vuldetectbench",
+            "vulnerabilitydetection",
+        ],
+        help="Type of dataset to run benchmark on",
     )
 
     parser.add_argument(
         "--config",
-        help="Path to experiment configuration file (auto-detected if not provided)"
+        help="Path to experiment configuration file (auto-detected if not provided)",
+    )
+
+    parser.add_argument("--model", help="Model configuration to use")
+
+    parser.add_argument("--dataset", help="Dataset configuration to use")
+
+    parser.add_argument("--prompt", help="Prompt strategy to use")
+
+    parser.add_argument("--plan", help="Experiment plan to run")
+
+    parser.add_argument(
+        "--sample-limit", type=int, help="Limit number of samples for testing"
     )
 
     parser.add_argument(
-        "--model",
-        help="Model configuration to use"
-    )
-
-    parser.add_argument(
-        "--dataset",
-        help="Dataset configuration to use"
-    )
-
-    parser.add_argument(
-        "--prompt",
-        help="Prompt strategy to use"
-    )
-
-    parser.add_argument(
-        "--plan",
-        help="Experiment plan to run"
-    )
-
-    parser.add_argument(
-        "--sample-limit",
-        type=int,
-        help="Limit number of samples for testing"
-    )
-
-    parser.add_argument(
-        "--output-dir",
-        default="results",
-        help="Base output directory for results"
+        "--output-dir", default="results", help="Base output directory for results"
     )
 
     parser.add_argument(
         "--list-configs",
         action="store_true",
-        help="List available configurations and exit"
+        help="List available configurations and exit",
     )
 
     parser.add_argument(
         "--log-level",
         choices=["DEBUG", "INFO", "WARNING", "ERROR"],
         default="INFO",
-        help="Logging level"
+        help="Logging level",
     )
 
     parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Enable verbose logging"
+        "--verbose", "-v", action="store_true", help="Enable verbose logging"
     )
 
     args = parser.parse_args()
@@ -346,11 +374,11 @@ Examples:
         if not args.config:
             config_files = {
                 "castle": "castle_experiments.json",
-                "jitvul": "jitvul_experiments.json", 
+                "jitvul": "jitvul_experiments.json",
                 "cvefixes": "cvefixes_experiments.json",
                 "vulbench": "vulbench_experiments.json",
                 "vuldetectbench": "vuldetectbench_experiments.json",
-                "vulnerabilitydetection": "vulnerabilitydetection_experiments.json"
+                "vulnerabilitydetection": "vulnerabilitydetection_experiments.json",
             }
             args.config = config_files[args.dataset_type]
 
@@ -385,10 +413,9 @@ Examples:
         # Run experiment plan
         if args.plan:
             result = run_experiment_plan(
-                args.dataset_type, args.plan, config, 
-                args.output_dir, args.sample_limit
+                args.dataset_type, args.plan, config, args.output_dir, args.sample_limit
             )
-            
+
             print(f"\nExperiment plan '{args.plan}' completed for {args.dataset_type}")
             print(f"Success rate: {result['summary']['success_rate']:.1%}")
             print(f"Results saved to: {result['output_dir']}")
@@ -396,8 +423,13 @@ Examples:
         # Run single experiment
         elif args.model and args.dataset and args.prompt:
             result = run_single_experiment_unified(
-                args.dataset_type, args.model, args.dataset, args.prompt,
-                config, args.sample_limit, args.output_dir
+                args.dataset_type,
+                args.model,
+                args.dataset,
+                args.prompt,
+                config,
+                args.sample_limit,
+                args.output_dir,
             )
 
             if result["status"] == "success":
@@ -411,7 +443,9 @@ Examples:
 
         else:
             parser.print_help()
-            print(f"\nUse --list-configs to see available configurations for {args.dataset_type}")
+            print(
+                f"\nUse --list-configs to see available configurations for {args.dataset_type}"
+            )
 
     except Exception as e:
         logger.exception(f"Benchmark failed: {e}")

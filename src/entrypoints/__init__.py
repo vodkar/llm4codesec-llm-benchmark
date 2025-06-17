@@ -9,7 +9,7 @@ from .run_vulbench_benchmark import VulBenchBenchmarkRunner
 
 __all__ = [
     "CastleBenchmarkRunner",
-    "CVEFixesBenchmarkRunner", 
+    "CVEFixesBenchmarkRunner",
     "JitVulBenchmarkRunner",
-    "VulBenchBenchmarkRunner"
+    "VulBenchBenchmarkRunner",
 ]
