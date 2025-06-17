@@ -165,7 +165,7 @@ except ImportError as e:
 
 try:
     from pathlib import Path
-    src_dir = Path('/app/src')
+    src_dir = Path('/app')
     if src_dir.exists():
         print('Source directory found.')
     else:

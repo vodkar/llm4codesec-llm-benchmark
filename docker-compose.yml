@@ -22,22 +22,15 @@ services:
               - video
     
     environment:
-      - NVIDIA_VISIBLE_DEVICES=all
-      - CUDA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
-      
-      - CUDA_LAUNCH_BLOCKING=0
-      - CUDA_CACHE_DISABLE=0
-      - TORCH_CUDA_ARCH_LIST=6.0;6.1;7.0;7.5;8.0;8.6;8.9;9.0
-      - TORCH_ALLOW_TF32_CUBLAS_OVERRIDE=1
-      
       # Python settings
       - PYTHONUNBUFFERED=1
       - PYTHONDONTWRITEBYTECODE=1
       
       # Hugging Face cache (optional)
       - HF_HOME=/app/.cache/huggingface
-      - TRANSFORMERS_CACHE=/app/.cache/huggingface/transformers
+
+    env_file:
+      - .env
       
     volumes:
       # Persistent storage for results
@@ -49,8 +42,6 @@ services:
       - huggingface_cache:/app/.cache/huggingface
       - torch_cache:/app/.cache/torch
       
-      # Optional: Mount config files
-      - ./configs:/app/configs:ro
       
     working_dir: /app
     
