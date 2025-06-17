@@ -38,8 +38,8 @@ class VulBenchBenchmarkRunner:
             MetricsCalculator,
             PredictionResult,
             PromptGenerator,
-            ResponseParser,
             TaskType,
+            VulBenchResponseParser,
         )
 
         logging.info("Starting VulBench benchmark execution")
@@ -60,7 +60,8 @@ class VulBenchBenchmarkRunner:
             # Initialize components
             llm = HuggingFaceLLM(self.config)
             prompt_generator = PromptGenerator()
-            response_parser = ResponseParser(self.config.task_type)
+            # Use VulBench-specific response parser for better VulBench pattern matching
+            response_parser = VulBenchResponseParser(self.config.task_type)
             metrics_calculator = MetricsCalculator()
 
             # Create output directory

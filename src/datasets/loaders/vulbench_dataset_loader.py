@@ -27,27 +27,31 @@ class VulBenchDatasetLoader:
         task_type: str = "binary",
         dataset_name: str = "d2a",
         max_samples: Optional[int] = None,
+        vulnerability_type: Optional[str] = None,
     ) -> List[BenchmarkSample]:
         """
         Load VulBench dataset from JSON file.
 
         Args:
             data_path: Path to the dataset JSON file
-            task_type: Type of task ("binary" or "multiclass")
+            task_type: Type of task ("binary", "multiclass", or "binary_vulnerability_specific")
             dataset_name: Name of the dataset (d2a, ctf, magma, etc.)
             max_samples: Maximum number of samples to load
+            vulnerability_type: Specific vulnerability type to filter for (e.g., "Buffer-Overflow")
 
         Returns:
             List of BenchmarkSample objects
         """
         self.logger.info(f"Loading VulBench dataset: {data_path}")
+        if vulnerability_type:
+            self.logger.info(f"Filtering for vulnerability type: {vulnerability_type}")
 
         data_file = Path(data_path)
         if not data_file.exists():
             raise FileNotFoundError(f"Dataset file not found: {data_path}")
 
         samples = self._load_raw_dataset(
-            data_file, task_type, dataset_name, max_samples
+            data_file, task_type, dataset_name, max_samples, vulnerability_type
         )
 
         self.logger.info(f"Loaded {len(samples)} samples from {data_path}")
@@ -59,6 +63,7 @@ class VulBenchDatasetLoader:
         task_type: str,
         dataset_name: str,
         max_samples: Optional[int],
+        vulnerability_type: Optional[str] = None,
     ) -> List[BenchmarkSample]:
         """Load raw dataset from JSON file and convert to BenchmarkSample objects."""
         samples = []
@@ -73,7 +78,7 @@ class VulBenchDatasetLoader:
 
                 try:
                     vulbench_samples = self._convert_vulbench_item_to_samples(
-                        item, i, task_type, dataset_name
+                        item, i, task_type, dataset_name, vulnerability_type
                     )
                     samples.extend(vulbench_samples)
                 except Exception as e:
@@ -90,7 +95,12 @@ class VulBenchDatasetLoader:
         return samples
 
     def _convert_vulbench_item_to_samples(
-        self, item: Dict[str, Any], line_num: int, task_type: str, dataset_name: str
+        self,
+        item: Dict[str, Any],
+        line_num: int,
+        task_type: str,
+        dataset_name: str,
+        vulnerability_type: Optional[str] = None,
     ) -> List[BenchmarkSample]:
         """Convert a VulBench item to BenchmarkSample objects."""
         samples = []
@@ -105,6 +115,18 @@ class VulBenchDatasetLoader:
         if not code:
             return samples
 
+        # If filtering for specific vulnerability type, check if this item matches
+        if vulnerability_type and task_type == "binary_vulnerability_specific":
+            # For vulnerability-specific binary classification, we include:
+            # 1. Samples that contain the specific vulnerability type (labeled as 1)
+            # 2. Samples that are safe (no vulnerabilities, labeled as 0)
+            has_target_vulnerability = vulnerability_type in vulnerability_types
+            is_safe = not vulnerable
+
+            if not (has_target_vulnerability or is_safe):
+                # Skip samples with other vulnerability types
+                return samples
+
         # Common metadata
         base_metadata = {
             "dataset": dataset_name,
@@ -116,15 +138,37 @@ class VulBenchDatasetLoader:
 
         if task_type == "binary":
             # Binary classification: vulnerable vs non-vulnerable
-            label = "VULNERABLE" if vulnerable else "SAFE"
+            label = 1 if vulnerable else 0
 
             sample = BenchmarkSample(
                 id=f"vulbench_{dataset_name}_{line_num}",
                 code=code,
                 label=label,
                 metadata={**base_metadata, "original_vulnerable": vulnerable},
-                cwe=vulnerability_types if vulnerability_types else None,
+                cwe_types=vulnerability_types if vulnerability_types else None,
                 severity=self._get_vulnerability_severity(vulnerability_types),
+            )
+            samples.append(sample)
+
+        elif task_type == "binary_vulnerability_specific":
+            # Binary classification: specific vulnerability type vs safe
+            has_target_vulnerability = vulnerability_type in vulnerability_types
+            label = 1 if has_target_vulnerability else 0
+
+            sample = BenchmarkSample(
+                id=f"vulbench_{dataset_name}_{line_num}_{vulnerability_type.replace('-', '_')}",
+                code=code,
+                label=label,
+                metadata={
+                    **base_metadata,
+                    "original_vulnerable": vulnerable,
+                    "target_vulnerability_type": vulnerability_type,
+                    "has_target_vulnerability": has_target_vulnerability,
+                },
+                cwe_types=[vulnerability_type] if has_target_vulnerability else None,
+                severity=self._get_vulnerability_severity(
+                    [vulnerability_type] if has_target_vulnerability else []
+                ),
             )
             samples.append(sample)
 
@@ -150,7 +194,7 @@ class VulBenchDatasetLoader:
                     "original_vulnerable": vulnerable,
                     "all_vulnerability_types": vulnerability_types,
                 },
-                cwe=vulnerability_types if vulnerability_types else None,
+                cwe_types=vulnerability_types if vulnerability_types else None,
                 severity=self._get_vulnerability_severity(vulnerability_types),
             )
             samples.append(sample)
@@ -319,6 +363,143 @@ class VulBenchDatasetLoader:
         except Exception as e:
             self.logger.error(f"Error generating statistics: {e}")
             return {}
+
+        # Convert defaultdict to regular dict
+        stats["vulnerability_distribution"] = dict(stats["vulnerability_distribution"])
+
+        return stats
+
+    def generate_vulnerability_specific_datasets(
+        self,
+        source_datasets: List[str],
+        output_dir: str = "datasets_processed/vulbench",
+    ) -> None:
+        """
+        Generate vulnerability-specific binary classification datasets.
+
+        Args:
+            source_datasets: List of paths to multiclass VulBench datasets
+            output_dir: Directory to save the generated datasets
+        """
+        from pathlib import Path
+
+        output_path = Path(output_dir)
+        output_path.mkdir(parents=True, exist_ok=True)
+
+        # Track all vulnerability types across datasets
+        all_vulnerability_types = set()
+
+        # First pass: collect all vulnerability types
+        for dataset_path in source_datasets:
+            try:
+                with open(dataset_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+
+                for item in data:
+                    vulnerability_types = item.get("vulnerability_types", [])
+                    all_vulnerability_types.update(vulnerability_types)
+
+            except Exception as e:
+                self.logger.warning(f"Error reading {dataset_path}: {e}")
+                continue
+
+        self.logger.info(
+            f"Found vulnerability types: {sorted(all_vulnerability_types)}"
+        )
+
+        # Generate datasets for each vulnerability type
+        for vuln_type in sorted(all_vulnerability_types):
+            if vuln_type == "No-Vulnerability":  # Skip this as it's handled separately
+                continue
+
+            vuln_type_safe = vuln_type.replace("-", "_").replace(" ", "_")
+
+            # Combine all datasets for this vulnerability type
+            combined_samples = []
+
+            for dataset_path in source_datasets:
+                dataset_name = Path(dataset_path).stem.replace(
+                    "vulbench_multiclass_", ""
+                )
+
+                try:
+                    samples = self.load_dataset(
+                        dataset_path,
+                        task_type="binary_vulnerability_specific",
+                        dataset_name=dataset_name,
+                        vulnerability_type=vuln_type,
+                    )
+                    combined_samples.extend(samples)
+
+                except Exception as e:
+                    self.logger.warning(
+                        f"Error processing {dataset_path} for {vuln_type}: {e}"
+                    )
+                    continue
+
+            if combined_samples:
+                # Convert to JSON format
+                json_data = []
+                for sample in combined_samples:
+                    json_data.append(
+                        {
+                            "identifier": sample.id,
+                            "code": sample.code,
+                            "label": sample.label,
+                            "vulnerable": sample.label == 1,
+                            "vulnerability_type": vuln_type,
+                            "dataset": sample.metadata.get("dataset", "unknown"),
+                            "target_vulnerability_type": vuln_type,
+                        }
+                    )
+
+                # Save the dataset
+                output_file = (
+                    output_path / f"vulbench_binary_{vuln_type_safe.lower()}.json"
+                )
+                with open(output_file, "w", encoding="utf-8") as f:
+                    json.dump(json_data, f, indent=2, ensure_ascii=False)
+
+                self.logger.info(
+                    f"Generated {vuln_type} dataset: {len(json_data)} samples -> {output_file}"
+                )
+
+                # Generate statistics
+                stats = self._calculate_dataset_statistics(json_data, "binary")
+                stats_file = (
+                    output_path / f"vulbench_{vuln_type_safe.lower()}_stats.json"
+                )
+                with open(stats_file, "w", encoding="utf-8") as f:
+                    json.dump(stats, f, indent=2, ensure_ascii=False)
+
+    def _calculate_dataset_statistics(
+        self, data: List[Dict[str, Any]], task_type: str
+    ) -> Dict[str, Any]:
+        """
+        Calculate statistics for a dataset.
+
+        Args:
+            data: The dataset as a list of dictionaries
+            task_type: The type of task ("binary" or "multiclass")
+
+        Returns:
+            A dictionary containing the calculated statistics
+        """
+        stats = {
+            "total_samples": len(data),
+            "vulnerable_samples": sum(1 for item in data if item.get("label") == 1),
+            "safe_samples": sum(1 for item in data if item.get("label") == 0),
+            "vulnerability_distribution": defaultdict(int),
+        }
+
+        # Vulnerability type distribution
+        for item in data:
+            vul_types = item.get("vulnerability_types", [])
+            if vul_types:
+                for vul_type in vul_types:
+                    stats["vulnerability_distribution"][vul_type] += 1
+            else:
+                stats["vulnerability_distribution"]["No-Vulnerability"] += 1
 
         # Convert defaultdict to regular dict
         stats["vulnerability_distribution"] = dict(stats["vulnerability_distribution"])

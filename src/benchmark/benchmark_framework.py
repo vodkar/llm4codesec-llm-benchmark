@@ -60,6 +60,7 @@ class TaskType(Enum):
 
     BINARY_VULNERABILITY = "binary_vulnerability"
     BINARY_CWE_SPECIFIC = "binary_cwe_specific"
+    BINARY_VULNERABILITY_SPECIFIC = "binary_vulnerability_specific"
     MULTICLASS_VULNERABILITY = "multiclass_vulnerability"
 
 
@@ -682,6 +683,71 @@ class ResponseParser:
             return cwe_match.group()
         elif "SAFE" in response:
             return "SAFE"
+        else:
+            return "UNKNOWN"
+
+
+class VulBenchResponseParser(ResponseParser):
+    """VulBench-specific response parser that handles VulBench vulnerability types."""
+
+    def parse_response(self, response: str) -> int | str:
+        """
+        Parse model response into standardized format for VulBench.
+
+        Args:
+            response (str): Raw model response
+
+        Returns:
+            int | str: Parsed response
+        """
+        response = response.strip()  # Don't convert to uppercase here
+
+        if self.task_type == TaskType.BINARY_VULNERABILITY:
+            return self._parse_binary_response(response.upper())
+        elif self.task_type == TaskType.BINARY_CWE_SPECIFIC:
+            return self._parse_binary_response(response.upper())
+        elif self.task_type == TaskType.BINARY_VULNERABILITY_SPECIFIC:
+            return self._parse_binary_response(response.upper())
+        elif self.task_type == TaskType.MULTICLASS_VULNERABILITY:
+            return self._parse_multiclass_response(response)
+
+        return response
+
+    def _parse_multiclass_response(self, response: str) -> str:
+        """Parse multiclass response for VulBench datasets."""
+        # First check for CWE patterns (in case someone uses CWE format)
+        cwe_pattern = r"CWE-\d+"
+        cwe_match = re.search(cwe_pattern, response)
+        if cwe_match:
+            return cwe_match.group()
+
+        # Convert to uppercase for case-insensitive matching
+        response_upper = response.upper()
+
+        # Look for VulBench vulnerability type patterns
+        vulbench_patterns = {
+            "INTEGER-OVERFLOW": "Integer-Overflow",
+            "BUFFER-OVERFLOW": "Buffer-Overflow",
+            "NULL-POINTER-DEREFERENCE": "Null-Pointer-Dereference",
+            "USE-AFTER-FREE": "Use-After-Free",
+            "DOUBLE-FREE": "Double-Free",
+            "MEMORY-LEAK": "Memory-Leak",
+            "FORMAT-STRING": "Format-String",
+            "RACE-CONDITION": "Race-Condition",
+            "IMPROPER-ACCESS-CONTROL": "Improper-Access-Control",
+            "NO-VULNERABILITY": "No-Vulnerability",
+        }
+
+        for pattern_upper, pattern_original in vulbench_patterns.items():
+            if pattern_upper in response_upper or pattern_original in response:
+                return pattern_original
+
+        # Check for common safe indicators
+        if any(
+            safe_word in response_upper
+            for safe_word in ["SAFE", "NO-VULNERABILITY", "CLEAN"]
+        ):
+            return "No-Vulnerability"
         else:
             return "UNKNOWN"
 

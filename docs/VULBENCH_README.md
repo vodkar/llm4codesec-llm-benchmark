@@ -2,23 +2,24 @@
 
 ## Overview
 
-The VulBench benchmark provides comprehensive vulnerability detection evaluation using the VulBench dataset containing multiple vulnerability datasets (D2A, CTF, MAGMA, Big-Vul, Devign). The system has been implemented to use a unified configuration-based approach that matches the CASTLE benchmark pattern for consistency across all datasets.
+The VulBench benchmark provides comprehensive vulnerability detection evaluation using the VulBench dataset containing multiple vulnerability datasets (D2A, CTF, MAGMA, Big-Vul, Devign). The system has been unified with the CASTLE, CVEFixes, and JitVul benchmarks to use consistent configuration-based approaches and prompt strategies across all datasets.
 
-## New Configuration-Based System
+## Unified Configuration System
 
 ### Key Features ✅
-- **Unified Configuration**: JSON-based experiment configuration following CASTLE pattern
-- **Consistent CLI**: Same command-line interface across all benchmarks (CASTLE, JitVul, CVEFixes, VulBench)
+- **Unified Configuration**: JSON-based experiment configuration following CASTLE/CVEFixes/JitVul pattern
+- **Consistent CLI**: Same command-line interface across all benchmarks
+- **C/C++-Specific Prompts**: Tailored prompts for C/C++ vulnerability detection
+- **Separated Task Types**: Distinct experiment plans for binary and multiclass classification
 - **Multiple Datasets**: Support for 5 VulBench sub-datasets with binary and multiclass variants
 - **Flexible Experiments**: Easy definition of model/dataset/prompt combinations
-- **Single Entry Point**: All experiments configurable through JSON files
-- **Model Synchronization**: Consistent model definitions across all datasets
+- **Fixed Label Format**: Corrected label parsing and response format compatibility
 
 ### Core Components
 - **Configuration File**: `src/configs/vulbench_experiments.json`
 - **Benchmark Runner**: `src/entrypoints/run_vulbench_benchmark_new.py`
 - **Unified Runner**: `src/entrypoints/run_unified_benchmark.py` (handles all datasets)
-- **Dataset Loader**: `src/datasets/loaders/vulbench_dataset_loader.py`
+- **Dataset Loader**: `src/datasets/loaders/vulbench_dataset_loader.py` (updated for correct labels)
 - **Data Processor**: `src/scripts/process_vulbench_data.py`
 
 ## VulBench Datasets
@@ -27,11 +28,145 @@ VulBench contains 5 sub-datasets, each available in both binary and multiclass v
 
 | Dataset | Description | Binary Classification | Multiclass Classification |
 |---------|-------------|----------------------|---------------------------|
-| **D2A** | Detect-to-Assign dataset | Vulnerable vs Non-vulnerable | CWE-specific vulnerability types |
-| **CTF** | Capture The Flag challenges | Vulnerable vs Non-vulnerable | CWE-specific vulnerability types |
-| **MAGMA** | Generated vulnerabilities | Vulnerable vs Non-vulnerable | CWE-specific vulnerability types |
-| **Big-Vul** | Large-scale vulnerability dataset | Vulnerable vs Non-vulnerable | CWE-specific vulnerability types |
-| **Devign** | Graph-based vulnerability dataset | Vulnerable vs Non-vulnerable | CWE-specific vulnerability types |
+| **D2A** | Detect-to-Assign dataset | Vulnerable vs Non-vulnerable | Vulnerability type classification |
+| **CTF** | Capture The Flag challenges | Vulnerable vs Non-vulnerable | Vulnerability type classification |
+| **MAGMA** | Generated vulnerabilities | Vulnerable vs Non-vulnerable | Vulnerability type classification |
+| **Big-Vul** | Large-scale vulnerability dataset | Vulnerable vs Non-vulnerable | Vulnerability type classification |
+| **Devign** | Graph-based vulnerability dataset | Vulnerable vs Non-vulnerable | Vulnerability type classification |
+
+## Available Prompt Strategies
+
+### Binary Classification Prompts
+- **`basic_security`**: Simple C/C++ vulnerability detection analysis
+- **`detailed_analysis`**: Comprehensive C/C++ security analysis with CWE knowledge
+- **`context_aware`**: Production-focused C/C++ analysis considering real-world exploitation
+- **`step_by_step`**: Methodical C/C++ analysis following systematic steps
+
+### Multiclass Classification Prompts
+- **`multiclass_basic`**: Basic C/C++ vulnerability type classification
+- **`multiclass_detailed`**: Detailed C/C++ vulnerability pattern analysis and classification
+- **`multiclass_comprehensive`**: Comprehensive C/C++ vulnerability classification for production systems
+
+### Vulnerability Types in VulBench
+- **Integer-Overflow**: Integer overflow/underflow vulnerabilities
+- **Buffer-Overflow**: Buffer overflow/underflow vulnerabilities
+- **Null-Pointer-Dereference**: NULL pointer dereference issues
+- **Use-After-Free**: Use-after-free memory errors
+- **Double-Free**: Double-free memory errors
+- **Memory-Leak**: Memory leak issues
+- **Format-String**: Format string vulnerabilities
+
+## Command Line Interface
+
+### Individual Experiments
+```bash
+# Binary classification experiment
+python src/entrypoints/run_vulbench_benchmark_new.py \
+  --model qwen3-4b \
+  --dataset binary_d2a \
+  --prompt detailed_analysis
+
+# Multiclass classification experiment  
+python src/entrypoints/run_vulbench_benchmark_new.py \
+  --model qwen3-4b \
+  --dataset multiclass_d2a \
+  --prompt multiclass_detailed
+
+# Using unified runner (handles all datasets)
+python src/entrypoints/run_unified_benchmark.py \
+  --dataset-type vulbench \
+  --model qwen3-4b \
+  --dataset binary_d2a \
+  --prompt detailed_analysis
+```
+
+### Experiment Plans
+```bash
+# Quick testing
+python src/entrypoints/run_vulbench_benchmark_new.py --plan quick_test
+python src/entrypoints/run_vulbench_benchmark_new.py --plan multiclass_quick_test
+
+# Prompt strategy comparison
+python src/entrypoints/run_vulbench_benchmark_new.py --plan prompt_comparison
+python src/entrypoints/run_vulbench_benchmark_new.py --plan multiclass_prompt_comparison
+
+# Dataset comparison
+python src/entrypoints/run_vulbench_benchmark_new.py --plan binary_dataset_comparison
+python src/entrypoints/run_vulbench_benchmark_new.py --plan multiclass_dataset_comparison
+
+# Model size comparison
+python src/entrypoints/run_vulbench_benchmark_new.py --plan model_comparison
+python src/entrypoints/run_vulbench_benchmark_new.py --plan multiclass_model_comparison
+
+# Model category evaluation
+python src/entrypoints/run_vulbench_benchmark_new.py --plan small_models_binary
+python src/entrypoints/run_vulbench_benchmark_new.py --plan small_models_multiclass
+python src/entrypoints/run_vulbench_benchmark_new.py --plan large_models_binary
+python src/entrypoints/run_vulbench_benchmark_new.py --plan large_models_multiclass
+
+# Comprehensive evaluation
+python src/entrypoints/run_vulbench_benchmark_new.py --plan comprehensive_evaluation
+
+# Vulnerability-specific analysis
+python src/entrypoints/run_vulbench_benchmark_new.py --plan vulnerability_specific_analysis
+python src/entrypoints/run_vulbench_benchmark_new.py --plan vulnerability_prompt_comparison
+python src/entrypoints/run_vulbench_benchmark_new.py --plan small_models_vulnerability_specific
+python src/entrypoints/run_vulbench_benchmark_new.py --plan large_models_vulnerability_specific
+```
+
+### Common Options
+```bash
+# List available configurations
+python src/entrypoints/run_vulbench_benchmark_new.py --list-configs
+
+# Limit samples and set output directory
+python src/entrypoints/run_vulbench_benchmark_new.py \
+  --plan prompt_comparison \
+  --sample-limit 100 \
+  --output-dir results/vulbench_test
+
+# Enable verbose logging
+python src/entrypoints/run_vulbench_benchmark_new.py \
+  --plan quick_test \
+  --verbose
+```
+
+## Available Experiment Plans
+
+### Quick Testing
+- **`quick_test`**: Binary classification with 10 samples for development
+- **`multiclass_quick_test`**: Multiclass classification with 10 samples for development
+
+### Prompt Strategy Analysis
+- **`prompt_comparison`**: Compare all binary classification prompts on D2A dataset
+- **`multiclass_prompt_comparison`**: Compare all multiclass classification prompts on D2A dataset
+
+### Dataset Performance Analysis
+- **`binary_dataset_comparison`**: Compare performance across all binary datasets
+- **`multiclass_dataset_comparison`**: Compare performance across all multiclass datasets
+
+### Model Performance Analysis
+- **`model_comparison`**: Compare models on binary classification
+- **`multiclass_model_comparison`**: Compare models on multiclass classification
+- **`small_models_binary`**: Evaluate small models (≤4B parameters) on binary tasks
+- **`small_models_multiclass`**: Evaluate small models on multiclass tasks
+- **`large_models_binary`**: Evaluate large models (>4B parameters) on binary tasks
+- **`large_models_multiclass`**: Evaluate large models on multiclass tasks
+
+### Comprehensive Analysis
+- **`comprehensive_evaluation`**: Full evaluation across all datasets and models
+
+### Vulnerability-Specific Analysis
+- **`vulnerability_specific_analysis`**: Comprehensive vulnerability-specific detection evaluation
+- **`vulnerability_prompt_comparison`**: Compare different vulnerability-specific prompt strategies  
+- **`small_models_vulnerability_specific`**: Small models evaluation on vulnerability-specific detection
+- **`large_models_vulnerability_specific`**: Large models evaluation on vulnerability-specific detection
+
+### Vulnerability-Specific Analysis
+- **`vulnerability_specific_analysis`**: Comprehensive vulnerability-specific detection evaluation
+- **`vulnerability_prompt_comparison`**: Compare different vulnerability-specific prompt strategies  
+- **`small_models_vulnerability_specific`**: Small models evaluation on vulnerability-specific detection
+- **`large_models_vulnerability_specific`**: Large models evaluation on vulnerability-specific detection
 
 ## Configuration Structure
 
@@ -58,27 +193,63 @@ The VulBench configuration follows the same structure as other benchmarks for co
     }
   },
   "prompt_strategies": {
-    "vulnerability_detection_basic": {
-      "strategy_name": "Basic Vulnerability Detection",
-      "description": "Simple binary classification prompt for vulnerability detection"
+    "basic_security": {
+      "name": "Basic Security Analysis",
+      "system_prompt": "...",
+      "user_prompt": "Analyze this C/C++ code for security vulnerabilities:\n\n{code}"
     },
-    "vulnerability_classification_cwe": {
-      "strategy_name": "CWE-based Vulnerability Classification",
-      "description": "Multi-class classification with specific CWE categories"
+    "multiclass_detailed": {
+      "name": "Detailed Multiclass Vulnerability Analysis", 
+      "system_prompt": "...",
+      "user_prompt": "Analyze and classify the vulnerability type in this C/C++ code:\n\n```c\n{code}\n```"
     }
   },
   "model_configurations": {
-    "qwen2.5-7b": {
-      "model_name": "Qwen/Qwen2.5-7B-Instruct",
+    "qwen3-4b": {
+      "model_name": "Qwen/Qwen3-4B",
       "model_type": "QWEN",
-      "config": {
-        "max_tokens": 4096,
-        "temperature": 0.1
+      "max_tokens": 512,
+      "temperature": 0.1
       }
     }
   }
 }
 ```
+
+## Task Types
+
+### Binary Vulnerability Detection
+- **Purpose**: Determine if C/C++ code contains any security vulnerability
+- **Output**: `VULNERABLE` or `SAFE`
+- **Datasets**: `binary_d2a`, `binary_ctf`, `binary_magma`, `binary_big_vul`, `binary_devign`
+- **Prompts**: `basic_security`, `detailed_analysis`, `context_aware`, `step_by_step`
+
+### Multiclass Vulnerability Classification  
+- **Purpose**: Identify specific vulnerability type in C/C++ code
+- **Output**: Specific vulnerability type (e.g., `Integer-Overflow`) or `SAFE`
+- **Datasets**: `multiclass_d2a`, `multiclass_ctf`, `multiclass_magma`, `multiclass_big_vul`, `multiclass_devign`
+- **Prompts**: `multiclass_basic`, `multiclass_detailed`, `multiclass_comprehensive`
+
+## Key Features
+
+### 1. Unified Configuration System
+- **C/C++-Specific Prompts**: Tailored prompts for C/C++ vulnerability patterns
+- **Task Separation**: Distinct prompts and experiments for binary vs. multiclass tasks
+- **JSON Configuration**: All experiments defined in `vulbench_experiments.json`
+- **Fixed Label Format**: Corrected binary labels (0/1) and multiclass response parsing
+- **Experiment Plans**: Predefined experimental setups for different analysis needs
+
+### 2. Enhanced VulBench Support
+- **Multiple Datasets**: Support for all 5 VulBench sub-datasets
+- **Vulnerability Types**: Proper handling of VulBench vulnerability type names
+- **Response Parsing**: Updated parser to handle both CWE and VulBench formats
+- **Label Consistency**: Fixed dataset loader to provide consistent integer labels for binary tasks
+
+### 3. Comprehensive Evaluation
+- **Standard Metrics**: AUC-ROC (primary), Accuracy, Precision, Recall, F1-score
+- **Per-Dataset Analysis**: Individual performance analysis for each VulBench sub-dataset
+- **Framework Integration**: Uses unified benchmark framework evaluation system
+- **Error Analysis**: Detailed analysis of misclassifications
 
 ## Quick Start
 
@@ -177,204 +348,1430 @@ The configuration includes several pre-defined experiment plans:
 - **Prompts**: Standardized prompts for fair comparison
 - **Runtime**: ~1.5 hours
 
-## Prompt Strategies
+### Vulnerability-Specific Analysis
+- **`vulnerability_specific_analysis`**: Comprehensive vulnerability-specific detection evaluation
+- **`vulnerability_prompt_comparison`**: Compare different vulnerability-specific prompt strategies  
+- **`small_models_vulnerability_specific`**: Small models evaluation on vulnerability-specific detection
+- **`large_models_vulnerability_specific`**: Large models evaluation on vulnerability-specific detection
 
-VulBench includes 5 different prompt strategies optimized for vulnerability detection:
+## Configuration Structure
 
-1. **`vulnerability_detection_basic`**: Simple binary classification
-2. **`vulnerability_detection_contextual`**: Enhanced with context and examples
-3. **`vulnerability_classification_cwe`**: Multi-class with CWE categories
-4. **`vulnerability_classification_detailed`**: Detailed analysis with reasoning
-5. **`code_security_analysis`**: Comprehensive security assessment
+The VulBench configuration follows the same structure as other benchmarks for consistency:
 
-## Model Configurations
-
-The benchmark supports 11 different models across various families:
-
-- **OpenAI**: GPT-4 Turbo, GPT-4o, GPT-3.5 Turbo
-- **Anthropic**: Claude-3.5 Sonnet, Claude-3 Haiku
-- **Open Source**: Qwen2.5-7B, CodeLlama-7B, CodeLlama-13B, DeepSeek-Coder-7B
-- **Specialized**: CodeT5+, WizardCoder-15B
-
-## Data Processing Details
-
-### Raw VulBench Structure
-```
-benchmarks/VulBench/VulBench/
-├── d2a/
-│   ├── sample_001/
-│   │   ├── meta_data.json
-│   │   └── src.c
-│   └── sample_002/
-│       ├── meta_data.json
-│       └── src.c
-├── ctf/
-├── magma/
-├── big_vul/
-└── devign/
-```
-
-### Processed Structure
-```
-datasets_processed/vulbench/
-├── vulbench_binary_d2a.json
-├── vulbench_multiclass_d2a.json
-├── vulbench_binary_big_vul.json
-├── vulbench_multiclass_big_vul.json
-├── vulbench_binary_devign.json
-├── vulbench_multiclass_devign.json
-└── stats/
-    ├── d2a_stats.json
-    ├── big_vul_stats.json
-    └── devign_stats.json
-```
-
-### Data Processing Statistics
-
-Based on successful processing:
-
-| Dataset | Samples | Binary Labels | Multiclass CWEs | Status |
-|---------|---------|---------------|-----------------|---------|
-| D2A     | 69      | 34 Vuln / 35 Safe | 8 CWE types | ✅ Processed |
-| Big-Vul | 108     | 54 Vuln / 54 Safe | 12 CWE types | ✅ Processed |
-| Devign  | 70      | 35 Vuln / 35 Safe | 9 CWE types | ✅ Processed |
-| CTF     | 0       | - | - | ⚠️ Structure Issues |
-| MAGMA   | 0       | - | - | ⚠️ Structure Issues |
-
-**Note**: CTF and MAGMA datasets had structural issues during processing (missing `src.c` files in many directories). These datasets may require manual inspection and different processing logic.
-
-## Command Line Options
-
-### Direct VulBench Runner
-```bash
-python src/entrypoints/run_vulbench_benchmark_new.py [OPTIONS]
-
-Options:
-  --list-configs          List all available configurations
-  --plan PLAN_NAME        Run a specific experiment plan
-  --model MODEL_NAMES     Comma-separated list of model names
-  --dataset DATASET_NAMES Comma-separated list of dataset names
-  --prompt PROMPT_NAMES   Comma-separated list of prompt strategy names
-  --output-dir DIR        Output directory for results
-  --max-samples N         Limit number of samples per dataset
-  --debug                 Enable debug logging
-  --dry-run              Show what would be executed without running
+```json
+{
+  "experiment_metadata": {
+    "name": "VulBench Benchmark LLM Evaluation",
+    "description": "Comprehensive evaluation of LLMs on VulBench benchmark",
+    "version": "1.0",
+    "dataset": "VulBench v1.0"
+  },
+  "dataset_configurations": {
+    "binary_d2a": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_binary_d2a.json",
+      "task_type": "binary_vulnerability",
+      "description": "Binary classification: D2A vulnerability detection"
+    },
+    "multiclass_big_vul": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_multiclass_big_vul.json",
+      "task_type": "multiclass_vulnerability",
+      "description": "Multi-class classification: Big-Vul vulnerability type identification"
+    }
+  },
+  "prompt_strategies": {
+    "basic_security": {
+      "name": "Basic Security Analysis",
+      "system_prompt": "...",
+      "user_prompt": "Analyze this C/C++ code for security vulnerabilities:\n\n{code}"
+    },
+    "multiclass_detailed": {
+      "name": "Detailed Multiclass Vulnerability Analysis", 
+      "system_prompt": "...",
+      "user_prompt": "Analyze and classify the vulnerability type in this C/C++ code:\n\n```c\n{code}\n```"
+    }
+  },
+  "model_configurations": {
+    "qwen3-4b": {
+      "model_name": "Qwen/Qwen3-4B",
+      "model_type": "QWEN",
+      "max_tokens": 512,
+      "temperature": 0.1
+      }
+    }
+  }
+}
 ```
 
-### Unified Runner
-```bash
-python run_unified_benchmark.py vulbench [OPTIONS]
+## Task Types
 
-# Same options as above, with 'vulbench' as the dataset type
-```
+### Binary Vulnerability Detection
+- **Purpose**: Determine if C/C++ code contains any security vulnerability
+- **Output**: `VULNERABLE` or `SAFE`
+- **Datasets**: `binary_d2a`, `binary_ctf`, `binary_magma`, `binary_big_vul`, `binary_devign`
+- **Prompts**: `basic_security`, `detailed_analysis`, `context_aware`, `step_by_step`
 
-## Output and Results
+### Multiclass Vulnerability Classification  
+- **Purpose**: Identify specific vulnerability type in C/C++ code
+- **Output**: Specific vulnerability type (e.g., `Integer-Overflow`) or `SAFE`
+- **Datasets**: `multiclass_d2a`, `multiclass_ctf`, `multiclass_magma`, `multiclass_big_vul`, `multiclass_devign`
+- **Prompts**: `multiclass_basic`, `multiclass_detailed`, `multiclass_comprehensive`
 
-### Directory Structure
-```
-results/
-└── vulbench/
-    ├── {timestamp}_vulbench_results/
-    │   ├── experiment_config.json
-    │   ├── detailed_results.json
-    │   ├── summary_results.json
-    │   └── logs/
-    │       ├── run.log
-    │       └── model_responses/
-    └── {timestamp}_vulbench_quick_test/
-        └── ...
-```
+## Key Features
 
-### Result Files
+### 1. Unified Configuration System
+- **C/C++-Specific Prompts**: Tailored prompts for C/C++ vulnerability patterns
+- **Task Separation**: Distinct prompts and experiments for binary vs. multiclass tasks
+- **JSON Configuration**: All experiments defined in `vulbench_experiments.json`
+- **Fixed Label Format**: Corrected binary labels (0/1) and multiclass response parsing
+- **Experiment Plans**: Predefined experimental setups for different analysis needs
 
-1. **`experiment_config.json`**: Complete experiment configuration
-2. **`detailed_results.json`**: Per-sample predictions and metrics
-3. **`summary_results.json`**: Aggregated results and statistics
-4. **`run.log`**: Execution logs and timing information
-5. **`model_responses/`**: Raw model responses for debugging
+### 2. Enhanced VulBench Support
+- **Multiple Datasets**: Support for all 5 VulBench sub-datasets
+- **Vulnerability Types**: Proper handling of VulBench vulnerability type names
+- **Response Parsing**: Updated parser to handle both CWE and VulBench formats
+- **Label Consistency**: Fixed dataset loader to provide consistent integer labels for binary tasks
 
-### Metrics Calculated
+### 3. Comprehensive Evaluation
+- **Standard Metrics**: AUC-ROC (primary), Accuracy, Precision, Recall, F1-score
+- **Per-Dataset Analysis**: Individual performance analysis for each VulBench sub-dataset
+- **Framework Integration**: Uses unified benchmark framework evaluation system
+- **Error Analysis**: Detailed analysis of misclassifications
 
-For each model-dataset-prompt combination:
-- **Accuracy**: Overall classification accuracy
-- **Precision/Recall/F1**: Per-class and macro-averaged
-- **Confusion Matrix**: For detailed error analysis
-- **Processing Time**: Model response times
-- **Token Statistics**: Input/output token counts
+## Quick Start
 
-## Troubleshooting
+### 1. Data Processing
 
-### Common Issues
-
-1. **Dataset Not Found**
-   ```bash
-   # Ensure data is processed first
-   python src/scripts/process_vulbench_data.py
-   ```
-
-2. **Model Loading Errors**
-   ```bash
-   # Check API keys are set
-   export OPENAI_API_KEY="your-key"
-   export ANTHROPIC_API_KEY="your-key"
-   ```
-
-3. **Memory Issues with Large Models**
-   ```bash
-   # Use smaller models or reduce batch size
-   python run_unified_benchmark.py vulbench --plan quick_test --model qwen2.5-7b
-   ```
-
-4. **CTF/MAGMA Processing Issues**
-   - These datasets had structural issues during processing
-   - Manual inspection may be required
-   - Consider excluding from experiments until resolved
-
-### Debugging
-
-Enable debug mode for detailed logging:
-```bash
-python run_unified_benchmark.py vulbench --debug --plan quick_test
-```
-
-Use dry-run to preview experiments:
-```bash
-python run_unified_benchmark.py vulbench --dry-run --plan comprehensive_evaluation
-```
-
-## Integration with Other Benchmarks
-
-VulBench is fully integrated with the unified benchmark system:
+First, process the raw VulBench data to create structured JSON datasets:
 
 ```bash
-# Run multiple benchmarks in sequence
-python run_unified_benchmark.py castle --plan quick_test
-python run_unified_benchmark.py jitvul --plan quick_test  
-python run_unified_benchmark.py cvefixes --plan quick_test
+# Process VulBench data for all datasets
+python src/scripts/process_vulbench_data.py
+
+# Process specific dataset
+python src/scripts/process_vulbench_data.py --dataset d2a
+
+# Process both binary and multiclass variants
+python src/scripts/process_vulbench_data.py --dataset big_vul --binary --multiclass
+```
+
+### 2. List Available Configurations
+
+```bash
+# Using the unified runner (recommended)
+python run_unified_benchmark.py vulbench --list-configs
+
+# Using the direct VulBench runner
+python src/entrypoints/run_vulbench_benchmark_new.py --list-configs
+```
+
+### 3. Run Specific Experiments
+
+```bash
+# Run binary vulnerability detection on D2A dataset with GPT-4
+python run_unified_benchmark.py vulbench \
+  --plan quick_test \
+  --model gpt-4-turbo \
+  --dataset binary_d2a \
+  --prompt vulnerability_detection_basic
+
+# Run multiclass classification on Big-Vul with multiple models  
+python run_unified_benchmark.py vulbench \
+  --plan comprehensive_evaluation \
+  --model qwen2.5-7b,claude-3.5-sonnet \
+  --dataset multiclass_big_vul \
+  --prompt vulnerability_classification_cwe
+```
+
+### 4. Run Full Experiment Plans
+
+```bash
+# Quick test across multiple datasets
 python run_unified_benchmark.py vulbench --plan quick_test
 
-# Compare results across benchmarks
-python scripts/compare_benchmark_results.py \
-  results/castle/ \
-  results/jitvul/ \
-  results/cvefixes/ \
-  results/vulbench/
+# Comprehensive evaluation with all models and prompts
+python run_unified_benchmark.py vulbench --plan comprehensive_evaluation
+
+# Binary-only evaluation
+python run_unified_benchmark.py vulbench --plan binary_classification_focus
 ```
 
-## Next Steps
+## Available Experiment Plans
 
-1. **Full Benchmark Execution**: Run comprehensive evaluation to validate end-to-end functionality
-2. **CTF/MAGMA Investigation**: Resolve structural issues with these datasets
-3. **Result Analysis**: Develop scripts for cross-benchmark comparison
-4. **Performance Optimization**: Optimize for large-scale experiments
-5. **Documentation Enhancement**: Add more examples and use cases
+The configuration includes several pre-defined experiment plans:
 
-## Support
+### `quick_test`
+- **Purpose**: Fast validation of setup
+- **Datasets**: Binary D2A, Binary Big-Vul
+- **Models**: GPT-4 Turbo, Qwen2.5-7B
+- **Prompts**: Basic vulnerability detection
+- **Runtime**: ~30 minutes
 
-For issues specific to VulBench implementation:
-1. Check the logs in the output directory
-2. Verify data processing completed successfully
-3. Ensure all required dependencies are installed
-4. Review the experiment configuration for correct paths
+### `comprehensive_evaluation`
+- **Purpose**: Full benchmark evaluation
+- **Datasets**: All 10 datasets (5 binary + 5 multiclass)
+- **Models**: All 11 configured models
+- **Prompts**: All 5 prompt strategies
+- **Runtime**: Several hours
 
-For general benchmark framework issues, refer to the main README.md and other benchmark documentation.
+### `binary_classification_focus`
+- **Purpose**: Focus on binary vulnerability detection
+- **Datasets**: All 5 binary datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5, CodeLlama
+- **Prompts**: Basic and contextual detection
+- **Runtime**: ~2 hours
+
+### `multiclass_analysis`
+- **Purpose**: Focus on vulnerability type classification
+- **Datasets**: All 5 multiclass datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5
+- **Prompts**: CWE-based and detailed classification
+- **Runtime**: ~3 hours
+
+### `model_comparison`
+- **Purpose**: Compare different model families
+- **Datasets**: Binary and multiclass D2A, Big-Vul
+- **Models**: Representative models from each family
+- **Prompts**: Standardized prompts for fair comparison
+- **Runtime**: ~1.5 hours
+
+### Vulnerability-Specific Analysis
+- **`vulnerability_specific_analysis`**: Comprehensive vulnerability-specific detection evaluation
+- **`vulnerability_prompt_comparison`**: Compare different vulnerability-specific prompt strategies  
+- **`small_models_vulnerability_specific`**: Small models evaluation on vulnerability-specific detection
+- **`large_models_vulnerability_specific`**: Large models evaluation on vulnerability-specific detection
+
+## Configuration Structure
+
+The VulBench configuration follows the same structure as other benchmarks for consistency:
+
+```json
+{
+  "experiment_metadata": {
+    "name": "VulBench Benchmark LLM Evaluation",
+    "description": "Comprehensive evaluation of LLMs on VulBench benchmark",
+    "version": "1.0",
+    "dataset": "VulBench v1.0"
+  },
+  "dataset_configurations": {
+    "binary_d2a": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_binary_d2a.json",
+      "task_type": "binary_vulnerability",
+      "description": "Binary classification: D2A vulnerability detection"
+    },
+    "multiclass_big_vul": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_multiclass_big_vul.json",
+      "task_type": "multiclass_vulnerability",
+      "description": "Multi-class classification: Big-Vul vulnerability type identification"
+    }
+  },
+  "prompt_strategies": {
+    "basic_security": {
+      "name": "Basic Security Analysis",
+      "system_prompt": "...",
+      "user_prompt": "Analyze this C/C++ code for security vulnerabilities:\n\n{code}"
+    },
+    "multiclass_detailed": {
+      "name": "Detailed Multiclass Vulnerability Analysis", 
+      "system_prompt": "...",
+      "user_prompt": "Analyze and classify the vulnerability type in this C/C++ code:\n\n```c\n{code}\n```"
+    }
+  },
+  "model_configurations": {
+    "qwen3-4b": {
+      "model_name": "Qwen/Qwen3-4B",
+      "model_type": "QWEN",
+      "max_tokens": 512,
+      "temperature": 0.1
+      }
+    }
+  }
+}
+```
+
+## Task Types
+
+### Binary Vulnerability Detection
+- **Purpose**: Determine if C/C++ code contains any security vulnerability
+- **Output**: `VULNERABLE` or `SAFE`
+- **Datasets**: `binary_d2a`, `binary_ctf`, `binary_magma`, `binary_big_vul`, `binary_devign`
+- **Prompts**: `basic_security`, `detailed_analysis`, `context_aware`, `step_by_step`
+
+### Multiclass Vulnerability Classification  
+- **Purpose**: Identify specific vulnerability type in C/C++ code
+- **Output**: Specific vulnerability type (e.g., `Integer-Overflow`) or `SAFE`
+- **Datasets**: `multiclass_d2a`, `multiclass_ctf`, `multiclass_magma`, `multiclass_big_vul`, `multiclass_devign`
+- **Prompts**: `multiclass_basic`, `multiclass_detailed`, `multiclass_comprehensive`
+
+## Key Features
+
+### 1. Unified Configuration System
+- **C/C++-Specific Prompts**: Tailored prompts for C/C++ vulnerability patterns
+- **Task Separation**: Distinct prompts and experiments for binary vs. multiclass tasks
+- **JSON Configuration**: All experiments defined in `vulbench_experiments.json`
+- **Fixed Label Format**: Corrected binary labels (0/1) and multiclass response parsing
+- **Experiment Plans**: Predefined experimental setups for different analysis needs
+
+### 2. Enhanced VulBench Support
+- **Multiple Datasets**: Support for all 5 VulBench sub-datasets
+- **Vulnerability Types**: Proper handling of VulBench vulnerability type names
+- **Response Parsing**: Updated parser to handle both CWE and VulBench formats
+- **Label Consistency**: Fixed dataset loader to provide consistent integer labels for binary tasks
+
+### 3. Comprehensive Evaluation
+- **Standard Metrics**: AUC-ROC (primary), Accuracy, Precision, Recall, F1-score
+- **Per-Dataset Analysis**: Individual performance analysis for each VulBench sub-dataset
+- **Framework Integration**: Uses unified benchmark framework evaluation system
+- **Error Analysis**: Detailed analysis of misclassifications
+
+## Quick Start
+
+### 1. Data Processing
+
+First, process the raw VulBench data to create structured JSON datasets:
+
+```bash
+# Process VulBench data for all datasets
+python src/scripts/process_vulbench_data.py
+
+# Process specific dataset
+python src/scripts/process_vulbench_data.py --dataset d2a
+
+# Process both binary and multiclass variants
+python src/scripts/process_vulbench_data.py --dataset big_vul --binary --multiclass
+```
+
+### 2. List Available Configurations
+
+```bash
+# Using the unified runner (recommended)
+python run_unified_benchmark.py vulbench --list-configs
+
+# Using the direct VulBench runner
+python src/entrypoints/run_vulbench_benchmark_new.py --list-configs
+```
+
+### 3. Run Specific Experiments
+
+```bash
+# Run binary vulnerability detection on D2A dataset with GPT-4
+python run_unified_benchmark.py vulbench \
+  --plan quick_test \
+  --model gpt-4-turbo \
+  --dataset binary_d2a \
+  --prompt vulnerability_detection_basic
+
+# Run multiclass classification on Big-Vul with multiple models  
+python run_unified_benchmark.py vulbench \
+  --plan comprehensive_evaluation \
+  --model qwen2.5-7b,claude-3.5-sonnet \
+  --dataset multiclass_big_vul \
+  --prompt vulnerability_classification_cwe
+```
+
+### 4. Run Full Experiment Plans
+
+```bash
+# Quick test across multiple datasets
+python run_unified_benchmark.py vulbench --plan quick_test
+
+# Comprehensive evaluation with all models and prompts
+python run_unified_benchmark.py vulbench --plan comprehensive_evaluation
+
+# Binary-only evaluation
+python run_unified_benchmark.py vulbench --plan binary_classification_focus
+```
+
+## Available Experiment Plans
+
+The configuration includes several pre-defined experiment plans:
+
+### `quick_test`
+- **Purpose**: Fast validation of setup
+- **Datasets**: Binary D2A, Binary Big-Vul
+- **Models**: GPT-4 Turbo, Qwen2.5-7B
+- **Prompts**: Basic vulnerability detection
+- **Runtime**: ~30 minutes
+
+### `comprehensive_evaluation`
+- **Purpose**: Full benchmark evaluation
+- **Datasets**: All 10 datasets (5 binary + 5 multiclass)
+- **Models**: All 11 configured models
+- **Prompts**: All 5 prompt strategies
+- **Runtime**: Several hours
+
+### `binary_classification_focus`
+- **Purpose**: Focus on binary vulnerability detection
+- **Datasets**: All 5 binary datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5, CodeLlama
+- **Prompts**: Basic and contextual detection
+- **Runtime**: ~2 hours
+
+### `multiclass_analysis`
+- **Purpose**: Focus on vulnerability type classification
+- **Datasets**: All 5 multiclass datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5
+- **Prompts**: CWE-based and detailed classification
+- **Runtime**: ~3 hours
+
+### `model_comparison`
+- **Purpose**: Compare different model families
+- **Datasets**: Binary and multiclass D2A, Big-Vul
+- **Models**: Representative models from each family
+- **Prompts**: Standardized prompts for fair comparison
+- **Runtime**: ~1.5 hours
+
+### Vulnerability-Specific Analysis
+- **`vulnerability_specific_analysis`**: Comprehensive vulnerability-specific detection evaluation
+- **`vulnerability_prompt_comparison`**: Compare different vulnerability-specific prompt strategies  
+- **`small_models_vulnerability_specific`**: Small models evaluation on vulnerability-specific detection
+- **`large_models_vulnerability_specific`**: Large models evaluation on vulnerability-specific detection
+
+## Configuration Structure
+
+The VulBench configuration follows the same structure as other benchmarks for consistency:
+
+```json
+{
+  "experiment_metadata": {
+    "name": "VulBench Benchmark LLM Evaluation",
+    "description": "Comprehensive evaluation of LLMs on VulBench benchmark",
+    "version": "1.0",
+    "dataset": "VulBench v1.0"
+  },
+  "dataset_configurations": {
+    "binary_d2a": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_binary_d2a.json",
+      "task_type": "binary_vulnerability",
+      "description": "Binary classification: D2A vulnerability detection"
+    },
+    "multiclass_big_vul": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_multiclass_big_vul.json",
+      "task_type": "multiclass_vulnerability",
+      "description": "Multi-class classification: Big-Vul vulnerability type identification"
+    }
+  },
+  "prompt_strategies": {
+    "basic_security": {
+      "name": "Basic Security Analysis",
+      "system_prompt": "...",
+      "user_prompt": "Analyze this C/C++ code for security vulnerabilities:\n\n{code}"
+    },
+    "multiclass_detailed": {
+      "name": "Detailed Multiclass Vulnerability Analysis", 
+      "system_prompt": "...",
+      "user_prompt": "Analyze and classify the vulnerability type in this C/C++ code:\n\n```c\n{code}\n```"
+    }
+  },
+  "model_configurations": {
+    "qwen3-4b": {
+      "model_name": "Qwen/Qwen3-4B",
+      "model_type": "QWEN",
+      "max_tokens": 512,
+      "temperature": 0.1
+      }
+    }
+  }
+}
+```
+
+## Task Types
+
+### Binary Vulnerability Detection
+- **Purpose**: Determine if C/C++ code contains any security vulnerability
+- **Output**: `VULNERABLE` or `SAFE`
+- **Datasets**: `binary_d2a`, `binary_ctf`, `binary_magma`, `binary_big_vul`, `binary_devign`
+- **Prompts**: `basic_security`, `detailed_analysis`, `context_aware`, `step_by_step`
+
+### Multiclass Vulnerability Classification  
+- **Purpose**: Identify specific vulnerability type in C/C++ code
+- **Output**: Specific vulnerability type (e.g., `Integer-Overflow`) or `SAFE`
+- **Datasets**: `multiclass_d2a`, `multiclass_ctf`, `multiclass_magma`, `multiclass_big_vul`, `multiclass_devign`
+- **Prompts**: `multiclass_basic`, `multiclass_detailed`, `multiclass_comprehensive`
+
+## Key Features
+
+### 1. Unified Configuration System
+- **C/C++-Specific Prompts**: Tailored prompts for C/C++ vulnerability patterns
+- **Task Separation**: Distinct prompts and experiments for binary vs. multiclass tasks
+- **JSON Configuration**: All experiments defined in `vulbench_experiments.json`
+- **Fixed Label Format**: Corrected binary labels (0/1) and multiclass response parsing
+- **Experiment Plans**: Predefined experimental setups for different analysis needs
+
+### 2. Enhanced VulBench Support
+- **Multiple Datasets**: Support for all 5 VulBench sub-datasets
+- **Vulnerability Types**: Proper handling of VulBench vulnerability type names
+- **Response Parsing**: Updated parser to handle both CWE and VulBench formats
+- **Label Consistency**: Fixed dataset loader to provide consistent integer labels for binary tasks
+
+### 3. Comprehensive Evaluation
+- **Standard Metrics**: AUC-ROC (primary), Accuracy, Precision, Recall, F1-score
+- **Per-Dataset Analysis**: Individual performance analysis for each VulBench sub-dataset
+- **Framework Integration**: Uses unified benchmark framework evaluation system
+- **Error Analysis**: Detailed analysis of misclassifications
+
+## Quick Start
+
+### 1. Data Processing
+
+First, process the raw VulBench data to create structured JSON datasets:
+
+```bash
+# Process VulBench data for all datasets
+python src/scripts/process_vulbench_data.py
+
+# Process specific dataset
+python src/scripts/process_vulbench_data.py --dataset d2a
+
+# Process both binary and multiclass variants
+python src/scripts/process_vulbench_data.py --dataset big_vul --binary --multiclass
+```
+
+### 2. List Available Configurations
+
+```bash
+# Using the unified runner (recommended)
+python run_unified_benchmark.py vulbench --list-configs
+
+# Using the direct VulBench runner
+python src/entrypoints/run_vulbench_benchmark_new.py --list-configs
+```
+
+### 3. Run Specific Experiments
+
+```bash
+# Run binary vulnerability detection on D2A dataset with GPT-4
+python run_unified_benchmark.py vulbench \
+  --plan quick_test \
+  --model gpt-4-turbo \
+  --dataset binary_d2a \
+  --prompt vulnerability_detection_basic
+
+# Run multiclass classification on Big-Vul with multiple models  
+python run_unified_benchmark.py vulbench \
+  --plan comprehensive_evaluation \
+  --model qwen2.5-7b,claude-3.5-sonnet \
+  --dataset multiclass_big_vul \
+  --prompt vulnerability_classification_cwe
+```
+
+### 4. Run Full Experiment Plans
+
+```bash
+# Quick test across multiple datasets
+python run_unified_benchmark.py vulbench --plan quick_test
+
+# Comprehensive evaluation with all models and prompts
+python run_unified_benchmark.py vulbench --plan comprehensive_evaluation
+
+# Binary-only evaluation
+python run_unified_benchmark.py vulbench --plan binary_classification_focus
+```
+
+## Available Experiment Plans
+
+The configuration includes several pre-defined experiment plans:
+
+### `quick_test`
+- **Purpose**: Fast validation of setup
+- **Datasets**: Binary D2A, Binary Big-Vul
+- **Models**: GPT-4 Turbo, Qwen2.5-7B
+- **Prompts**: Basic vulnerability detection
+- **Runtime**: ~30 minutes
+
+### `comprehensive_evaluation`
+- **Purpose**: Full benchmark evaluation
+- **Datasets**: All 10 datasets (5 binary + 5 multiclass)
+- **Models**: All 11 configured models
+- **Prompts**: All 5 prompt strategies
+- **Runtime**: Several hours
+
+### `binary_classification_focus`
+- **Purpose**: Focus on binary vulnerability detection
+- **Datasets**: All 5 binary datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5, CodeLlama
+- **Prompts**: Basic and contextual detection
+- **Runtime**: ~2 hours
+
+### `multiclass_analysis`
+- **Purpose**: Focus on vulnerability type classification
+- **Datasets**: All 5 multiclass datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5
+- **Prompts**: CWE-based and detailed classification
+- **Runtime**: ~3 hours
+
+### `model_comparison`
+- **Purpose**: Compare different model families
+- **Datasets**: Binary and multiclass D2A, Big-Vul
+- **Models**: Representative models from each family
+- **Prompts**: Standardized prompts for fair comparison
+- **Runtime**: ~1.5 hours
+
+### Vulnerability-Specific Analysis
+- **`vulnerability_specific_analysis`**: Comprehensive vulnerability-specific detection evaluation
+- **`vulnerability_prompt_comparison`**: Compare different vulnerability-specific prompt strategies  
+- **`small_models_vulnerability_specific`**: Small models evaluation on vulnerability-specific detection
+- **`large_models_vulnerability_specific`**: Large models evaluation on vulnerability-specific detection
+
+## Configuration Structure
+
+The VulBench configuration follows the same structure as other benchmarks for consistency:
+
+```json
+{
+  "experiment_metadata": {
+    "name": "VulBench Benchmark LLM Evaluation",
+    "description": "Comprehensive evaluation of LLMs on VulBench benchmark",
+    "version": "1.0",
+    "dataset": "VulBench v1.0"
+  },
+  "dataset_configurations": {
+    "binary_d2a": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_binary_d2a.json",
+      "task_type": "binary_vulnerability",
+      "description": "Binary classification: D2A vulnerability detection"
+    },
+    "multiclass_big_vul": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_multiclass_big_vul.json",
+      "task_type": "multiclass_vulnerability",
+      "description": "Multi-class classification: Big-Vul vulnerability type identification"
+    }
+  },
+  "prompt_strategies": {
+    "basic_security": {
+      "name": "Basic Security Analysis",
+      "system_prompt": "...",
+      "user_prompt": "Analyze this C/C++ code for security vulnerabilities:\n\n{code}"
+    },
+    "multiclass_detailed": {
+      "name": "Detailed Multiclass Vulnerability Analysis", 
+      "system_prompt": "...",
+      "user_prompt": "Analyze and classify the vulnerability type in this C/C++ code:\n\n```c\n{code}\n```"
+    }
+  },
+  "model_configurations": {
+    "qwen3-4b": {
+      "model_name": "Qwen/Qwen3-4B",
+      "model_type": "QWEN",
+      "max_tokens": 512,
+      "temperature": 0.1
+      }
+    }
+  }
+}
+```
+
+## Task Types
+
+### Binary Vulnerability Detection
+- **Purpose**: Determine if C/C++ code contains any security vulnerability
+- **Output**: `VULNERABLE` or `SAFE`
+- **Datasets**: `binary_d2a`, `binary_ctf`, `binary_magma`, `binary_big_vul`, `binary_devign`
+- **Prompts**: `basic_security`, `detailed_analysis`, `context_aware`, `step_by_step`
+
+### Multiclass Vulnerability Classification  
+- **Purpose**: Identify specific vulnerability type in C/C++ code
+- **Output**: Specific vulnerability type (e.g., `Integer-Overflow`) or `SAFE`
+- **Datasets**: `multiclass_d2a`, `multiclass_ctf`, `multiclass_magma`, `multiclass_big_vul`, `multiclass_devign`
+- **Prompts**: `multiclass_basic`, `multiclass_detailed`, `multiclass_comprehensive`
+
+## Key Features
+
+### 1. Unified Configuration System
+- **C/C++-Specific Prompts**: Tailored prompts for C/C++ vulnerability patterns
+- **Task Separation**: Distinct prompts and experiments for binary vs. multiclass tasks
+- **JSON Configuration**: All experiments defined in `vulbench_experiments.json`
+- **Fixed Label Format**: Corrected binary labels (0/1) and multiclass response parsing
+- **Experiment Plans**: Predefined experimental setups for different analysis needs
+
+### 2. Enhanced VulBench Support
+- **Multiple Datasets**: Support for all 5 VulBench sub-datasets
+- **Vulnerability Types**: Proper handling of VulBench vulnerability type names
+- **Response Parsing**: Updated parser to handle both CWE and VulBench formats
+- **Label Consistency**: Fixed dataset loader to provide consistent integer labels for binary tasks
+
+### 3. Comprehensive Evaluation
+- **Standard Metrics**: AUC-ROC (primary), Accuracy, Precision, Recall, F1-score
+- **Per-Dataset Analysis**: Individual performance analysis for each VulBench sub-dataset
+- **Framework Integration**: Uses unified benchmark framework evaluation system
+- **Error Analysis**: Detailed analysis of misclassifications
+
+## Quick Start
+
+### 1. Data Processing
+
+First, process the raw VulBench data to create structured JSON datasets:
+
+```bash
+# Process VulBench data for all datasets
+python src/scripts/process_vulbench_data.py
+
+# Process specific dataset
+python src/scripts/process_vulbench_data.py --dataset d2a
+
+# Process both binary and multiclass variants
+python src/scripts/process_vulbench_data.py --dataset big_vul --binary --multiclass
+```
+
+### 2. List Available Configurations
+
+```bash
+# Using the unified runner (recommended)
+python run_unified_benchmark.py vulbench --list-configs
+
+# Using the direct VulBench runner
+python src/entrypoints/run_vulbench_benchmark_new.py --list-configs
+```
+
+### 3. Run Specific Experiments
+
+```bash
+# Run binary vulnerability detection on D2A dataset with GPT-4
+python run_unified_benchmark.py vulbench \
+  --plan quick_test \
+  --model gpt-4-turbo \
+  --dataset binary_d2a \
+  --prompt vulnerability_detection_basic
+
+# Run multiclass classification on Big-Vul with multiple models  
+python run_unified_benchmark.py vulbench \
+  --plan comprehensive_evaluation \
+  --model qwen2.5-7b,claude-3.5-sonnet \
+  --dataset multiclass_big_vul \
+  --prompt vulnerability_classification_cwe
+```
+
+### 4. Run Full Experiment Plans
+
+```bash
+# Quick test across multiple datasets
+python run_unified_benchmark.py vulbench --plan quick_test
+
+# Comprehensive evaluation with all models and prompts
+python run_unified_benchmark.py vulbench --plan comprehensive_evaluation
+
+# Binary-only evaluation
+python run_unified_benchmark.py vulbench --plan binary_classification_focus
+```
+
+## Available Experiment Plans
+
+The configuration includes several pre-defined experiment plans:
+
+### `quick_test`
+- **Purpose**: Fast validation of setup
+- **Datasets**: Binary D2A, Binary Big-Vul
+- **Models**: GPT-4 Turbo, Qwen2.5-7B
+- **Prompts**: Basic vulnerability detection
+- **Runtime**: ~30 minutes
+
+### `comprehensive_evaluation`
+- **Purpose**: Full benchmark evaluation
+- **Datasets**: All 10 datasets (5 binary + 5 multiclass)
+- **Models**: All 11 configured models
+- **Prompts**: All 5 prompt strategies
+- **Runtime**: Several hours
+
+### `binary_classification_focus`
+- **Purpose**: Focus on binary vulnerability detection
+- **Datasets**: All 5 binary datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5, CodeLlama
+- **Prompts**: Basic and contextual detection
+- **Runtime**: ~2 hours
+
+### `multiclass_analysis`
+- **Purpose**: Focus on vulnerability type classification
+- **Datasets**: All 5 multiclass datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5
+- **Prompts**: CWE-based and detailed classification
+- **Runtime**: ~3 hours
+
+### `model_comparison`
+- **Purpose**: Compare different model families
+- **Datasets**: Binary and multiclass D2A, Big-Vul
+- **Models**: Representative models from each family
+- **Prompts**: Standardized prompts for fair comparison
+- **Runtime**: ~1.5 hours
+
+### Vulnerability-Specific Analysis
+- **`vulnerability_specific_analysis`**: Comprehensive vulnerability-specific detection evaluation
+- **`vulnerability_prompt_comparison`**: Compare different vulnerability-specific prompt strategies  
+- **`small_models_vulnerability_specific`**: Small models evaluation on vulnerability-specific detection
+- **`large_models_vulnerability_specific`**: Large models evaluation on vulnerability-specific detection
+
+## Configuration Structure
+
+The VulBench configuration follows the same structure as other benchmarks for consistency:
+
+```json
+{
+  "experiment_metadata": {
+    "name": "VulBench Benchmark LLM Evaluation",
+    "description": "Comprehensive evaluation of LLMs on VulBench benchmark",
+    "version": "1.0",
+    "dataset": "VulBench v1.0"
+  },
+  "dataset_configurations": {
+    "binary_d2a": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_binary_d2a.json",
+      "task_type": "binary_vulnerability",
+      "description": "Binary classification: D2A vulnerability detection"
+    },
+    "multiclass_big_vul": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_multiclass_big_vul.json",
+      "task_type": "multiclass_vulnerability",
+      "description": "Multi-class classification: Big-Vul vulnerability type identification"
+    }
+  },
+  "prompt_strategies": {
+    "basic_security": {
+      "name": "Basic Security Analysis",
+      "system_prompt": "...",
+      "user_prompt": "Analyze this C/C++ code for security vulnerabilities:\n\n{code}"
+    },
+    "multiclass_detailed": {
+      "name": "Detailed Multiclass Vulnerability Analysis", 
+      "system_prompt": "...",
+      "user_prompt": "Analyze and classify the vulnerability type in this C/C++ code:\n\n```c\n{code}\n```"
+    }
+  },
+  "model_configurations": {
+    "qwen3-4b": {
+      "model_name": "Qwen/Qwen3-4B",
+      "model_type": "QWEN",
+      "max_tokens": 512,
+      "temperature": 0.1
+      }
+    }
+  }
+}
+```
+
+## Task Types
+
+### Binary Vulnerability Detection
+- **Purpose**: Determine if C/C++ code contains any security vulnerability
+- **Output**: `VULNERABLE` or `SAFE`
+- **Datasets**: `binary_d2a`, `binary_ctf`, `binary_magma`, `binary_big_vul`, `binary_devign`
+- **Prompts**: `basic_security`, `detailed_analysis`, `context_aware`, `step_by_step`
+
+### Multiclass Vulnerability Classification  
+- **Purpose**: Identify specific vulnerability type in C/C++ code
+- **Output**: Specific vulnerability type (e.g., `Integer-Overflow`) or `SAFE`
+- **Datasets**: `multiclass_d2a`, `multiclass_ctf`, `multiclass_magma`, `multiclass_big_vul`, `multiclass_devign`
+- **Prompts**: `multiclass_basic`, `multiclass_detailed`, `multiclass_comprehensive`
+
+## Key Features
+
+### 1. Unified Configuration System
+- **C/C++-Specific Prompts**: Tailored prompts for C/C++ vulnerability patterns
+- **Task Separation**: Distinct prompts and experiments for binary vs. multiclass tasks
+- **JSON Configuration**: All experiments defined in `vulbench_experiments.json`
+- **Fixed Label Format**: Corrected binary labels (0/1) and multiclass response parsing
+- **Experiment Plans**: Predefined experimental setups for different analysis needs
+
+### 2. Enhanced VulBench Support
+- **Multiple Datasets**: Support for all 5 VulBench sub-datasets
+- **Vulnerability Types**: Proper handling of VulBench vulnerability type names
+- **Response Parsing**: Updated parser to handle both CWE and VulBench formats
+- **Label Consistency**: Fixed dataset loader to provide consistent integer labels for binary tasks
+
+### 3. Comprehensive Evaluation
+- **Standard Metrics**: AUC-ROC (primary), Accuracy, Precision, Recall, F1-score
+- **Per-Dataset Analysis**: Individual performance analysis for each VulBench sub-dataset
+- **Framework Integration**: Uses unified benchmark framework evaluation system
+- **Error Analysis**: Detailed analysis of misclassifications
+
+## Quick Start
+
+### 1. Data Processing
+
+First, process the raw VulBench data to create structured JSON datasets:
+
+```bash
+# Process VulBench data for all datasets
+python src/scripts/process_vulbench_data.py
+
+# Process specific dataset
+python src/scripts/process_vulbench_data.py --dataset d2a
+
+# Process both binary and multiclass variants
+python src/scripts/process_vulbench_data.py --dataset big_vul --binary --multiclass
+```
+
+### 2. List Available Configurations
+
+```bash
+# Using the unified runner (recommended)
+python run_unified_benchmark.py vulbench --list-configs
+
+# Using the direct VulBench runner
+python src/entrypoints/run_vulbench_benchmark_new.py --list-configs
+```
+
+### 3. Run Specific Experiments
+
+```bash
+# Run binary vulnerability detection on D2A dataset with GPT-4
+python run_unified_benchmark.py vulbench \
+  --plan quick_test \
+  --model gpt-4-turbo \
+  --dataset binary_d2a \
+  --prompt vulnerability_detection_basic
+
+# Run multiclass classification on Big-Vul with multiple models  
+python run_unified_benchmark.py vulbench \
+  --plan comprehensive_evaluation \
+  --model qwen2.5-7b,claude-3.5-sonnet \
+  --dataset multiclass_big_vul \
+  --prompt vulnerability_classification_cwe
+```
+
+### 4. Run Full Experiment Plans
+
+```bash
+# Quick test across multiple datasets
+python run_unified_benchmark.py vulbench --plan quick_test
+
+# Comprehensive evaluation with all models and prompts
+python run_unified_benchmark.py vulbench --plan comprehensive_evaluation
+
+# Binary-only evaluation
+python run_unified_benchmark.py vulbench --plan binary_classification_focus
+```
+
+## Available Experiment Plans
+
+The configuration includes several pre-defined experiment plans:
+
+### `quick_test`
+- **Purpose**: Fast validation of setup
+- **Datasets**: Binary D2A, Binary Big-Vul
+- **Models**: GPT-4 Turbo, Qwen2.5-7B
+- **Prompts**: Basic vulnerability detection
+- **Runtime**: ~30 minutes
+
+### `comprehensive_evaluation`
+- **Purpose**: Full benchmark evaluation
+- **Datasets**: All 10 datasets (5 binary + 5 multiclass)
+- **Models**: All 11 configured models
+- **Prompts**: All 5 prompt strategies
+- **Runtime**: Several hours
+
+### `binary_classification_focus`
+- **Purpose**: Focus on binary vulnerability detection
+- **Datasets**: All 5 binary datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5, CodeLlama
+- **Prompts**: Basic and contextual detection
+- **Runtime**: ~2 hours
+
+### `multiclass_analysis`
+- **Purpose**: Focus on vulnerability type classification
+- **Datasets**: All 5 multiclass datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5
+- **Prompts**: CWE-based and detailed classification
+- **Runtime**: ~3 hours
+
+### `model_comparison`
+- **Purpose**: Compare different model families
+- **Datasets**: Binary and multiclass D2A, Big-Vul
+- **Models**: Representative models from each family
+- **Prompts**: Standardized prompts for fair comparison
+- **Runtime**: ~1.5 hours
+
+### Vulnerability-Specific Analysis
+- **`vulnerability_specific_analysis`**: Comprehensive vulnerability-specific detection evaluation
+- **`vulnerability_prompt_comparison`**: Compare different vulnerability-specific prompt strategies  
+- **`small_models_vulnerability_specific`**: Small models evaluation on vulnerability-specific detection
+- **`large_models_vulnerability_specific`**: Large models evaluation on vulnerability-specific detection
+
+## Configuration Structure
+
+The VulBench configuration follows the same structure as other benchmarks for consistency:
+
+```json
+{
+  "experiment_metadata": {
+    "name": "VulBench Benchmark LLM Evaluation",
+    "description": "Comprehensive evaluation of LLMs on VulBench benchmark",
+    "version": "1.0",
+    "dataset": "VulBench v1.0"
+  },
+  "dataset_configurations": {
+    "binary_d2a": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_binary_d2a.json",
+      "task_type": "binary_vulnerability",
+      "description": "Binary classification: D2A vulnerability detection"
+    },
+    "multiclass_big_vul": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_multiclass_big_vul.json",
+      "task_type": "multiclass_vulnerability",
+      "description": "Multi-class classification: Big-Vul vulnerability type identification"
+    }
+  },
+  "prompt_strategies": {
+    "basic_security": {
+      "name": "Basic Security Analysis",
+      "system_prompt": "...",
+      "user_prompt": "Analyze this C/C++ code for security vulnerabilities:\n\n{code}"
+    },
+    "multiclass_detailed": {
+      "name": "Detailed Multiclass Vulnerability Analysis", 
+      "system_prompt": "...",
+      "user_prompt": "Analyze and classify the vulnerability type in this C/C++ code:\n\n```c\n{code}\n```"
+    }
+  },
+  "model_configurations": {
+    "qwen3-4b": {
+      "model_name": "Qwen/Qwen3-4B",
+      "model_type": "QWEN",
+      "max_tokens": 512,
+      "temperature": 0.1
+      }
+    }
+  }
+}
+```
+
+## Task Types
+
+### Binary Vulnerability Detection
+- **Purpose**: Determine if C/C++ code contains any security vulnerability
+- **Output**: `VULNERABLE` or `SAFE`
+- **Datasets**: `binary_d2a`, `binary_ctf`, `binary_magma`, `binary_big_vul`, `binary_devign`
+- **Prompts**: `basic_security`, `detailed_analysis`, `context_aware`, `step_by_step`
+
+### Multiclass Vulnerability Classification  
+- **Purpose**: Identify specific vulnerability type in C/C++ code
+- **Output**: Specific vulnerability type (e.g., `Integer-Overflow`) or `SAFE`
+- **Datasets**: `multiclass_d2a`, `multiclass_ctf`, `multiclass_magma`, `multiclass_big_vul`, `multiclass_devign`
+- **Prompts**: `multiclass_basic`, `multiclass_detailed`, `multiclass_comprehensive`
+
+## Key Features
+
+### 1. Unified Configuration System
+- **C/C++-Specific Prompts**: Tailored prompts for C/C++ vulnerability patterns
+- **Task Separation**: Distinct prompts and experiments for binary vs. multiclass tasks
+- **JSON Configuration**: All experiments defined in `vulbench_experiments.json`
+- **Fixed Label Format**: Corrected binary labels (0/1) and multiclass response parsing
+- **Experiment Plans**: Predefined experimental setups for different analysis needs
+
+### 2. Enhanced VulBench Support
+- **Multiple Datasets**: Support for all 5 VulBench sub-datasets
+- **Vulnerability Types**: Proper handling of VulBench vulnerability type names
+- **Response Parsing**: Updated parser to handle both CWE and VulBench formats
+- **Label Consistency**: Fixed dataset loader to provide consistent integer labels for binary tasks
+
+### 3. Comprehensive Evaluation
+- **Standard Metrics**: AUC-ROC (primary), Accuracy, Precision, Recall, F1-score
+- **Per-Dataset Analysis**: Individual performance analysis for each VulBench sub-dataset
+- **Framework Integration**: Uses unified benchmark framework evaluation system
+- **Error Analysis**: Detailed analysis of misclassifications
+
+## Quick Start
+
+### 1. Data Processing
+
+First, process the raw VulBench data to create structured JSON datasets:
+
+```bash
+# Process VulBench data for all datasets
+python src/scripts/process_vulbench_data.py
+
+# Process specific dataset
+python src/scripts/process_vulbench_data.py --dataset d2a
+
+# Process both binary and multiclass variants
+python src/scripts/process_vulbench_data.py --dataset big_vul --binary --multiclass
+```
+
+### 2. List Available Configurations
+
+```bash
+# Using the unified runner (recommended)
+python run_unified_benchmark.py vulbench --list-configs
+
+# Using the direct VulBench runner
+python src/entrypoints/run_vulbench_benchmark_new.py --list-configs
+```
+
+### 3. Run Specific Experiments
+
+```bash
+# Run binary vulnerability detection on D2A dataset with GPT-4
+python run_unified_benchmark.py vulbench \
+  --plan quick_test \
+  --model gpt-4-turbo \
+  --dataset binary_d2a \
+  --prompt vulnerability_detection_basic
+
+# Run multiclass classification on Big-Vul with multiple models  
+python run_unified_benchmark.py vulbench \
+  --plan comprehensive_evaluation \
+  --model qwen2.5-7b,claude-3.5-sonnet \
+  --dataset multiclass_big_vul \
+  --prompt vulnerability_classification_cwe
+```
+
+### 4. Run Full Experiment Plans
+
+```bash
+# Quick test across multiple datasets
+python run_unified_benchmark.py vulbench --plan quick_test
+
+# Comprehensive evaluation with all models and prompts
+python run_unified_benchmark.py vulbench --plan comprehensive_evaluation
+
+# Binary-only evaluation
+python run_unified_benchmark.py vulbench --plan binary_classification_focus
+```
+
+## Available Experiment Plans
+
+The configuration includes several pre-defined experiment plans:
+
+### `quick_test`
+- **Purpose**: Fast validation of setup
+- **Datasets**: Binary D2A, Binary Big-Vul
+- **Models**: GPT-4 Turbo, Qwen2.5-7B
+- **Prompts**: Basic vulnerability detection
+- **Runtime**: ~30 minutes
+
+### `comprehensive_evaluation`
+- **Purpose**: Full benchmark evaluation
+- **Datasets**: All 10 datasets (5 binary + 5 multiclass)
+- **Models**: All 11 configured models
+- **Prompts**: All 5 prompt strategies
+- **Runtime**: Several hours
+
+### `binary_classification_focus`
+- **Purpose**: Focus on binary vulnerability detection
+- **Datasets**: All 5 binary datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5, CodeLlama
+- **Prompts**: Basic and contextual detection
+- **Runtime**: ~2 hours
+
+### `multiclass_analysis`
+- **Purpose**: Focus on vulnerability type classification
+- **Datasets**: All 5 multiclass datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5
+- **Prompts**: CWE-based and detailed classification
+- **Runtime**: ~3 hours
+
+### `model_comparison`
+- **Purpose**: Compare different model families
+- **Datasets**: Binary and multiclass D2A, Big-Vul
+- **Models**: Representative models from each family
+- **Prompts**: Standardized prompts for fair comparison
+- **Runtime**: ~1.5 hours
+
+### Vulnerability-Specific Analysis
+- **`vulnerability_specific_analysis`**: Comprehensive vulnerability-specific detection evaluation
+- **`vulnerability_prompt_comparison`**: Compare different vulnerability-specific prompt strategies  
+- **`small_models_vulnerability_specific`**: Small models evaluation on vulnerability-specific detection
+- **`large_models_vulnerability_specific`**: Large models evaluation on vulnerability-specific detection
+
+## Configuration Structure
+
+The VulBench configuration follows the same structure as other benchmarks for consistency:
+
+```json
+{
+  "experiment_metadata": {
+    "name": "VulBench Benchmark LLM Evaluation",
+    "description": "Comprehensive evaluation of LLMs on VulBench benchmark",
+    "version": "1.0",
+    "dataset": "VulBench v1.0"
+  },
+  "dataset_configurations": {
+    "binary_d2a": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_binary_d2a.json",
+      "task_type": "binary_vulnerability",
+      "description": "Binary classification: D2A vulnerability detection"
+    },
+    "multiclass_big_vul": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_multiclass_big_vul.json",
+      "task_type": "multiclass_vulnerability",
+      "description": "Multi-class classification: Big-Vul vulnerability type identification"
+    }
+  },
+  "prompt_strategies": {
+    "basic_security": {
+      "name": "Basic Security Analysis",
+      "system_prompt": "...",
+      "user_prompt": "Analyze this C/C++ code for security vulnerabilities:\n\n{code}"
+    },
+    "multiclass_detailed": {
+      "name": "Detailed Multiclass Vulnerability Analysis", 
+      "system_prompt": "...",
+      "user_prompt": "Analyze and classify the vulnerability type in this C/C++ code:\n\n```c\n{code}\n```"
+    }
+  },
+  "model_configurations": {
+    "qwen3-4b": {
+      "model_name": "Qwen/Qwen3-4B",
+      "model_type": "QWEN",
+      "max_tokens": 512,
+      "temperature": 0.1
+      }
+    }
+  }
+}
+```
+
+## Task Types
+
+### Binary Vulnerability Detection
+- **Purpose**: Determine if C/C++ code contains any security vulnerability
+- **Output**: `VULNERABLE` or `SAFE`
+- **Datasets**: `binary_d2a`, `binary_ctf`, `binary_magma`, `binary_big_vul`, `binary_devign`
+- **Prompts**: `basic_security`, `detailed_analysis`, `context_aware`, `step_by_step`
+
+### Multiclass Vulnerability Classification  
+- **Purpose**: Identify specific vulnerability type in C/C++ code
+- **Output**: Specific vulnerability type (e.g., `Integer-Overflow`) or `SAFE`
+- **Datasets**: `multiclass_d2a`, `multiclass_ctf`, `multiclass_magma`, `multiclass_big_vul`, `multiclass_devign`
+- **Prompts**: `multiclass_basic`, `multiclass_detailed`, `multiclass_comprehensive`
+
+## Key Features
+
+### 1. Unified Configuration System
+- **C/C++-Specific Prompts**: Tailored prompts for C/C++ vulnerability patterns
+- **Task Separation**: Distinct prompts and experiments for binary vs. multiclass tasks
+- **JSON Configuration**: All experiments defined in `vulbench_experiments.json`
+- **Fixed Label Format**: Corrected binary labels (0/1) and multiclass response parsing
+- **Experiment Plans**: Predefined experimental setups for different analysis needs
+
+### 2. Enhanced VulBench Support
+- **Multiple Datasets**: Support for all 5 VulBench sub-datasets
+- **Vulnerability Types**: Proper handling of VulBench vulnerability type names
+- **Response Parsing**: Updated parser to handle both CWE and VulBench formats
+- **Label Consistency**: Fixed dataset loader to provide consistent integer labels for binary tasks
+
+### 3. Comprehensive Evaluation
+- **Standard Metrics**: AUC-ROC (primary), Accuracy, Precision, Recall, F1-score
+- **Per-Dataset Analysis**: Individual performance analysis for each VulBench sub-dataset
+- **Framework Integration**: Uses unified benchmark framework evaluation system
+- **Error Analysis**: Detailed analysis of misclassifications
+
+## Quick Start
+
+### 1. Data Processing
+
+First, process the raw VulBench data to create structured JSON datasets:
+
+```bash
+# Process VulBench data for all datasets
+python src/scripts/process_vulbench_data.py
+
+# Process specific dataset
+python src/scripts/process_vulbench_data.py --dataset d2a
+
+# Process both binary and multiclass variants
+python src/scripts/process_vulbench_data.py --dataset big_vul --binary --multiclass
+```
+
+### 2. List Available Configurations
+
+```bash
+# Using the unified runner (recommended)
+python run_unified_benchmark.py vulbench --list-configs
+
+# Using the direct VulBench runner
+python src/entrypoints/run_vulbench_benchmark_new.py --list-configs
+```
+
+### 3. Run Specific Experiments
+
+```bash
+# Run binary vulnerability detection on D2A dataset with GPT-4
+python run_unified_benchmark.py vulbench \
+  --plan quick_test \
+  --model gpt-4-turbo \
+  --dataset binary_d2a \
+  --prompt vulnerability_detection_basic
+
+# Run multiclass classification on Big-Vul with multiple models  
+python run_unified_benchmark.py vulbench \
+  --plan comprehensive_evaluation \
+  --model qwen2.5-7b,claude-3.5-sonnet \
+  --dataset multiclass_big_vul \
+  --prompt vulnerability_classification_cwe
+```
+
+### 4. Run Full Experiment Plans
+
+```bash
+# Quick test across multiple datasets
+python run_unified_benchmark.py vulbench --plan quick_test
+
+# Comprehensive evaluation with all models and prompts
+python run_unified_benchmark.py vulbench --plan comprehensive_evaluation
+
+# Binary-only evaluation
+python run_unified_benchmark.py vulbench --plan binary_classification_focus
+```
+
+## Available Experiment Plans
+
+The configuration includes several pre-defined experiment plans:
+
+### `quick_test`
+- **Purpose**: Fast validation of setup
+- **Datasets**: Binary D2A, Binary Big-Vul
+- **Models**: GPT-4 Turbo, Qwen2.5-7B
+- **Prompts**: Basic vulnerability detection
+- **Runtime**: ~30 minutes
+
+### `comprehensive_evaluation`
+- **Purpose**: Full benchmark evaluation
+- **Datasets**: All 10 datasets (5 binary + 5 multiclass)
+- **Models**: All 11 configured models
+- **Prompts**: All 5 prompt strategies
+- **Runtime**: Several hours
+
+### `binary_classification_focus`
+- **Purpose**: Focus on binary vulnerability detection
+- **Datasets**: All 5 binary datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5, CodeLlama
+- **Prompts**: Basic and contextual detection
+- **Runtime**: ~2 hours
+
+### `multiclass_analysis`
+- **Purpose**: Focus on vulnerability type classification
+- **Datasets**: All 5 multiclass datasets
+- **Models**: GPT-4, Claude-3.5, Qwen2.5
+- **Prompts**: CWE-based and detailed classification
+- **Runtime**: ~3 hours
+
+### `model_comparison`
+- **Purpose**: Compare different model families
+- **Datasets**: Binary and multiclass D2A, Big-Vul
+- **Models**: Representative models from each family
+- **Prompts**: Standardized prompts for fair comparison
+- **Runtime**: ~1.5 hours
+
+### Vulnerability-Specific Analysis
+- **`vulnerability_specific_analysis`**: Comprehensive vulnerability-specific detection evaluation
+- **`vulnerability_prompt_comparison`**: Compare different vulnerability-specific prompt strategies  
+- **`small_models_vulnerability_specific`**: Small models evaluation on vulnerability-specific detection
+- **`large_models_vulnerability_specific`**: Large models evaluation on vulnerability-specific detection
+
+## Configuration Structure
+
+The VulBench configuration follows the same structure as other benchmarks for consistency:
+
+```json
+{
+  "experiment_metadata": {
+    "name": "VulBench Benchmark LLM Evaluation",
+    "description": "Comprehensive evaluation of LLMs on VulBench benchmark",
+    "version": "1.0",
+    "dataset": "VulBench v1.0"
+  },
+  "dataset_configurations": {
+    "binary_d2a": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_binary_d2a.json",
+      "task_type": "binary_vulnerability",
+      "description": "Binary classification: D2A vulnerability detection"
+    },
+    "multiclass_big_vul": {
+      "dataset_path": "datasets_processed/vulbench/vulbench_multiclass_big_vul.json",
+      "task_type": "multiclass_vulnerability",
+      "description": "Multi-class classification: Big-Vul vulnerability type identification"
+    }
+  },
+  "prompt_strategies": {
+    "basic_security": {
+      "name": "Basic Security Analysis",
+      "system_prompt": "...",
+      "user_prompt": "Analyze this C/C++ code for security vulnerabilities:\n\n{code}"
+    },
+    "multiclass_detailed": {
+      "name": "Detailed Multiclass Vulnerability Analysis", 
+      "system_prompt": "...",
+      "user_prompt": "Analyze and classify the vulnerability type in this C/C++ code:\n\n```c\n{code}\n```"
+    }
+  },
+  "model_configurations": {
+    "qwen3-4b": {
+      "model_name": "Qwen/Qwen3-4B",
+      "model_type": "QWEN",
+      "max_tokens": 512,
+      "temperature": 0.1
+      }
+    }
+  }
+}
+```
+
+## Task Types
+
+### Binary Vulnerability Detection
+- **Purpose**: Determine if C/C++ code contains any security vulnerability
+- **Output**: `VULNERABLE` or `SAFE`
+- **Datasets**: `binary_d2a`, `binary_ctf`, `binary_magma`, `binary_big_vul`, `binary_devign`
+- **Prompts**: `basic_security`, `detailed_analysis`, `context_aware`, `step_by_step`
+
+### Multiclass Vulnerability Classification  
+- **Purpose**: Identify specific vulnerability type in C/C++ code
+- **Output**: Specific vulnerability type (e.g., `Integer-Overflow`) or `SAFE`
+- **Datasets**: `multiclass_d2a`, `multiclass_ctf`, `multiclass_magma`, `multiclass_big_vul`, `multiclass_devign`
+- **Prompts**: `multiclass_basic`, `multiclass_detailed`, `multiclass_comprehensive`
+
+## Key Features
+
+### 1. Unified Configuration System
+- **C/C++-Specific Prompts**: Tailored prompts for C/C++ vulnerability patterns
+- **Task Separation**: Distinct prompts and experiments for binary vs. multiclass tasks
+- **JSON Configuration**: All experiments defined in `vulbench_experiments.json`
+- **Fixed Label Format**: Corrected binary labels (0/1) and multiclass response parsing
+- **Experiment Plans**: Predefined experimental setups for different analysis needs
+
+### 2. Enhanced VulBench Support
+- **Multiple Datasets**: Support for all 5 VulBench sub-datasets
+- **Vulnerability Types**: Proper handling of VulBench vulnerability type names
+- **Response Parsing**: Updated parser to handle both CWE and VulBench formats
+- **Label Consistency**: Fixed dataset loader to provide consistent integer labels for binary tasks
+
+### 3. Comprehensive Evaluation
+- **Standard Metrics**: AUC-ROC (primary), Accuracy, Precision, Recall, F1-score
+- **Per-Dataset Analysis**: Individual performance analysis for each VulBench sub-dataset
+- **Framework Integration**: Uses unified benchmark framework evaluation system
+- **Error Analysis**: Detailed analysis of misclassifications
+
+## Quick Start
+
+### 1. Data Processing
+
+First, process the raw VulBench data to create structured JSON datasets:
+
+```bash
+# Process VulBench data for all datasets
+python src/scripts/process_vulbench_data.py
+
+# Process specific dataset
+python src/scripts/process_vulbench_data.py --dataset d2a
+
+# Process both binary and multiclass variants
+python src/scripts/process_vulbench_data.py --dataset big_vul --binary --multiclass
+```
+
+### 2. List Available Configurations
+
+```bash
+# Using the unified runner (recommended)
+python run_unified_benchmark.py vulbench --list-configs
+
+# Using the direct VulBench runner
+python src/entrypoints/run_vulbench_benchmark_new.py --list-configs
+```
+
+### 3. Run Specific Experiments
+
+```bash
+# Run binary vulnerability detection on D2A dataset with GPT-4
+python run_unified_benchmark.py vulbench \
+  --plan quick_test \
+  --model gpt-4-turbo \
+  --dataset binary_d2a \
+  --prompt vulnerability_detection_basic

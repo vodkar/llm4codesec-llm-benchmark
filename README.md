@@ -58,11 +58,32 @@ PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
 
 Watch carefully for any warning/errors logs! You might get wrong results in case of incorrect configuration
 
+### Option 1: Optimized Script (Recommended)
+
+```shell
+./build_docker.sh
+./run_full_benchmark.sh
+```
+
+### Option 2: Manual Commands
+
 ```shell
 ./build_docker.sh
 alias run_benchmark="docker-compose run --rm llm4codesec-benchmark python"
+
+# CASTLE experiments
 run_benchmark entrypoints/run_setup_castle_dataset.py
-run_benchmark entrypoints/run_castle_experiments.py --plan small_models_evaluation
+for plan in small_models_binary small_models_multiclass large_models_binary large_models_multiclass; do
+    run_benchmark entrypoints/run_castle_experiments.py --plan $plan
+done
+
+# CVEFixes experiments
+run_benchmark entrypoints/prepare_cvefixes_datasets.py \
+  --database-path datasets_processed/cvefixes/CVEfixes.db \
+  --languages C Java Python
+for plan in small_models_binary small_models_multiclass large_models_binary large_models_multiclass; do
+    run_benchmark entrypoints/run_cvefixes_benchmark.py --plan $plan
+done
 ```
 
 ## Quick Start

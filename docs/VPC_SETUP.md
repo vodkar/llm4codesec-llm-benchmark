@@ -9,8 +9,9 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 apt update
 apt upgrade -y
-apt install -y git python3-pip docker-compose
-pip install poetry==2.1.3
+apt install -y git python3-pip docker-compose pipx
+pipx install poetry==2.1.3
+pipx ensurepath
 git clone git@github.com:vodkar/llm4codesec-llm-benchmark.git
 cd llm4codesec-llm-benchmark
 git config user.name <your username>
