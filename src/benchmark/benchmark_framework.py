@@ -642,14 +642,35 @@ class HuggingFaceLLM(LLMInterface):
                 )
 
                 # Process each response in the batch
-                for j, response in enumerate(batch_responses):
-                    response_text = response["generated_text"].strip()
+                # Handle different response formats from Hugging Face pipeline
+                if isinstance(batch_responses[0], list):
+                    # If pipeline returns list of lists (batch processing)
+                    for j, response_list in enumerate(batch_responses):
+                        if response_list and isinstance(response_list[0], dict):
+                            response_text = response_list[0]["generated_text"].strip()
+                        else:
+                            response_text = (
+                                str(response_list[0]).strip() if response_list else ""
+                            )
 
-                    # Estimate token count
-                    tokens = self.tokenizer.encode(batch_prompts[j] + response_text)
-                    token_count = len(tokens)
+                        # Estimate token count
+                        tokens = self.tokenizer.encode(batch_prompts[j] + response_text)
+                        token_count = len(tokens)
 
-                    results.append((response_text, token_count))
+                        results.append((response_text, token_count))
+                else:
+                    # If pipeline returns list of dicts (single responses)
+                    for j, response in enumerate(batch_responses):
+                        if isinstance(response, dict):
+                            response_text = response["generated_text"].strip()
+                        else:
+                            response_text = str(response).strip()
+
+                        # Estimate token count
+                        tokens = self.tokenizer.encode(batch_prompts[j] + response_text)
+                        token_count = len(tokens)
+
+                        results.append((response_text, token_count))
 
                 # Log progress
                 logging.info(
