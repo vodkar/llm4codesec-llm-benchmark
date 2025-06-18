@@ -36,7 +36,6 @@ class VulBenchBenchmarkRunner:
         from benchmark.benchmark_framework import (
             HuggingFaceLLM,
             MetricsCalculator,
-            PredictionResult,
             PromptGenerator,
             TaskType,
             VulBenchResponseParser,
@@ -76,43 +75,17 @@ class VulBenchBenchmarkRunner:
                 )
             )
 
-            for i, sample in enumerate(samples):
-                logging.info(f"Processing sample {i + 1}/{len(samples)}: {sample.id}")
+            # Run predictions using batch optimization
+            from benchmark.benchmark_framework import BenchmarkRunner
 
-                user_prompt = (
-                    self.config.user_prompt_template.format(code=sample.code)
-                    if self.config.user_prompt_template
-                    else prompt_generator.get_user_prompt(
-                        self.config.task_type, sample.code, self.config.cwe_type
-                    )
-                )
-
-                # Generate response
-                start_time_sample = time.time()
-                response_text, tokens_used = llm.generate_response(
-                    system_prompt, user_prompt
-                )
-                processing_time = time.time() - start_time_sample
-
-                # Parse response
-                predicted_label = response_parser.parse_response(response_text)
-
-                prediction = PredictionResult(
-                    sample_id=sample.id,
-                    predicted_label=predicted_label,
-                    true_label=sample.label
-                    if isinstance(sample.label, int)
-                    else response_parser.parse_response(sample.label),
-                    confidence=None,
-                    response_text=response_text,
-                    processing_time=processing_time,
-                    tokens_used=tokens_used,
-                )
-
-                predictions.append(prediction)
-
-                if (i + 1) % 10 == 0:
-                    logging.info(f"Completed {i + 1}/{len(samples)} predictions")
+            predictions = BenchmarkRunner.process_samples_with_batch_optimization(
+                samples=samples,
+                llm=llm,
+                system_prompt=system_prompt,
+                prompt_generator=prompt_generator,
+                response_parser=response_parser,
+                config=self.config,
+            )
 
             # Calculate metrics
             if self.config.task_type in [

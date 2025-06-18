@@ -13,7 +13,7 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 from consts import CONFIG_DIRECTORY
 from entrypoints.run_cvefixes_benchmark import (
@@ -25,10 +25,10 @@ from entrypoints.run_cvefixes_benchmark import (
 
 def run_experiment_plan(
     plan_name: str,
-    cvefixes_config: Dict[str, Any],
+    cvefixes_config: dict[str, Any],
     output_base_dir: str = "results/cvefixes_experiments",
-    sample_limit: Optional[int] = None,
-) -> Dict[str, Any]:
+    sample_limit: int | None = None,
+) -> dict[str, Any]:
     """
     Run a complete experiment plan with multiple configurations.
 
@@ -39,7 +39,7 @@ def run_experiment_plan(
         sample_limit: Limit samples for testing
 
     Returns:
-        Dict containing all experiment results
+        dict containing all experiment results
     """
     logger = logging.getLogger(__name__)
 
@@ -148,7 +148,7 @@ def run_experiment_plan(
     return results
 
 
-def create_experiment_summary(results: Dict[str, Any]) -> str:
+def create_experiment_summary(results: dict[str, Any]) -> str:
     """
     Create a human-readable summary of experiment results.
 
@@ -189,7 +189,7 @@ def create_experiment_summary(results: Dict[str, Any]) -> str:
     return "\n".join(summary_lines)
 
 
-def validate_datasets_exist(cvefixes_config: Dict[str, Any]) -> bool:
+def validate_datasets_exist(cvefixes_config: dict[str, Any]) -> bool:
     """
     Validate that all required dataset files exist.
 

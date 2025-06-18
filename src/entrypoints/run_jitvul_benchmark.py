@@ -13,7 +13,7 @@ import logging
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
 
 from benchmark.benchmark_framework import BenchmarkConfig, ModelType, TaskType
 from datasets.loaders.jitvul_dataset_loader import JitVulDatasetLoaderFramework
@@ -26,12 +26,11 @@ class JitVulBenchmarkRunner:
         self.config = config
         self.dataset_loader = JitVulDatasetLoaderFramework()
 
-    def run_benchmark(self, sample_limit: Optional[int] = None) -> Dict[str, Any]:
+    def run_benchmark(self, sample_limit: int | None = None) -> dict[str, Any]:
         """Run benchmark with JitVul-specific dataset loading."""
         from benchmark.benchmark_framework import (
             HuggingFaceLLM,
             MetricsCalculator,
-            PredictionResult,
             PromptGenerator,
             ResponseParser,
             TaskType,
@@ -70,46 +69,35 @@ class JitVulBenchmarkRunner:
                 )
             )
 
-            for i, sample in enumerate(samples):
-                logging.info(f"Processing sample {i + 1}/{len(samples)}: {sample.id}")
+            # JitVul has special handling for call graph context, so we need a custom approach
+            # Prepare samples with augmented code for batch processing
+            augmented_samples = []
+            for sample in samples:
+                # Create a copy of the sample with augmented code
+                from benchmark.benchmark_framework import BenchmarkSample
 
-                # Augment code with call graph context if available
-                code = self._augment_code_with_context(sample)
-
-                user_prompt = (
-                    self.config.user_prompt_template.format(code=code)
-                    if self.config.user_prompt_template
-                    else prompt_generator.get_user_prompt(
-                        self.config.task_type, code, self.config.cwe_type
-                    )
+                augmented_code = self._augment_code_with_context(sample)
+                augmented_sample = BenchmarkSample(
+                    id=sample.id,
+                    code=augmented_code,
+                    label=sample.label,
+                    metadata=sample.metadata,
+                    cwe_types=sample.cwe_types,
+                    severity=sample.severity,
                 )
+                augmented_samples.append(augmented_sample)
 
-                # Generate response
-                start_time_sample = time.time()
-                response_text, tokens_used = llm.generate_response(
-                    system_prompt, user_prompt
-                )
-                processing_time = time.time() - start_time_sample
+            # Run predictions using batch optimization with augmented samples
+            from benchmark.benchmark_framework import BenchmarkRunner
 
-                # Parse response
-                predicted_label = response_parser.parse_response(response_text)
-
-                prediction = PredictionResult(
-                    sample_id=sample.id,
-                    predicted_label=predicted_label,
-                    true_label=sample.label
-                    if isinstance(sample.label, int)
-                    else response_parser.parse_response(sample.label),
-                    confidence=None,
-                    response_text=response_text,
-                    processing_time=processing_time,
-                    tokens_used=tokens_used,
-                )
-
-                predictions.append(prediction)
-
-                if (i + 1) % 10 == 0:
-                    logging.info(f"Completed {i + 1}/{len(samples)} predictions")
+            predictions = BenchmarkRunner.process_samples_with_batch_optimization(
+                samples=augmented_samples,
+                llm=llm,
+                system_prompt=system_prompt,
+                prompt_generator=prompt_generator,
+                response_parser=response_parser,
+                config=self.config,
+            )
 
             # Calculate metrics
             if self.config.task_type in [
@@ -171,16 +159,16 @@ def setup_logging(verbose: bool = False) -> None:
     )
 
 
-def load_jitvul_config(config_path: str) -> Dict[str, Any]:
+def load_jitvul_config(config_path: str) -> dict[str, Any]:
     """Load JitVul experiment configuration."""
     with open(config_path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def create_benchmark_config(
-    model_config: Dict[str, Any],
-    dataset_config: Dict[str, Any],
-    prompt_config: Dict[str, Any],
+    model_config: dict[str, Any],
+    dataset_config: dict[str, Any],
+    prompt_config: dict[str, Any],
     output_dir: str,
 ) -> BenchmarkConfig:
     """
@@ -233,10 +221,10 @@ def run_single_experiment(
     model_key: str,
     dataset_key: str,
     prompt_key: str,
-    jitvul_config: Dict[str, Any],
-    sample_limit: Optional[int] = None,
+    jitvul_config: dict[str, Any],
+    sample_limit: int | None = None,
     output_base_dir: str = "results/jitvul_experiments",
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """
     Run a single benchmark experiment.
 
@@ -249,7 +237,7 @@ def run_single_experiment(
         output_base_dir: Base output directory
 
     Returns:
-        Dict containing experiment results
+        dict containing experiment results
     """
     logger = logging.getLogger(__name__)
 

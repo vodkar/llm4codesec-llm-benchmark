@@ -7,15 +7,58 @@ flexible configuration options for 5 different vulnerability detection tasks.
 """
 
 import argparse
+import dataclasses
 import json
 import logging
+import time
 from pathlib import Path
 from typing import Any
 
-from benchmark.benchmark_framework import BenchmarkConfig, ModelType, TaskType
+from benchmark.benchmark_framework import (
+    BenchmarkConfig,
+    HuggingFaceLLM,
+    MetricsCalculator,
+    ModelType,
+    PredictionResult,
+    PromptGenerator,
+    ResponseParser,
+    TaskType,
+)
 from datasets.loaders.vuldetectbench_dataset_loader import (
     VulDetectBenchDatasetLoaderFramework,
 )
+
+
+class VulDetectBenchResponseParser(ResponseParser):
+    """Custom response parser for VulDetectBench tasks."""
+
+    def __init__(self, task_type: str):
+        super().__init__(TaskType.BINARY_VULNERABILITY)  # Default, will be overridden
+        self.task_type = task_type
+
+    def parse_response(self, response: str) -> Any:
+        """Parse response based on VulDetectBench task type."""
+        response_text = response.strip()
+
+        if self.task_type == "task1":
+            # Binary classification: YES/NO
+            if "YES" in response_text.upper():
+                return 1
+            elif "NO" in response_text.upper():
+                return 0
+            else:
+                # Default to 0 if unclear
+                return 0
+        elif self.task_type == "task2":
+            # Multi-choice: A/B/C/D/E
+            for choice in ["A", "B", "C", "D", "E"]:
+                if f"{choice}." in response_text or f"{choice}:" in response_text:
+                    return choice
+            # Default to A if unclear
+            return "A"
+        else:
+            # Task 3-5: Keep as string (code snippets)
+            return response_text
 
 
 class VulDetectBenchBenchmarkRunner:
@@ -30,15 +73,7 @@ class VulDetectBenchBenchmarkRunner:
 
     def run_benchmark(self, sample_limit: int | None = None) -> dict[str, Any]:
         """Run benchmark with VulDetectBench-specific dataset loading."""
-        import dataclasses
-        import time
         from pathlib import Path
-
-        from benchmark.benchmark_framework import (
-            HuggingFaceLLM,
-            PredictionResult,
-            PromptGenerator,
-        )
 
         logging.info("Starting VulDetectBench benchmark execution")
         start_time = time.time()
@@ -63,11 +98,18 @@ class VulDetectBenchBenchmarkRunner:
             llm = HuggingFaceLLM(self.config)
             prompt_generator = PromptGenerator()
 
+            # Determine task type from first sample
+            task_type = (
+                samples[0].metadata.get("task_type", "task1") if samples else "task1"
+            )
+
+            # Create task-specific response parser
+            response_parser = VulDetectBenchResponseParser(task_type)
+
             # Create output directory
             Path(self.config.output_dir).mkdir(parents=True, exist_ok=True)
 
             # Run predictions
-            predictions = []
             system_prompt = (
                 self.config.system_prompt_template
                 or prompt_generator.get_system_prompt(
@@ -75,10 +117,15 @@ class VulDetectBenchBenchmarkRunner:
                 )
             )
 
+            # NOTE: VulDetectBench has complex task-specific prompt formatting that requires
+            # special handling. For now, we fall back to sequential processing.
+            # TODO: Extend batch optimization to handle task-specific prompt formatting
+
+            predictions = []
             for i, sample in enumerate(samples):
                 logging.info(f"Processing sample {i + 1}/{len(samples)}: {sample.id}")
 
-                # Generate user prompt
+                # Generate user prompt with task-specific formatting
                 user_prompt = (
                     self.config.user_prompt_template.format(code=sample.code)
                     if self.config.user_prompt_template
@@ -104,19 +151,15 @@ class VulDetectBenchBenchmarkRunner:
                 )
                 processing_time = time.time() - start_time_sample
 
-                # Parse response based on task type
-                predicted_label = self._parse_task_specific_response(
-                    response_text, sample.metadata.get("task_type", "task1")
-                )
+                # Parse response using custom parser
+                predicted_label = response_parser.parse_response(response_text)
 
                 prediction = PredictionResult(
                     sample_id=sample.id,
                     predicted_label=predicted_label,
                     true_label=sample.label
                     if isinstance(sample.label, int)
-                    else self._parse_task_specific_response(
-                        str(sample.label), sample.metadata.get("task_type", "task1")
-                    ),
+                    else response_parser.parse_response(str(sample.label)),
                     confidence=None,
                     response_text=response_text,
                     processing_time=processing_time,
@@ -160,35 +203,10 @@ class VulDetectBenchBenchmarkRunner:
             logging.exception(f"VulDetectBench benchmark failed: {e}")
             raise
 
-    def _parse_task_specific_response(self, response_text: str, task_type: str) -> Any:
-        """Parse response based on VulDetectBench task type."""
-        response_text = response_text.strip()
-
-        if task_type == "task1":
-            # Binary classification: YES/NO
-            if "YES" in response_text.upper():
-                return 1
-            elif "NO" in response_text.upper():
-                return 0
-            else:
-                # Default to 0 if unclear
-                return 0
-        elif task_type == "task2":
-            # Multi-choice: A/B/C/D/E
-            for choice in ["A", "B", "C", "D", "E"]:
-                if f"{choice}." in response_text or f"{choice}:" in response_text:
-                    return choice
-            # Default to A if unclear
-            return "A"
-        else:
-            # Task 3-5: Keep as string (code snippets)
-            return response_text
-
     def _calculate_task_specific_metrics(
         self, predictions, task_type: str
     ) -> dict[str, Any]:
         """Calculate metrics specific to VulDetectBench tasks."""
-        from benchmark.benchmark_framework import MetricsCalculator
 
         metrics_calculator = MetricsCalculator()
 

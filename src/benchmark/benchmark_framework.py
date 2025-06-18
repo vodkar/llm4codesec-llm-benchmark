@@ -17,7 +17,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Optional, Protocol, Tuple
+from typing import Any, Optional, Protocol
 
 import numpy as np
 import pandas as pd
@@ -172,7 +172,7 @@ class BenchmarkConfig:
 
         # Set model-specific defaults
         defaults = {
-            "batch_size": 1,
+            "batch_size": 4,  # Increased default batch size for better GPU utilization
             "max_tokens": 512,
             "temperature": 0.1,
             "use_quantization": True,
@@ -180,13 +180,13 @@ class BenchmarkConfig:
 
         # Override with model-specific settings
         if "llama-3.3-70b" in model_type.value.lower():
-            defaults["max_tokens"] = 256  # Larger model, use fewer tokens
-            defaults["batch_size"] = 1
+            defaults["batch_size"] = 1  # Large models need smaller batches
         elif "gemma-3-1b" in model_type.value.lower():
             defaults["use_quantization"] = (
                 False  # Smaller model, no need for quantization
             )
             defaults["max_tokens"] = 1024
+            defaults["batch_size"] = 8  # Smaller models can handle larger batches
         elif "opencoder" in model_type.value.lower():
             defaults["temperature"] = (
                 0.0  # Code models often work better with deterministic output
@@ -205,6 +205,7 @@ class BenchmarkConfig:
                     defaults["quantization_type"] = (
                         "4bit"  # Still need 4-bit for 70B models
                     )
+                    defaults["batch_size"] = 1  # Large models need batch size 1
                 elif any(
                     size in model_type.value.lower() for size in ["30b", "32b", "34b"]
                 ):
@@ -212,6 +213,7 @@ class BenchmarkConfig:
                     defaults["quantization_type"] = (
                         "8bit"  # 8-bit perfect for 30B+ models
                     )
+                    defaults["batch_size"] = 2  # Medium models can do batch size 2
                 elif any(
                     size in model_type.value.lower()
                     for size in ["7b", "8b", "13b", "17b"]
@@ -220,9 +222,22 @@ class BenchmarkConfig:
                         False  # No quantization needed for smaller models
                     )
                     defaults["torch_dtype"] = "bfloat16"  # Use native bfloat16 instead
+                    defaults["batch_size"] = (
+                        6  # Smaller models can handle larger batches
+                    )
+                elif any(
+                    size in model_type.value.lower()
+                    for size in ["1b", "1.5b", "3b", "4b"]
+                ):
+                    defaults["use_quantization"] = False
+                    defaults["torch_dtype"] = "bfloat16"
+                    defaults["batch_size"] = (
+                        12  # Very small models can handle even larger batches
+                    )
                 else:
                     defaults["use_quantization"] = True
                     defaults["quantization_type"] = "8bit"  # Default to 8-bit
+                    defaults["batch_size"] = 4  # Default batch size
 
         # Merge with user-provided kwargs
         config_params = {**defaults, **kwargs}
@@ -399,7 +414,7 @@ class LLMInterface(ABC):
     @abstractmethod
     def generate_response(
         self, system_prompt: str, user_prompt: str
-    ) -> Tuple[str, Optional[int]]:
+    ) -> tuple[str, Optional[int]]:
         """
         Generate response from the model.
 
@@ -408,9 +423,47 @@ class LLMInterface(ABC):
             user_prompt (str): User prompt
 
         Returns:
-            Tuple[str, Optional[int]]: Response text and token count
+            tuple[str, Optional[int]]: Response text and token count
         """
         pass
+
+    @abstractmethod
+    def generate_batch_responses(
+        self, prompts: list[str]
+    ) -> list[tuple[str, Optional[int]]]:
+        """
+        Generate responses for a batch of prompts.
+
+        Args:
+            prompts (list[str]): List of formatted prompts
+
+        Returns:
+            list[tuple[str, Optional[int]]]: List of (response_text, token_count) tuples
+        """
+        pass
+
+    def generate_responses_batch_optimized(
+        self, system_prompts: list[str], user_prompts: list[str]
+    ) -> list[tuple[str, Optional[int]]]:
+        """
+        Generate responses for multiple system/user prompt pairs with batch optimization.
+
+        Args:
+            system_prompts: List of system prompts
+            user_prompts: List of user prompts (must be same length as system_prompts)
+
+        Returns:
+            List of (response_text, token_count) tuples
+        """
+        if len(system_prompts) != len(user_prompts):
+            raise ValueError("system_prompts and user_prompts must have same length")
+
+        # This is a default implementation - can be overridden by subclasses
+        results = []
+        for sys_prompt, user_prompt in zip(system_prompts, user_prompts):
+            result = self.generate_response(sys_prompt, user_prompt)
+            results.append(result)
+        return results
 
     @abstractmethod
     def cleanup(self) -> None:
@@ -495,7 +548,7 @@ class HuggingFaceLLM(LLMInterface):
                 else None,
             )
 
-            # Create text generation pipeline
+            # Create text generation pipeline with batch optimization
             self.pipeline = pipeline(
                 "text-generation",
                 model=self.model,
@@ -504,6 +557,8 @@ class HuggingFaceLLM(LLMInterface):
                 temperature=self.config.temperature,
                 do_sample=True if self.config.temperature > 0 else False,
                 return_full_text=False,
+                batch_size=self.config.batch_size,  # Enable batch processing
+                device_map="auto",
             )
 
             logging.info(f"Model loaded successfully on {self.device}")
@@ -514,8 +569,13 @@ class HuggingFaceLLM(LLMInterface):
 
     def generate_response(
         self, system_prompt: str, user_prompt: str
-    ) -> Tuple[str, Optional[int]]:
-        """Generate response using the loaded model."""
+    ) -> tuple[str, Optional[int]]:
+        """
+        Generate response using the loaded model.
+
+        Note: This method now uses batch processing internally for better GPU utilization.
+        For processing multiple samples, consider using generate_batch_responses directly.
+        """
         if not self.pipeline:
             raise RuntimeError("Model not loaded")
 
@@ -523,25 +583,84 @@ class HuggingFaceLLM(LLMInterface):
         formatted_prompt = self._format_prompt(system_prompt, user_prompt)
 
         try:
-            # Generate response
-            response = self.pipeline(
-                formatted_prompt,
-                max_new_tokens=self.config.max_tokens,
-                temperature=self.config.temperature,
-                pad_token_id=self.tokenizer.eos_token_id,
-            )
-
-            response_text = response[0]["generated_text"].strip()
-
-            # Estimate token count
-            tokens = self.tokenizer.encode(formatted_prompt + response_text)
-            token_count = len(tokens)
-
-            return response_text, token_count
+            # Use batch processing even for single requests for consistency
+            batch_results = self.generate_batch_responses([formatted_prompt])
+            return batch_results[0]
 
         except Exception as e:
             logging.exception(f"Error generating response: {e}")
             return f"ERROR: {str(e)}", None
+
+    def generate_responses_batch_optimized(
+        self, system_prompts: list[str], user_prompts: list[str]
+    ) -> list[tuple[str, Optional[int]]]:
+        """
+        Generate responses for multiple system/user prompt pairs with batch optimization.
+
+        Args:
+            system_prompts: List of system prompts
+            user_prompts: List of user prompts (must be same length as system_prompts)
+
+        Returns:
+            List of (response_text, token_count) tuples
+        """
+        if len(system_prompts) != len(user_prompts):
+            raise ValueError("system_prompts and user_prompts must have same length")
+
+        # Format all prompts
+        formatted_prompts = [
+            self._format_prompt(sys_prompt, user_prompt)
+            for sys_prompt, user_prompt in zip(system_prompts, user_prompts)
+        ]
+
+        return self.generate_batch_responses(formatted_prompts)
+
+    def generate_batch_responses(
+        self, prompts: list[str]
+    ) -> list[tuple[str, Optional[int]]]:
+        """Generate responses for a batch of prompts."""
+        if not self.pipeline:
+            raise RuntimeError("Model not loaded")
+
+        try:
+            # Process in batches to manage memory
+            batch_size = min(
+                int(os.getenv("HARD_BATCH_SIZE", self.config.batch_size)), len(prompts)
+            )
+            results = []
+
+            for i in range(0, len(prompts), batch_size):
+                batch_prompts = prompts[i : i + batch_size]
+
+                # Generate responses for the batch
+                batch_responses = self.pipeline(
+                    batch_prompts,
+                    max_new_tokens=self.config.max_tokens,
+                    temperature=self.config.temperature,
+                    pad_token_id=self.tokenizer.eos_token_id,
+                    batch_size=batch_size,
+                )
+
+                # Process each response in the batch
+                for j, response in enumerate(batch_responses):
+                    response_text = response["generated_text"].strip()
+
+                    # Estimate token count
+                    tokens = self.tokenizer.encode(batch_prompts[j] + response_text)
+                    token_count = len(tokens)
+
+                    results.append((response_text, token_count))
+
+                # Log progress
+                logging.info(
+                    f"Processed batch {i // batch_size + 1}/{(len(prompts) - 1) // batch_size + 1}"
+                )
+
+            return results
+
+        except Exception as e:
+            logging.exception(f"Error generating batch responses: {e}")
+            return [(f"ERROR: {str(e)}", None) for _ in prompts]
 
     def _format_prompt(self, system_prompt: str, user_prompt: str) -> str:
         """Format prompt using tokenizer's chat template."""
@@ -882,7 +1001,73 @@ class BenchmarkRunner:
     def _run_predictions(
         self, samples: list[BenchmarkSample]
     ) -> list[PredictionResult]:
-        """Run model predictions on all samples."""
+        """Run model predictions on all samples using batch processing."""
+        predictions: list[PredictionResult] = []
+
+        system_prompt = self.prompt_generator.get_system_prompt(
+            self.config.task_type, self.config.cwe_type
+        )
+
+        # Prepare all prompts in advance for batch processing
+        logging.info("Preparing prompts for batch processing...")
+        formatted_prompts = []
+        for sample in samples:
+            user_prompt = self.prompt_generator.get_user_prompt(
+                self.config.task_type, sample.code, self.config.cwe_type
+            )
+            formatted_prompt = self.llm._format_prompt(system_prompt, user_prompt)
+            formatted_prompts.append(formatted_prompt)
+
+        # Process in batches
+        logging.info(
+            f"Processing {len(samples)} samples in batches of {self.config.batch_size}"
+        )
+        start_time = time.time()
+
+        try:
+            batch_responses = self.llm.generate_batch_responses(formatted_prompts)
+            total_processing_time = time.time() - start_time
+            avg_processing_time = total_processing_time / len(samples)
+
+            # Process results
+            for i, (sample, (response_text, tokens_used)) in enumerate(
+                zip(samples, batch_responses)
+            ):
+                # Parse response
+                predicted_label = self.response_parser.parse_response(response_text)
+
+                prediction = PredictionResult(
+                    sample_id=sample.id,
+                    predicted_label=predicted_label,
+                    true_label=sample.label
+                    if isinstance(sample.label, int)
+                    else self.response_parser.parse_response(sample.label),
+                    confidence=None,  # Could be enhanced to extract confidence
+                    response_text=response_text,
+                    processing_time=avg_processing_time,  # Average time per sample
+                    tokens_used=tokens_used,
+                )
+
+                predictions.append(prediction)
+
+                # Log progress
+                if (i + 1) % 50 == 0:
+                    logging.info(f"Processed {i + 1}/{len(samples)} predictions")
+
+        except Exception as e:
+            logging.warning(
+                f"Batch processing failed, falling back to sequential processing: {e}"
+            )
+            # Fallback to sequential processing if batch processing fails
+            predictions = self._run_predictions_sequential(samples)
+
+        logging.info(f"Completed all {len(samples)} predictions")
+        return predictions
+
+    def _run_predictions_sequential(
+        self, samples: list[BenchmarkSample]
+    ) -> list[PredictionResult]:
+        """Fallback method for sequential prediction processing."""
         predictions: list[PredictionResult] = []
 
         system_prompt = self.prompt_generator.get_system_prompt(
@@ -1006,6 +1191,135 @@ class BenchmarkRunner:
 
         logging.info(f"Results saved to: {report_file}")
 
+    @staticmethod
+    def process_samples_with_batch_optimization(
+        samples: list[BenchmarkSample],
+        llm: LLMInterface,
+        system_prompt: str,
+        prompt_generator: PromptGenerator,
+        response_parser: ResponseParser,
+        config: BenchmarkConfig,
+    ) -> list[PredictionResult]:
+        """
+        Process samples with batch optimization for better GPU utilization.
+
+        This method can be used by benchmark runners to replace their sequential
+        processing loops with efficient batch processing.
+
+        Args:
+            samples: List of benchmark samples to process
+            llm: LLM interface instance
+            system_prompt: System prompt to use
+            prompt_generator: Prompt generator instance
+            response_parser: Response parser instance
+            config: Benchmark configuration
+
+        Returns:
+            List of prediction results
+        """
+        logging.info(f"Processing {len(samples)} samples with batch optimization")
+
+        # Prepare all prompts for batch processing
+        user_prompts = []
+        system_prompts = []
+
+        for sample in samples:
+            # Handle custom user prompt template if provided
+            if config.user_prompt_template:
+                user_prompt = config.user_prompt_template.format(code=sample.code)
+            else:
+                user_prompt = prompt_generator.get_user_prompt(
+                    config.task_type, sample.code, config.cwe_type
+                )
+
+            # Handle custom system prompt template if provided
+            if config.system_prompt_template:
+                current_system_prompt = config.system_prompt_template
+            else:
+                current_system_prompt = system_prompt
+
+            user_prompts.append(user_prompt)
+            system_prompts.append(current_system_prompt)
+
+        # Process in batches
+        start_time = time.time()
+        try:
+            # Use batch processing
+            batch_responses = llm.generate_responses_batch_optimized(
+                system_prompts, user_prompts
+            )
+            total_processing_time = time.time() - start_time
+            avg_processing_time = total_processing_time / len(samples)
+
+            logging.info(f"Batch processing completed in {total_processing_time:.2f}s")
+
+        except Exception as e:
+            logging.warning(f"Batch processing failed, falling back to sequential: {e}")
+            # Fallback to sequential processing
+            batch_responses = []
+            for i, sample in enumerate(samples):
+                # Handle custom user prompt template if provided
+                if config.user_prompt_template:
+                    user_prompt = config.user_prompt_template.format(code=sample.code)
+                else:
+                    user_prompt = prompt_generator.get_user_prompt(
+                        config.task_type, sample.code, config.cwe_type
+                    )
+
+                # Handle custom system prompt template if provided
+                current_system_prompt = (
+                    config.system_prompt_template
+                    if config.system_prompt_template
+                    else system_prompt
+                )
+
+                response_text, tokens_used = llm.generate_response(
+                    current_system_prompt, user_prompt
+                )
+
+                batch_responses.append((response_text, tokens_used))
+
+                if (i + 1) % 10 == 0:
+                    logging.info(
+                        f"Sequential processing: {i + 1}/{len(samples)} completed"
+                    )
+
+            total_processing_time = time.time() - start_time
+            avg_processing_time = total_processing_time / len(samples)
+
+        # Process results
+        predictions = []
+        for i, (sample, (response_text, tokens_used)) in enumerate(
+            zip(samples, batch_responses)
+        ):
+            # Parse response
+            predicted_label = response_parser.parse_response(response_text)
+
+            # Handle true label - might be int or string depending on dataset
+            if isinstance(sample.label, int):
+                true_label = sample.label
+            else:
+                true_label = response_parser.parse_response(str(sample.label))
+
+            prediction = PredictionResult(
+                sample_id=sample.id,
+                predicted_label=predicted_label,
+                true_label=true_label,
+                confidence=None,
+                response_text=response_text,
+                processing_time=avg_processing_time,
+                tokens_used=tokens_used,
+            )
+
+            predictions.append(prediction)
+
+            # Log progress
+            if (i + 1) % 50 == 0:
+                logging.info(f"Processed {i + 1}/{len(samples)} predictions")
+
+        logging.info(f"Completed processing all {len(samples)} samples")
+        return predictions
+
 
 def main():
     """Example usage of the benchmark framework."""
@@ -1049,7 +1363,7 @@ def main():
         description="Traditional configuration example",
         dataset_path="./data/vulbench_sample.json",
         output_dir="./results/traditional",
-        batch_size=1,
+        batch_size=8,  # Use larger batch size for efficient GPU utilization
         max_tokens=128,
         temperature=0.1,
         use_quantization=True,
