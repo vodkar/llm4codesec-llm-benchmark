@@ -76,7 +76,7 @@ class CastleBenchmarkRunner:
                 logging.info(f"Processing sample {i + 1}/{len(samples)}: {sample.id}")
 
                 user_prompt = (
-                    self.config.user_prompt_template.format(code=sample.code)
+                    self.config.user_prompt_template.format(code=sample.code, cwe_type=self.config.cwe_type)
                     if self.config.user_prompt_template
                     else prompt_generator.get_user_prompt(
                         self.config.task_type, sample.code, self.config.cwe_type
