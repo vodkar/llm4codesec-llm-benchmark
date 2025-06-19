@@ -1247,7 +1247,7 @@ class BenchmarkRunner:
         for sample in samples:
             # Handle custom user prompt template if provided
             if config.user_prompt_template:
-                user_prompt = config.user_prompt_template.format(code=sample.code)
+                user_prompt = config.user_prompt_template.format(code=sample.code, cwe_type=config.cwe_type)
             else:
                 user_prompt = prompt_generator.get_user_prompt(
                     config.task_type, sample.code, config.cwe_type
@@ -1281,7 +1281,7 @@ class BenchmarkRunner:
             for i, sample in enumerate(samples):
                 # Handle custom user prompt template if provided
                 if config.user_prompt_template:
-                    user_prompt = config.user_prompt_template.format(code=sample.code)
+                    user_prompt = config.user_prompt_template.format(code=sample.code, cwe_type=config.cwe_type)
                 else:
                     user_prompt = prompt_generator.get_user_prompt(
                         config.task_type, sample.code, config.cwe_type
