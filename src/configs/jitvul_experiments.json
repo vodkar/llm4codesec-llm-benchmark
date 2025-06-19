@@ -263,7 +263,9 @@
             ],
             "prompts": [
                 "basic_security",
-                "detailed_analysis"
+                "detailed_analysis",
+                "context_aware",
+                "step_by_step"
             ],
             "sample_limit": null
         },

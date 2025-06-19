@@ -490,6 +490,7 @@ class HuggingFaceLLM(LLMInterface):
         # Configure quantization if requested
         quantization_config = None
         torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32
+        attn_implementation="flash_attention_2" if _is_flash_attention_supported() and _is_flash_attention_available() else None
 
         if torch.cuda.is_available():
             gpu_memory = torch.cuda.get_device_properties(0).total_memory / 1024**3
@@ -524,6 +525,8 @@ class HuggingFaceLLM(LLMInterface):
                 
             if "gemma-3-27b" in self.config.model_name:
                 torch_dtype = torch.float32
+                quantization_config = None
+                attn_implementation = None
 
         try:
             self.tokenizer = AutoTokenizer.from_pretrained(
@@ -543,9 +546,7 @@ class HuggingFaceLLM(LLMInterface):
                 torch_dtype=torch_dtype,
                 trust_remote_code=True,
                 token=os.getenv("HF_TOKEN", None),
-                attn_implementation="flash_attention_2"
-                if _is_flash_attention_supported() and _is_flash_attention_available()
-                else None,
+                attn_implementation=attn_implementation,
             )
 
             # Create text generation pipeline with batch optimization
