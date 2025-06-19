@@ -496,34 +496,34 @@ class HuggingFaceLLM(LLMInterface):
             logging.info(f"Detected GPU memory: {gpu_memory:.1f}GB")
 
             if self.config.use_quantization:
-                if self.config.model_name == ModelType.LLAMA_4_SCOUT_17B_INSTRUCT.value:
-                    quantization_config = FbgemmFp8Config()
-                else:
-                    # Determine quantization type based on model size and GPU memory
-                    quantization_type = getattr(
-                        self.config, "quantization_type", "8bit"
-                    )
+                # Determine quantization type based on model size and GPU memory
+                quantization_type = getattr(
+                    self.config, "quantization_type", "8bit"
+                )
 
-                    if quantization_type == "8bit" and gpu_memory >= 35:
-                        quantization_config = BitsAndBytesConfig(
-                            load_in_8bit=True,
-                            llm_int8_enable_fp32_cpu_offload=False,
-                            llm_int8_threshold=6.0,
-                        )
-                        logging.info("Using 8-bit quantization for A100")
-                    else:
-                        # Fallback to 4-bit for very large models or smaller GPUs
-                        quantization_config = BitsAndBytesConfig(
-                            load_in_4bit=True,
-                            bnb_4bit_compute_dtype=torch.bfloat16,
-                            bnb_4bit_use_double_quant=True,
-                            bnb_4bit_quant_type="nf4",
-                        )
-                        logging.info("Using 4-bit quantization")
+                if quantization_type == "8bit" and gpu_memory >= 35:
+                    quantization_config = BitsAndBytesConfig(
+                        load_in_8bit=True,
+                        llm_int8_enable_fp32_cpu_offload=False,
+                        llm_int8_threshold=6.0,
+                    )
+                    logging.info("Using 8-bit quantization for A100")
+                else:
+                    # Fallback to 4-bit for very large models or smaller GPUs
+                    quantization_config = BitsAndBytesConfig(
+                        load_in_4bit=True,
+                        bnb_4bit_compute_dtype=torch.bfloat16,
+                        bnb_4bit_use_double_quant=True,
+                        bnb_4bit_quant_type="nf4",
+                    )
+                    logging.info("Using 4-bit quantization")
             else:
                 # No quantization - use optimal native precision
                 torch_dtype = torch.bfloat16 if gpu_memory >= 35 else torch.float16
                 logging.info(f"No quantization, using {torch_dtype}")
+                
+            if "gemma-3-27b" in self.config.model_name:
+                torch_dtype = torch.float32
 
         try:
             self.tokenizer = AutoTokenizer.from_pretrained(

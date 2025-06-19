@@ -95,7 +95,7 @@
         "qwen3-30b": {
             "model_name": "Qwen/Qwen3-30B-A3B",
             "model_type": "QWEN",
-            "batch_size": 8,
+            "batch_size": 12,
             "max_tokens": 512,
             "temperature": 0.1,
             "use_quantization": true,
@@ -104,7 +104,7 @@
         "qwen3-30b-thinking": {
             "model_name": "Qwen/Qwen3-30B-A3B",
             "model_type": "QWEN",
-            "batch_size": 8,
+            "batch_size": 12,
             "max_tokens": 512,
             "temperature": 0.1,
             "use_quantization": true,
@@ -135,11 +135,11 @@
             "use_quantization": true
         },
         "wizard-coder-34b": {
-            "model_name": "WizardLMTeam/WizardCoder-Python-34B-V1.0",
+            "model_name": "WizardLMTeam/WizardCoder-33B-V1.1",
             "model_type": "WIZARD",
             "max_tokens": 512,
             "temperature": 0.1,
-            "batch_size": 8,
+            "batch_size": 2,
             "use_quantization": true
         },
         "llama3.2-3B": {
@@ -171,11 +171,26 @@
             "model_type": "GEMMA",
             "max_tokens": 512,
             "temperature": 0.1,
-            "batch_size": 8,
+            "batch_size": 4,
             "use_quantization": true
         }
     },
     "experiment_plans": {
+        "test_problematic_models": {
+            "description": "Test Problematic Models",
+            "datasets": [
+                "binary_all"
+            ],
+            "models": [
+                "llama4-scout-17b-16e",
+                "gemma3-27b",
+                "deepseek-coder-v2-lite-16b"
+            ],
+            "prompts": [
+                "basic_security"
+            ],
+            "sample_limit": 10
+        },
         "quick_test": {
             "description": "Quick test with limited samples for development",
             "datasets": [

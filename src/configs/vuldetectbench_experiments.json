@@ -81,12 +81,12 @@
             "model_type": "QWEN",
             "max_tokens": 512,
             "temperature": 0.1,
-            "batch_size": 12
+            "batch_size": 60
         },
         "qwen3-30b": {
             "model_name": "Qwen/Qwen3-30B-A3B",
             "model_type": "QWEN",
-            "batch_size": 1,
+            "batch_size": 12,
             "max_tokens": 512,
             "temperature": 0.1,
             "use_quantization": true,
@@ -95,7 +95,7 @@
         "qwen3-30b-thinking": {
             "model_name": "Qwen/Qwen3-30B-A3B",
             "model_type": "QWEN",
-            "batch_size": 1,
+            "batch_size": 12,
             "max_tokens": 512,
             "temperature": 0.1,
             "use_quantization": true,
@@ -106,7 +106,7 @@
             "model_type": "DEEPSEEK",
             "max_tokens": 512,
             "temperature": 0.1,
-            "batch_size": 2,
+            "batch_size": 16,
             "use_quantization": true
         },
         "deepseek-r1-distill-qwen2.5-1.5b": {
@@ -114,7 +114,7 @@
             "model_type": "DEEPSEEK",
             "max_tokens": 512,
             "temperature": 0.1,
-            "batch_size": 32,
+            "batch_size": 90,
             "use_quantization": true
         },
         "deepseek-r1-distill-qwen2.5-32b": {
@@ -122,15 +122,15 @@
             "model_type": "DEEPSEEK",
             "max_tokens": 512,
             "temperature": 0.1,
-            "batch_size": 1,
+            "batch_size": 8,
             "use_quantization": true
         },
         "wizard-coder-34b": {
-            "model_name": "WizardLMTeam/WizardCoder-Python-34B-V1.0",
+            "model_name": "WizardLMTeam/WizardCoder-33B-V1.1",
             "model_type": "WIZARD",
             "max_tokens": 512,
             "temperature": 0.1,
-            "batch_size": 1,
+            "batch_size": 2,
             "use_quantization": true
         },
         "llama3.2-3B": {
@@ -146,15 +146,15 @@
             "model_type": "LLAMA",
             "max_tokens": 512,
             "temperature": 0.1,
-            "batch_size": 1,
+            "batch_size": 8,
             "use_quantization": true
         },
         "gemma3-1b": {
-            "model_name": "google/gemma-3-1b-it",
+            "model_name": "google/gemma-3-4b-it",
             "model_type": "GEMMA",
             "max_tokens": 512,
             "temperature": 0.1,
-            "batch_size": 32,
+            "batch_size": 16,
             "use_quantization": true
         },
         "gemma3-27b": {
@@ -162,7 +162,7 @@
             "model_type": "GEMMA",
             "max_tokens": 512,
             "temperature": 0.1,
-            "batch_size": 1,
+            "batch_size": 4,
             "use_quantization": true
         }
     },
