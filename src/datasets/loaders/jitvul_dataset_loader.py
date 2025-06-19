@@ -217,7 +217,7 @@ class JitVulDatasetLoader:
                     "function_type": "vulnerable",
                     "original_cwe": cwe,
                 },
-                cwe=cwe if cwe else None,
+                cwe_types=[cwe] if cwe else [],
                 severity=self._get_cwe_severity(cwe),
             )
 
@@ -228,7 +228,7 @@ class JitVulDatasetLoader:
                 ),
                 label="NOT_VULNERABLE",
                 metadata={**base_metadata, "function_type": "non_vulnerable"},
-                cwe=None,
+                cwe_types=[],
                 severity=None,
             )
 
@@ -244,7 +244,7 @@ class JitVulDatasetLoader:
                     ),
                     label=cwe,
                     metadata={**base_metadata, "function_type": "vulnerable"},
-                    cwe=cwe,
+                    cwe_types=[cwe],
                     severity=self._get_cwe_severity(cwe),
                 )
                 samples.append(vuln_sample)
@@ -264,7 +264,7 @@ class JitVulDatasetLoader:
                         "function_type": "vulnerable",
                         "target_cwe": target_cwe,
                     },
-                    cwe=cwe,
+                    cwe_types=[cwe],
                     severity=self._get_cwe_severity(cwe),
                 )
 
@@ -279,7 +279,7 @@ class JitVulDatasetLoader:
                         "function_type": "non_vulnerable",
                         "target_cwe": target_cwe,
                     },
-                    cwe=None,
+                    cwe_types=[],
                     severity=None,
                 )
 
