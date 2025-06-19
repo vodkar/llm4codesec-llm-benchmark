@@ -412,6 +412,24 @@ graph = ["objgraph (>=1.7.2)"]
 profile = ["gprof2dot (>=2022.7.29)"]
 
 [[package]]
+name = "fbgemm-gpu"
+version = "1.2.0"
+description = ""
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "fbgemm_gpu-1.2.0-cp310-cp310-manylinux_2_28_x86_64.whl", hash = "sha256:95f083a0109eb48807fd46c09dc03499888bec8eaf9a4a75d7e8225eb7f38f93"},
+    {file = "fbgemm_gpu-1.2.0-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:968856c70ec901e7c508967befde8c08ea25f460459eff00ac40f288305f3ba1"},
+    {file = "fbgemm_gpu-1.2.0-cp312-cp312-manylinux_2_28_x86_64.whl", hash = "sha256:0e8087b18e72ba1b72d9522a98d6f00a9e52cbdebfc15f4d8c001ab232881095"},
+    {file = "fbgemm_gpu-1.2.0-cp313-cp313-manylinux_2_28_x86_64.whl", hash = "sha256:b00263dbd1dd4b8add80158916a787f5738efa0b334c8dca49522d5e624f8ab4"},
+    {file = "fbgemm_gpu-1.2.0-cp39-cp39-manylinux_2_28_x86_64.whl", hash = "sha256:b47108bbd1c02dc4584607d6ed0ee43b8746fd8ecc047cdaf2d43c88792bcd05"},
+]
+
+[package.dependencies]
+numpy = "*"
+
+[[package]]
 name = "filelock"
 version = "3.18.0"
 description = "A platform independent file lock."
@@ -2675,4 +2693,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "364ad028bfb0b6cbf134962d7810bfed8456e343a17229bd4cf9e42c1d988b33"
+content-hash = "520dc4cec8987c1020a721a47c8d92d920043c55892d980ea4658fe9d4d590a2"

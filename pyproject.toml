@@ -24,6 +24,7 @@ psutil = ">=5.9.0"
 huggingface-hub = {version = "^0.32.4", extras = ["hf_xet"]}
 packaging = "^25.0"
 ninja = "^1.11.1.4"
+fbgemm-gpu = "^1.2.0"
 
 [[tool.poetry.source]]
 name = "pytorch"
