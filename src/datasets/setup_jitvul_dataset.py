@@ -15,6 +15,11 @@ from typing import Any, Dict, List, Optional
 
 from datasets.loaders.jitvul_dataset_loader import JitVulDatasetLoader
 
+def tuple_encoder(obj):
+    if isinstance(obj, tuple):
+        return {'__tuple__': True, 'items': list(obj)}
+    return obj
+
 
 def setup_logging(verbose: bool = False) -> None:
     """Setup logging configuration."""
@@ -102,6 +107,7 @@ def create_multiclass_dataset(
     for sample in samples:
         cwes = sample.cwe_types or ["UNKNOWN"]
         for cwe in cwes:
+            cwe = cwe[0]
             cwe_counts[cwe] = cwe_counts.get(cwe, 0) + 1
 
     # Create dataset dictionary
@@ -133,7 +139,7 @@ def create_multiclass_dataset(
     # Save dataset
     output_file = output_dir / "jitvul_multiclass.json"
     with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(dataset_dict, f, indent=2, ensure_ascii=False)
+        json.dump(dataset_dict, f, indent=2, ensure_ascii=False, default=tuple_encoder)
 
     logger.info(f"Multiclass dataset created: {output_file}")
     logger.info(f"Total samples: {len(samples)}")
@@ -358,7 +364,7 @@ def main():
         logger.info("JitVul dataset setup completed successfully!")
 
     except Exception as e:
-        logger.error(f"JitVul dataset setup failed: {e}")
+        logger.exception(f"JitVul dataset setup failed: {e}")
         sys.exit(1)
 
 

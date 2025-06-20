@@ -204,7 +204,7 @@ class JitVulDatasetLoader:
             "source": "jitvul",
             "line_number": line_num,
         }
-
+        
         # Create samples based on task type
         if task_type == "binary":
             # Create both vulnerable and non-vulnerable samples
@@ -251,7 +251,7 @@ class JitVulDatasetLoader:
 
         elif task_type == "cwe_specific":
             # Filter for specific CWE type
-            if target_cwe and cwe == target_cwe:
+            if target_cwe and target_cwe in cwe:
                 # Include both vulnerable (positive) and non-vulnerable (negative) for this CWE
                 vuln_sample = BenchmarkSample(
                     id=f"jitvul_{line_num}_vulnerable",
@@ -264,7 +264,7 @@ class JitVulDatasetLoader:
                         "function_type": "vulnerable",
                         "target_cwe": target_cwe,
                     },
-                    cwe_types=[cwe],
+                    cwe_types=cwe,
                     severity=self._get_cwe_severity(cwe),
                 )
 
@@ -402,7 +402,7 @@ class JitVulDatasetLoader:
                         stats["total_items"] += 1
 
                         # CWE distribution
-                        cwe = item.get("CWE", "Unknown")
+                        cwe = item.get("cwe", ["Unknown"])[0]
                         stats["cwe_distribution"][cwe] += 1
 
                         # Project distribution
@@ -427,7 +427,7 @@ class JitVulDatasetLoader:
                         continue
 
         except Exception as e:
-            self.logger.error(f"Error generating statistics: {e}")
+            self.logger.exception(f"Error generating statistics: {e}")
             return {}
 
         # Calculate averages
