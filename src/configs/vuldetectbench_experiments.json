@@ -195,8 +195,6 @@
                 "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
-                "basic_security",
-                "detailed_analysis",
                 "task1_specific"
             ],
             "sample_limit": null
@@ -216,8 +214,6 @@
                 "gemma3-27b"
             ],
             "prompts": [
-                "detailed_analysis",
-                "step_by_step",
                 "task1_specific"
             ],
             "sample_limit": null
@@ -234,8 +230,6 @@
                 "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
-                "basic_security",
-                "detailed_analysis",
                 "task2_specific"
             ],
             "sample_limit": null
@@ -255,8 +249,6 @@
                 "gemma3-27b"
             ],
             "prompts": [
-                "detailed_analysis",
-                "step_by_step",
                 "task2_specific"
             ],
             "sample_limit": null
@@ -273,8 +265,6 @@
                 "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
-                "basic_security",
-                "detailed_analysis",
                 "task3_specific"
             ],
             "sample_limit": null
@@ -312,8 +302,6 @@
                 "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
-                "basic_security",
-                "detailed_analysis",
                 "task4_specific"
             ],
             "sample_limit": null
@@ -333,8 +321,6 @@
                 "gemma3-27b"
             ],
             "prompts": [
-                "detailed_analysis",
-                "step_by_step",
                 "task4_specific"
             ],
             "sample_limit": null
@@ -351,8 +337,6 @@
                 "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
-                "basic_security",
-                "detailed_analysis",
                 "task5_specific"
             ],
             "sample_limit": null
@@ -372,8 +356,6 @@
                 "gemma3-27b"
             ],
             "prompts": [
-                "detailed_analysis",
-                "step_by_step",
                 "task5_specific"
             ],
             "sample_limit": null

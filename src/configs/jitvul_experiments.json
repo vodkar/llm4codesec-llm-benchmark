@@ -262,9 +262,7 @@
                 "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
-                "basic_security",
                 "detailed_analysis",
-                "context_aware",
                 "step_by_step"
             ],
             "sample_limit": null
@@ -281,8 +279,7 @@
                 "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
-                "multiclass_basic",
-                "multiclass_detailed"
+                "multiclass_comprehensive"
             ],
             "sample_limit": null
         },
@@ -302,7 +299,6 @@
             ],
             "prompts": [
                 "detailed_analysis",
-                "context_aware",
                 "step_by_step"
             ],
             "sample_limit": null
@@ -322,7 +318,6 @@
                 "gemma3-27b"
             ],
             "prompts": [
-                "multiclass_detailed",
                 "multiclass_comprehensive"
             ],
             "sample_limit": null

@@ -294,23 +294,6 @@
             ],
             "sample_limit": null
         },
-        "multiclass_prompt_comparison": {
-            "description": "Compare different prompt strategies on multiclass classification",
-            "datasets": [
-                "multiclass_c_file",
-                "multiclass_java_file",
-                "multiclass_python_file"
-            ],
-            "models": [
-                "qwen3-4b"
-            ],
-            "prompts": [
-                "multiclass_basic",
-                "multiclass_detailed",
-                "multiclass_comprehensive"
-            ],
-            "sample_limit": null
-        },
         "small_models_cwe_specific_analysis": {
             "description": "CWE-specific vulnerability detection",
             "datasets": [
@@ -349,9 +332,7 @@
                 "gemma3-1b"
             ],
             "prompts": [
-                "basic_security",
                 "detailed_analysis",
-                "context_aware",
                 "step_by_step"
             ],
             "sample_limit": null
@@ -373,8 +354,6 @@
                 "gemma3-1b"
             ],
             "prompts": [
-                "multiclass_basic",
-                "multiclass_detailed",
                 "multiclass_comprehensive"
             ],
             "sample_limit": null
@@ -399,9 +378,7 @@
                 "gemma3-27b"
             ],
             "prompts": [
-                "basic_security",
                 "detailed_analysis",
-                "context_aware",
                 "step_by_step"
             ],
             "sample_limit": null
@@ -450,8 +427,6 @@
                 "gemma3-27b"
             ],
             "prompts": [
-                "multiclass_basic",
-                "multiclass_detailed",
                 "multiclass_comprehensive"
             ],
             "sample_limit": null
