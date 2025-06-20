@@ -1,0 +1,100 @@
+[
+  {
+    "experiment_name": "qwen3-30b_binary_all_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.0,
+    "total_samples": 1758,
+    "total_time": 2657.0715420246124,
+    "output_dir": "results/jitvul_experiments/qwen3-30b_binary_all_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-30b_binary_all_step_by_step",
+    "status": "success",
+    "accuracy": 0.0,
+    "total_samples": 1758,
+    "total_time": 155.39620447158813,
+    "output_dir": "results/jitvul_experiments/qwen3-30b_binary_all_step_by_step"
+  },
+  {
+    "experiment_name": "qwen3-30b-thinking_binary_all_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.0,
+    "total_samples": 1758,
+    "total_time": 148.67728281021118,
+    "output_dir": "results/jitvul_experiments/qwen3-30b-thinking_binary_all_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-30b-thinking_binary_all_step_by_step",
+    "status": "success",
+    "accuracy": 0.0,
+    "total_samples": 1758,
+    "total_time": 157.65058612823486,
+    "output_dir": "results/jitvul_experiments/qwen3-30b-thinking_binary_all_step_by_step"
+  },
+  {
+    "experiment_name": "deepseek-coder-v2-lite-16b_binary_all_detailed_analysis",
+    "status": "success",
+    "accuracy": 1.0,
+    "total_samples": 1758,
+    "total_time": 430.1418435573578,
+    "output_dir": "results/jitvul_experiments/deepseek-coder-v2-lite-16b_binary_all_detailed_analysis"
+  },
+  {
+    "experiment_name": "deepseek-coder-v2-lite-16b_binary_all_step_by_step",
+    "status": "success",
+    "accuracy": 1.0,
+    "total_samples": 1758,
+    "total_time": 52.16461491584778,
+    "output_dir": "results/jitvul_experiments/deepseek-coder-v2-lite-16b_binary_all_step_by_step"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-32b_binary_all_detailed_analysis",
+    "status": "failed",
+    "error": "Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `device_map` to `from_pretrained`. Check https://huggingface.co/docs/transformers/main/en/main_classes/quantization#offload-between-cpu-and-gpu for more details. ",
+    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-32b_binary_all_detailed_analysis"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-32b_binary_all_step_by_step",
+    "status": "failed",
+    "error": "Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `device_map` to `from_pretrained`. Check https://huggingface.co/docs/transformers/main/en/main_classes/quantization#offload-between-cpu-and-gpu for more details. ",
+    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-32b_binary_all_step_by_step"
+  },
+  {
+    "experiment_name": "wizard-coder-34b_binary_all_detailed_analysis",
+    "status": "failed",
+    "error": "Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `device_map` to `from_pretrained`. Check https://huggingface.co/docs/transformers/main/en/main_classes/quantization#offload-between-cpu-and-gpu for more details. ",
+    "output_dir": "results/jitvul_experiments/wizard-coder-34b_binary_all_detailed_analysis"
+  },
+  {
+    "experiment_name": "wizard-coder-34b_binary_all_step_by_step",
+    "status": "failed",
+    "error": "Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `device_map` to `from_pretrained`. Check https://huggingface.co/docs/transformers/main/en/main_classes/quantization#offload-between-cpu-and-gpu for more details. ",
+    "output_dir": "results/jitvul_experiments/wizard-coder-34b_binary_all_step_by_step"
+  },
+  {
+    "experiment_name": "llama4-scout-17b-16e_binary_all_detailed_analysis",
+    "status": "failed",
+    "error": "meta-llama/Llama-4-Scout-17B-16E-Instruct does not appear to have files named ('model-00022-of-00050.safetensors', 'model-00033-of-00050.safetensors', 'model-00034-of-00050.safetensors', 'model-00035-of-00050.safetensors', 'model-00036-of-00050.safetensors', 'model-00037-of-00050.safetensors', 'model-00038-of-00050.safetensors', 'model-00039-of-00050.safetensors', 'model-00040-of-00050.safetensors', 'model-00041-of-00050.safetensors', 'model-00042-of-00050.safetensors', 'model-00043-of-00050.safetensors', 'model-00044-of-00050.safetensors', 'model-00045-of-00050.safetensors', 'model-00046-of-00050.safetensors', 'model-00047-of-00050.safetensors', 'model-00048-of-00050.safetensors', 'model-00049-of-00050.safetensors', 'model-00050-of-00050.safetensors'). Checkout 'https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct/tree/main'for available files.",
+    "output_dir": "results/jitvul_experiments/llama4-scout-17b-16e_binary_all_detailed_analysis"
+  },
+  {
+    "experiment_name": "llama4-scout-17b-16e_binary_all_step_by_step",
+    "status": "failed",
+    "error": "Some modules are dispatched on the CPU or the disk. Make sure you have enough GPU RAM to fit the quantized model. If you want to dispatch the model on the CPU or the disk while keeping these modules in 32-bit, you need to set `llm_int8_enable_fp32_cpu_offload=True` and pass a custom `device_map` to `from_pretrained`. Check https://huggingface.co/docs/transformers/main/en/main_classes/quantization#offload-between-cpu-and-gpu for more details. ",
+    "output_dir": "results/jitvul_experiments/llama4-scout-17b-16e_binary_all_step_by_step"
+  },
+  {
+    "experiment_name": "gemma3-27b_binary_all_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.0,
+    "total_samples": 1758,
+    "total_time": 991.2247228622437,
+    "output_dir": "results/jitvul_experiments/gemma3-27b_binary_all_detailed_analysis"
+  },
+  {
+    "experiment_name": "gemma3-27b_binary_all_step_by_step",
+    "status": "failed",
+    "error": "You are trying to offload the whole model to the disk. Please use the `disk_offload` function instead.",
+    "output_dir": "results/jitvul_experiments/gemma3-27b_binary_all_step_by_step"
+  }
+]
