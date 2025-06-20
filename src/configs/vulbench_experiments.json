@@ -157,7 +157,7 @@
         "qwen3-30b": {
             "model_name": "Qwen/Qwen3-30B-A3B",
             "model_type": "QWEN",
-            "batch_size": 2,
+            "batch_size": 8,
             "max_tokens": 1024,
             "temperature": 0.1,
             "use_quantization": true,
@@ -166,7 +166,7 @@
         "qwen3-30b-thinking": {
             "model_name": "Qwen/Qwen3-30B-A3B",
             "model_type": "QWEN",
-            "batch_size": 2,
+            "batch_size": 8,
             "max_tokens": 1024,
             "temperature": 0.1,
             "use_quantization": true,
