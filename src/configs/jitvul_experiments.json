@@ -231,7 +231,7 @@
                 "multiclass_detailed",
                 "multiclass_comprehensive"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "small_models_cwe_specific_analysis": {
             "description": "CWE-specific vulnerability detection",
@@ -272,7 +272,7 @@
             "prompts": [
                 "cwe_focused"
             ],
-            "sample_limit": null
+            "sample_limit": 50
         },
         "small_models_binary": {
             "description": "Evaluate small models on binary classification",
@@ -325,7 +325,7 @@
                 "detailed_analysis",
                 "step_by_step"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "large_models_multiclass": {
             "description": "Evaluate large models on multiclass classification",
@@ -344,7 +344,7 @@
             "prompts": [
                 "multiclass_comprehensive"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         }
     },
     "output_settings": {
