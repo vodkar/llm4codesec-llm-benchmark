@@ -158,7 +158,7 @@
             "batch_size": 2,
             "use_quantization": true
         },
-        "gemma3-1b": {
+        "gemma3-4b": {
             "model_name": "google/gemma-3-4b-it",
             "model_type": "GEMMA",
             "max_tokens": 1024,
@@ -185,12 +185,12 @@
                 "qwen3-4b",
                 "llama3.2-3B",
                 "deepseek-r1-distill-qwen2.5-1.5b",
-                "gemma3-1b"
+                "gemma3-4b"
             ],
             "prompts": [
                 "basic_security"
             ],
-            "sample_limit": 10
+            "sample_limit": 5
         },
         "multiclass_quick_test": {
             "description": "Quick test for multiclass classification with limited samples",
@@ -200,13 +200,13 @@
             "models": [
                 "qwen3-4b",
                 "llama3.2-3B",
-                "gemma3-1b",
+                "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
                 "multiclass_detailed"
             ],
-            "sample_limit": 10
+            "sample_limit": 5
         },
         "cwe_specific_quick_test": {
             "description": "Quick test for cwe classification with limited samples",
@@ -219,7 +219,7 @@
             "models": [
                 "qwen3-4b",
                 "llama3.2-3B",
-                "gemma3-1b",
+                "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
@@ -269,13 +269,13 @@
             "models": [
                 "qwen3-4b",
                 "llama3.2-3B",
-                "gemma3-1b",
+                "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
                 "cwe_focused"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "large_models_cwe_specific_analysis": {
             "description": "CWE-specific vulnerability detection",
@@ -307,14 +307,14 @@
             "models": [
                 "qwen3-4b",
                 "llama3.2-3B",
-                "gemma3-1b",
+                "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
                 "detailed_analysis",
                 "step_by_step"
             ],
-            "sample_limit": null
+            "sample_limit": 200
         },
         "small_models_multiclass": {
             "description": "Evaluate small models on multiclass classification",
@@ -324,13 +324,13 @@
             "models": [
                 "qwen3-4b",
                 "llama3.2-3B",
-                "gemma3-1b",
+                "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
                 "multiclass_comprehensive"
             ],
-            "sample_limit": null
+            "sample_limit": 200
         },
         "large_models_binary": {
             "description": "Evaluate large models on binary classification",

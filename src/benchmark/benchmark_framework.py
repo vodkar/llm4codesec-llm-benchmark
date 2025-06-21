@@ -413,7 +413,7 @@ class LLMInterface(ABC):
     @abstractmethod
     def generate_response(
         self, system_prompt: str, user_prompt: str
-    ) -> tuple[str, Optional[int]]:
+    ) -> tuple[str, int, float]:
         """
         Generate response from the model.
 
@@ -443,7 +443,7 @@ class LLMInterface(ABC):
 
     def generate_responses_batch_optimized(
         self, system_prompts: list[str], user_prompts: list[str]
-    ) -> list[tuple[str, Optional[int]]]:
+    ) -> list[tuple[str, int, float]]:
         """
         Generate responses for multiple system/user prompt pairs with batch optimization.
 
@@ -458,7 +458,7 @@ class LLMInterface(ABC):
             raise ValueError("system_prompts and user_prompts must have same length")
 
         # This is a default implementation - can be overridden by subclasses
-        results = []
+        results: list[tuple[str, int, float]] = []
         for sys_prompt, user_prompt in zip(system_prompts, user_prompts):
             result = self.generate_response(sys_prompt, user_prompt)
             results.append(result)
@@ -597,7 +597,7 @@ class HuggingFaceLLM(LLMInterface):
 
     def generate_responses_batch_optimized(
         self, system_prompts: list[str], user_prompts: list[str]
-    ) -> list[tuple[str, Optional[int]]]:
+    ) -> list[tuple[str, int, float]]:
         """
         Generate responses for multiple system/user prompt pairs with batch optimization.
 
@@ -621,7 +621,7 @@ class HuggingFaceLLM(LLMInterface):
 
     def generate_batch_responses(
         self, prompts: list[str]
-    ) -> list[tuple[str, Optional[int]]]:
+    ) -> list[tuple[str, int, float]]:
         """Generate responses for a batch of prompts."""
         if not self.pipeline:
             raise RuntimeError("Model not loaded")
@@ -631,11 +631,12 @@ class HuggingFaceLLM(LLMInterface):
             batch_size = min(
                 int(os.getenv("HARD_BATCH_SIZE", self.config.batch_size)), len(prompts)
             )
-            results = []
+            results: list[tuple[str, int, float]] = []
 
             for i in range(0, len(prompts), batch_size):
                 batch_prompts = prompts[i : i + batch_size]
 
+                start = time.time()
                 # Generate responses for the batch
                 batch_responses = self.pipeline(
                     batch_prompts,
@@ -644,6 +645,7 @@ class HuggingFaceLLM(LLMInterface):
                     pad_token_id=self.tokenizer.eos_token_id,
                     batch_size=batch_size,
                 )
+                duration = time.time() - start
 
                 # Process each response in the batch
                 # Handle different response formats from Hugging Face pipeline
@@ -661,7 +663,9 @@ class HuggingFaceLLM(LLMInterface):
                         tokens = self.tokenizer.encode(batch_prompts[j] + response_text)
                         token_count = len(tokens)
 
-                        results.append((response_text, token_count))
+                        results.append(
+                            (response_text, token_count, duration / batch_size)
+                        )
                 else:
                     # If pipeline returns list of dicts (single responses)
                     for j, response in enumerate(batch_responses):
@@ -674,7 +678,9 @@ class HuggingFaceLLM(LLMInterface):
                         tokens = self.tokenizer.encode(batch_prompts[j] + response_text)
                         token_count = len(tokens)
 
-                        results.append((response_text, token_count))
+                        results.append(
+                            (response_text, token_count, duration / batch_size)
+                        )
 
                 # Log progress
                 logging.info(
@@ -1269,21 +1275,16 @@ class BenchmarkRunner:
             system_prompts.append(current_system_prompt)
 
         # Process in batches
-        start_time = time.time()
         try:
             # Use batch processing
-            batch_responses = llm.generate_responses_batch_optimized(
-                system_prompts, user_prompts
+            batch_responses: list[tuple[str, int, float]] = (
+                llm.generate_responses_batch_optimized(system_prompts, user_prompts)
             )
-            total_processing_time = time.time() - start_time
-            avg_processing_time = total_processing_time / len(samples)
-
-            logging.info(f"Batch processing completed in {total_processing_time:.2f}s")
 
         except Exception as e:
             logging.warning(f"Batch processing failed, falling back to sequential: {e}")
             # Fallback to sequential processing
-            batch_responses = []
+            batch_responses: list[tuple[str, int, float]] = []
             for i, sample in enumerate(samples):
                 # Handle custom user prompt template if provided
                 if config.user_prompt_template:
@@ -1302,23 +1303,22 @@ class BenchmarkRunner:
                     else system_prompt
                 )
 
-                response_text, tokens_used = llm.generate_response(
+                response_text, tokens_used, processing_duration = llm.generate_response(
                     current_system_prompt, user_prompt
                 )
 
-                batch_responses.append((response_text, tokens_used))
+                batch_responses.append(
+                    (response_text, tokens_used, processing_duration)
+                )
 
                 if (i + 1) % 10 == 0:
                     logging.info(
                         f"Sequential processing: {i + 1}/{len(samples)} completed"
                     )
 
-            total_processing_time = time.time() - start_time
-            avg_processing_time = total_processing_time / len(samples)
-
         # Process results
         predictions = []
-        for i, (sample, (response_text, tokens_used)) in enumerate(
+        for i, (sample, (response_text, tokens_used, processing_duration)) in enumerate(
             zip(samples, batch_responses)
         ):
             # Parse response
@@ -1336,7 +1336,7 @@ class BenchmarkRunner:
                 true_label=true_label,
                 confidence=None,
                 response_text=response_text,
-                processing_time=avg_processing_time,
+                processing_time=processing_duration,
                 tokens_used=tokens_used,
             )
 
@@ -1423,5 +1423,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
     main()

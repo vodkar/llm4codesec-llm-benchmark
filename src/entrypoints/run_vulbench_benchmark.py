@@ -9,6 +9,7 @@ unified configuration approach matching CASTLE, JitVul, and CVEFixes patterns.
 import argparse
 import json
 import logging
+import random
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -51,6 +52,7 @@ class VulBenchBenchmarkRunner:
 
             # Apply sample limit if specified
             if sample_limit and sample_limit < len(samples):
+                random.shuffle(samples)
                 samples = samples[:sample_limit]
                 logging.info(f"Limited to {sample_limit} samples")
 

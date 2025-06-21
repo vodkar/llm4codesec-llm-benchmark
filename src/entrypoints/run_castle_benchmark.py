@@ -10,6 +10,7 @@ import argparse
 import dataclasses
 import json
 import logging
+import random
 import sys
 from pathlib import Path
 from typing import Any
@@ -48,6 +49,7 @@ class CastleBenchmarkRunner:
 
             # Apply sample limit if specified
             if sample_limit and sample_limit < len(samples):
+                random.shuffle(samples)
                 samples = samples[:sample_limit]
                 logging.info(f"Limited to {sample_limit} samples")
 
