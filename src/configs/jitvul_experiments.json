@@ -88,7 +88,7 @@
         "qwen3-4b": {
             "model_name": "Qwen/Qwen3-4B",
             "model_type": "QWEN",
-            "max_tokens": 512,
+            "max_tokens": 1024,
             "temperature": 0.1,
             "batch_size": 15
         },
@@ -121,7 +121,7 @@
         "deepseek-r1-distill-qwen2.5-1.5b": {
             "model_name": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
             "model_type": "DEEPSEEK",
-            "max_tokens": 512,
+            "max_tokens": 1024,
             "temperature": 0.1,
             "batch_size": 10,
             "use_quantization": true
@@ -145,7 +145,7 @@
         "llama3.2-3B": {
             "model_name": "meta-llama/Llama-3.2-3B-Instruct",
             "model_type": "LLAMA",
-            "max_tokens": 512,
+            "max_tokens": 1024,
             "temperature": 0.1,
             "batch_size": 10,
             "use_quantization": true
@@ -161,7 +161,7 @@
         "gemma3-1b": {
             "model_name": "google/gemma-3-4b-it",
             "model_type": "GEMMA",
-            "max_tokens": 512,
+            "max_tokens": 1024,
             "temperature": 0.1,
             "batch_size": 16,
             "use_quantization": true
@@ -182,10 +182,13 @@
                 "binary_all"
             ],
             "models": [
-                "deepseek-r1-distill-qwen2.5-1.5b"
+                "qwen3-4b",
+                "llama3.2-3B",
+                "deepseek-r1-distill-qwen2.5-1.5b",
+                "gemma3-1b"
             ],
             "prompts": [
-                "context_aware"
+                "basic_security"
             ],
             "sample_limit": 10
         },
@@ -195,12 +198,34 @@
                 "multiclass_all"
             ],
             "models": [
-                "gemma3-1b"
+                "qwen3-4b",
+                "llama3.2-3B",
+                "gemma3-1b",
+                "deepseek-r1-distill-qwen2.5-1.5b"
             ],
             "prompts": [
                 "multiclass_detailed"
             ],
             "sample_limit": 10
+        },
+        "cwe_specific_quick_test": {
+            "description": "Quick test for cwe classification with limited samples",
+            "datasets": [
+                "cwe_125",
+                "cwe_190",
+                "cwe_476",
+                "cwe_787"
+            ],
+            "models": [
+                "qwen3-4b",
+                "llama3.2-3B",
+                "gemma3-1b",
+                "deepseek-r1-distill-qwen2.5-1.5b"
+            ],
+            "prompts": [
+                "cwe_focused"
+            ],
+            "sample_limit": 5
         },
         "prompt_comparison": {
             "description": "Compare different prompt strategies on binary classification",

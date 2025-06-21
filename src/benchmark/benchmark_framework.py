@@ -27,7 +27,6 @@ from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
     BitsAndBytesConfig,
-    FbgemmFp8Config,
     pipeline,
 )
 
@@ -490,7 +489,11 @@ class HuggingFaceLLM(LLMInterface):
         # Configure quantization if requested
         quantization_config = None
         torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32
-        attn_implementation="flash_attention_2" if _is_flash_attention_supported() and _is_flash_attention_available() else None
+        attn_implementation = (
+            "flash_attention_2"
+            if _is_flash_attention_supported() and _is_flash_attention_available()
+            else None
+        )
 
         if torch.cuda.is_available():
             gpu_memory = torch.cuda.get_device_properties(0).total_memory / 1024**3
@@ -498,9 +501,7 @@ class HuggingFaceLLM(LLMInterface):
 
             if self.config.use_quantization:
                 # Determine quantization type based on model size and GPU memory
-                quantization_type = getattr(
-                    self.config, "quantization_type", "8bit"
-                )
+                quantization_type = getattr(self.config, "quantization_type", "8bit")
 
                 if quantization_type == "8bit" and gpu_memory >= 35:
                     quantization_config = BitsAndBytesConfig(
@@ -512,7 +513,7 @@ class HuggingFaceLLM(LLMInterface):
                 else:
                     # Fallback to 4-bit for very large models or smaller GPUs
                     quantization_config = BitsAndBytesConfig(
-                        load_in_4bit=True,
+                        load_in_8bit=True,
                         bnb_4bit_compute_dtype=torch.bfloat16,
                         bnb_4bit_use_double_quant=True,
                         bnb_4bit_quant_type="nf4",
@@ -522,10 +523,10 @@ class HuggingFaceLLM(LLMInterface):
                 # No quantization - use optimal native precision
                 torch_dtype = torch.bfloat16 if gpu_memory >= 35 else torch.float16
                 logging.info(f"No quantization, using {torch_dtype}")
-                
-            if "gemma-3-27b" in self.config.model_name:
-                torch_dtype = torch.float32
-                quantization_config = None
+
+            if "gemma-3" in self.config.model_name:
+                torch_dtype = torch.bfloat16
+                quantization_config = BitsAndBytesConfig(load_in_8bit=True)
                 attn_implementation = None
 
         try:
@@ -560,6 +561,8 @@ class HuggingFaceLLM(LLMInterface):
                 return_full_text=False,
                 batch_size=self.config.batch_size,  # Enable batch processing
                 device_map="auto",
+                pad_token_id=self.tokenizer.eos_token_id,
+                eos_token_id=self.tokenizer.eos_token_id,
             )
 
             logging.info(f"Model loaded successfully on {self.device}")
@@ -1248,7 +1251,9 @@ class BenchmarkRunner:
         for sample in samples:
             # Handle custom user prompt template if provided
             if config.user_prompt_template:
-                user_prompt = config.user_prompt_template.format(code=sample.code, cwe_type=config.cwe_type)
+                user_prompt = config.user_prompt_template.format(
+                    code=sample.code, cwe_type=config.cwe_type
+                )
             else:
                 user_prompt = prompt_generator.get_user_prompt(
                     config.task_type, sample.code, config.cwe_type
@@ -1282,7 +1287,9 @@ class BenchmarkRunner:
             for i, sample in enumerate(samples):
                 # Handle custom user prompt template if provided
                 if config.user_prompt_template:
-                    user_prompt = config.user_prompt_template.format(code=sample.code, cwe_type=config.cwe_type)
+                    user_prompt = config.user_prompt_template.format(
+                        code=sample.code, cwe_type=config.cwe_type
+                    )
                 else:
                     user_prompt = prompt_generator.get_user_prompt(
                         config.task_type, sample.code, config.cwe_type

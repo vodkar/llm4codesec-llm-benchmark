@@ -96,7 +96,7 @@ class JitVulDatasetLoader:
                 sample = BenchmarkSample(
                     id=sample_data.get("id", ""),
                     code=sample_data.get("code", ""),
-                    label=sample_data.get("label", "")[0],
+                    label=sample_data.get("label", ""),
                     metadata=sample_data.get("metadata", {}),
                     cwe_types=sample_data.get("cwe_type"),
                     severity=sample_data.get("severity"),
@@ -204,20 +204,20 @@ class JitVulDatasetLoader:
             "source": "jitvul",
             "line_number": line_num,
         }
-        
+
         # Create samples based on task type
         if task_type == "binary":
             # Create both vulnerable and non-vulnerable samples
             vuln_sample = BenchmarkSample(
                 id=f"jitvul_{line_num}_vulnerable",
                 code=self._augment_code_with_context(vuln_func, item, use_call_graph),
-                label="VULNERABLE",
+                label=1,
                 metadata={
                     **base_metadata,
                     "function_type": "vulnerable",
                     "original_cwe": cwe,
                 },
-                cwe_types=[cwe] if cwe else [],
+                cwe_types=cwe if cwe else [],
                 severity=self._get_cwe_severity(cwe),
             )
 
@@ -226,7 +226,7 @@ class JitVulDatasetLoader:
                 code=self._augment_code_with_context(
                     non_vuln_func, item, use_call_graph
                 ),
-                label="NOT_VULNERABLE",
+                label=0,
                 metadata={**base_metadata, "function_type": "non_vulnerable"},
                 cwe_types=[],
                 severity=None,
@@ -258,7 +258,7 @@ class JitVulDatasetLoader:
                     code=self._augment_code_with_context(
                         vuln_func, item, use_call_graph
                     ),
-                    label="VULNERABLE",
+                    label=1,
                     metadata={
                         **base_metadata,
                         "function_type": "vulnerable",
@@ -273,7 +273,7 @@ class JitVulDatasetLoader:
                     code=self._augment_code_with_context(
                         non_vuln_func, item, use_call_graph
                     ),
-                    label="NOT_VULNERABLE",
+                    label=0,
                     metadata={
                         **base_metadata,
                         "function_type": "non_vulnerable",
