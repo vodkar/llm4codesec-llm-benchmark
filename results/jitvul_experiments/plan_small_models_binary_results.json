@@ -1,0 +1,62 @@
+[
+  {
+    "experiment_name": "qwen3-4b_binary_all_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.46,
+    "total_samples": 200,
+    "total_time": 415.0260992050171,
+    "output_dir": "results/jitvul_experiments/qwen3-4b_binary_all_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-4b_binary_all_step_by_step",
+    "status": "success",
+    "accuracy": 0.5,
+    "total_samples": 200,
+    "total_time": 323.70374488830566,
+    "output_dir": "results/jitvul_experiments/qwen3-4b_binary_all_step_by_step"
+  },
+  {
+    "experiment_name": "llama3.2-3B_binary_all_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.505,
+    "total_samples": 200,
+    "total_time": 7678.578689336777,
+    "output_dir": "results/jitvul_experiments/llama3.2-3B_binary_all_detailed_analysis"
+  },
+  {
+    "experiment_name": "llama3.2-3B_binary_all_step_by_step",
+    "status": "success",
+    "accuracy": 0.5,
+    "total_samples": 200,
+    "total_time": 6942.331254243851,
+    "output_dir": "results/jitvul_experiments/llama3.2-3B_binary_all_step_by_step"
+  },
+  {
+    "experiment_name": "gemma3-4b_binary_all_detailed_analysis",
+    "status": "failed",
+    "error": "not enough values to unpack (expected 3, got 2)",
+    "output_dir": "results/jitvul_experiments/gemma3-4b_binary_all_detailed_analysis"
+  },
+  {
+    "experiment_name": "gemma3-4b_binary_all_step_by_step",
+    "status": "failed",
+    "error": "not enough values to unpack (expected 3, got 2)",
+    "output_dir": "results/jitvul_experiments/gemma3-4b_binary_all_step_by_step"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-1.5b_binary_all_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.515,
+    "total_samples": 200,
+    "total_time": 8682.688056468964,
+    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-1.5b_binary_all_detailed_analysis"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-1.5b_binary_all_step_by_step",
+    "status": "success",
+    "accuracy": 0.51,
+    "total_samples": 200,
+    "total_time": 8582.187423706055,
+    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-1.5b_binary_all_step_by_step"
+  }
+]
