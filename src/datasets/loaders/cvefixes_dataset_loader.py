@@ -412,13 +412,9 @@ class CVEFixesDatasetLoader:
                                 sample.label = sample.cwe_types[0]
                             else:
                                 sample.label = "UNKNOWN"
-                        elif task_type.startswith("cwe_"):
+                        elif task_type.startswith("CWE-"):
                             target_cwe = task_type.upper()
-                            sample.label = (
-                                1
-                                if sample.cwe_types == target_cwe.lstrip("cwe_")
-                                else 0
-                            )
+                            sample.label = 1 if target_cwe in sample.cwe_types else 0
 
                         samples.append(sample)
 
