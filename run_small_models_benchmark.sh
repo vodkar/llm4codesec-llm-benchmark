@@ -46,6 +46,26 @@ for plan in "${cvefixes_plans[@]}"; do
     $run_benchmark entrypoints/run_cvefixes_benchmark.py --plan "$plan"
 done
 
+# JitVul
+echo "=== Running JitVul Dataset Experiments ==="
+echo "Preparing JitVul datasets..."
+$run_benchmark datasets/setup_jitvul_dataset.py \
+    --data-file benchmarks/JitVul/data/final_benchmark.jsonl \
+    --all
+
+# Define VulBench experiment plans
+vulbench_plans=(
+    "small_models_binary"
+    "small_models_cwe_specific_analysis"
+    "small_models_multiclass"
+)
+
+echo "Running VulBench experiments..."
+for plan in "${cvefixes_plans[@]}"; do
+    echo "Executing VulBench plan: $plan"
+    $run_benchmark entrypoints/run_jitvul_benchmark.py --plan "$plan"
+done
+
 # VulBench Dataset Experiments
 echo "=== Running VulBench Dataset Experiments ==="
 echo "Preparing VulBench datasets..."

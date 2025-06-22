@@ -506,8 +506,8 @@ class HuggingFaceLLM(LLMInterface):
                 if quantization_type == "8bit" and gpu_memory >= 35:
                     quantization_config = BitsAndBytesConfig(
                         load_in_8bit=True,
-                        llm_int8_enable_fp32_cpu_offload=False,
-                        llm_int8_threshold=6.0,
+                        llm_int8_enable_fp32_cpu_offload=True,
+                        llm_int8_threshold=4.0,
                     )
                     logging.info("Using 8-bit quantization for A100")
                 else:
@@ -573,7 +573,7 @@ class HuggingFaceLLM(LLMInterface):
 
     def generate_response(
         self, system_prompt: str, user_prompt: str
-    ) -> tuple[str, Optional[int]]:
+    ) -> tuple[str, int, float]:
         """
         Generate response using the loaded model.
 
