@@ -272,7 +272,7 @@ class CVEFixesDatasetLoader:
             code=code,
             label=binary_label,
             metadata=metadata,
-            cwe=cwe_type,
+            cwe_types=[cwe_type],
             severity=self._map_severity(severity)
             if isinstance(severity, (int, float))
             else severity,
@@ -485,7 +485,7 @@ class CVEFixesDatasetLoader:
 
         for sample in samples:
             # CWE distribution
-            cwe = sample.cwe_types or "UNKNOWN"
+            cwe = (sample.cwe_types or ["UNKNOWN"])[0]
             cwe_distribution[cwe] = cwe_distribution.get(cwe, 0) + 1
 
             # Severity distribution
