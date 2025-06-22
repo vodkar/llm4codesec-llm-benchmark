@@ -264,7 +264,7 @@ class CVEFixesDatasetLoader:
         }
 
         # Determine labels
-        cwe_type = f"CWE-{cwe_id}" if cwe_id else "UNKNOWN"
+        cwe_type = cwe_id if cwe_id else "UNKNOWN"
         binary_label = 1  # All samples from CVEFixes are vulnerable by definition
 
         return BenchmarkSample(
@@ -409,12 +409,16 @@ class CVEFixesDatasetLoader:
                             sample.label = 1  # All CVEFixes samples are vulnerable
                         elif task_type == "multiclass":
                             if sample.cwe_types:
-                                sample.label = sample.cwe_types
+                                sample.label = sample.cwe_types[0]
                             else:
                                 sample.label = "UNKNOWN"
                         elif task_type.startswith("cwe_"):
                             target_cwe = task_type.upper()
-                            sample.label = 1 if sample.cwe_types == target_cwe else 0
+                            sample.label = (
+                                1
+                                if sample.cwe_types == target_cwe.lstrip("cwe_")
+                                else 0
+                            )
 
                         samples.append(sample)
 
@@ -613,7 +617,7 @@ class CVEFixesJSONDatasetLoader(DatasetLoader):
                 code=sample_data["code"],
                 label=sample_data["label"],
                 metadata=sample_data["metadata"],
-                cwe=sample_data.get("cwe_type"),
+                cwe_types=[sample_data.get("cwe_type")],
                 severity=sample_data.get("severity"),
             )
             samples.append(sample)

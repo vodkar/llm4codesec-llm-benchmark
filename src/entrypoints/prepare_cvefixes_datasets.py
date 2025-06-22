@@ -137,7 +137,7 @@ def prepare_cwe_specific_datasets(
         try:
             loader.create_dataset_json(
                 output_path=str(output_file),
-                task_type=f"cwe_{cwe_number}",
+                task_type=cwe_type,
                 programming_language=programming_language,
                 change_level="file",
                 limit=sample_limit,
