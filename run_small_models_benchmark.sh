@@ -60,4 +60,10 @@ vulbench_plans=(
     "small_models_multiclass"
 )
 
+echo "Running VulBench experiments..."
+for plan in "${cvefixes_plans[@]}"; do
+    echo "Executing VulBench plan: $plan"
+    $run_benchmark entrypoints/run_vulbench_benchmark.py --plan "$plan"
+done
+
 echo "All benchmark experiments completed successfully!"
