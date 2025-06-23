@@ -1,0 +1,34 @@
+[
+  {
+    "experiment_name": "qwen3-4b_multiclass_all_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.145,
+    "total_samples": 200,
+    "total_time": 206.32627248764038,
+    "output_dir": "results/jitvul_experiments/qwen3-4b_multiclass_all_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "llama3.2-3B_multiclass_all_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.005,
+    "total_samples": 200,
+    "total_time": 408.6249041557312,
+    "output_dir": "results/jitvul_experiments/llama3.2-3B_multiclass_all_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "gemma3-4b_multiclass_all_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.025,
+    "total_samples": 200,
+    "total_time": 13821.027764558792,
+    "output_dir": "results/jitvul_experiments/gemma3-4b_multiclass_all_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-1.5b_multiclass_all_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.075,
+    "total_samples": 200,
+    "total_time": 9520.930256128311,
+    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-1.5b_multiclass_all_multiclass_comprehensive"
+  }
+]
