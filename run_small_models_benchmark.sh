@@ -81,7 +81,7 @@ vulbench_plans=(
 )
 
 echo "Running VulBench experiments..."
-for plan in "${cvefixes_plans[@]}"; do
+for plan in "${vulbench_plans[@]}"; do
     echo "Executing VulBench plan: $plan"
     $run_benchmark entrypoints/run_vulbench_benchmark.py --plan "$plan"
 done
@@ -102,7 +102,7 @@ vulbench_plans=(
 )
 
 echo "Running VulBench experiments..."
-for plan in "${cvefixes_plans[@]}"; do
+for plan in "${vulbench_plans[@]}"; do
     echo "Executing VulBench plan: $plan"
     $run_benchmark entrypoints/run_vulbench_benchmark.py --plan "$plan"
 done
@@ -115,8 +115,8 @@ echo "=== Running VulDetectBench Dataset Experiments ==="
 echo "Preparing VulDetectBench datasets..."
 $run_benchmark scripts/process_vulbench_data.py
 
-# Define VulBench experiment plans
-vulbench_plans=(
+# Define VulDetectBench experiment plans
+vuldetectbench_plans=(
     "task1_small_models"
     "task2_small_models"
     "task3_small_models"
@@ -124,10 +124,10 @@ vulbench_plans=(
     "task5_small_models"
 )
 
-echo "Running VulBench experiments..."
-for plan in "${cvefixes_plans[@]}"; do
+echo "Running VulDetectBench experiments..."
+for plan in "${vuldetectbench_plans[@]}"; do
     echo "Executing VulBench plan: $plan"
-    $run_benchmark entrypoints/run_vulbench_benchmark.py --plan "$plan"
+    $run_benchmark entrypoints/run_vuldetectbench_benchmark.py --plan "$plan"
 done
 
 echo "All benchmark experiments completed successfully!"

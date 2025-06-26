@@ -197,7 +197,7 @@
             "prompts": [
                 "task1_specific"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "task1_large_models": {
             "description": "Evaluate large models on Task 1 - Vulnerability Existence Detection",
@@ -216,7 +216,7 @@
             "prompts": [
                 "task1_specific"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "task2_small_models": {
             "description": "Evaluate small models on Task 2 - Vulnerability Type Inference",
@@ -232,7 +232,7 @@
             "prompts": [
                 "task2_specific"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "task2_large_models": {
             "description": "Evaluate large models on Task 2 - Vulnerability Type Inference",
@@ -251,7 +251,7 @@
             "prompts": [
                 "task2_specific"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "task3_small_models": {
             "description": "Evaluate small models on Task 3 - Key Objects Identification",
@@ -267,7 +267,7 @@
             "prompts": [
                 "task3_specific"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "task3_large_models": {
             "description": "Evaluate large models on Task 3 - Key Objects Identification",
@@ -288,7 +288,7 @@
                 "step_by_step",
                 "task3_specific"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "task4_small_models": {
             "description": "Evaluate small models on Task 4 - Root Cause Location",
@@ -304,7 +304,7 @@
             "prompts": [
                 "task4_specific"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "task4_large_models": {
             "description": "Evaluate large models on Task 4 - Root Cause Location",
@@ -339,7 +339,7 @@
             "prompts": [
                 "task5_specific"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "task5_large_models": {
             "description": "Evaluate large models on Task 5 - Trigger Point Location",
@@ -358,7 +358,7 @@
             "prompts": [
                 "task5_specific"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         }
     },
     "output_settings": {
