@@ -1,0 +1,990 @@
+{
+  "accuracy": 0.48148148148148145,
+  "metrics": {
+    "accuracy": 0.48148148148148145,
+    "precision": 0.38461538461538464,
+    "recall": 0.7894736842105263,
+    "f1_score": 0.5172413793103449,
+    "specificity": 0.3142857142857143,
+    "true_positives": 30,
+    "true_negatives": 22,
+    "false_positives": 48,
+    "false_negatives": 8
+  },
+  "total_samples": 108,
+  "total_time": 1333.980140209198,
+  "predictions": [
+    {
+      "sample_id": "vulbench_vul_0",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 276
+    },
+    {
+      "sample_id": "vulbench_vul_1",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 166
+    },
+    {
+      "sample_id": "vulbench_vul_2",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 2376
+    },
+    {
+      "sample_id": "vulbench_vul_3",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 314
+    },
+    {
+      "sample_id": "vulbench_vul_4",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 218
+    },
+    {
+      "sample_id": "vulbench_vul_5",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 3368
+    },
+    {
+      "sample_id": "vulbench_vul_6",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "**Step 1: Understand the code purpose**  \nThis function is part of the IPv6 networking code in the Linux kernel. It computes a hash value for identifying packets, using a combination of the destination and source IPv6 addresses, a random number, and network-specific mixing. It then reserves an identifier (`id`) using `ip_idents_reserve`, which is likely a function that manages a pool of identifiers for packet identification.\n\n**Step 2: Identify input sources and data flows**  \n- Inputs: `net` (a `struct net` pointer), `hashrnd` (a `u32`), `dst` (a `struct in6_addr`), `src` (a `struct in6_addr`).\n- Data flows: The function computes a hash using `__ipv6_addr_jhash` twice, then mixes in `net_hash_mix`, and reserves an identifier using `ip_idents_reserve`.\n\n**Step 3: Check for input validation and bounds checking**  \n- The function does not explicitly validate the inputs (`dst`, `src`, `net`) for null pointers or invalid values.\n- The `ip_idents_reserve` function is assumed to handle internal validation, but the code does not check its return value in a way that would prevent use of an invalid `id`.\n\n**Step 4: Look for memory management issues**  \n- No explicit memory allocation or deallocation is performed in this function.\n- The function uses `u32` and `struct in6_addr`, which are standard types and do not indicate memory leaks or dangling pointers.\n\n**Step 5: Examine error handling and edge cases**  \n- The function uses `unlikely(!id)` to check if `ip_idents_reserve` returns 0. If so, it sets `id` to `1 << 31` (a large value). This is a mitigation for the case where no identifier is available, but it does not fully resolve the issue.\n- No other error conditions are handled explicitly.\n\n**Step 6: Determine if vulnerabilities exist**  \n- The function does not validate the `net` pointer, which could be a null pointer or invalid.\n- The `ip_idents_reserve` function is not checked for errors beyond the `unlikely(!id)` condition, which may not fully prevent use of an invalid identifier.\n- The use of `1 << 31` as a fallback is a workaround but does not fully resolve the issue.\n\n**Final Answer: VULNERABLE**",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 795
+    },
+    {
+      "sample_id": "vulbench_vul_7",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 2465
+    },
+    {
+      "sample_id": "vulbench_vul_8",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 416
+    },
+    {
+      "sample_id": "vulbench_vul_9",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 439
+    },
+    {
+      "sample_id": "vulbench_vul_10",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 1387
+    },
+    {
+      "sample_id": "vulbench_vul_11",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 703
+    },
+    {
+      "sample_id": "vulbench_vul_12",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 553
+    },
+    {
+      "sample_id": "vulbench_vul_13",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 182
+    },
+    {
+      "sample_id": "vulbench_vul_14",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "**Step 1: Understand the code purpose**  \nThis function `ReadMenu` reads a menu structure from an IPC message using a `PickleIterator`. It creates a `PP_Flash_Menu` object, reads the number of items, and then reads each item recursively via `ReadMenuItem`.\n\n**Step 2: Identify input sources and data flows**  \n- Input: `depth`, `m` (IPC::Message), `iter` (PickleIterator)\n- Data flows: `depth` is passed into `ReadMenuItem`, which may modify it. `m` and `iter` are used to read data from the message.\n\n**Step 3: Check for input validation and bounds checking**  \n- `depth > kMaxMenuDepth` is checked at the start, and if true, returns `NULL`.\n- `menu->count` is checked against `kMaxMenuEntries` after reading. If it exceeds, the menu is freed and `NULL` is returned.\n- `ReadMenuItem` is called recursively, and if it returns `false`, the menu is freed and `NULL` is returned.\n\n**Step 4: Look for memory management issues**  \n- `menu` is dynamically allocated with `new PP_Flash_Menu`.\n- `menu->items` is dynamically allocated with `new PP_Flash_MenuItem[menu->count]`.\n- `FreeMenu` is called in error paths to clean up memory.\n- No memory leaks are apparent in the code.\n\n**Step 5: Examine error handling and edge cases**  \n- The function returns `NULL` on failure (e.g., invalid `depth`, invalid `count`, or failure in `ReadMenuItem`).\n- The `count` is checked against a maximum value (`kMaxMenuEntries`), which prevents buffer overflows.\n- The `depth` is incremented once at the start, and `ReadMenuItem` may modify it, but no overflow is apparent.\n\n**Step 6: Determine if vulnerabilities exist**  \n- **No buffer overflow** is present due to bounds checking on `menu->count`.\n- **No use-after-free** is present as memory is properly freed on failure.\n- **No null dereference** is present as the function returns `NULL` on failure.\n- **No integer overflow** is present in the code as the checks are done before allocation.\n\n**Final Answer: SAFE**",
+      "processing_time": 11.234191401799519,
+      "tokens_used": 842
+    },
+    {
+      "sample_id": "vulbench_vul_15",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 352
+    },
+    {
+      "sample_id": "vulbench_vul_16",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 147
+    },
+    {
+      "sample_id": "vulbench_vul_17",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 461
+    },
+    {
+      "sample_id": "vulbench_vul_18",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 183
+    },
+    {
+      "sample_id": "vulbench_vul_19",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "**Step 1: Understand the code purpose**  \nThis function initializes an allocated queue for a block device in the Linux kernel. It allocates memory for a flush queue, sets up request handling, and initializes elevator (I/O scheduling) logic.\n\n**Step 2: Identify input sources and data flows**  \n- `q` is a pointer to `struct request_queue`, passed as an argument.\n- `q->mq_ops` is a pointer to a set of operations for the multi-queue interface.\n- `q->cmd_size` is used to allocate memory for the flush queue.\n- `q->init_rq_fn` and `q->exit_rq_fn` are function pointers that may be provided by the user or system.\n- `GFP_KERNEL` is a memory allocation flag.\n\n**Step 3: Check for input validation and bounds checking**  \n- `q` is not validated for being a valid `struct request_queue` pointer. If `q` is `NULL` or invalid, the function could crash or behave unpredictably.\n- `q->mq_ops` is checked with `WARN_ON_ONCE`, which is a warning but not a real error check.\n- `q->cmd_size` is used in memory allocation, but no bounds checking is done on it.\n- `q->init_rq_fn` and `q->exit_rq_fn` are function pointers that may be `NULL`, but no check is made for this.\n\n**Step 4: Look for memory management issues**  \n- `blk_alloc_flush_queue` is used to allocate memory for the flush queue. If it fails, the function returns `-ENOMEM`.\n- `blk_free_flush_queue` is called in the error path, which is correct.\n- The function uses `GFP_KERNEL` for memory allocation, which is appropriate for kernel use.\n\n**Step 5: Examine error handling and edge cases**  \n- The function uses `goto` for error handling, which is acceptable in kernel code but can reduce readability.\n- No explicit check is made for `q` being `NULL` or invalid.\n- No check is made for `q->init_rq_fn` or `q->exit_rq_fn` being `NULL` before calling them.\n\n**Step 6: Determine if vulnerabilities exist**  \n- **Use-after-free**: If `q->fq` is freed in `out_free_flush_queue`, but `q->init_rq_fn` or `q->exit_rq_fn` is called before that, it could lead to use-after-free.\n- **NULL pointer dereference**: If `q` is `NULL` or `q->mq_ops` is invalid, the function could crash.\n- **Unvalidated input**: `q->cmd_size` is used in memory allocation without bounds checking, which could lead to memory allocation errors or overflows.\n- **Missing NULL checks**: No checks are made for `q->init_rq_fn` or `q->exit_rq_fn` being `NULL` before calling them.\n\n**Final Answer: VULNERABLE**",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 983
+    },
+    {
+      "sample_id": "vulbench_vul_20",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 200
+    },
+    {
+      "sample_id": "vulbench_vul_21",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 329
+    },
+    {
+      "sample_id": "vulbench_vul_22",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 385
+    },
+    {
+      "sample_id": "vulbench_vul_23",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 1115
+    },
+    {
+      "sample_id": "vulbench_vul_24",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 437
+    },
+    {
+      "sample_id": "vulbench_vul_25",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 206
+    },
+    {
+      "sample_id": "vulbench_vul_26",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 2419
+    },
+    {
+      "sample_id": "vulbench_vul_27",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 290
+    },
+    {
+      "sample_id": "vulbench_vul_28",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 248
+    },
+    {
+      "sample_id": "vulbench_vul_29",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 13.068110434214274,
+      "tokens_used": 1553
+    },
+    {
+      "sample_id": "vulbench_vul_30",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 208
+    },
+    {
+      "sample_id": "vulbench_vul_31",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 570
+    },
+    {
+      "sample_id": "vulbench_vul_32",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 591
+    },
+    {
+      "sample_id": "vulbench_vul_33",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 724
+    },
+    {
+      "sample_id": "vulbench_vul_34",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 1027
+    },
+    {
+      "sample_id": "vulbench_vul_35",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "**Step 1: Understand the code's purpose**  \nThe function `MaybeRestoreIBusConfig()` attempts to restore an IBus configuration if the `ibus_` object is not null. It checks for various conditions, including whether the IBus connection is available and whether `ibus_config_` is properly initialized.\n\n**Step 2: Identify input sources and data flows**  \n- Input: `ibus_` (a pointer to an IBus object), `ibus_config_` (a pointer to a configuration object).\n- Data flows: The function uses `ibus_bus_get_connection()`, `g_dbus_connection_is_closed()`, and `ibus_config_new()` to interact with the IBus system.\n\n**Step 3: Check for input validation and bounds checking**  \n- `ibus_` is checked for null before proceeding.\n- `ibus_config_` is checked for null before attempting to create a new configuration.\n- The function checks if the IBus connection is closed before proceeding.\n\n**Step 4: Look for memory management issues**  \n- `g_object_ref(ibus_config_)` is called to increase the reference count, which is a proper way to manage memory in GObject-based systems.\n- No memory leaks are evident in the code.\n\n**Step 5: Examine error handling and edge cases**  \n- The function returns early if any condition fails (e.g., `ibus_` is null, `ibus_connection` is null, or `ibus_config_` is not created).\n- Error messages are logged, which is good for debugging and user feedback.\n\n**Step 6: Determine if vulnerabilities exist**  \n- The code does not contain obvious buffer overflows, use-after-free, or other common C/C++ vulnerabilities.\n- The function is well-structured with proper null checks and error handling.\n- The use of GObject reference counting is correct.\n\n**Final Answer: SAFE**",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 745
+    },
+    {
+      "sample_id": "vulbench_vul_36",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 264
+    },
+    {
+      "sample_id": "vulbench_vul_37",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 238
+    },
+    {
+      "sample_id": "vulbench_vul_38",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "**Step 1: Understand the code purpose**  \nThis function `swevent_hlist_get_cpu` is part of a performance event system. It attempts to retrieve or create a `swevent_hlist` structure for a given CPU, using a hash table (`swevent_htable`) per CPU. It uses a mutex for synchronization and may allocate memory with `kzalloc`.\n\n**Step 2: Identify input sources and data flows**  \n- Input: `event` (passed as a parameter, but not used in this function), `cpu` (integer parameter).\n- Data flows: `cpu` is used to index into `per_cpu(swevent_htable, cpu)`, which is a per-CPU data structure. The function then manipulates `swevent_htable` and `swevent_hlist` structures.\n\n**Step 3: Check for input validation and bounds checking**  \n- The `cpu` parameter is used to access `per_cpu(swevent_htable, cpu)`. This is a safe operation as `per_cpu` is a kernel macro that safely accesses per-CPU data.\n- The function does not validate the `cpu` value beyond checking if it is online (`cpu_online(cpu)`).\n\n**Step 4: Look for memory management issues**  \n- The function uses `kzalloc` to allocate memory for `hlist`. If allocation fails, it sets `err = -ENOMEM` and jumps to `exit`.\n- The function uses `rcu_assign_pointer` to assign the `hlist` to `swhash->swevent_hlist`, which is safe.\n- The `hlist_refcount` is incremented, which suggests a reference counting mechanism. However, no code is shown for decrementing this count, which could lead to use-after-free or memory leaks if not handled properly.\n\n**Step 5: Examine error handling and edge cases**  \n- The function handles `ENOMEM` by jumping to `exit`, which is correct.\n- The function uses `cpu_online(cpu)` to check if the CPU is online, which is a valid check.\n- However, the function does not handle other potential errors (e.g., `swevent_hlist_deref` returning non-zero, or other internal errors).\n\n**Step 6: Determine if vulnerabilities exist**  \n- **Memory leak**: If `kzalloc` fails, the function returns `-ENOMEM`, but if it succeeds, the allocated `hlist` is not freed. There is no code shown for freeing `hlist`, which could lead to memory leaks.\n- **Use-after-free**: If `swevent_hlist_deref` returns non-zero, the function does not handle that case. If `hlist` is not properly freed, it could be used after it has been released.\n- **Race condition**: The function uses a mutex (`swhash->hlist_mutex`), which is correct for synchronization. However, if the `hlist_refcount` is not properly managed, there could be a race condition in reference counting.\n- **No check for `swevent_hlist_deref` return value**: The function assumes that `swevent_hlist_deref` returns zero, but if it returns non-zero, the function does not handle that case.\n\n**Final Answer: VULNERABLE**",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 984
+    },
+    {
+      "sample_id": "vulbench_vul_39",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 448
+    },
+    {
+      "sample_id": "vulbench_vul_40",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 537
+    },
+    {
+      "sample_id": "vulbench_vul_41",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 2360
+    },
+    {
+      "sample_id": "vulbench_vul_42",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 215
+    },
+    {
+      "sample_id": "vulbench_vul_43",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 472
+    },
+    {
+      "sample_id": "vulbench_vul_44",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 14.489098501205444,
+      "tokens_used": 202
+    },
+    {
+      "sample_id": "vulbench_vul_45",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 242
+    },
+    {
+      "sample_id": "vulbench_vul_46",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 671
+    },
+    {
+      "sample_id": "vulbench_vul_47",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 156
+    },
+    {
+      "sample_id": "vulbench_vul_48",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE\n\nThe code is vulnerable to a potential buffer overflow due to improper input validation and lack of bounds checking on the `params` pointer. The function assumes that the `params` pointer is correctly aligned and properly sized for the requested OMX index, but there is no validation of the input size or alignment, which could lead to a buffer overflow if the input is malformed. Additionally, the code does not check if the `params` pointer is NULL or if the memory it points to is sufficient for the requested structure.",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 566
+    },
+    {
+      "sample_id": "vulbench_vul_49",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 167
+    },
+    {
+      "sample_id": "vulbench_vul_50",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 616
+    },
+    {
+      "sample_id": "vulbench_vul_51",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 598
+    },
+    {
+      "sample_id": "vulbench_vul_52",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 439
+    },
+    {
+      "sample_id": "vulbench_vul_53",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 218
+    },
+    {
+      "sample_id": "vulbench_vul_54",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "1. **Understand the code purpose**: This function is part of a class that handles view hierarchy changes in a UI component. It calls a base class method and performs initialization if certain conditions are met.\n\n2. **Identify input sources and data flows**: The inputs are `is_add` (boolean), `parent` (pointer to a `views::View`), and `child` (pointer to a `views::View`). These inputs are used to determine if initialization is needed.\n\n3. **Check for input validation and bounds checking**: \n   - `is_add` is a boolean, so it is properly bounded.\n   - `parent` and `child` are pointers to `views::View` objects. There is no explicit check to ensure they are valid pointers or that they are part of the correct hierarchy.\n\n4. **Look for memory management issues**: \n   - There is no explicit memory allocation or deallocation in this function.\n   - The `Init()` method is called, but its implementation is not shown. It could potentially allocate memory or modify state, but no memory leaks or double frees are evident here.\n\n5. **Examine error handling and edge cases**:\n   - If `is_add` is `false`, the function does nothing.\n   - If `child!= this`, the function does nothing.\n   - If `initialized_` is already `true`, the function does nothing.\n   - There is no handling for invalid `parent` or `child` pointers, which could lead to undefined behavior if they are null or invalid.\n\n6. **Determine if vulnerabilities exist**: \n   - The code does not perform proper validation of `parent` and `child` pointers, which could lead to use-after-free, double-free, or other memory-related issues.\n   - There is no explicit check for null pointers or invalid view hierarchy relationships.\n\n**Final Answer: VULNERABLE**",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 586
+    },
+    {
+      "sample_id": "vulbench_vul_55",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 561
+    },
+    {
+      "sample_id": "vulbench_vul_56",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 653
+    },
+    {
+      "sample_id": "vulbench_vul_57",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 568
+    },
+    {
+      "sample_id": "vulbench_vul_58",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 506
+    },
+    {
+      "sample_id": "vulbench_vul_59",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 7.949434312184652,
+      "tokens_used": 1121
+    },
+    {
+      "sample_id": "vulbench_vul_60",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 314
+    },
+    {
+      "sample_id": "vulbench_vul_61",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 301
+    },
+    {
+      "sample_id": "vulbench_vul_62",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 952
+    },
+    {
+      "sample_id": "vulbench_vul_63",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 380
+    },
+    {
+      "sample_id": "vulbench_vul_64",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 433
+    },
+    {
+      "sample_id": "vulbench_vul_65",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 393
+    },
+    {
+      "sample_id": "vulbench_vul_66",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 516
+    },
+    {
+      "sample_id": "vulbench_vul_67",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 420
+    },
+    {
+      "sample_id": "vulbench_vul_68",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 340
+    },
+    {
+      "sample_id": "vulbench_vul_69",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 195
+    },
+    {
+      "sample_id": "vulbench_vul_70",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 3360
+    },
+    {
+      "sample_id": "vulbench_vul_71",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "**Step 1: Understand the code purpose**  \nThis function initializes an allocated queue for a block device in the Linux kernel. It allocates memory for a flush queue, initializes request functions, and sets up various queue parameters.\n\n**Step 2: Identify input sources and data flows**  \n- `q` is a pointer to `struct request_queue`, passed as an argument.\n- `q->mq_ops` is a member of `struct request_queue`.\n- `q->cmd_size` is used in `blk_alloc_flush_queue`.\n- `q->init_rq_fn` and `q->exit_rq_fn` are function pointers that may be provided by the user or system.\n- `GFP_KERNEL` is a memory allocation flag.\n- `NUMA_NO_NODE` is a parameter to `blk_alloc_flush_queue`.\n\n**Step 3: Check for input validation and bounds checking**  \n- `q` is not validated for NULL or invalid state. If `q` is NULL or invalid, the function could crash or behave unpredictably.\n- `q->mq_ops` is checked with `WARN_ON_ONCE`, but this is a warning, not a real error check.\n- `q->cmd_size` is used in `blk_alloc_flush_queue`, but no bounds checking is done on it.\n- `q->init_rq_fn` and `q->exit_rq_fn` are function pointers that may be NULL, but no check is made for this.\n\n**Step 4: Look for memory management issues**  \n- `blk_alloc_flush_queue` is called, and if it fails, `q->fq` is NULL, and the function returns `-ENOMEM`.\n- `blk_free_flush_queue` is called in the error path, which is correct.\n- `q->fq` is set to NULL after freeing, which is correct.\n- No memory leaks are visible in the code.\n\n**Step 5: Examine error handling and edge cases**  \n- The function uses `goto` for error handling, which is acceptable in kernel code but may reduce readability.\n- No explicit check is made for `q` being NULL.\n- `q->init_rq_fn` and `q->exit_rq_fn` are not checked for NULL before being called.\n- `q->cmd_size` is not validated for being zero or invalid.\n\n**Step 6: Determine if vulnerabilities exist**  \n- **NULL pointer dereference**: If `q` is NULL, `q->mq_ops`, `q->cmd_size`, `q->init_rq_fn`, or `q->exit_rq_fn` could cause a crash.\n- **Unvalidated function pointers**: If `q->init_rq_fn` or `q->exit_rq_fn` are NULL, calling them would cause a crash.\n- **Unvalidated `q->cmd_size`**: If `q->cmd_size` is zero or invalid, `blk_alloc_flush_queue` may fail or behave incorrectly.\n\n**Final Answer: VULNERABLE**",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 977
+    },
+    {
+      "sample_id": "vulbench_vul_72",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 878
+    },
+    {
+      "sample_id": "vulbench_vul_73",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 327
+    },
+    {
+      "sample_id": "vulbench_vul_74",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 15.087168884277343,
+      "tokens_used": 7213
+    },
+    {
+      "sample_id": "vulbench_vul_75",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 475
+    },
+    {
+      "sample_id": "vulbench_vul_76",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 872
+    },
+    {
+      "sample_id": "vulbench_vul_77",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 834
+    },
+    {
+      "sample_id": "vulbench_vul_78",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "1. **Code Purpose**: The function `getFormatType` is part of a class that handles session description data, likely related to SIP or similar protocols. It retrieves format information from a string, parses a numeric value from it, and then looks for specific attributes in the session description.\n\n2. **Input Sources and Data Flows**:\n   - `index`: An index into the session description data.\n   - `PT`: A pointer to an `unsigned long` where the parsed value will be stored.\n   - `desc`: A pointer to an `AString` where a description attribute will be stored.\n   - `params`: A pointer to an `AString` where parameters will be stored.\n\n3. **Input Validation and Bounds Checking**:\n   - `strrchr(format.c_str(),'')`: This finds the last space in the `format` string. However, if `format` is empty or does not contain a space, `lastSpacePos` will be `NULL`, which would cause a crash in `CHECK(lastSpacePos!= NULL)`.\n   - `strtoul(lastSpacePos + 1, &end, 10)`: This could lead to overflow if the numeric value is too large for an `unsigned long`.\n   - `CHECK_GT(end, lastSpacePos + 1)`: This checks that the end pointer is after the parsed value, but it does not check that `end` is not `NULL` or that the value is valid.\n   - `sprintf(key, \"a=rtpmap:%lu\", x)`: This could lead to buffer overflows if `key` is not large enough to hold the formatted string.\n\n4. **Memory Management Issues**:\n   - `key` is a fixed-size array of 20 characters. If the formatted string exceeds 20 characters, it will cause a buffer overflow.\n\n5. **Error Handling and Edge Cases**:\n   - The code does not handle the case where `format` is empty or does not contain a space, which could lead to a crash.\n   - The code does not handle the case where `strtoul` fails or returns an invalid value.\n   - The code does not handle the case where `sprintf` overflows the `key` buffer.\n\n6. **Vulnerabilities**:\n   - **Buffer Overflow**: The `key` array is fixed-size (20 characters), and `sprintf` could overflow it if the formatted string is too long.\n   - **Potential Integer Overflow**: `strtoul` could overflow if the numeric value is too large for an `unsigned long`.\n   - **NULL Pointer Dereference**: If `format` does not contain a space, `lastSpacePos` will be `NULL`, leading to a crash.\n\n**Final Answer**: VULNERABLE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 885
+    },
+    {
+      "sample_id": "vulbench_vul_79",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 588
+    },
+    {
+      "sample_id": "vulbench_vul_80",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 369
+    },
+    {
+      "sample_id": "vulbench_vul_81",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 455
+    },
+    {
+      "sample_id": "vulbench_vul_82",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 3883
+    },
+    {
+      "sample_id": "vulbench_vul_83",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 189
+    },
+    {
+      "sample_id": "vulbench_vul_84",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 7237
+    },
+    {
+      "sample_id": "vulbench_vul_85",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 178
+    },
+    {
+      "sample_id": "vulbench_vul_86",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 878
+    },
+    {
+      "sample_id": "vulbench_vul_87",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE\n\nThe code contains a potential vulnerability related to improper bounds checking and memory management. Specifically:\n\n1. The loop runs for `TEE_NUM_PARAMS` iterations, but the code does not verify that `up->vals` has enough elements to hold all the parameters. If `up->vals` is too small, accessing `up->vals[n * 2]` and `up->vals[n * 2 + 1]` could result in out-of-bounds memory access.\n\n2. The code assumes that `up->vals` is a valid array of `uintptr_t` elements, but there is no validation of the input structure's integrity or size before accessing its elements.\n\n3. The `tee_mmu_check_access_rights` function is called after setting up the memory reference parameters, but there is no validation of the `a` and `b` values before passing them to this function, which could lead to incorrect access checks if the values are invalid or out-of-range.\n\nThese issues could lead to undefined behavior, security vulnerabilities (e.g., buffer overflows, use-after-free), or incorrect access checks.",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 714
+    },
+    {
+      "sample_id": "vulbench_vul_88",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 592
+    },
+    {
+      "sample_id": "vulbench_vul_89",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 14.382907406489055,
+      "tokens_used": 495
+    },
+    {
+      "sample_id": "vulbench_vul_90",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 336
+    },
+    {
+      "sample_id": "vulbench_vul_91",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 185
+    },
+    {
+      "sample_id": "vulbench_vul_92",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 224
+    },
+    {
+      "sample_id": "vulbench_vul_93",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 386
+    },
+    {
+      "sample_id": "vulbench_vul_94",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 735
+    },
+    {
+      "sample_id": "vulbench_vul_95",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 189
+    },
+    {
+      "sample_id": "vulbench_vul_96",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 425
+    },
+    {
+      "sample_id": "vulbench_vul_97",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 3884
+    },
+    {
+      "sample_id": "vulbench_vul_98",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 192
+    },
+    {
+      "sample_id": "vulbench_vul_99",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 875
+    },
+    {
+      "sample_id": "vulbench_vul_100",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 708
+    },
+    {
+      "sample_id": "vulbench_vul_101",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 561
+    },
+    {
+      "sample_id": "vulbench_vul_102",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 146
+    },
+    {
+      "sample_id": "vulbench_vul_103",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 724
+    },
+    {
+      "sample_id": "vulbench_vul_104",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.40265851020812987,
+      "tokens_used": 411
+    },
+    {
+      "sample_id": "vulbench_vul_105",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.516410986582438,
+      "tokens_used": 276
+    },
+    {
+      "sample_id": "vulbench_vul_106",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.516410986582438,
+      "tokens_used": 410
+    },
+    {
+      "sample_id": "vulbench_vul_107",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "1. **Code Purpose**: This function retrieves the format type from a session description, extracts the numeric value from a string, and uses it to find related attributes.\n\n2. **Input Sources**: The function takes `index` (likely an index into a session description), and `PT`, `desc`, `params` (pointers to output buffers).\n\n3. **Data Flows**: The function uses `getFormat(index, &format)` to get a string, then processes it to extract a numeric value. It then uses this value to search for attributes.\n\n4. **Input Validation**: \n   - `index` is not validated.\n   - `PT` is a pointer to an `unsigned long`, but no check is made to ensure it is not `NULL`.\n   - `desc` and `params` are pointers to `AString` objects, but no check is made to ensure they are not `NULL`.\n\n5. **Bounds Checking**: \n   - `strrchr` is used to find the last space in `format`, but no check is made to ensure `format` is not empty.\n   - `strtoul` is used with `lastSpacePos + 1`, but no check is made to ensure `lastSpacePos` is not `NULL` or that `lastSpacePos + 1` is within the bounds of `format`.\n   - `snprintf` is used with `sizeof(key)`, which is 32, but no check is made to ensure the string being formatted does not exceed this size.\n\n6. **Memory Management**: No memory allocation or deallocation is shown, but `AString` objects may have internal memory management.\n\n7. **Error Handling**: \n   - `CHECK(lastSpacePos!= NULL)` is used, but it is not a standard C++ check and may be a custom macro.\n   - `CHECK_GT(end, lastSpacePos + 1)` and `CHECK_EQ(*end, '\\0')` are used, but again, these may be custom macros.\n   - No error handling is done for cases where `findAttribute` returns `false`.\n\n8. **Vulnerabilities**: \n   - **Buffer Overflow**: `snprintf` is used without checking the length of the string being formatted, which could lead to a buffer overflow if the formatted string exceeds `sizeof(key)`.\n   - **NULL Pointer Dereference**: `lastSpacePos` is checked for `NULL`, but if it is `NULL`, the code would crash when accessing `lastSpacePos + 1`.\n   - **Unvalidated Input**: `index` is not validated, which could lead to out-of-bounds access in `getFormat(index, &format)`.\n   - **No Error Handling**: The code assumes that `findAttribute` will always return a valid result, which could lead to undefined behavior if it fails.\n\n**Final Answer**: VULNERABLE",
+      "processing_time": 11.516410986582438,
+      "tokens_used": 912
+    }
+  ]
+}

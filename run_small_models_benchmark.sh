@@ -76,7 +76,7 @@ $run_benchmark datasets/setup_jitvul_dataset.py \
 # Define VulBench experiment plans
 vulbench_plans=(
     "small_models_binary"
-    "small_models_cwe_specific_analysis"
+    "small_models_vulnerability_specific"
     "small_models_multiclass"
 )
 

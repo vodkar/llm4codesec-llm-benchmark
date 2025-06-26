@@ -1,0 +1,639 @@
+{
+  "accuracy": 0.37681159420289856,
+  "metrics": {
+    "accuracy": 0.37681159420289856,
+    "precision": 0.3114754098360656,
+    "recall": 0.95,
+    "f1_score": 0.46913580246913583,
+    "specificity": 0.14285714285714285,
+    "true_positives": 19,
+    "true_negatives": 7,
+    "false_positives": 42,
+    "false_negatives": 1
+  },
+  "total_samples": 69,
+  "total_time": 537.5637547969818,
+  "predictions": [
+    {
+      "sample_id": "vulbench_d2a_0",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 199
+    },
+    {
+      "sample_id": "vulbench_d2a_1",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 446
+    },
+    {
+      "sample_id": "vulbench_d2a_2",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 670
+    },
+    {
+      "sample_id": "vulbench_d2a_3",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 885
+    },
+    {
+      "sample_id": "vulbench_d2a_4",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 4745
+    },
+    {
+      "sample_id": "vulbench_d2a_5",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 599
+    },
+    {
+      "sample_id": "vulbench_d2a_6",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 962
+    },
+    {
+      "sample_id": "vulbench_d2a_7",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 1775
+    },
+    {
+      "sample_id": "vulbench_d2a_8",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 644
+    },
+    {
+      "sample_id": "vulbench_d2a_9",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 270
+    },
+    {
+      "sample_id": "vulbench_d2a_10",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 381
+    },
+    {
+      "sample_id": "vulbench_d2a_11",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 424
+    },
+    {
+      "sample_id": "vulbench_d2a_12",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 843
+    },
+    {
+      "sample_id": "vulbench_d2a_13",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 434
+    },
+    {
+      "sample_id": "vulbench_d2a_14",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.4949218591054281,
+      "tokens_used": 679
+    },
+    {
+      "sample_id": "vulbench_d2a_15",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 154
+    },
+    {
+      "sample_id": "vulbench_d2a_16",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 242
+    },
+    {
+      "sample_id": "vulbench_d2a_17",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 423
+    },
+    {
+      "sample_id": "vulbench_d2a_18",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 360
+    },
+    {
+      "sample_id": "vulbench_d2a_19",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 4039
+    },
+    {
+      "sample_id": "vulbench_d2a_20",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 1516
+    },
+    {
+      "sample_id": "vulbench_d2a_21",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 294
+    },
+    {
+      "sample_id": "vulbench_d2a_22",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 1942
+    },
+    {
+      "sample_id": "vulbench_d2a_23",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 361
+    },
+    {
+      "sample_id": "vulbench_d2a_24",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 286
+    },
+    {
+      "sample_id": "vulbench_d2a_25",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "**Step 1: Understand the code's purpose**  \nThe function `av_packet_free_side_data` is designed to free memory allocated for side data in an `AVPacket` structure. It iterates over the `side_data` array and frees each element's `data` pointer, then frees the array itself and resets the count of side data elements.\n\n**Step 2: Identify input sources and data flows**  \n- Input: The `AVPacket *pkt` pointer is passed to the function.\n- Data flow: The function accesses `pkt->side_data` and `pkt->side_data_elems`, which are part of the `AVPacket` structure.\n\n**Step 3: Check for input validation and bounds checking**  \n- The loop runs from `i = 0` to `i < pkt->side_data_elems`, which implies that `pkt->side_data_elems` is expected to be a valid count of elements in `pkt->side_data`.\n- However, there is **no explicit check** to ensure that `pkt->side_data` is not `NULL` or that `pkt->side_data_elems` is not greater than the number of elements in `pkt->side_data`.\n- This could lead to **buffer overflows** or **undefined behavior** if `pkt->side_data_elems` is invalid.\n\n**Step 4: Look for memory management issues**  \n- The function uses `av_freep(&pkt->side_data[i].data)` to free individual elements and `av_freep(&pkt->side_data)` to free the array.\n- `av_freep` is a safe way to free memory, as it handles `NULL` pointers gracefully.\n- However, if `pkt->side_data` is `NULL`, calling `av_freep(&pkt->side_data)` is still safe, as `av_freep` does nothing if the pointer is `NULL`.\n\n**Step 5: Examine error handling and edge cases**  \n- The function does **not handle** the case where `pkt` is `NULL`.\n- If `pkt` is `NULL`, the function will attempt to access `pkt->side_data_elems` and `pkt->side_data`, which will result in a **segmentation fault** or undefined behavior.\n- There is **no check** for `pkt` being `NULL`.\n\n**Step 6: Determine if vulnerabilities exist**  \n- **NULL pointer dereference**: If `pkt` is `NULL`, the function will crash.\n- **Bounds checking**: If `pkt->side_data_elems` is greater than the number of elements in `pkt->side_data`, the loop will access out-of-bounds memory, leading to **undefined behavior** or **buffer overflow**.\n\n**Final Answer: VULNERABLE**",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 761
+    },
+    {
+      "sample_id": "vulbench_d2a_26",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 417
+    },
+    {
+      "sample_id": "vulbench_d2a_27",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 636
+    },
+    {
+      "sample_id": "vulbench_d2a_28",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 679
+    },
+    {
+      "sample_id": "vulbench_d2a_29",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 12.877096176147461,
+      "tokens_used": 210
+    },
+    {
+      "sample_id": "vulbench_d2a_30",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 719
+    },
+    {
+      "sample_id": "vulbench_d2a_31",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 679
+    },
+    {
+      "sample_id": "vulbench_d2a_32",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 417
+    },
+    {
+      "sample_id": "vulbench_d2a_33",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 181
+    },
+    {
+      "sample_id": "vulbench_d2a_34",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 389
+    },
+    {
+      "sample_id": "vulbench_d2a_35",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 417
+    },
+    {
+      "sample_id": "vulbench_d2a_36",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 174
+    },
+    {
+      "sample_id": "vulbench_d2a_37",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 417
+    },
+    {
+      "sample_id": "vulbench_d2a_38",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 1041
+    },
+    {
+      "sample_id": "vulbench_d2a_39",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 261
+    },
+    {
+      "sample_id": "vulbench_d2a_40",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 417
+    },
+    {
+      "sample_id": "vulbench_d2a_41",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 190
+    },
+    {
+      "sample_id": "vulbench_d2a_42",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "**Step 1: Understand the code's purpose**  \nThis function `av_stream_add_side_data` is part of the FFmpeg library and is used to add side data to an `AVStream` object. Side data is additional information associated with a packet, such as timestamps or metadata. The function checks if side data of a given type already exists and updates it if so, or adds it if it doesn't.\n\n**Step 2: Identify input sources and data flows**  \n- Input: `type` (enum), `data` (pointer), `size` (size_t)\n- Data flows: `data` is copied into `sd->data`, and `size` is stored in `sd->size`\n- The function modifies `st->side_data` and `st->nb_side_data`\n\n**Step 3: Check for input validation and bounds checking**  \n- The function does **not** validate the `data` pointer or `size` before copying it into `sd->data` or `sd->size`.\n- It assumes that `data` is a valid pointer and that `size` is a non-negative value.\n- There is **no bounds checking** on `st->nb_side_data` or the `side_data` array.\n\n**Step 4: Look for memory management issues**  \n- The function uses `av_realloc_array` to reallocate memory for `st->side_data`, which is safe if the allocation is properly handled.\n- However, the function does **not** check if `data` is already allocated or if it is being overwritten without proper memory management.\n- There is **no explicit memory deallocation** for `data` in the case where it is replaced, which could lead to memory leaks if `data` was previously allocated elsewhere.\n\n**Step 5: Examine error handling and edge cases**  \n- The function checks if `av_realloc_array` fails and returns `AVERROR(ENOMEM)` in that case.\n- However, it does **not** handle the case where `data` is `NULL` or `size` is `0`, which could lead to undefined behavior or memory corruption.\n\n**Step 6: Determine if vulnerabilities exist**  \n- **Use-after-free**: If `data` was previously allocated and is being overwritten without proper management, it could lead to use-after-free.\n- **Buffer overflow**: If `size` is larger than the allocated buffer, it could cause a buffer overflow.\n- **Memory leak**: If `data` is not properly managed, it could lead to memory leaks.\n- **Undefined behavior**: The function does not validate `data` or `size`, which could lead to undefined behavior.\n\n**Final Answer: VULNERABLE**",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 902
+    },
+    {
+      "sample_id": "vulbench_d2a_43",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 223
+    },
+    {
+      "sample_id": "vulbench_d2a_44",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 11.734798447291057,
+      "tokens_used": 1784
+    },
+    {
+      "sample_id": "vulbench_d2a_45",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 2556
+    },
+    {
+      "sample_id": "vulbench_d2a_46",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 381
+    },
+    {
+      "sample_id": "vulbench_d2a_47",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 161
+    },
+    {
+      "sample_id": "vulbench_d2a_48",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 203
+    },
+    {
+      "sample_id": "vulbench_d2a_49",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 712
+    },
+    {
+      "sample_id": "vulbench_d2a_50",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 1516
+    },
+    {
+      "sample_id": "vulbench_d2a_51",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 679
+    },
+    {
+      "sample_id": "vulbench_d2a_52",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 7924
+    },
+    {
+      "sample_id": "vulbench_d2a_53",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 271
+    },
+    {
+      "sample_id": "vulbench_d2a_54",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 425
+    },
+    {
+      "sample_id": "vulbench_d2a_55",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 269
+    },
+    {
+      "sample_id": "vulbench_d2a_56",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 382
+    },
+    {
+      "sample_id": "vulbench_d2a_57",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 257
+    },
+    {
+      "sample_id": "vulbench_d2a_58",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 464
+    },
+    {
+      "sample_id": "vulbench_d2a_59",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7381126244862874,
+      "tokens_used": 203
+    },
+    {
+      "sample_id": "vulbench_d2a_60",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 9.113739172617594,
+      "tokens_used": 151
+    },
+    {
+      "sample_id": "vulbench_d2a_61",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "**Step 1: Understand the code's purpose**  \nThe function `av_realloc` is a custom memory reallocation function that attempts to handle alignment issues using different configurations (e.g., `CONFIG_MEMALIGN_HACK`, `HAVE_ALIGNED_MALLOC`). It wraps the standard `realloc` function and adds alignment logic.\n\n**Step 2: Identify input sources and data flows**  \n- Input: `ptr` (a pointer to previously allocated memory) and `size` (the new size).\n- Data flows: The function uses `ptr` and `size` to call `realloc`, `av_malloc`, and other memory management functions.\n\n**Step 3: Check for input validation and bounds checking**  \n- The code checks if `size > (max_alloc_size - 32)` and returns `NULL` if true. This is a basic size check, but it depends on the definition of `max_alloc_size`, which is not shown.\n- In the `CONFIG_MEMALIGN_HACK` block, it accesses `((char *)ptr)[-1]`, which is a **buffer overflow vulnerability**. This is dangerous because it reads from an offset that may be outside the bounds of the allocated memory.\n\n**Step 4: Look for memory management issues**  \n- The code uses `realloc` and `av_malloc`, which are standard memory management functions. However, the unsafe access to `((char *)ptr)[-1]` is a critical issue.\n\n**Step 5: Examine error handling and edge cases**  \n- The code does not handle the case where `ptr` is `NULL` in the `CONFIG_MEMALIGN_HACK` block beyond the initial check. It assumes `ptr` is valid when accessing `((char *)ptr)[-1]`.\n- The use of `av_assert0` is a debugging assertion and does not provide real error handling.\n\n**Step 6: Determine if vulnerabilities exist**  \n- The line `diff = ((char *)ptr)[-1];` is **unsafe**. It reads from an offset that may be outside the allocated memory, leading to a **buffer overflow** or **undefined behavior**.\n- This is a **security vulnerability**.\n\n**Final Answer: VULNERABLE**",
+      "processing_time": 9.113739172617594,
+      "tokens_used": 763
+    },
+    {
+      "sample_id": "vulbench_d2a_62",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 9.113739172617594,
+      "tokens_used": 392
+    },
+    {
+      "sample_id": "vulbench_d2a_63",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 9.113739172617594,
+      "tokens_used": 1097
+    },
+    {
+      "sample_id": "vulbench_d2a_64",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 9.113739172617594,
+      "tokens_used": 282
+    },
+    {
+      "sample_id": "vulbench_d2a_65",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 9.113739172617594,
+      "tokens_used": 375
+    },
+    {
+      "sample_id": "vulbench_d2a_66",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 9.113739172617594,
+      "tokens_used": 653
+    },
+    {
+      "sample_id": "vulbench_d2a_67",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 9.113739172617594,
+      "tokens_used": 1152
+    },
+    {
+      "sample_id": "vulbench_d2a_68",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 9.113739172617594,
+      "tokens_used": 504
+    }
+  ]
+}
