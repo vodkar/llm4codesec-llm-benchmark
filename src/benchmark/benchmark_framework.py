@@ -535,6 +535,7 @@ class HuggingFaceLLM(LLMInterface):
                 trust_remote_code=True,
                 padding_side="left",
                 token=os.getenv("HF_TOKEN", None),
+                pad_to_multiple_of=8,
             )
 
             if self.tokenizer.pad_token is None:
@@ -691,7 +692,7 @@ class HuggingFaceLLM(LLMInterface):
 
         except Exception as e:
             logging.exception(f"Error generating batch responses: {e}")
-            return [(f"ERROR: {str(e)}", None) for _ in prompts]
+            return [(f"ERROR: {str(e)}", 0, 0) for _ in prompts]
 
     def _format_prompt(self, system_prompt: str, user_prompt: str) -> str:
         """Format prompt using tokenizer's chat template."""
@@ -1267,7 +1268,9 @@ class BenchmarkRunner:
 
             # Handle custom system prompt template if provided
             if config.system_prompt_template:
-                current_system_prompt = config.system_prompt_template
+                current_system_prompt = config.system_prompt_template.format(
+                    cwe_type=config.cwe_type
+                )
             else:
                 current_system_prompt = system_prompt
 

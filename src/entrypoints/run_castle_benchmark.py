@@ -246,7 +246,7 @@ def run_single_experiment(
         }
 
     except Exception as e:
-        logger.error(f"Experiment failed: {e}")
+        logger.exception(f"Experiment failed: {e}")
         return {
             "experiment_name": experiment_name,
             "status": "failed",

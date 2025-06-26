@@ -167,6 +167,7 @@ def create_benchmark_config(
     task_type_map = {
         "binary_vulnerability": TaskType.BINARY_VULNERABILITY,
         "binary_cwe_specific": TaskType.BINARY_CWE_SPECIFIC,
+        "binary_vulnerability_specific": TaskType.BINARY_VULNERABILITY_SPECIFIC,
         "multiclass_vulnerability": TaskType.MULTICLASS_VULNERABILITY,
     }
 
@@ -181,7 +182,8 @@ def create_benchmark_config(
         max_tokens=model_config.get("max_tokens", 512),
         temperature=model_config.get("temperature", 0.1),
         use_quantization=model_config.get("use_quantization", True),
-        cwe_type=dataset_config.get("cwe_type"),
+        cwe_type=dataset_config.get("cwe_type")
+        or dataset_config.get("vulnerability_type"),
         system_prompt_template=prompt_config.get("system_prompt"),
         user_prompt_template=prompt_config["user_prompt"],
     )
@@ -258,7 +260,7 @@ def run_single_experiment(
         }
 
     except Exception as e:
-        logger.error(f"Experiment failed: {experiment_name} - {e}")
+        logger.exception(f"Experiment failed: {experiment_name} - {e}")
         return {
             "experiment_name": experiment_name,
             "status": "failed",
@@ -352,7 +354,7 @@ def run_experiment_plan(
                         failed_experiments += 1
 
                 except Exception as e:
-                    logger.error(f"Experiment failed: {e}")
+                    logger.exception(f"Experiment failed: {e}")
                     failed_experiments += 1
                     results["experiments"].append(
                         {
