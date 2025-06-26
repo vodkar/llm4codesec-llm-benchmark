@@ -145,11 +145,9 @@ class VulDetectBenchBenchmarkRunner:
                     )
 
                 # Generate response
-                start_time_sample = time.time()
-                response_text, tokens_used = llm.generate_response(
+                response_text, tokens_used, processing_time = llm.generate_response(
                     system_prompt, user_prompt
                 )
-                processing_time = time.time() - start_time_sample
 
                 # Parse response using custom parser
                 predicted_label = response_parser.parse_response(response_text)
@@ -459,7 +457,7 @@ Examples:
 
     parser.add_argument(
         "--config",
-        default="src/configs/vuldetectbench_experiments.json",
+        default="configs/vuldetectbench_experiments.json",
         help="Path to VulDetectBench experiments configuration file",
     )
 
