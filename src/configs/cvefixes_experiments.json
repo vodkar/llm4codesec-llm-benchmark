@@ -152,7 +152,7 @@
             "model_type": "QWEN",
             "max_tokens": 1024,
             "temperature": 0.1,
-            "batch_size": 15
+            "batch_size": 2
         },
         "qwen3-30b": {
             "model_name": "Qwen/Qwen3-30B-A3B",
@@ -185,7 +185,7 @@
             "model_type": "DEEPSEEK",
             "max_tokens": 1024,
             "temperature": 0.1,
-            "batch_size": 10,
+            "batch_size": 2,
             "use_quantization": true
         },
         "deepseek-r1-distill-qwen2.5-32b": {
@@ -209,7 +209,7 @@
             "model_type": "LLAMA",
             "max_tokens": 1024,
             "temperature": 0.1,
-            "batch_size": 10,
+            "batch_size": 2,
             "use_quantization": true
         },
         "llama4-scout-17b-16e": {
@@ -225,7 +225,7 @@
             "model_type": "GEMMA",
             "max_tokens": 1024,
             "temperature": 0.1,
-            "batch_size": 16,
+            "batch_size": 2,
             "use_quantization": true
         },
         "gemma3-27b": {
@@ -313,16 +313,13 @@
             "prompts": [
                 "cwe_focused"
             ],
-            "sample_limit": 100
+            "sample_limit": 50
         },
         "small_models_binary": {
             "description": "Small models evaluation on binary classification tasks",
             "datasets": [
-                "binary_c_file",
                 "binary_c_method",
-                "binary_java_file",
                 "binary_java_method",
-                "binary_python_file",
                 "binary_python_method"
             ],
             "models": [
@@ -335,7 +332,7 @@
                 "detailed_analysis",
                 "step_by_step"
             ],
-            "sample_limit": 100
+            "sample_limit": 50
         },
         "small_models_multiclass": {
             "description": "Small models evaluation on multiclass classification",
@@ -381,7 +378,7 @@
                 "detailed_analysis",
                 "step_by_step"
             ],
-            "sample_limit": null
+            "sample_limit": 50
         },
         "large_models_cwe_specific_analysis": {
             "description": "Large models evaluation on CWE classification tasks",
@@ -405,7 +402,7 @@
             "prompts": [
                 "cwe_focused"
             ],
-            "sample_limit": null
+            "sample_limit": 50
         },
         "large_models_multiclass": {
             "description": "Large models evaluation on multiclass classification",
@@ -429,7 +426,7 @@
             "prompts": [
                 "multiclass_comprehensive"
             ],
-            "sample_limit": null
+            "sample_limit": 50
         }
     },
     "output_settings": {

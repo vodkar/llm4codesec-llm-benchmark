@@ -81,7 +81,7 @@
             "model_type": "QWEN",
             "max_tokens": 1024,
             "temperature": 0.1,
-            "batch_size": 15
+            "batch_size": 30
         },
         "qwen3-30b": {
             "model_name": "Qwen/Qwen3-30B-A3B",
@@ -114,7 +114,7 @@
             "model_type": "DEEPSEEK",
             "max_tokens": 1024,
             "temperature": 0.1,
-            "batch_size": 10,
+            "batch_size": 20,
             "use_quantization": true
         },
         "deepseek-r1-distill-qwen2.5-32b": {
@@ -138,7 +138,7 @@
             "model_type": "LLAMA",
             "max_tokens": 1024,
             "temperature": 0.1,
-            "batch_size": 10,
+            "batch_size": 20,
             "use_quantization": true
         },
         "llama4-scout-17b-16e": {
@@ -154,7 +154,7 @@
             "model_type": "GEMMA",
             "max_tokens": 1024,
             "temperature": 0.1,
-            "batch_size": 16,
+            "batch_size": 30,
             "use_quantization": true
         },
         "gemma3-27b": {
@@ -197,7 +197,7 @@
             "prompts": [
                 "task1_specific"
             ],
-            "sample_limit": 100
+            "sample_limit": 300
         },
         "task1_large_models": {
             "description": "Evaluate large models on Task 1 - Vulnerability Existence Detection",
@@ -232,7 +232,7 @@
             "prompts": [
                 "task2_specific"
             ],
-            "sample_limit": 100
+            "sample_limit": 300
         },
         "task2_large_models": {
             "description": "Evaluate large models on Task 2 - Vulnerability Type Inference",
@@ -267,7 +267,7 @@
             "prompts": [
                 "task3_specific"
             ],
-            "sample_limit": 100
+            "sample_limit": 300
         },
         "task3_large_models": {
             "description": "Evaluate large models on Task 3 - Key Objects Identification",
@@ -304,7 +304,7 @@
             "prompts": [
                 "task4_specific"
             ],
-            "sample_limit": 100
+            "sample_limit": 300
         },
         "task4_large_models": {
             "description": "Evaluate large models on Task 4 - Root Cause Location",
@@ -339,7 +339,7 @@
             "prompts": [
                 "task5_specific"
             ],
-            "sample_limit": 100
+            "sample_limit": 300
         },
         "task5_large_models": {
             "description": "Evaluate large models on Task 5 - Trigger Point Location",

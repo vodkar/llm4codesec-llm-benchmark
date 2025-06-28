@@ -506,7 +506,6 @@ class HuggingFaceLLM(LLMInterface):
                 if quantization_type == "8bit" and gpu_memory >= 35:
                     quantization_config = BitsAndBytesConfig(
                         load_in_8bit=True,
-                        llm_int8_enable_fp32_cpu_offload=True,
                         llm_int8_threshold=4.0,
                     )
                     logging.info("Using 8-bit quantization for A100")
@@ -535,7 +534,6 @@ class HuggingFaceLLM(LLMInterface):
                 trust_remote_code=True,
                 padding_side="left",
                 token=os.getenv("HF_TOKEN", None),
-                pad_to_multiple_of=8,
             )
 
             if self.tokenizer.pad_token is None:
