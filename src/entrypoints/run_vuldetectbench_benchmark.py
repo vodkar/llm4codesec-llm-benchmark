@@ -16,6 +16,7 @@ from typing import Any
 
 from benchmark.benchmark_framework import (
     BenchmarkConfig,
+    BenchmarkSample,
     HuggingFaceLLM,
     MetricsCalculator,
     ModelType,
@@ -117,57 +118,44 @@ class VulDetectBenchBenchmarkRunner:
                 )
             )
 
-            # NOTE: VulDetectBench has complex task-specific prompt formatting that requires
-            # special handling. For now, we fall back to sequential processing.
-            # TODO: Extend batch optimization to handle task-specific prompt formatting
+            # VulDetectBench has task-specific prompt formatting that requires special handling
+            # We need to handle task2 selection choices before batch processing
+            processed_samples: list[BenchmarkSample] = []
+            for sample in samples:
+                # Create modified sample with enhanced code for task2
+                enhanced_code = sample.code
 
-            predictions = []
-            for i, sample in enumerate(samples):
-                logging.info(f"Processing sample {i + 1}/{len(samples)}: {sample.id}")
-
-                # Generate user prompt with task-specific formatting
-                user_prompt = (
-                    self.config.user_prompt_template.format(code=sample.code)
-                    if self.config.user_prompt_template
-                    else prompt_generator.get_user_prompt(
-                        self.config.task_type, sample.code, self.config.cwe_type
-                    )
-                )
-
-                # Handle task-specific prompt formatting
+                # Handle task-specific prompt formatting for task2
                 if (
                     sample.metadata.get("task_type") == "task2"
                     and "selection_choices" in sample.metadata
                 ):
-                    # For Task 2, include the selection choices in the prompt
-                    user_prompt = (
-                        f"{sample.metadata['selection_choices']}\n{user_prompt}"
+                    # For Task 2, prepend selection choices to the code
+                    enhanced_code = (
+                        f"{sample.metadata['selection_choices']}\n\n{sample.code}"
                     )
 
-                # Generate response
-                response_text, tokens_used, processing_time = llm.generate_response(
-                    system_prompt, user_prompt
+                processed_sample = BenchmarkSample(
+                    id=sample.id,
+                    code=enhanced_code,
+                    label=sample.label,
+                    metadata=sample.metadata,
+                    cwe_types=sample.cwe_types,
+                    severity=sample.severity,
                 )
+                processed_samples.append(processed_sample)
 
-                # Parse response using custom parser
-                predicted_label = response_parser.parse_response(response_text)
+            # Run predictions using batch optimization with processed samples
+            from benchmark.benchmark_framework import BenchmarkRunner
 
-                prediction = PredictionResult(
-                    sample_id=sample.id,
-                    predicted_label=predicted_label,
-                    true_label=sample.label
-                    if isinstance(sample.label, int)
-                    else response_parser.parse_response(str(sample.label)),
-                    confidence=None,
-                    response_text=response_text,
-                    processing_time=processing_time,
-                    tokens_used=tokens_used,
-                )
-
-                predictions.append(prediction)
-
-                if (i + 1) % 10 == 0:
-                    logging.info(f"Completed {i + 1}/{len(samples)} predictions")
+            predictions = BenchmarkRunner.process_samples_with_batch_optimization(
+                samples=processed_samples,
+                llm=llm,
+                system_prompt=system_prompt,
+                prompt_generator=prompt_generator,
+                response_parser=response_parser,
+                config=self.config,
+            )
 
             # Calculate metrics based on task type
             task_type = (
@@ -202,7 +190,7 @@ class VulDetectBenchBenchmarkRunner:
             raise
 
     def _calculate_task_specific_metrics(
-        self, predictions, task_type: str
+        self, predictions: list[PredictionResult], task_type: str
     ) -> dict[str, Any]:
         """Calculate metrics specific to VulDetectBench tasks."""
 
@@ -219,17 +207,17 @@ class VulDetectBenchBenchmarkRunner:
             return self._calculate_code_analysis_metrics(predictions, task_type)
 
     def _calculate_code_analysis_metrics(
-        self, predictions, task_type: str
+        self, predictions: list[PredictionResult], task_type: str
     ) -> dict[str, Any]:
         """Calculate metrics for code analysis tasks (Task 3-5)."""
         metrics = {"total_predictions": len(predictions), "task_type": task_type}
 
         if task_type == "task3":
             # Token recall for key objects identification
-            token_recalls = []
+            token_recalls: list[float] = []
             for pred in predictions:
                 recall = self._calculate_token_recall(
-                    pred.predicted_label, pred.true_label
+                    str(pred.predicted_label), str(pred.true_label)
                 )
                 token_recalls.append(recall)
 
@@ -240,15 +228,15 @@ class VulDetectBenchBenchmarkRunner:
 
         elif task_type in ["task4", "task5"]:
             # Line recall for root cause/trigger point location
-            line_recalls = []
-            union_line_recalls = []
+            line_recalls: list[float] = []
+            union_line_recalls: list[float] = []
 
             for pred in predictions:
                 line_recall = self._calculate_line_recall(
-                    pred.predicted_label, pred.true_label
+                    str(pred.predicted_label), str(pred.true_label)
                 )
                 union_line_recall = self._calculate_union_line_recall(
-                    pred.predicted_label, pred.true_label
+                    str(pred.predicted_label), str(pred.true_label)
                 )
 
                 line_recalls.append(line_recall)
