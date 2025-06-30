@@ -150,15 +150,42 @@
         "qwen3-4b": {
             "model_name": "Qwen/Qwen3-4B",
             "model_type": "QWEN",
-            "max_tokens": 1024,
+            "max_tokens": 2048,
             "temperature": 0.1,
-            "batch_size": 15
+            "batch_size": 30,
+            "use_quantization": true
+        },
+        "qwen3-4b-thinking": {
+            "model_name": "Qwen/Qwen3-4B",
+            "model_type": "QWEN",
+            "max_tokens": 2048,
+            "temperature": 0.1,
+            "batch_size": 30,
+            "use_quantization": true,
+            "enable_thinking": true
+        },
+        "qwen3-8b": {
+            "model_name": "Qwen/Qwen3-8B",
+            "model_type": "QWEN",
+            "max_tokens": 2048,
+            "temperature": 0.1,
+            "batch_size": 15,
+            "use_quantization": true
+        },
+        "qwen3-8b-thinking": {
+            "model_name": "Qwen/Qwen3-8B",
+            "model_type": "QWEN",
+            "max_tokens": 2048,
+            "temperature": 0.1,
+            "batch_size": 15,
+            "use_quantization": true,
+            "enable_thinking": true
         },
         "qwen3-30b": {
             "model_name": "Qwen/Qwen3-30B-A3B",
             "model_type": "QWEN",
-            "batch_size": 8,
-            "max_tokens": 1024,
+            "batch_size": 2,
+            "max_tokens": 2048,
             "temperature": 0.1,
             "use_quantization": true,
             "enable_thinking": false
@@ -166,8 +193,8 @@
         "qwen3-30b-thinking": {
             "model_name": "Qwen/Qwen3-30B-A3B",
             "model_type": "QWEN",
-            "batch_size": 8,
-            "max_tokens": 1024,
+            "batch_size": 2,
+            "max_tokens": 2048,
             "temperature": 0.1,
             "use_quantization": true,
             "enabile_thinking": true
@@ -175,23 +202,23 @@
         "deepseek-coder-v2-lite-16b": {
             "model_name": "deepseek-ai/DeepSeek-Coder-V2-Lite-Instruct",
             "model_type": "DEEPSEEK",
-            "max_tokens": 1024,
+            "max_tokens": 2048,
             "temperature": 0.1,
             "batch_size": 2,
             "use_quantization": true
         },
-        "deepseek-r1-distill-qwen2.5-1.5b": {
-            "model_name": "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B",
+        "deepseek-r1-distill-qwen2.5-7b": {
+            "model_name": "deepseek-ai/DeepSeek-R1-Distill-Qwen-7B",
             "model_type": "DEEPSEEK",
-            "max_tokens": 1024,
+            "max_tokens": 2048,
             "temperature": 0.1,
-            "batch_size": 10,
+            "batch_size": 30,
             "use_quantization": true
         },
         "deepseek-r1-distill-qwen2.5-32b": {
             "model_name": "deepseek-ai/DeepSeek-R1-Distill-Qwen-32B",
             "model_type": "DEEPSEEK",
-            "max_tokens": 1024,
+            "max_tokens": 2048,
             "temperature": 0.1,
             "batch_size": 2,
             "use_quantization": true
@@ -199,7 +226,7 @@
         "wizard-coder-34b": {
             "model_name": "WizardLMTeam/WizardCoder-33B-V1.1",
             "model_type": "WIZARD",
-            "max_tokens": 1024,
+            "max_tokens": 2048,
             "temperature": 0.1,
             "batch_size": 2,
             "use_quantization": true
@@ -209,7 +236,7 @@
             "model_type": "LLAMA",
             "max_tokens": 1024,
             "temperature": 0.1,
-            "batch_size": 10,
+            "batch_size": 15,
             "use_quantization": true
         },
         "llama4-scout-17b-16e": {
@@ -221,11 +248,11 @@
             "use_quantization": true
         },
         "gemma3-4b": {
-            "model_name": "google/gemma-3-4b-it",
+            "model_name": "google/gemma-3-4b-it-qat-q4_0-unquantized",
             "model_type": "GEMMA",
             "max_tokens": 1024,
             "temperature": 0.1,
-            "batch_size": 16,
+            "batch_size": 40,
             "use_quantization": true
         },
         "gemma3-27b": {
@@ -278,7 +305,7 @@
                 "context_aware",
                 "step_by_step"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "multiclass_prompt_comparison": {
             "description": "Compare different prompt strategies on multiclass classification",
@@ -293,7 +320,7 @@
                 "multiclass_detailed",
                 "multiclass_comprehensive"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "small_models_binary": {
             "description": "Evaluate small models on binary classification",
@@ -306,15 +333,18 @@
             ],
             "models": [
                 "qwen3-4b",
+                "qwen3-4b-thinking",
+                "qwen3-4b",
+                "qwen3-8b-thinking",
                 "llama3.2-3B",
                 "gemma3-4b",
-                "deepseek-r1-distill-qwen2.5-1.5b"
+                "deepseek-r1-distill-qwen2.5-7b"
             ],
             "prompts": [
                 "detailed_analysis",
                 "step_by_step"
             ],
-            "sample_limit": null
+            "sample_limit": 50
         },
         "small_models_multiclass": {
             "description": "Evaluate small models on multiclass classification",
@@ -327,14 +357,17 @@
             ],
             "models": [
                 "qwen3-4b",
+                "qwen3-4b-thinking",
+                "qwen3-4b",
+                "qwen3-8b-thinking",
                 "llama3.2-3B",
                 "gemma3-4b",
-                "deepseek-r1-distill-qwen2.5-1.5b"
+                "deepseek-r1-distill-qwen2.5-7b"
             ],
             "prompts": [
                 "multiclass_comprehensive"
             ],
-            "sample_limit": null
+            "sample_limit": 50
         },
         "large_models_binary": {
             "description": "Evaluate large models on binary classification",
@@ -358,7 +391,7 @@
                 "detailed_analysis",
                 "step_by_step"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "large_models_multiclass": {
             "description": "Evaluate large models on multiclass classification",
@@ -381,7 +414,7 @@
             "prompts": [
                 "multiclass_comprehensive"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         },
         "small_models_vulnerability_specific": {
             "description": "Small models evaluation on vulnerability-specific detection",
@@ -395,14 +428,17 @@
             ],
             "models": [
                 "qwen3-4b",
-                "deepseek-r1-distill-qwen2.5-1.5b",
+                "qwen3-4b-thinking",
+                "qwen3-4b",
+                "qwen3-8b-thinking",
                 "llama3.2-3B",
-                "gemma3-4b"
+                "gemma3-4b",
+                "deepseek-r1-distill-qwen2.5-7b"
             ],
             "prompts": [
                 "vulnerability_expert"
             ],
-            "sample_limit": null
+            "sample_limit": 50
         },
         "quick_small_models_vulnerability_specific": {
             "description": "Small models evaluation on vulnerability-specific detection",
@@ -416,9 +452,12 @@
             ],
             "models": [
                 "qwen3-4b",
-                "deepseek-r1-distill-qwen2.5-1.5b",
+                "qwen3-4b-thinking",
+                "qwen3-4b",
+                "qwen3-8b-thinking",
                 "llama3.2-3B",
-                "gemma3-4b"
+                "gemma3-4b",
+                "deepseek-r1-distill-qwen2.5-7b"
             ],
             "prompts": [
                 "vulnerability_expert"
@@ -447,7 +486,7 @@
             "prompts": [
                 "vulnerability_expert"
             ],
-            "sample_limit": null
+            "sample_limit": 100
         }
     },
     "output_settings": {
