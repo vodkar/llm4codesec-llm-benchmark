@@ -177,6 +177,7 @@ def create_benchmark_config(
         use_quantization=model_config.get("use_quantization", True),
         cwe_type=dataset_config.get("cwe_type"),
         system_prompt_template=prompt_config.get("system_prompt"),
+        enable_thinking=prompt_config.get("enable_thinking", False),
         user_prompt_template=prompt_config["user_prompt"],
     )
 

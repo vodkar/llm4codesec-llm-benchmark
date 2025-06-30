@@ -525,8 +525,13 @@ class HuggingFaceLLM(LLMInterface):
 
             if "gemma-3" in self.config.model_name:
                 torch_dtype = torch.bfloat16
-                quantization_config = BitsAndBytesConfig(load_in_8bit=True)
-                attn_implementation = None
+                quant_config = BitsAndBytesConfig(
+                    load_in_4bit=True,
+                    bnb_4bit_quant_type="q4_0",           # match the model’s QAT quant type
+                    bnb_4bit_compute_dtype=torch.bfloat16, # fp16 compute
+                    bnb_4bit_use_double_quant=True,
+                )
+
 
         try:
             self.tokenizer = AutoTokenizer.from_pretrained(
@@ -556,7 +561,7 @@ class HuggingFaceLLM(LLMInterface):
                 tokenizer=self.tokenizer,
                 max_new_tokens=self.config.max_tokens,
                 temperature=self.config.temperature,
-                do_sample=True if self.config.temperature > 0 else False,
+                do_sample=self.config.temperature > 0,
                 return_full_text=False,
                 batch_size=self.config.batch_size,  # Enable batch processing
                 device_map="auto",

@@ -318,7 +318,6 @@
         "small_models_binary": {
             "description": "Small models evaluation on binary classification tasks",
             "datasets": [
-                "binary_c_method",
                 "binary_java_method",
                 "binary_python_method"
             ],
@@ -337,8 +336,6 @@
         "small_models_multiclass": {
             "description": "Small models evaluation on multiclass classification",
             "datasets": [
-                "multiclass_c_file",
-                "multiclass_c_method",
                 "multiclass_java_file",
                 "multiclass_java_method",
                 "multiclass_python_file",

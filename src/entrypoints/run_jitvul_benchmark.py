@@ -216,6 +216,7 @@ def create_benchmark_config(
         cwe_type=dataset_config.get("cwe_type"),
         system_prompt_template=prompt_config.get("system_prompt"),
         user_prompt_template=prompt_config["user_prompt"],
+        enable_thinking=prompt_config.get("enable_thinking", False),
     )
 
 

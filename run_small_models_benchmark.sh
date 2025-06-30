@@ -131,3 +131,22 @@ for plan in "${vuldetectbench_plans[@]}"; do
 done
 
 echo "All benchmark experiments completed successfully!"
+
+
+# VulnerabilityDetection Dataset Experiments
+echo "=== Running VulnerabilityDetection Dataset Experiments ==="
+echo "Preparing VulnerabilityDetection datasets..."
+$run_benchmark scripts/process_vulnerabilitydetection_data.py
+
+# Define VulnerabilityDetection experiment plans
+vulnerabilitydetection_plans=(
+    "small_models_binary"
+)
+
+echo "Running VulDetectBench experiments..."
+for plan in "${vulnerabilitydetection_plans[@]}"; do
+    echo "Executing VulBench plan: $plan"
+    $run_benchmark entrypoints/run_vuldetectbench_benchmark.py --plan "$plan"
+done
+
+echo "All benchmark experiments completed successfully!"
