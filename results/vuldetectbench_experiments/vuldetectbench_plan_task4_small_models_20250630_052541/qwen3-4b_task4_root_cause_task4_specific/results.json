@@ -1,0 +1,917 @@
+{
+  "task_type": "task4",
+  "dataset_path": "datasets_processed/vuldetectbench/vuldetectbench_task4.json",
+  "model_name": "Qwen/Qwen3-4B",
+  "accuracy": 0.0,
+  "metrics": {
+    "total_predictions": 100,
+    "task_type": "task4",
+    "avg_line_recall": 0.0701224025974026,
+    "avg_union_line_recall": 0.0701224025974026
+  },
+  "total_samples": 100,
+  "total_time": 1199.6033148765564,
+  "predictions": [
+    {
+      "sample_id": "vuldetectbench_task4_152907",
+      "predicted_label": "```c\nif (stat(dirpath, &st) == -1) {\n    retval = mkdir(dirpath, 0700);\n}\n```",
+      "true_label": "`strncpy(buffer, source, sizeof(source));`",
+      "confidence": null,
+      "response_text": "```c\nif (stat(dirpath, &st) == -1) {\n    retval = mkdir(dirpath, 0700);\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 1479
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151998",
+      "predicted_label": "```c\nvoid methide_babbitt(union cavicorn_tuggingly largess_genealogically)\n{\n int ss_j;\n int ss_i;\n size_t taint_size;\n char **malloced_buff = 0;\n int trace_flag = 0;\n  char *demidevil_sennets = 0;\n  ++global_variable;;\n  demidevil_sennets = ((char *)largess_genealogically. unworminess_simplifiedly);\n    \n    taint_size = strlen(demidevil_sennets);\n    \n    if (taint_size >= 1600) {\n        taint_size = 1599U;\n    }\n    malloced_buff = malloc(taint_size * sizeof(char *));\n    \n    \n    if (malloced_buff!= 0) {\n        \n        \n        for (ss_i = 0; ss_i < taint_size; ++ss_i) {\n            malloced_buff[ss_i] = malloc(taint_size * taint_size * sizeof(char ));\n            \n            \n            if (malloced_buff[ss_i] == 0 && errno == 12) {\n    printf(\"Malloc error due to ulimit\\n\");\n    if (trace_flag == 0) {\n        \n        \n                    trace_flag = 1;\n                }\n            }\n   if (malloced_buff[ss_i]!= 0) {\n    for (ss_j = 0; ss_j < taint_size; ++ss_j) {\n     memcpy(malloced_buff[ss_i] + ss_j * taint_size,demidevil_sennets,taint_size);\n    }\n   }\n   \n   \n   if (taint_size % 2 == 0) {\n    if (malloced_buff[ss_i]!= 0) {\n     free(malloced_buff[ss_i]);\n           \n    }\n   }\n  }\n        free(malloced_buff);\n        \n    }\n;\n  if (largess_genealogically. unworminess_simplifiedly!= 0) \n    free(((char *)largess_genealogically. unworminess_simplifiedly));\nclose_printf_context();\n}\n```",
+      "true_label": "`for (ss_i = 0; ss_i < taint_size; ++ss_i) {\n            malloced_buff[ss_i] = malloc(taint_size * taint_size * sizeof(char ));\n            \n            \n            if (malloced_buff[ss_i] == 0 && errno == 12) {\n    printf(\"Malloc error due to ulimit\\n\");\n    if (trace_flag == 0) {`",
+      "confidence": null,
+      "response_text": "```c\nvoid methide_babbitt(union cavicorn_tuggingly largess_genealogically)\n{\n int ss_j;\n int ss_i;\n size_t taint_size;\n char **malloced_buff = 0;\n int trace_flag = 0;\n  char *demidevil_sennets = 0;\n  ++global_variable;;\n  demidevil_sennets = ((char *)largess_genealogically. unworminess_simplifiedly);\n    \n    taint_size = strlen(demidevil_sennets);\n    \n    if (taint_size >= 1600) {\n        taint_size = 1599U;\n    }\n    malloced_buff = malloc(taint_size * sizeof(char *));\n    \n    \n    if (malloced_buff!= 0) {\n        \n        \n        for (ss_i = 0; ss_i < taint_size; ++ss_i) {\n            malloced_buff[ss_i] = malloc(taint_size * taint_size * sizeof(char ));\n            \n            \n            if (malloced_buff[ss_i] == 0 && errno == 12) {\n    printf(\"Malloc error due to ulimit\\n\");\n    if (trace_flag == 0) {\n        \n        \n                    trace_flag = 1;\n                }\n            }\n   if (malloced_buff[ss_i]!= 0) {\n    for (ss_j = 0; ss_j < taint_size; ++ss_j) {\n     memcpy(malloced_buff[ss_i] + ss_j * taint_size,demidevil_sennets,taint_size);\n    }\n   }\n   \n   \n   if (taint_size % 2 == 0) {\n    if (malloced_buff[ss_i]!= 0) {\n     free(malloced_buff[ss_i]);\n           \n    }\n   }\n  }\n        free(malloced_buff);\n        \n    }\n;\n  if (largess_genealogically. unworminess_simplifiedly!= 0) \n    free(((char *)largess_genealogically. unworminess_simplifiedly));\nclose_printf_context();\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 3158
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153002",
+      "predicted_label": "```c\nif (talco_matfellon!= 0) {\n    goto unaway_armbruster;\n}\n++global_variable;\nunaway_armbruster:;\nlamentedly_geulincx = ((char *)talco_matfellon);\n```",
+      "true_label": "`for (; ss_i < buff_size; ++ss_i){\n            \n            \n            printf(\"%02x\",heap_buff_64[ss_i]);\n        }`",
+      "confidence": null,
+      "response_text": "```c\nif (talco_matfellon!= 0) {\n    goto unaway_armbruster;\n}\n++global_variable;\nunaway_armbruster:;\nlamentedly_geulincx = ((char *)talco_matfellon);\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 1527
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149724",
+      "predicted_label": "```c\nchar *selenographic_flamy;;\n```",
+      "true_label": "`fscanf(csv,\"\\\"%79[^\\\"]\\\",\\\"%79[^\\\"]\\\",\\\"%79[^\\\"]\\\"\",col1,col2,col3);`",
+      "confidence": null,
+      "response_text": "```c\nchar *selenographic_flamy;;\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 1700
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149404",
+      "predicted_label": "```c\nif (prebroadcasting_auxiliation!= 0) {;\n    attical_beswelter. thalamophora_carenton = prebroadcasting_auxiliation;\n    blastemata_gda = 1;\n    hld_overproudly = &attical_beswelter;\n    nematognath_gracy = ((union unrealities_jewelhouse *)(((unsigned long )hld_overproudly) * blastemata_gda * blastemata_gda)) + 5;\n```",
+      "true_label": "`if (size != strlen(folliculous_vamped)) {\n        folliculous_vamped = 0;\n      }`",
+      "confidence": null,
+      "response_text": "```c\nif (prebroadcasting_auxiliation!= 0) {;\n    attical_beswelter. thalamophora_carenton = prebroadcasting_auxiliation;\n    blastemata_gda = 1;\n    hld_overproudly = &attical_beswelter;\n    nematognath_gracy = ((union unrealities_jewelhouse *)(((unsigned long )hld_overproudly) * blastemata_gda * blastemata_gda)) + 5;\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 1886
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151132",
+      "predicted_label": "```c\nif (sscanf(envKey, \"%d\", &key) > 0) {\n    if ((shmid = shmget(key, shmsz, 0666)) >= 0) {\n        if ((shm = shmat(shmid, NULL, 0))!= (char *) -1) {\n            *tainted_buff = (char*)calloc(shmsz, sizeof(char));\n            \n            for (s = shm; *s!= (char)0; s++) {\n                (*tainted_buff)[s - shm] = *s;\n            }\n        }\n    }\n}\n```",
+      "true_label": "`byte_3 = ((char *)(ptr + 2));\n            byte_4 = ((char *)(ptr + 3));\n             *byte_3 = 0;\n             *byte_4 = 0;`",
+      "confidence": null,
+      "response_text": "```c\nif (sscanf(envKey, \"%d\", &key) > 0) {\n    if ((shmid = shmget(key, shmsz, 0666)) >= 0) {\n        if ((shm = shmat(shmid, NULL, 0))!= (char *) -1) {\n            *tainted_buff = (char*)calloc(shmsz, sizeof(char));\n            \n            for (s = shm; *s!= (char)0; s++) {\n                (*tainted_buff)[s - shm] = *s;\n            }\n        }\n    }\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 1758
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152906",
+      "predicted_label": "```c\nvoid tile_attach(Tile *tile,void *tm,gint tile_num)\n{\n    int oc_i = 0;\n    int opt_var = 0;\n    struct struct* data = 0;\n  char *merciable_ondoscope = 0;\n  char *yeo_obus = 0;\n  int *reattain_sarcast = 0;\n  int designatum_convoke;\n  char *unaffecting_verbalised[10] = {0};\n  int strawy_jesuist = 0;\n  char *conidiophorous_paraebius = 0;\n  int luny_dungan = 20;\n  char *alehoof_nagualism;\n  TileLink *new;\n  if (__sync_bool_compare_and_swap(&upalong_stifflike,0,1)) {;\n    if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      setup_printf_context();\n      read_taint(&alehoof_nagualism,\"8966\",luny_dungan);\n      if (alehoof_nagualism!= 0) {;\n        strawy_jesuist = ((int )(strlen(alehoof_nagualism)));\n        conidiophorous_paraebius = ((char *)(malloc(strawy_jesuist + 1)));\n        if (conidiophorous_paraebius == 0) {\n          printf(\"Error: Failed to allocate memory\\n\");\n          exit(1);\n        }\n        memset(conidiophorous_paraebius,0,strawy_jesuist + 1);\n        memcpy(conidiophorous_paraebius,alehoof_nagualism,strawy_jesuist);\n        if (alehoof_nagualism!= 0) \n          free(((char *)alehoof_nagualism));\n        unaffecting_verbalised[5] = conidiophorous_paraebius;\n        designatum_convoke = 5;\n        reattain_sarcast = &designatum_convoke;\n        yeo_obus =  *(unaffecting_verbalised +  *reattain_sarcast);\n        merciable_ondoscope = ((char *)yeo_obus);\n    \n    if (strlen(merciable_ondoscope) < 20) {;\n        data = (struct struct*) malloc (sizeof(struct struct));\n        if (data!= NULL) {\n            memset(data->base_path, 0, 20);\n            data->buff_pointer = data->base_path;\n            \n            \n\n\n            realpath(merciable_ondoscope, data->base_path);\n            opt_var = strlen( data->buff_pointer);\n            \n            for (; oc_i < opt_var; ++oc_i) {\n                data->base_path[oc_i] =\n                    toupper(data->base_path[oc_i]);\n            }\n            printf(\"%s\\n\", data->base_path);\n            printf(\"%s\\n\", data->buff_pointer);\n            \n            \n            free (data);\n        }\n    }\n    \n;\n        if (yeo_obus!= 0) \n          free(((char *)yeo_obus));\nclose_printf_context();\n      }\n    }\n  }\n```",
+      "true_label": "`realpath(merciable_ondoscope, data->base_path);\n            opt_var = strlen( data->buff_pointer);\n            \n            for (; oc_i < opt_var; ++oc_i) {\n                data->base_path[oc_i] =\n                    toupper(data->base_path[oc_i]);\n            }\n            printf(\"%s\\n\", data->base_path);\n            printf(\"%s\\n\", data->buff_pointer);`",
+      "confidence": null,
+      "response_text": "```c\nvoid tile_attach(Tile *tile,void *tm,gint tile_num)\n{\n    int oc_i = 0;\n    int opt_var = 0;\n    struct struct* data = 0;\n  char *merciable_ondoscope = 0;\n  char *yeo_obus = 0;\n  int *reattain_sarcast = 0;\n  int designatum_convoke;\n  char *unaffecting_verbalised[10] = {0};\n  int strawy_jesuist = 0;\n  char *conidiophorous_paraebius = 0;\n  int luny_dungan = 20;\n  char *alehoof_nagualism;\n  TileLink *new;\n  if (__sync_bool_compare_and_swap(&upalong_stifflike,0,1)) {;\n    if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      setup_printf_context();\n      read_taint(&alehoof_nagualism,\"8966\",luny_dungan);\n      if (alehoof_nagualism!= 0) {;\n        strawy_jesuist = ((int )(strlen(alehoof_nagualism)));\n        conidiophorous_paraebius = ((char *)(malloc(strawy_jesuist + 1)));\n        if (conidiophorous_paraebius == 0) {\n          printf(\"Error: Failed to allocate memory\\n\");\n          exit(1);\n        }\n        memset(conidiophorous_paraebius,0,strawy_jesuist + 1);\n        memcpy(conidiophorous_paraebius,alehoof_nagualism,strawy_jesuist);\n        if (alehoof_nagualism!= 0) \n          free(((char *)alehoof_nagualism));\n        unaffecting_verbalised[5] = conidiophorous_paraebius;\n        designatum_convoke = 5;\n        reattain_sarcast = &designatum_convoke;\n        yeo_obus =  *(unaffecting_verbalised +  *reattain_sarcast);\n        merciable_ondoscope = ((char *)yeo_obus);\n    \n    if (strlen(merciable_ondoscope) < 20) {;\n        data = (struct struct*) malloc (sizeof(struct struct));\n        if (data!= NULL) {\n            memset(data->base_path, 0, 20);\n            data->buff_pointer = data->base_path;\n            \n            \n\n\n            realpath(merciable_ondoscope, data->base_path);\n            opt_var = strlen( data->buff_pointer);\n            \n            for (; oc_i < opt_var; ++oc_i) {\n                data->base_path[oc_i] =\n                    toupper(data->base_path[oc_i]);\n            }\n            printf(\"%s\\n\", data->base_path);\n            printf(\"%s\\n\", data->buff_pointer);\n            \n            \n            free (data);\n        }\n    }\n    \n;\n        if (yeo_obus!= 0) \n          free(((char *)yeo_obus));\nclose_printf_context();\n      }\n    }\n  }\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 3329
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152049",
+      "predicted_label": "```cpp\n{code}\nvoid handle_taint(char *pennigerous_gemellione)\n{\n int ss_i = 0;\n  char *soutar_coverts = 0;\n  ++global_variable;;\n  if (pennigerous_gemellione!= 0) {;\n    if (pennigerous_gemellione!= 0) {\n      goto imbrangling_dfrf;\n    }\n    ++global_variable;\n    imbrangling_dfrf:;\n    soutar_coverts = ((char *)pennigerous_gemellione);\n \n    printf(\"checking input\\n\");\n    \n    \n    \n while(ss_i < strlen(soutar_coverts)){\n  \n        if (soutar_coverts[ss_i] >= 48) {\n   \n   ++ss_i;\n        }\n    }\n    \n    \n   printf(\"finished evaluating\\n\");\n    \n;\n    if (pennigerous_gemellione!= 0) \n      free(((char *)pennigerous_gemellione));\nclose_printf_context();\n  }\n}\n```",
+      "true_label": "`while(ss_i < strlen(soutar_coverts)){\n  \n        if (soutar_coverts[ss_i] >= 48) {\n   \n   ++ss_i;\n        }\n    }`",
+      "confidence": null,
+      "response_text": "```cpp\n{code}\nvoid handle_taint(char *pennigerous_gemellione)\n{\n int ss_i = 0;\n  char *soutar_coverts = 0;\n  ++global_variable;;\n  if (pennigerous_gemellione!= 0) {;\n    if (pennigerous_gemellione!= 0) {\n      goto imbrangling_dfrf;\n    }\n    ++global_variable;\n    imbrangling_dfrf:;\n    soutar_coverts = ((char *)pennigerous_gemellione);\n \n    printf(\"checking input\\n\");\n    \n    \n    \n while(ss_i < strlen(soutar_coverts)){\n  \n        if (soutar_coverts[ss_i] >= 48) {\n   \n   ++ss_i;\n        }\n    }\n    \n    \n   printf(\"finished evaluating\\n\");\n    \n;\n    if (pennigerous_gemellione!= 0) \n      free(((char *)pennigerous_gemellione));\nclose_printf_context();\n  }\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 1263
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151485",
+      "predicted_label": "```c\nif (malloced_buff[ss_i] == 0 && errno == 12) {\n    printf(\"Malloc error due to ulimit\\n\");\n    if (trace_flag == 0) {\n        trace_flag = 1;\n    }\n}\n```",
+      "true_label": "`for (ss_i = 0; ss_i < taint_size; ++ss_i) {\n            malloced_buff[ss_i] = malloc(taint_size * taint_size * sizeof(char ));\n            \n            \n            if (malloced_buff[ss_i] == 0 && errno == 12) {\n    printf(\"Malloc error due to ulimit\\n\");\n    if (trace_flag == 0) {`",
+      "confidence": null,
+      "response_text": "```c\nif (malloced_buff[ss_i] == 0 && errno == 12) {\n    printf(\"Malloc error due to ulimit\\n\");\n    if (trace_flag == 0) {\n        trace_flag = 1;\n    }\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 1755
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149778",
+      "predicted_label": "```c\n{code}\nif (stat(dirpath, &st) == -1) {\n    retval = mkdir(dirpath, 0700);\n}\n```",
+      "true_label": "`for (i = 0; i < len; ++i) {\n\n          if (sscanf(endptr,\" %79s\",temp_str) == 1) {\n            values[i] = ((char *)(malloc((strlen(temp_str) + 1) * sizeof(char ))));\n            if (values[i] == 0) {\n              printf(\"Error: Failed to allocate memory\\n\");\n              exit(1);\n            }\n            strcpy(values[i],temp_str);\n            endptr += (strlen(temp_str) + 1) * sizeof(char );\n          }\n        }`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nif (stat(dirpath, &st) == -1) {\n    retval = mkdir(dirpath, 0700);\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 2886
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153715",
+      "predicted_label": "```c\nvoid ENGINE_cleanup()\n{\n  union amphipyrenin_winthrop beaners_thickbrained;\n  int sieracki_zebec = 1001;\n  char *methodism_boogers;;\n  if (__sync_bool_compare_and_swap(&corojo_physicist,0,1)) {;\n    if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      setup_printf_context();\n      read_taint(&methodism_boogers,\"5759\",sieracki_zebec);\n      if (methodism_boogers!= 0) {;\n        beaners_thickbrained. tenderish_recarbon = methodism_boogers;\n        chaffinch_preventuring(beaners_thickbrained);\n      }\n    }\n  }\n  ;\n  if (int_cleanup_check(0)) {\n    sk_pop_free(((_STACK *)(1?cleanup_stack : ((struct stack_st_ENGINE_CLEANUP_ITEM *)0))),((void (*)(void *))engine_cleanup_cb_free));\n    cleanup_stack = ((void *)0);\n  }\n\n  RAND_set_rand_method(((void *)0));\n}\n```",
+      "true_label": "`strcpy(stack_buffer_64,sulfato_minipanic);`",
+      "confidence": null,
+      "response_text": "```c\nvoid ENGINE_cleanup()\n{\n  union amphipyrenin_winthrop beaners_thickbrained;\n  int sieracki_zebec = 1001;\n  char *methodism_boogers;;\n  if (__sync_bool_compare_and_swap(&corojo_physicist,0,1)) {;\n    if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      setup_printf_context();\n      read_taint(&methodism_boogers,\"5759\",sieracki_zebec);\n      if (methodism_boogers!= 0) {;\n        beaners_thickbrained. tenderish_recarbon = methodism_boogers;\n        chaffinch_preventuring(beaners_thickbrained);\n      }\n    }\n  }\n  ;\n  if (int_cleanup_check(0)) {\n    sk_pop_free(((_STACK *)(1?cleanup_stack : ((struct stack_st_ENGINE_CLEANUP_ITEM *)0))),((void (*)(void *))engine_cleanup_cb_free));\n    cleanup_stack = ((void *)0);\n  }\n\n  RAND_set_rand_method(((void *)0));\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 3352
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153398",
+      "predicted_label": "```c\nvoid weltanschauung_tenuously(int hagiarchy_lovash,char **wisewoman_preappearances)\n{\n    int val = 0;\n    struct data_struct my_foo;\n  char *retaining_halakah = 0;\n  ++global_variable;\n  hagiarchy_lovash--;\n  if (hagiarchy_lovash > 0) {\n    weltanschauung_tenuously(hagiarchy_lovash,wisewoman_preappearances);\n    return ;\n  }\n  retaining_halakah = ((char *)( *(wisewoman_preappearances - 5)));\n    \n    if (strlen(retaining_halakah) < 1) {\n        printf(\"string is too short to test\\n\");\n    } else {\n        set_function(retaining_halakah, &my_foo);\n        \n        \n        val = (my_foo. func_member(my_foo. str_member));\n        \n        if (val == 0)\n            printf(\"mod is true\\n\");\n        else\n            printf(\"mod is false\\n\");\n    }\n    \n;\nclose_printf_context();\n}\n```",
+      "true_label": "`if (strlen(set_param_str) > 10U) {\n    set_param_data_struct -> func_member = modulus_function;\n    set_param_data_struct -> str_member = set_param_str;\n    \n  }\n  if (strlen(set_param_str) < 10U) {\n    set_param_data_struct -> func_member = modulus_function;\n    set_param_data_struct -> str_member = \"default\";\n    \n  }`",
+      "confidence": null,
+      "response_text": "```c\nvoid weltanschauung_tenuously(int hagiarchy_lovash,char **wisewoman_preappearances)\n{\n    int val = 0;\n    struct data_struct my_foo;\n  char *retaining_halakah = 0;\n  ++global_variable;\n  hagiarchy_lovash--;\n  if (hagiarchy_lovash > 0) {\n    weltanschauung_tenuously(hagiarchy_lovash,wisewoman_preappearances);\n    return ;\n  }\n  retaining_halakah = ((char *)( *(wisewoman_preappearances - 5)));\n    \n    if (strlen(retaining_halakah) < 1) {\n        printf(\"string is too short to test\\n\");\n    } else {\n        set_function(retaining_halakah, &my_foo);\n        \n        \n        val = (my_foo. func_member(my_foo. str_member));\n        \n        if (val == 0)\n            printf(\"mod is true\\n\");\n        else\n            printf(\"mod is false\\n\");\n    }\n    \n;\nclose_printf_context();\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 1473
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150614",
+      "predicted_label": "```c\nvoid timestamp_set_precision(int tsp)\n{\n  timestamp_precision = tsp;\n}\n```",
+      "true_label": "`waitForChange(abs_path, sleep_file);\n                    file = fopen(abs_path,\"rb\");`",
+      "confidence": null,
+      "response_text": "```c\nvoid timestamp_set_precision(int tsp)\n{\n  timestamp_precision = tsp;\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 2389
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150968",
+      "predicted_label": "```c\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        \n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "true_label": "`byte_3 = ((char *)(ptr + 2));\n            byte_4 = ((char *)(ptr + 3));\n            \n            \n             *byte_3 = 0;\n             *byte_4 = 0;`",
+      "confidence": null,
+      "response_text": "```c\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        \n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 2799
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150458",
+      "predicted_label": "```c\nvoid tile_attach(Tile *tile,void *tm,gint tile_num)\n{\n  TileLink *new;\n  if (__sync_bool_compare_and_swap(&scase_theorizies,0,1)) {;\n    if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      palpitatingly_camuning(airstrip_tuneless);\n    }\n  }\n  if (tile -> share_count > 0 &&!tile -> valid) {\n\n    tile_manager_validate_tile(tile -> tlink -> tm,tile);\n  }\n  tile -> share_count++;\n#ifdef TILE_PROFILING\n#endif\n#ifdef TILE_DEBUG\n#endif\n\n  new = ((TileLink *)(g_slice_alloc(sizeof(TileLink ))));\n  new -> tm = tm;\n  new -> tile_num = tile_num;\n  new -> next = tile -> tlink;\n  tile -> tlink = new;\n}\n```",
+      "true_label": "`dataStruct->inc_amount = dataStruct->data[0] - 'A'; \n    \n    readFile(dataStruct->file2);\n    if (dataStruct->inc_amount < 0) { \n        dataStruct->inc_amount *= -1; \n    }\n    else if (dataStruct->inc_amount == 0) { \n        dataStruct->inc_amount += 1;\n    }`",
+      "confidence": null,
+      "response_text": "```c\nvoid tile_attach(Tile *tile,void *tm,gint tile_num)\n{\n  TileLink *new;\n  if (__sync_bool_compare_and_swap(&scase_theorizies,0,1)) {;\n    if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      palpitatingly_camuning(airstrip_tuneless);\n    }\n  }\n  if (tile -> share_count > 0 &&!tile -> valid) {\n\n    tile_manager_validate_tile(tile -> tlink -> tm,tile);\n  }\n  tile -> share_count++;\n#ifdef TILE_PROFILING\n#endif\n#ifdef TILE_DEBUG\n#endif\n\n  new = ((TileLink *)(g_slice_alloc(sizeof(TileLink ))));\n  new -> tm = tm;\n  new -> tile_num = tile_num;\n  new -> next = tile -> tlink;\n  tile -> tlink = new;\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 3348
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153245",
+      "predicted_label": "```c\n{code}\nvoid trilloes_arranger(char **arterialization_jebel)\n{\n char *buffer = 0;\n  char *temesv_threefolded = 0;\n  ++global_variable;;\n  temesv_threefolded = ((char *)( *(arterialization_jebel - 5)));\n    \n    buffer = malloc((strlen(temesv_threefolded) + 1) * sizeof(char ));\n    if (buffer == 0) {\n        printf(\"Error: Failed to allocate memory\\n\");\n        exit(1);\n    }\n    strcpy(buffer,temesv_threefolded);\n    \n \n    if (buffer[0] >= 97) {\n        printf(\"Index of first char: %i\\n\",process_buffer(buffer));\n    }\n    \n    if (buffer!= 0) {\n        \n  \n        free(buffer);\n        \n    }\n    \n;\n  if ( *(arterialization_jebel - 5)!= 0) \n    free(((char *)( *(arterialization_jebel - 5))));\nclose_printf_context();\n}\n```",
+      "true_label": "`if (buffer[0] >= 97) {\n        printf(\"Index of first char: %i\\n\",process_buffer(buffer));\n    }`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nvoid trilloes_arranger(char **arterialization_jebel)\n{\n char *buffer = 0;\n  char *temesv_threefolded = 0;\n  ++global_variable;;\n  temesv_threefolded = ((char *)( *(arterialization_jebel - 5)));\n    \n    buffer = malloc((strlen(temesv_threefolded) + 1) * sizeof(char ));\n    if (buffer == 0) {\n        printf(\"Error: Failed to allocate memory\\n\");\n        exit(1);\n    }\n    strcpy(buffer,temesv_threefolded);\n    \n \n    if (buffer[0] >= 97) {\n        printf(\"Index of first char: %i\\n\",process_buffer(buffer));\n    }\n    \n    if (buffer!= 0) {\n        \n  \n        free(buffer);\n        \n    }\n    \n;\n  if ( *(arterialization_jebel - 5)!= 0) \n    free(((char *)( *(arterialization_jebel - 5))));\nclose_printf_context();\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 2936
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149480",
+      "predicted_label": "```c\n{code}\nstatic int bf_cfb64_cipher(EVP_CIPHER_CTX *ctx,unsigned char *out,const unsigned char *in,size_t inl)\n{\n  size_t chunk = ((size_t )1) << sizeof(long ) * 8 - 2;\n  if (64 == 1) {\n    chunk >>= 3;\n  }\n  if (inl < chunk) {\n    chunk = inl;\n  }\n  while(inl && inl >= chunk){\n    BF_cfb64_encrypt(in,out,((long )(64 == 1 &&!(ctx -> flags & 0x2000)?inl * 8 : inl)),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,&ctx -> num,ctx -> encrypt);\n    inl -= chunk;\n    in += chunk;\n    out += chunk;\n    if (inl < chunk) {\n      chunk = inl;\n    }\n  }\n  return 1;\n}\n```",
+      "true_label": "`for (i = 0; ((int )i) <= ((int )(strlen(dischase_stanks) - strlen(finder))); ++i) {\n        for (j = 0; j < strlen(finder); ++j) {\n          if (dischase_stanks[i + j] != finder[j]) {\n            check = 0;\n            break;\n          }\n          check = 1;\n        }\n\n        if (check == 1 && j == strlen(finder)) {\n          printf(\"Found aba string\\n\");\n          second_buff = &dischase_stanks[i];\n          break;\n        }\n      }`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nstatic int bf_cfb64_cipher(EVP_CIPHER_CTX *ctx,unsigned char *out,const unsigned char *in,size_t inl)\n{\n  size_t chunk = ((size_t )1) << sizeof(long ) * 8 - 2;\n  if (64 == 1) {\n    chunk >>= 3;\n  }\n  if (inl < chunk) {\n    chunk = inl;\n  }\n  while(inl && inl >= chunk){\n    BF_cfb64_encrypt(in,out,((long )(64 == 1 &&!(ctx -> flags & 0x2000)?inl * 8 : inl)),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,&ctx -> num,ctx -> encrypt);\n    inl -= chunk;\n    in += chunk;\n    out += chunk;\n    if (inl < chunk) {\n      chunk = inl;\n    }\n  }\n  return 1;\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 2525
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152478",
+      "predicted_label": "```c\nif (mysql_real_connect(conn,dbhost,dbuser,dbpassword,0,dbport,\"/var/lib/mysql/mysql.sock\",65536UL)!= 0) {\n```",
+      "true_label": "`srand(time(NULL));\n    random_int = (rand() % 1000) + 100;\n                snprintf(query_buffer,1000,\"INSERT INTO Shippers (ShipperID, CompanyName) VALUES ('%d', '%s');\", random_int, crewet_dutchmen);`",
+      "confidence": null,
+      "response_text": "```c\nif (mysql_real_connect(conn,dbhost,dbuser,dbpassword,0,dbport,\"/var/lib/mysql/mysql.sock\",65536UL)!= 0) {\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 2173
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152164",
+      "predicted_label": "```c\nvoid handle_taint(char *cubicone_zippering)\n{\n char * filename = 0;\n int filename_len = 0;\n unsigned int num_files;\n FILE **filearray;\n int i;\n  char *compotation_urinary = 0;\n  char *meritmonger_alkahests = 0;\n  long psychosurgeon_maycock[10];\n  char *sharma_arch[10] = {0};\n  ++global_variable;;\n  if (cubicone_zippering!= 0) {;\n    sharma_arch[5] = cubicone_zippering;\n    psychosurgeon_maycock[1] = 5;\n    meritmonger_alkahests = *(sharma_arch + psychosurgeon_maycock[1]);\n    compotation_urinary = ((char *)meritmonger_alkahests);\n    \n    if (strlen(compotation_urinary) > 0 &&\n            compotation_urinary[0] == '-') {\n        printf(\"Input value is negative\\n\");\n    } else {\n        printf(\"Getting input value\\n\");\n        num_files = strtoul(compotation_urinary,0,16);\n        if (num_files > 0xffff)\n            num_files = 0;\n        filearray = ((FILE **)(malloc(num_files * sizeof(FILE *))));\n        filename_len = strlen(\"/opt/cus/workspace/testData/temp\") + 10;\n        filename = (char*) malloc(filename_len * sizeof(char));\n        if (filearray!= 0) {\n            for (i = 0; i < num_files; ++i)\n                filearray[i] = 0;\n            printf(\"Creating files\\n\");\n            for (i = 0; i < num_files; ++i) {\n                snprintf(filename,filename_len,\"%s_%08x\", \"/opt/cus/workspace/testData/temp\", i);\n                filearray[i] = open_file(filename);\n                if (filearray[i] == 0)\n                    break;\n            }\n            if (i < num_files)\n                printf(\"No Throttle File Descriptors: Did not create all files successfully.\\n\");\n            for (i = 0; i < num_files; ++i)\n                if (filearray[i]!= 0)\n                    fclose(filearray[i]);\n            free(filearray);\n            free(filename);\n        }\n    }\n    \n;\n    if (meritmonger_alkahests!= 0) \n      free(((char *)meritmonger_alkahests));\nclose_printf_context();\n  }\n}\n```",
+      "true_label": "`f = fopen(filename_param,\"w\");`",
+      "confidence": null,
+      "response_text": "```c\nvoid handle_taint(char *cubicone_zippering)\n{\n char * filename = 0;\n int filename_len = 0;\n unsigned int num_files;\n FILE **filearray;\n int i;\n  char *compotation_urinary = 0;\n  char *meritmonger_alkahests = 0;\n  long psychosurgeon_maycock[10];\n  char *sharma_arch[10] = {0};\n  ++global_variable;;\n  if (cubicone_zippering!= 0) {;\n    sharma_arch[5] = cubicone_zippering;\n    psychosurgeon_maycock[1] = 5;\n    meritmonger_alkahests = *(sharma_arch + psychosurgeon_maycock[1]);\n    compotation_urinary = ((char *)meritmonger_alkahests);\n    \n    if (strlen(compotation_urinary) > 0 &&\n            compotation_urinary[0] == '-') {\n        printf(\"Input value is negative\\n\");\n    } else {\n        printf(\"Getting input value\\n\");\n        num_files = strtoul(compotation_urinary,0,16);\n        if (num_files > 0xffff)\n            num_files = 0;\n        filearray = ((FILE **)(malloc(num_files * sizeof(FILE *))));\n        filename_len = strlen(\"/opt/cus/workspace/testData/temp\") + 10;\n        filename = (char*) malloc(filename_len * sizeof(char));\n        if (filearray!= 0) {\n            for (i = 0; i < num_files; ++i)\n                filearray[i] = 0;\n            printf(\"Creating files\\n\");\n            for (i = 0; i < num_files; ++i) {\n                snprintf(filename,filename_len,\"%s_%08x\", \"/opt/cus/workspace/testData/temp\", i);\n                filearray[i] = open_file(filename);\n                if (filearray[i] == 0)\n                    break;\n            }\n            if (i < num_files)\n                printf(\"No Throttle File Descriptors: Did not create all files successfully.\\n\");\n            for (i = 0; i < num_files; ++i)\n                if (filearray[i]!= 0)\n                    fclose(filearray[i]);\n            free(filearray);\n            free(filename);\n        }\n    }\n    \n;\n    if (meritmonger_alkahests!= 0) \n      free(((char *)meritmonger_alkahests));\nclose_printf_context();\n  }\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 2007
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153310",
+      "predicted_label": "```c\nvoid free_func(char *buff) {\n  \n  if (buff[0] >= 79) {\n    \n    \n    \n    \n    free(buff);\n    \n    \n  }\n}\n```",
+      "true_label": "`free(buff);`",
+      "confidence": null,
+      "response_text": "```c\nvoid free_func(char *buff) {\n  \n  if (buff[0] >= 79) {\n    \n    \n    \n    \n    free(buff);\n    \n    \n  }\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 2235
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150604",
+      "predicted_label": "```c\nvoid acute_multisacculate(char **extralite_staffelite)\n{\n    pthread_t t0, t1;\n    struct data *cusData;\n  char *subshrubby_imm = 0;\n  ++global_variable;;\n  subshrubby_imm = ((char *)extralite_staffelite[46]);\n    \n    cusData = malloc(sizeof(struct data));\n    if (cusData) {\n        cusData->data = malloc(sizeof(char) * (strlen(subshrubby_imm) + 1));\n        cusData->file1 = malloc(sizeof(char) * (strlen(subshrubby_imm) + 1));\n        cusData->file2 = malloc(sizeof(char) * (strlen(subshrubby_imm) + 1));\n        if (cusData->data && cusData->file1 && cusData->file2) {\n            if ((sscanf(subshrubby_imm, \"%d %s %s %s\",\n                      &(cusData->qsize),\n                        cusData->file1,\n                        cusData->file2,\n                        cusData->data) == 4) &&\n                (strlen(cusData->data)!= 0))\n            {\n                \n                \n                \n                \n                if (pthread_mutex_init(&mutex, NULL)!= 0) {\n                    printf(\"Mutex failed to initilize.\");\n                }\n                cusData->data_size = strlen(cusData->data);\n                \n                if (pthread_create(&t0, NULL, delNonAlpha, (void *)cusData)!= 0) { \n                    printf(\"Error creating thread 0.\");\n                }\n                if (pthread_create(&t1, NULL, toCap, (void *)cusData)!= 0) {\n                    printf(\"Error creating thread 1.\");\n                }\n                pthread_join(t0, NULL);\n                pthread_join(t1, NULL);\n                \n                printf(\"After joins.\\n\");\n                pthread_mutex_destroy(&mutex);\n            } else {\n                printf(\"Error parsing input.\\n\");\n            }\n            free(cusData->data);\n        }\n        free(cusData);\n    }\n    \n;\nclose_printf_context();\n}\n```",
+      "true_label": "`cusData->data = NULL;`",
+      "confidence": null,
+      "response_text": "```c\nvoid acute_multisacculate(char **extralite_staffelite)\n{\n    pthread_t t0, t1;\n    struct data *cusData;\n  char *subshrubby_imm = 0;\n  ++global_variable;;\n  subshrubby_imm = ((char *)extralite_staffelite[46]);\n    \n    cusData = malloc(sizeof(struct data));\n    if (cusData) {\n        cusData->data = malloc(sizeof(char) * (strlen(subshrubby_imm) + 1));\n        cusData->file1 = malloc(sizeof(char) * (strlen(subshrubby_imm) + 1));\n        cusData->file2 = malloc(sizeof(char) * (strlen(subshrubby_imm) + 1));\n        if (cusData->data && cusData->file1 && cusData->file2) {\n            if ((sscanf(subshrubby_imm, \"%d %s %s %s\",\n                      &(cusData->qsize),\n                        cusData->file1,\n                        cusData->file2,\n                        cusData->data) == 4) &&\n                (strlen(cusData->data)!= 0))\n            {\n                \n                \n                \n                \n                if (pthread_mutex_init(&mutex, NULL)!= 0) {\n                    printf(\"Mutex failed to initilize.\");\n                }\n                cusData->data_size = strlen(cusData->data);\n                \n                if (pthread_create(&t0, NULL, delNonAlpha, (void *)cusData)!= 0) { \n                    printf(\"Error creating thread 0.\");\n                }\n                if (pthread_create(&t1, NULL, toCap, (void *)cusData)!= 0) {\n                    printf(\"Error creating thread 1.\");\n                }\n                pthread_join(t0, NULL);\n                pthread_join(t1, NULL);\n                \n                printf(\"After joins.\\n\");\n                pthread_mutex_destroy(&mutex);\n            } else {\n                printf(\"Error parsing input.\\n\");\n            }\n            free(cusData->data);\n        }\n        free(cusData);\n    }\n    \n;\nclose_printf_context();\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 3001
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153480",
+      "predicted_label": "```c\n#if defined(_WIN32) && defined(CP_UTF8)\n\n\n#else\n  file = fopen(filename,mode);\n#endif\n```",
+      "true_label": "`strncpy(data, cobstone_zostera, strlen(cobstone_zostera) + 1);\n        for (; oc_i < strlen(data); ++oc_i) {\n            data[oc_i] = toupper(data[oc_i]);\n        }\n        printf(\"%s\\n\", data);`",
+      "confidence": null,
+      "response_text": "```c\n#if defined(_WIN32) && defined(CP_UTF8)\n\n\n#else\n  file = fopen(filename,mode);\n#endif\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 3316
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152452",
+      "predicted_label": "```c\nif (__sync_bool_compare_and_swap(&sulphamidate_rhiana,0,1)) {;\n```",
+      "true_label": "`srand(time(NULL));\n  random_int = (rand() % 1000) + 100;\n        snprintf(query,1000,\"INSERT INTO shippers (shipperid, companyname) VALUES ('%d', '%s');\", random_int, aloeswood_magnificentness);`",
+      "confidence": null,
+      "response_text": "```c\nif (__sync_bool_compare_and_swap(&sulphamidate_rhiana,0,1)) {;\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 2867
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152148",
+      "predicted_label": "```c\nif (stat(dirpath, &st) == -1) {\n    retval = mkdir(dirpath, 0700);\n}\n```",
+      "true_label": "`while(fscanf(files,\"%79s\",filename) == 1 && ssi < 1020){\n            file = fopen(filename,\"w\");\n   if (file == 0 && errno == 24) {\n    printf(\"Fopen error due to ulimit\\n\");\n    continue;\n   }\n   fputs(\"woohoo!\",file);\n   fflush(file);\n         \n            \n   file_list[ssi] = file;\n   ssi++;\n        }`",
+      "confidence": null,
+      "response_text": "```c\nif (stat(dirpath, &st) == -1) {\n    retval = mkdir(dirpath, 0700);\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 2470
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151578",
+      "predicted_label": "```c\nvoid timestamp_set_precision(int tsp)\n{\n  timestamp_precision = tsp;\n}\n```",
+      "true_label": "`while(fscanf(files,\"%79s\",filename) == 1 && ssi < 1020){\n            file = fopen(filename,\"w\");\n            if (file == 0) {\n    if (file == 0 && errno == 24) {\n     printf(\"Fopen error due to ulimit\\n\");\n                }\n    continue;\n   }\n   fputs(\"woohoo!\",file);\n   fflush(file);\n         \n   \n   file_list[ssi % 10] = file;\n   ssi++;\n        }`",
+      "confidence": null,
+      "response_text": "```c\nvoid timestamp_set_precision(int tsp)\n{\n  timestamp_precision = tsp;\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 1598
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151623",
+      "predicted_label": "```c\n{code}\n#if defined(_WIN32) && defined(CP_UTF8)\n#else\n  file = fopen(filename,mode);\n#endif\n```",
+      "true_label": "`if (strlen(pevely_interess) > 1 &&\n     pevely_interess[0] == '-') {\n     printf(\"Input value is negative\\n\");\n } else {\n        stack_size = strtoul(pevely_interess,0,0);\n        printf(\"Allocating stack array\\n\");\n        \n     \n        \n        char stack_string[stack_size];\n        memset(stack_string,'x',stack_size - 1);\n        \n    }`",
+      "confidence": null,
+      "response_text": "```c\n{code}\n#if defined(_WIN32) && defined(CP_UTF8)\n#else\n  file = fopen(filename,mode);\n#endif\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 3415
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150111",
+      "predicted_label": "```c\nif (pthread_create(&t1, NULL, replace, cusData)!= 0) {\n    printf(\"Thread 1 failed to spawn.\");\n}\n```",
+      "true_label": "`printf(\"replace: entering function\\n\");\n    \n    qsort_arr = malloc(sizeof(int)*cusData->qsize);\n    if (qsort_arr != NULL) {\n        for (i = 0; i < cusData->qsize; i++) {\n            qsort_arr[i] = cusData->qsize - i;\n        }\n        qsort(qsort_arr, cusData->qsize, sizeof(int), &comp);\n        free (qsort_arr);\n        qsort_arr = NULL;\n    }\n    readFile(cusData->file1);\n    printf(\"replace: Attempting to grab lock 0\\n\");\n    pthread_mutex_lock(&mutex_0);\n    printf(\"replace: Grabbed lock 0\\n\");\n    printf(\"replace: Attempting to grab lock 1\\n\");\n    pthread_mutex_lock(&mutex_1); \n    printf(\"replace: Grabbed lock 1\\n\");\n    i = 0;\n    while(cusData->data[i] != '\\0') {\n        if (cusData->data[i] == '_') {\n            cusData->data[i] = '-';\n        }\n        i++;\n    }\n    printf(\"replace: Releasing lock 1\\n\");\n    pthread_mutex_unlock(&mutex_1);\n    printf(\"replace: Releasing lock 0\\n\");\n    pthread_mutex_unlock(&mutex_0);`",
+      "confidence": null,
+      "response_text": "```c\nif (pthread_create(&t1, NULL, replace, cusData)!= 0) {\n    printf(\"Thread 1 failed to spawn.\");\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 2641
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150928",
+      "predicted_label": "```c\nvoid ENGINE_cleanup()\n{\n FILE * random_data = 0;\n char * buff = 0;\n unsigned long long num = 0;\n unsigned long long i = 0;\n  char *sympiesometer_sherurd = 0;\n  void *minefield_placet = 0;\n  long mismanageable_adamance[10];\n  void *crool_schuyler[10] = {0};\n  void *lyricists_sori = 0;\n  char *idism_metanotum;;\n  if (__sync_bool_compare_and_swap(&imputrescence_felicitators,0,1)) {;\n    if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      setup_printf_context();\n      read_taint(&idism_metanotum,\"CERCARIFORM_MARJ\");\n      if (idism_metanotum!= 0) {;\n        lyricists_sori = ((void *)idism_metanotum);\n        crool_schuyler[5] = lyricists_sori;\n        mismanageable_adamance[1] = 5;\n        minefield_placet = *(crool_schuyler + mismanageable_adamance[1]);\n        sympiesometer_sherurd = ((char *)((char *)minefield_placet));\n    \n random_data = fopen(\"/dev/urandom\", \"r\");\n if(random_data!= NULL){\n  num = strtoull(sympiesometer_sherurd, NULL, 10);\n  if(num > (unsigned long long) 0 ){\n   if(num > (unsigned long long) 100 ){\n    num = (unsigned long long) 100;\n   }\n            \n            \n            \n   \n   \n   buff = malloc((num - (unsigned long long) 10) * sizeof(char *));\n   for(i = 0; i < num - (unsigned long long) 10; i++){\n    buff[i] = fgetc(random_data);\n   }\n            \n            \n  }\n  printf(\"data is:  %s\", buff);\n  fclose(random_data);\n  if(buff!= NULL){\n   free(buff);\n  }\n }\n    \n;\n        if (((char *)minefield_placet)!= 0) \n          free(((char *)((char *)minefield_placet)));\nclose_printf_context();\n      }\n    }\n  }\n  ;\n  if (int_cleanup_check(0)) {\n    sk_pop_free(((_STACK *)(1?cleanup_stack : ((struct stack_st_ENGINE_CLEANUP_ITEM *)0))),((void (*)(void *))engine_cleanup_cb_free));\n    cleanup_stack = ((void *)0);\n  }\n\n  RAND_set_rand_method(((void *)0));\n}\n```",
+      "true_label": "`buff = malloc((num - (unsigned long long) 10) * sizeof(char *));\n   for(i = 0; i < num - (unsigned long long) 10; i++){\n    buff[i] = fgetc(random_data);\n   }`",
+      "confidence": null,
+      "response_text": "```c\nvoid ENGINE_cleanup()\n{\n FILE * random_data = 0;\n char * buff = 0;\n unsigned long long num = 0;\n unsigned long long i = 0;\n  char *sympiesometer_sherurd = 0;\n  void *minefield_placet = 0;\n  long mismanageable_adamance[10];\n  void *crool_schuyler[10] = {0};\n  void *lyricists_sori = 0;\n  char *idism_metanotum;;\n  if (__sync_bool_compare_and_swap(&imputrescence_felicitators,0,1)) {;\n    if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      setup_printf_context();\n      read_taint(&idism_metanotum,\"CERCARIFORM_MARJ\");\n      if (idism_metanotum!= 0) {;\n        lyricists_sori = ((void *)idism_metanotum);\n        crool_schuyler[5] = lyricists_sori;\n        mismanageable_adamance[1] = 5;\n        minefield_placet = *(crool_schuyler + mismanageable_adamance[1]);\n        sympiesometer_sherurd = ((char *)((char *)minefield_placet));\n    \n random_data = fopen(\"/dev/urandom\", \"r\");\n if(random_data!= NULL){\n  num = strtoull(sympiesometer_sherurd, NULL, 10);\n  if(num > (unsigned long long) 0 ){\n   if(num > (unsigned long long) 100 ){\n    num = (unsigned long long) 100;\n   }\n            \n            \n            \n   \n   \n   buff = malloc((num - (unsigned long long) 10) * sizeof(char *));\n   for(i = 0; i < num - (unsigned long long) 10; i++){\n    buff[i] = fgetc(random_data);\n   }\n            \n            \n  }\n  printf(\"data is:  %s\", buff);\n  fclose(random_data);\n  if(buff!= NULL){\n   free(buff);\n  }\n }\n    \n;\n        if (((char *)minefield_placet)!= 0) \n          free(((char *)((char *)minefield_placet)));\nclose_printf_context();\n      }\n    }\n  }\n  ;\n  if (int_cleanup_check(0)) {\n    sk_pop_free(((_STACK *)(1?cleanup_stack : ((struct stack_st_ENGINE_CLEANUP_ITEM *)0))),((void (*)(void *))engine_cleanup_cb_free));\n    cleanup_stack = ((void *)0);\n  }\n\n  RAND_set_rand_method(((void *)0));\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 3436
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153142",
+      "predicted_label": "```c\nvoid read_taint(char** tainted_buff, char* envKey, int shmsz) {\n    int shmid;\n key_t key;\n char *shm, *s;\n char* envSize = NULL;\n *tainted_buff = NULL;\n    if (getenv(\"DISABLE_WEAKNESS\") == NULL ||\n        strcmp(getenv(\"DISABLE_WEAKNESS\"), \"1\")!= 0) {\n        if(envKey!= NULL) {\n            if(sscanf(envKey, \"%d\", &key) > 0) {\n                if ((shmid = shmget(key, shmsz, 0666)) >= 0) {\n                    if ((shm = shmat(shmid, NULL, 0))!= (char *) -1) {\n                        *tainted_buff = (char*)calloc(shmsz, sizeof(char));\n                        \n                        for (s = shm; *s!= (char)0; s++) {\n                            (*tainted_buff)[s - shm] = *s;\n                        }\n                    }\n                }\n            }\n        }\n    } else {\n        *tainted_buff = NULL;\n    }\n}\n```",
+      "true_label": "`for (i = 0; i < strlen(tarentine_synnemata); ++i) {\n                \n                \n                printf(\"value %c appears: %d times\\n\",\n                    tarentine_synnemata[i],\n                    data->buffer[(int) tarentine_synnemata[i]]);\n            }`",
+      "confidence": null,
+      "response_text": "```c\nvoid read_taint(char** tainted_buff, char* envKey, int shmsz) {\n    int shmid;\n key_t key;\n char *shm, *s;\n char* envSize = NULL;\n *tainted_buff = NULL;\n    if (getenv(\"DISABLE_WEAKNESS\") == NULL ||\n        strcmp(getenv(\"DISABLE_WEAKNESS\"), \"1\")!= 0) {\n        if(envKey!= NULL) {\n            if(sscanf(envKey, \"%d\", &key) > 0) {\n                if ((shmid = shmget(key, shmsz, 0666)) >= 0) {\n                    if ((shm = shmat(shmid, NULL, 0))!= (char *) -1) {\n                        *tainted_buff = (char*)calloc(shmsz, sizeof(char));\n                        \n                        for (s = shm; *s!= (char)0; s++) {\n                            (*tainted_buff)[s - shm] = *s;\n                        }\n                    }\n                }\n            }\n        }\n    } else {\n        *tainted_buff = NULL;\n    }\n}\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 3289
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149704",
+      "predicted_label": "```c\n{code}\nchar *claggum_chapel;;\n```",
+      "true_label": "`if (size != strlen(kaolinize_glassweed)) {\n        kaolinize_glassweed = 0;\n      }`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nchar *claggum_chapel;;\n```",
+      "processing_time": 13.297235496838887,
+      "tokens_used": 2696
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152787",
+      "predicted_label": "```c\n{code}\nvoid ENGINE_cleanup()\n{\n    char buffer[100];\n    FILE *fpipe = 0;\n    char cmd_string[1000] = {0};\n    int is_valid = 1;\n    int i = 0;\n    char base_cmd[1000];\n    char *superslick_valeted = 0;\n    int bicarbureted_solutions;\n    int diosmotic_marron;\n    omophoria_ethnogenist polymorph_lustrational = 0;\n    long hypercoagulable_estreating[10];\n    omophoria_ethnogenist borean_indirectnesses[10] = {0};\n    omophoria_ethnogenist ballons_gweyn = 0;\n    char *pingos_rebuttals;;\n    if (__sync_bool_compare_and_swap(&barracudina_zygopleural,0,1)) {;\n        if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n            \n            setup_printf_context();\n            pingos_rebuttals = getenv(\"THORMORA_CHINOISERIE\");\n            if (pingos_rebuttals!= 0) {;\n                ballons_gweyn = pingos_rebuttals;\n                borean_indirectnesses[5] = ballons_gweyn;\n                hypercoagulable_estreating[1] = 5;\n                polymorph_lustrational =  *(borean_indirectnesses + hypercoagulable_estreating[1]);\n                diosmotic_marron = 5;\n                while(1 == 1){\n                    diosmotic_marron = diosmotic_marron * 2;\n                    diosmotic_marron = diosmotic_marron + 2;\n                    if (diosmotic_marron > 1000) {\n                        break; \n                    }\n                }\n                bicarbureted_solutions = diosmotic_marron;\n                superslick_valeted = ((char *)polymorph_lustrational);\n            \n        snprintf(base_cmd, 1000, \"find %s -iname \", \"/opt/cus/workspace/testData/temp\" );\n            \n        for (; i < strlen(superslick_valeted); ++i) {\n            if (superslick_valeted[i] == ';') {\n                if (i == 0 || superslick_valeted[i - 1]!= '\\\\') {\n                    is_valid = 0;\n                    break;\n                }\n            }\n        }\n        if (is_valid == 1) {\n            \n            snprintf(cmd_string,1000,\"%s%s\",base_cmd,superslick_valeted);\n            \n            fpipe = popen(cmd_string,\"r\");\n            if (fpipe!= 0) {\n                while(fgets(buffer,100,fpipe)!= 0) {\n                    printf(buffer);\n                    }\n                pclose(fpipe);\n            }\n            \n        }\n        \n;\nclose_printf_context();\n        }\n    }\n  };\n```",
+      "true_label": "`snprintf(cmd_string,1000,\"%s%s\",base_cmd,superslick_valeted);`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nvoid ENGINE_cleanup()\n{\n    char buffer[100];\n    FILE *fpipe = 0;\n    char cmd_string[1000] = {0};\n    int is_valid = 1;\n    int i = 0;\n    char base_cmd[1000];\n    char *superslick_valeted = 0;\n    int bicarbureted_solutions;\n    int diosmotic_marron;\n    omophoria_ethnogenist polymorph_lustrational = 0;\n    long hypercoagulable_estreating[10];\n    omophoria_ethnogenist borean_indirectnesses[10] = {0};\n    omophoria_ethnogenist ballons_gweyn = 0;\n    char *pingos_rebuttals;;\n    if (__sync_bool_compare_and_swap(&barracudina_zygopleural,0,1)) {;\n        if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n            \n            setup_printf_context();\n            pingos_rebuttals = getenv(\"THORMORA_CHINOISERIE\");\n            if (pingos_rebuttals!= 0) {;\n                ballons_gweyn = pingos_rebuttals;\n                borean_indirectnesses[5] = ballons_gweyn;\n                hypercoagulable_estreating[1] = 5;\n                polymorph_lustrational =  *(borean_indirectnesses + hypercoagulable_estreating[1]);\n                diosmotic_marron = 5;\n                while(1 == 1){\n                    diosmotic_marron = diosmotic_marron * 2;\n                    diosmotic_marron = diosmotic_marron + 2;\n                    if (diosmotic_marron > 1000) {\n                        break; \n                    }\n                }\n                bicarbureted_solutions = diosmotic_marron;\n                superslick_valeted = ((char *)polymorph_lustrational);\n            \n        snprintf(base_cmd, 1000, \"find %s -iname \", \"/opt/cus/workspace/testData/temp\" );\n            \n        for (; i < strlen(superslick_valeted); ++i) {\n            if (superslick_valeted[i] == ';') {\n                if (i == 0 || superslick_valeted[i - 1]!= '\\\\') {\n                    is_valid = 0;\n                    break;\n                }\n            }\n        }\n        if (is_valid == 1) {\n            \n            snprintf(cmd_string,1000,\"%s%s\",base_cmd,superslick_valeted);\n            \n            fpipe = popen(cmd_string,\"r\");\n            if (fpipe!= 0) {\n                while(fgets(buffer,100,fpipe)!= 0) {\n                    printf(buffer);\n                    }\n                pclose(fpipe);\n            }\n            \n        }\n        \n;\nclose_printf_context();\n        }\n    }\n  };\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 3420
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151874",
+      "predicted_label": "```c\nif (prebilling_maryann!= 0) {;\n    hee_varicoloured. unsuspect_clonal = ((char *)prebilling_maryann);\n    coemption_baculites = &hee_varicoloured;\n    galempong_protium = coemption_baculites + 5;\n    tressia_egads = ((char *)( *(galempong_protium - 5)). unsuspect_clonal);\n```",
+      "true_label": "`while(ss_i < strlen(tressia_egads)){\n  \n        if (tressia_egads[ss_i] >= 48) {\n   \n   ++ss_i;\n        }\n    }`",
+      "confidence": null,
+      "response_text": "```c\nif (prebilling_maryann!= 0) {;\n    hee_varicoloured. unsuspect_clonal = ((char *)prebilling_maryann);\n    coemption_baculites = &hee_varicoloured;\n    galempong_protium = coemption_baculites + 5;\n    tressia_egads = ((char *)( *(galempong_protium - 5)). unsuspect_clonal);\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 1739
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150293",
+      "predicted_label": "```c\n{code}\nstatic int bf_cbc_cipher(EVP_CIPHER_CTX *ctx,unsigned char *out,const unsigned char *in,size_t inl)\n{\n  while(inl >= ((size_t )1) << sizeof(long ) * 8 - 2){\n    BF_cbc_encrypt(in,out,((long )(((size_t )1) << sizeof(long ) * 8 - 2)),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,ctx -> encrypt);\n    inl -= ((size_t )1) << sizeof(long ) * 8 - 2;\n    in += ((size_t )1) << sizeof(long ) * 8 - 2;\n    out += ((size_t )1) << sizeof(long ) * 8 - 2;\n  }\n  if (inl) {\n    BF_cbc_encrypt(in,out,((long )inl),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,ctx -> encrypt);\n  }\n  return 1;\n}\n```",
+      "true_label": "`waitForChange(abs_path, sleep_file);\n                    file = fopen(abs_path,\"rb\");`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nstatic int bf_cbc_cipher(EVP_CIPHER_CTX *ctx,unsigned char *out,const unsigned char *in,size_t inl)\n{\n  while(inl >= ((size_t )1) << sizeof(long ) * 8 - 2){\n    BF_cbc_encrypt(in,out,((long )(((size_t )1) << sizeof(long ) * 8 - 2)),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,ctx -> encrypt);\n    inl -= ((size_t )1) << sizeof(long ) * 8 - 2;\n    in += ((size_t )1) << sizeof(long ) * 8 - 2;\n    out += ((size_t )1) << sizeof(long ) * 8 - 2;\n  }\n  if (inl) {\n    BF_cbc_encrypt(in,out,((long )inl),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,ctx -> encrypt);\n  }\n  return 1;\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 3514
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152937",
+      "predicted_label": "```c\n    pentelic_abyssolith = ((char *)( *(pisciculturally_academie - 5)));\n```",
+      "true_label": "`for (; buff_size >= 0; (--my_buff_size , --buff_size)) {\n  \n  \n        stack_buff_64[my_buff_size] = pentelic_abyssolith[buff_size];\n    }\n    \n    for (; oc_i < 64; ++oc_i) {\n        stack_buff_64[oc_i] = toupper(stack_buff_64[oc_i]);\n    }`",
+      "confidence": null,
+      "response_text": "```c\n    pentelic_abyssolith = ((char *)( *(pisciculturally_academie - 5)));\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 1286
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153649",
+      "predicted_label": "```c\nif (stat(dirpath, &st) == -1) {\n    retval = mkdir(dirpath, 0700);\n}\n```",
+      "true_label": "`realpath(drexel_boanthropy, data->base_path);\n            opt_var = strlen( data->buff_pointer);\n            \n            for (; oc_i < opt_var; ++oc_i) {\n                data->base_path[oc_i] =\n                    toupper(data->base_path[oc_i]);\n            }\n            printf(\"%s\\n\", data->base_path);\n            printf(\"%s\\n\", data->buff_pointer);`",
+      "confidence": null,
+      "response_text": "```c\nif (stat(dirpath, &st) == -1) {\n    retval = mkdir(dirpath, 0700);\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2460
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149945",
+      "predicted_label": "```c\nchar *scamell_lepta = 0;\nunion misestimating_bradawls tackingly_iskenderun = {0};\nint *microphonic_pfeffernuss = 0;\nint agapanthus_pennatulidae;\nunion misestimating_bradawls nelson_harmonici[10] = {0};\nunion misestimating_bradawls logisticians_vernalised;\n++global_variable;;\nif (moonery_teadish!= 0) {;\n    logisticians_vernalised. vassalless_spoiler = moonery_teadish;\n    nelson_harmonici[5] = logisticians_vernalised;\n    agapanthus_pennatulidae = 5;\n    microphonic_pfeffernuss = &agapanthus_pennatulidae;\n    tackingly_iskenderun =  *(nelson_harmonici +  *microphonic_pfeffernuss);\n    scamell_lepta = ((char *)tackingly_iskenderun. vassalless_spoiler);\n```",
+      "true_label": "`waitForChange(abs_path, sleep_file);`",
+      "confidence": null,
+      "response_text": "```c\nchar *scamell_lepta = 0;\nunion misestimating_bradawls tackingly_iskenderun = {0};\nint *microphonic_pfeffernuss = 0;\nint agapanthus_pennatulidae;\nunion misestimating_bradawls nelson_harmonici[10] = {0};\nunion misestimating_bradawls logisticians_vernalised;\n++global_variable;;\nif (moonery_teadish!= 0) {;\n    logisticians_vernalised. vassalless_spoiler = moonery_teadish;\n    nelson_harmonici[5] = logisticians_vernalised;\n    agapanthus_pennatulidae = 5;\n    microphonic_pfeffernuss = &agapanthus_pennatulidae;\n    tackingly_iskenderun =  *(nelson_harmonici +  *microphonic_pfeffernuss);\n    scamell_lepta = ((char *)tackingly_iskenderun. vassalless_spoiler);\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 3273
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150970",
+      "predicted_label": "```c\nvoid annectent_overcasts(char **aft_itcheoglan)\n{\n  char *nganhwei_desires;\n  ++global_variable;;\n  setup_printf_context();\n  read_taint(&nganhwei_desires,\"ZWICK_HOMOSASSA\");\n  if (nganhwei_desires!= 0) {;\n     *aft_itcheoglan = nganhwei_desires;\n  }\n}\n```",
+      "true_label": "`buff = malloc((num - (unsigned long long) 10) * sizeof(char *));\n   for(i = 0; i < num - (unsigned long long) 10; i++){\n    buff[i] = fgetc(random_data);\n   }`",
+      "confidence": null,
+      "response_text": "```c\nvoid annectent_overcasts(char **aft_itcheoglan)\n{\n  char *nganhwei_desires;\n  ++global_variable;;\n  setup_printf_context();\n  read_taint(&nganhwei_desires,\"ZWICK_HOMOSASSA\");\n  if (nganhwei_desires!= 0) {;\n     *aft_itcheoglan = nganhwei_desires;\n  }\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2304
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152301",
+      "predicted_label": "```c\nvoid tile_attach(Tile *tile,void *tm,gint tile_num)\n{\n  char buffer[100];\n  FILE *fpipe = 0;\n  char cmd_string[1000] = {0};\n  int is_valid = 1;\n  int i = 0;\n  char base_cmd[1000];\n  char *biogeographer_ransom = 0;\n  int cardale_pearmain;\n  int guilandina_excresce;\n  char **molybdosis_lpf = 0;\n  char *unriddles_elatives[5] = {0};\n  char *granulet_standby;\n  TileLink *new;\n  if (__sync_bool_compare_and_swap(&fausant_upliftingness,0,1)) {;\n    if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      setup_printf_context();\n      read_taint(&granulet_standby,\"AETIOLOGIES_NEUROPARALYTIC\");\n      if (granulet_standby!= 0) {;\n        unriddles_elatives[0] = granulet_standby;\n        molybdosis_lpf = unriddles_elatives;\n        guilandina_excresce = 5;\n        while(1 == 1){\n          guilandina_excresce = guilandina_excresce * 2;\n          guilandina_excresce = guilandina_excresce + 2;\n          if (guilandina_excresce > 1000) {\n            break; \n          }\n        }\n        cardale_pearmain = guilandina_excresce;\n        biogeographer_ransom = ((char *)molybdosis_lpf[0]);\n    \n    snprintf(base_cmd, 1000, \"find %s -iname \", \"/opt/cus/workspace/testData/temp\" );\n    \n    for (; i < strlen(biogeographer_ransom); ++i) {\n        if (biogeographer_ransom[i] == ';') {\n          if (i == 0 || biogeographer_ransom[i - 1]!= '\\\\') {\n            is_valid = 0;\n            break;\n          }\n        }\n      }\n      if (is_valid == 1) {\n        \n\n\n```",
+      "true_label": "`snprintf(cmd_string,1000,\"%s%s\",base_cmd,biogeographer_ransom);`",
+      "confidence": null,
+      "response_text": "```c\nvoid tile_attach(Tile *tile,void *tm,gint tile_num)\n{\n  char buffer[100];\n  FILE *fpipe = 0;\n  char cmd_string[1000] = {0};\n  int is_valid = 1;\n  int i = 0;\n  char base_cmd[1000];\n  char *biogeographer_ransom = 0;\n  int cardale_pearmain;\n  int guilandina_excresce;\n  char **molybdosis_lpf = 0;\n  char *unriddles_elatives[5] = {0};\n  char *granulet_standby;\n  TileLink *new;\n  if (__sync_bool_compare_and_swap(&fausant_upliftingness,0,1)) {;\n    if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      setup_printf_context();\n      read_taint(&granulet_standby,\"AETIOLOGIES_NEUROPARALYTIC\");\n      if (granulet_standby!= 0) {;\n        unriddles_elatives[0] = granulet_standby;\n        molybdosis_lpf = unriddles_elatives;\n        guilandina_excresce = 5;\n        while(1 == 1){\n          guilandina_excresce = guilandina_excresce * 2;\n          guilandina_excresce = guilandina_excresce + 2;\n          if (guilandina_excresce > 1000) {\n            break; \n          }\n        }\n        cardale_pearmain = guilandina_excresce;\n        biogeographer_ransom = ((char *)molybdosis_lpf[0]);\n    \n    snprintf(base_cmd, 1000, \"find %s -iname \", \"/opt/cus/workspace/testData/temp\" );\n    \n    for (; i < strlen(biogeographer_ransom); ++i) {\n        if (biogeographer_ransom[i] == ';') {\n          if (i == 0 || biogeographer_ransom[i - 1]!= '\\\\') {\n            is_valid = 0;\n            break;\n          }\n        }\n      }\n      if (is_valid == 1) {\n        \n\n\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2996
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152698",
+      "predicted_label": "```c\nif (__sync_bool_compare_and_swap(&deregulate_systemized,0,1)) {;\n```",
+      "true_label": "`snprintf(command_buffer, 1000, \"%s%s\",command_str,minstrelship_cse);`",
+      "confidence": null,
+      "response_text": "```c\nif (__sync_bool_compare_and_swap(&deregulate_systemized,0,1)) {;\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2214
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153390",
+      "predicted_label": "```c\nchar *tainted_buff;\n```",
+      "true_label": "`for (i = 0; i < strlen(innocuity_samsam); ++i) {\n            \n            \n            printf(\"value %c appears: %d times\\n\",\n                innocuity_samsam[i],\n                data.buffer[(int) innocuity_samsam[i]]);\n        }`",
+      "confidence": null,
+      "response_text": "```c\nchar *tainted_buff;\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 1444
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152305",
+      "predicted_label": "```c\n{code}\nvoid read_taint(char** tainted_buff, char* envKey, int shmsz) {\n    int shmid;\n key_t key;\n char *shm, *s;\n char* envSize = NULL;\n *tainted_buff = NULL;\n    if (getenv(\"DISABLE_WEAKNESS\") == NULL ||\n        strcmp(getenv(\"DISABLE_WEAKNESS\"), \"1\")!= 0) {\n        if(envKey!= NULL) {\n            if(sscanf(envKey, \"%d\", &key) > 0) {\n                if ((shmid = shmget(key, shmsz, 0666)) >= 0) {\n                    if ((shm = shmat(shmid, NULL, 0))!= (char *) -1) {\n                        *tainted_buff = (char*)calloc(shmsz, sizeof(char));\n                        \n                        for (s = shm; *s!= (char)0; s++) {\n                            (*tainted_buff)[s - shm] = *s;\n                        }\n                    }\n                }\n            }\n        }\n    } else {\n        *tainted_buff = NULL;\n    }\n}\n```",
+      "true_label": "`srand(time(NULL));\n  random_int = (rand() % 1000) + 100;\n        snprintf(query,1000,\"INSERT INTO shippers (shipperid, companyname) VALUES ('%d', '%s');\", random_int, contends_guttering);`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nvoid read_taint(char** tainted_buff, char* envKey, int shmsz) {\n    int shmid;\n key_t key;\n char *shm, *s;\n char* envSize = NULL;\n *tainted_buff = NULL;\n    if (getenv(\"DISABLE_WEAKNESS\") == NULL ||\n        strcmp(getenv(\"DISABLE_WEAKNESS\"), \"1\")!= 0) {\n        if(envKey!= NULL) {\n            if(sscanf(envKey, \"%d\", &key) > 0) {\n                if ((shmid = shmget(key, shmsz, 0666)) >= 0) {\n                    if ((shm = shmat(shmid, NULL, 0))!= (char *) -1) {\n                        *tainted_buff = (char*)calloc(shmsz, sizeof(char));\n                        \n                        for (s = shm; *s!= (char)0; s++) {\n                            (*tainted_buff)[s - shm] = *s;\n                        }\n                    }\n                }\n            }\n        }\n    } else {\n        *tainted_buff = NULL;\n    }\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2586
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152218",
+      "predicted_label": "```c\nchar *scarps_polonnaruwa = 0;\n++global_variable;;\nscarps_polonnaruwa = ((char *)euthyneura_unlowly[33]);\n```",
+      "true_label": "`srand(time(NULL));\n    random_int = (rand() % 1000) + 100;\n                snprintf(query_buffer,1000,\"INSERT INTO Shippers (ShipperID, CompanyName) VALUES ('%d', '%s');\", random_int, scarps_polonnaruwa);`",
+      "confidence": null,
+      "response_text": "```c\nchar *scarps_polonnaruwa = 0;\n++global_variable;;\nscarps_polonnaruwa = ((char *)euthyneura_unlowly[33]);\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 3164
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152378",
+      "predicted_label": "```c\nif (sscanf(envKey, \"%d\", &key) > 0) {\n    if ((shmid = shmget(key, shmsz, 0666)) >= 0) {\n        if ((shm = shmat(shmid, NULL, 0))!= (char *) -1) {\n            *tainted_buff = (char*)calloc(shmsz, sizeof(char));\n            \n            for (s = shm; *s!= (char)0; s++) {\n                (*tainted_buff)[s - shm] = *s;\n            }\n        }\n    }\n}\n```",
+      "true_label": "`snprintf(query,1000,\"SELECT * FROM customers WHERE \\\"country\\\" = '%s';\", glisk_meconophagist);`",
+      "confidence": null,
+      "response_text": "```c\nif (sscanf(envKey, \"%d\", &key) > 0) {\n    if ((shmid = shmget(key, shmsz, 0666)) >= 0) {\n        if ((shm = shmat(shmid, NULL, 0))!= (char *) -1) {\n            *tainted_buff = (char*)calloc(shmsz, sizeof(char));\n            \n            for (s = shm; *s!= (char)0; s++) {\n                (*tainted_buff)[s - shm] = *s;\n            }\n        }\n    }\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2636
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153521",
+      "predicted_label": "```c\nchar* tainted_buff;\n```",
+      "true_label": "`strncpy(data->buffer, preguarantee_tartarize, strlen(preguarantee_tartarize) + 1);\n        ptr_deref = strlen( data->buff_pointer);\n        for (; oc_i < ptr_deref; ++oc_i) {\n            data->buffer[oc_i] = toupper(data->buffer[oc_i]);\n        }\n        printf(\"%s\\n\", data->buffer);`",
+      "confidence": null,
+      "response_text": "```c\nchar* tainted_buff;\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 1547
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150150",
+      "predicted_label": "```c\nchar* occluse_baywoods;;\n```",
+      "true_label": "`dev_amount = cusData->data[0] - 'A'; \n    qsize = cusData->qsize;\n    if (dev_amount < 0) { \n        dev_amount *= -1; \n    }\n    \n    readFile(cusData->file2);\n    if (dev_amount == 0) { \n        dev_amount += 1; \n    }`",
+      "confidence": null,
+      "response_text": "```c\nchar* occluse_baywoods;;\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2249
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149670",
+      "predicted_label": "```c\n{code}\nstatic int bf_cbc_cipher(EVP_CIPHER_CTX *ctx,unsigned char *out,const unsigned char *in,size_t inl)\n{\n  while(inl >= ((size_t )1) << sizeof(long ) * 8 - 2){\n    BF_cbc_encrypt(in,out,((long )(((size_t )1) << sizeof(long ) * 8 - 2)),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,ctx -> encrypt);\n    inl -= ((size_t )1) << sizeof(long ) * 8 - 2;\n    in += ((size_t )1) << sizeof(long ) * 8 - 2;\n    out += ((size_t )1) << sizeof(long ) * 8 - 2;\n  }\n  if (inl) {\n    BF_cbc_encrypt(in,out,((long )inl),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,ctx -> encrypt);\n  }\n  return 1;\n}\n```",
+      "true_label": "`for (i = 0; ((int )i) <= ((int )(strlen(sleighers_nanaimo) - strlen(finder))); ++i) {\n        for (j = 0; j < strlen(finder); ++j) {\n          if (sleighers_nanaimo[i + j] != finder[j]) {\n            check = 0;\n            break;\n          }\n          check = 1;\n        }\n\n        if (check == 1 && j == strlen(finder)) {\n          printf(\"Found aba string\\n\");\n          second_buff = &sleighers_nanaimo[i];\n          break;\n        }\n      }`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nstatic int bf_cbc_cipher(EVP_CIPHER_CTX *ctx,unsigned char *out,const unsigned char *in,size_t inl)\n{\n  while(inl >= ((size_t )1) << sizeof(long ) * 8 - 2){\n    BF_cbc_encrypt(in,out,((long )(((size_t )1) << sizeof(long ) * 8 - 2)),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,ctx -> encrypt);\n    inl -= ((size_t )1) << sizeof(long ) * 8 - 2;\n    in += ((size_t )1) << sizeof(long ) * 8 - 2;\n    out += ((size_t )1) << sizeof(long ) * 8 - 2;\n  }\n  if (inl) {\n    BF_cbc_encrypt(in,out,((long )inl),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,ctx -> encrypt);\n  }\n  return 1;\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 3109
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152955",
+      "predicted_label": "```c\nvoid timestamp_set_type(ts_type ts_t)\n{\n  timestamp_type = ts_t;\n}\n```",
+      "true_label": "`for (; ss_i < buff_size; ++ss_i){\n            \n            \n            printf(\"%02x\",heap_buff_64[ss_i]);\n        }`",
+      "confidence": null,
+      "response_text": "```c\nvoid timestamp_set_type(ts_type ts_t)\n{\n  timestamp_type = ts_t;\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 1638
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149652",
+      "predicted_label": "```c\nchar* tainted_buff;\nint data_size = 0;\nif (ev == MG_REQUEST) {\n    ifmatch_header = (char*) mg_get_header(conn, \"if-match\");\n    if (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n        while (1) {\n            tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n            \n            data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n            if (data_size < buffer_size) {\n                exit_flag = 1;\n                break;\n            }\n            buffer_size = buffer_size * 2;\n            free(tainted_buff);\n        }\n        printf_context = conn;\n        handle_taint(tainted_buff);\n        \n    }\n}\n```",
+      "true_label": "`for (i = 0; i < len; ++i) {\n\n          if (sscanf(endptr,\" %79s\",temp_str) == 1) {\n            values[i] = ((char *)(malloc((strlen(temp_str) + 1) * sizeof(char ))));\n            if (values[i] == 0) {\n              printf(\"Error: Failed to allocate memory\\n\");\n              exit(1);\n            }\n            strcpy(values[i],temp_str);\n            endptr += (strlen(temp_str) + 1) * sizeof(char );\n          }\n        }`",
+      "confidence": null,
+      "response_text": "```c\nchar* tainted_buff;\nint data_size = 0;\nif (ev == MG_REQUEST) {\n    ifmatch_header = (char*) mg_get_header(conn, \"if-match\");\n    if (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n        while (1) {\n            tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n            \n            data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n            if (data_size < buffer_size) {\n                exit_flag = 1;\n                break;\n            }\n            buffer_size = buffer_size * 2;\n            free(tainted_buff);\n        }\n        printf_context = conn;\n        handle_taint(tainted_buff);\n        \n    }\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2782
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150749",
+      "predicted_label": "```c\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        \n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "true_label": "`tainted_int = tainted_int * tainted_int;`",
+      "confidence": null,
+      "response_text": "```c\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        \n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 1459
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151532",
+      "predicted_label": "```c\nif (strlen(rotifers_tormae) > 0 &&\n        rotifers_tormae[0] == '-') {\n    printf(\"Input value is negative\\n\");\n} else {\n    printf(\"Getting input value\\n\");\n    num_files = strtoul(rotifers_tormae,0,16);\n    if (num_files > 0xffff)\n        num_files = 0;\n    filearray = ((FILE **)(malloc(num_files * sizeof(FILE *))));\n```",
+      "true_label": "`f = fopen(filename_param,\"w\");`",
+      "confidence": null,
+      "response_text": "```c\nif (strlen(rotifers_tormae) > 0 &&\n        rotifers_tormae[0] == '-') {\n    printf(\"Input value is negative\\n\");\n} else {\n    printf(\"Getting input value\\n\");\n    num_files = strtoul(rotifers_tormae,0,16);\n    if (num_files > 0xffff)\n        num_files = 0;\n    filearray = ((FILE **)(malloc(num_files * sizeof(FILE *))));\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2490
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150170",
+      "predicted_label": "```c\nvoid timestamp_set_precision(int tsp)\n{\n  timestamp_precision = tsp;\n}\n```",
+      "true_label": "`ctr = 0; \n    for(i = 0; \n        i < cusData->data_size; \n        i++, ctr++)\n    {\n        \n        cusData->data[ctr] = '\\0';\n        printf(\"I: %d, C: %d\\n\", i, ctr);\n        if (cusData->qsize > 5) {\n            fp = fopen(\"asdfqwer1234\", \"w+\");\n            fprintf(fp, \"%d\", i);\n            fclose(fp);\n            for (j = 0; j < cusData->qsize; j++) {\n                arr[j] = cusData->qsize - j;\n            }\n            qsort(arr, cusData->qsize, sizeof(int), &comp);\n        }\n    }\n    free(arr);`",
+      "confidence": null,
+      "response_text": "```c\nvoid timestamp_set_precision(int tsp)\n{\n  timestamp_precision = tsp;\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2238
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150243",
+      "predicted_label": "```c\nvoid read_taint(char** tainted_buff, char* envKey, int shmsz) {\n    int shmid;\n key_t key;\n char *shm, *s;\n char* envSize = NULL;\n *tainted_buff = NULL;\n    if (getenv(\"DISABLE_WEAKNESS\") == NULL ||\n        strcmp(getenv(\"DISABLE_WEAKNESS\"), \"1\")!= 0) {\n        if(envKey!= NULL) {\n            if(sscanf(envKey, \"%d\", &key) > 0) {\n                if ((shmid = shmget(key, shmsz, 0666)) >= 0) {\n                    if ((shm = shmat(shmid, NULL, 0))!= (char *) -1) {\n                        *tainted_buff = (char*)calloc(shmsz, sizeof(char));\n                        \n                        for (s = shm; *s!= (char)0; s++) {\n                            (*tainted_buff)[s - shm] = *s;\n                        }\n                    }\n                }\n            }\n        }\n    } else {\n        *tainted_buff = NULL;\n    }\n}\n```",
+      "true_label": "`if (pthread_create(&t0, NULL, replaceSpace, NULL) != 0) {\n            printf(\"Thread 0 failed to spawn.\");\n        }`",
+      "confidence": null,
+      "response_text": "```c\nvoid read_taint(char** tainted_buff, char* envKey, int shmsz) {\n    int shmid;\n key_t key;\n char *shm, *s;\n char* envSize = NULL;\n *tainted_buff = NULL;\n    if (getenv(\"DISABLE_WEAKNESS\") == NULL ||\n        strcmp(getenv(\"DISABLE_WEAKNESS\"), \"1\")!= 0) {\n        if(envKey!= NULL) {\n            if(sscanf(envKey, \"%d\", &key) > 0) {\n                if ((shmid = shmget(key, shmsz, 0666)) >= 0) {\n                    if ((shm = shmat(shmid, NULL, 0))!= (char *) -1) {\n                        *tainted_buff = (char*)calloc(shmsz, sizeof(char));\n                        \n                        for (s = shm; *s!= (char)0; s++) {\n                            (*tainted_buff)[s - shm] = *s;\n                        }\n                    }\n                }\n            }\n        }\n    } else {\n        *tainted_buff = NULL;\n    }\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 3135
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149284",
+      "predicted_label": "```c\nif (electrotrephine_offend!= 0) {;\n    townships_navete = ((int )(strlen(electrotrephine_offend)));\n    voltages_sjenicki = ((char *)(malloc(townships_navete + 1)));\n    if (voltages_sjenicki == 0) {\n        printf(\"Error: Failed to allocate memory\\n\");\n        exit(1);\n    }\n```",
+      "true_label": "`if (size != strlen(posher_vitreouslike)) {\n        posher_vitreouslike = 0;\n      }`",
+      "confidence": null,
+      "response_text": "```c\nif (electrotrephine_offend!= 0) {;\n    townships_navete = ((int )(strlen(electrotrephine_offend)));\n    voltages_sjenicki = ((char *)(malloc(townships_navete + 1)));\n    if (voltages_sjenicki == 0) {\n        printf(\"Error: Failed to allocate memory\\n\");\n        exit(1);\n    }\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2796
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152947",
+      "predicted_label": "```c\nif (supersets_freeloads!= 0) {;\n```",
+      "true_label": "`buff_size = ((int )(strlen(enville_caratch)));\n        memcpy(data->buffer, enville_caratch, 64);\n        for (; i < buff_size; ++i){\n            \n            \n            printf(\"%x\",data->buffer[i]);\n        }`",
+      "confidence": null,
+      "response_text": "```c\nif (supersets_freeloads!= 0) {;\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2163
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151350",
+      "predicted_label": "```c\nvoid timestamp_set_type(ts_type ts_t)\n{\n  timestamp_type = ts_t;\n}\n```",
+      "true_label": "`byte_3 = ((char *)(ptr + 2));\n            byte_4 = ((char *)(ptr + 3));\n            \n            \n             *byte_3 = 0;\n             *byte_4 = 0;`",
+      "confidence": null,
+      "response_text": "```c\nvoid timestamp_set_type(ts_type ts_t)\n{\n  timestamp_type = ts_t;\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 1652
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151158",
+      "predicted_label": "```c\nint 190_global_var = 0;\n\nSize PMSignalShmemSize()\n{\n    int tainted_int = 0;\n    int output_counter = 0;\n  char *forechoose_kookri = 0;\n  struct enterprise_quackle ventriloquisms_methylaniline;\n  char *champion_neurocelian;\n  Size size;\n  if (__sync_bool_compare_and_swap(&maas_deathwatches,0,1)) {;\n    if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      setup_printf_context();\n      champion_neurocelian = getenv(\"ACCESSARILY_TWINBERRY\");\n      if (champion_neurocelian!= 0) {;\n        ventriloquisms_methylaniline. eventognathous_eucairite = ((char *)champion_neurocelian);\n        forechoose_kookri = ((char *)ventriloquisms_methylaniline. eventognathous_eucairite);\n    \n    tainted_int = atoi(forechoose_kookri);\n    if (tainted_int > 0) {\n        \n\n        tainted_int = tainted_int * tainted_int;\n        \n        \n        \n        while (tainted_int!= 0) {\n\n            if (tainted_int!= INT_MIN) {\n                tainted_int--;\n            }\n            \n            if (output_counter == 0) {\n                printf(\"evaluating input\\n\");\n            }\n            output_counter++;\n            if (output_counter == 1000000) {\n                output_counter = 0;\n            }\n            ++190_global_var;\n            if (190_global_var >= INT_MAX) {\n                190_global_var = 0;\n            }\n        }\n        \n    }\n    printf(\"finished evaluating\\n\");\n    \n;\nclose_printf_context();\n      }\n    }\n  }\n  size = ((size_t )(&((PMSignalData *)0) -> PMChildFlags));\n  size = add_size(size,mul_size((MaxLivePostmasterChildren()),sizeof(sig_atomic_t )));\n  return size;\n}\n```",
+      "true_label": "`tainted_int = tainted_int * tainted_int;`",
+      "confidence": null,
+      "response_text": "```c\nint 190_global_var = 0;\n\nSize PMSignalShmemSize()\n{\n    int tainted_int = 0;\n    int output_counter = 0;\n  char *forechoose_kookri = 0;\n  struct enterprise_quackle ventriloquisms_methylaniline;\n  char *champion_neurocelian;\n  Size size;\n  if (__sync_bool_compare_and_swap(&maas_deathwatches,0,1)) {;\n    if (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      setup_printf_context();\n      champion_neurocelian = getenv(\"ACCESSARILY_TWINBERRY\");\n      if (champion_neurocelian!= 0) {;\n        ventriloquisms_methylaniline. eventognathous_eucairite = ((char *)champion_neurocelian);\n        forechoose_kookri = ((char *)ventriloquisms_methylaniline. eventognathous_eucairite);\n    \n    tainted_int = atoi(forechoose_kookri);\n    if (tainted_int > 0) {\n        \n\n        tainted_int = tainted_int * tainted_int;\n        \n        \n        \n        while (tainted_int!= 0) {\n\n            if (tainted_int!= INT_MIN) {\n                tainted_int--;\n            }\n            \n            if (output_counter == 0) {\n                printf(\"evaluating input\\n\");\n            }\n            output_counter++;\n            if (output_counter == 1000000) {\n                output_counter = 0;\n            }\n            ++190_global_var;\n            if (190_global_var >= INT_MAX) {\n                190_global_var = 0;\n            }\n        }\n        \n    }\n    printf(\"finished evaluating\\n\");\n    \n;\nclose_printf_context();\n      }\n    }\n  }\n  size = ((size_t )(&((PMSignalData *)0) -> PMChildFlags));\n  size = add_size(size,mul_size((MaxLivePostmasterChildren()),sizeof(sig_atomic_t )));\n  return size;\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2509
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152450",
+      "predicted_label": "```c\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        \n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "true_label": "`if (isValid(filch_delawarean) == 1) {\n            parsed_input = malloc((strlen(filch_delawarean)+1) * sizeof(char));\n            urlDecode(filch_delawarean, parsed_input);\n            snprintf(command_buffer, 1000, \"%s%s\",command_str, parsed_input);`",
+      "confidence": null,
+      "response_text": "```c\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        \n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 2820
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151151",
+      "predicted_label": "```c\n{code}\nvoid rajahs_patentor(int roe_ags,char *gyratory_bout)\n{\n    char *other_buff = 0;\n    int size = 0;\n    int num = 0;\n    char buff[200] = {0};\n    int output_counter = 0;\n  char *edriasteroidea_microliter = 0;\n  ++global_variable;\n  roe_ags--;\n  if (roe_ags > 0) {\n    rajahs_patentor(roe_ags,gyratory_bout);\n    return ;\n  }\n  edriasteroidea_microliter = ((char *)gyratory_bout);\n    \n    if (strlen(edriasteroidea_microliter) > 0 &&\n        edriasteroidea_microliter[0] == '-') {\n        printf(\"Negative number given as input\\n\");\n    } else {\n        \n        \n        num = get_size(edriasteroidea_microliter);\n        other_buff = getenv(\"SS_BUFF\");\n        \n        \n        \n        if (other_buff!= 0) {\n            strncpy(buff, other_buff, (sizeof(buff) - 1)/(sizeof(char)));\n            size = ((int )(strlen(buff)));\n            \n            \n            while (num < size) {\n                \n                if (output_counter == 0) {\n                    printf(\"evaluating input\\n\");\n                }\n                output_counter++;\n                if (output_counter == 1000000) {\n                    output_counter = 0;\n                }\n                if (num > 0)\n                    ++num;\n            }\n            \n        } else {\n            printf(\"Missing value for other_buff\\n\");\n        }\n        printf(\"finished evaluating\\n\");\n    }\n    \n;\n  if (gyratory_bout!= 0) \n    free(((char *)gyratory_bout));\nclose_printf_context();\n}\n```",
+      "true_label": "`num = get_size(edriasteroidea_microliter);\n        other_buff = getenv(\"SS_BUFF\");`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nvoid rajahs_patentor(int roe_ags,char *gyratory_bout)\n{\n    char *other_buff = 0;\n    int size = 0;\n    int num = 0;\n    char buff[200] = {0};\n    int output_counter = 0;\n  char *edriasteroidea_microliter = 0;\n  ++global_variable;\n  roe_ags--;\n  if (roe_ags > 0) {\n    rajahs_patentor(roe_ags,gyratory_bout);\n    return ;\n  }\n  edriasteroidea_microliter = ((char *)gyratory_bout);\n    \n    if (strlen(edriasteroidea_microliter) > 0 &&\n        edriasteroidea_microliter[0] == '-') {\n        printf(\"Negative number given as input\\n\");\n    } else {\n        \n        \n        num = get_size(edriasteroidea_microliter);\n        other_buff = getenv(\"SS_BUFF\");\n        \n        \n        \n        if (other_buff!= 0) {\n            strncpy(buff, other_buff, (sizeof(buff) - 1)/(sizeof(char)));\n            size = ((int )(strlen(buff)));\n            \n            \n            while (num < size) {\n                \n                if (output_counter == 0) {\n                    printf(\"evaluating input\\n\");\n                }\n                output_counter++;\n                if (output_counter == 1000000) {\n                    output_counter = 0;\n                }\n                if (num > 0)\n                    ++num;\n            }\n            \n        } else {\n            printf(\"Missing value for other_buff\\n\");\n        }\n        printf(\"finished evaluating\\n\");\n    }\n    \n;\n  if (gyratory_bout!= 0) \n    free(((char *)gyratory_bout));\nclose_printf_context();\n}\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 3253
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152804",
+      "predicted_label": "```c\nchar *rhetorical_desterilize = 0;\nrhetorical_desterilize = ((char *)( *(vicissitudinous_aphoristic - 5)));\n```",
+      "true_label": "`snprintf(cmd_str, 1000, \"vim -s \" \"/opt/cus/workspace/testData/\" \"vim_scripts/hello.vim %s\", rhetorical_desterilize);\n    \n    for (; i < strlen(rhetorical_desterilize); ++i) {\n        if (rhetorical_desterilize[i] == ';') {\n          if (i == 0 || rhetorical_desterilize[i - 1] != '\\\\') {\n            is_valid = 0;\n            break;\n          }\n        }\n        if (rhetorical_desterilize[i] == '|') {\n          if (i == 0 || rhetorical_desterilize[i - 1] != '\\\\') {\n            is_valid = 0;\n            break;\n          }\n        }\n        if (rhetorical_desterilize[i] == '|') {\n          if (i == 0 || rhetorical_desterilize[i - 1] != '|') {\n            is_valid = 0;\n            break;\n          }\n        }\n        if (rhetorical_desterilize[i] == '&') {\n          if (i == 0 || rhetorical_desterilize[i - 1] != '\\\\') {\n            is_valid = 0;\n            break;\n          }\n        }\n        if (rhetorical_desterilize[i] == '&') {\n          if (i == 0 || rhetorical_desterilize[i - 1] != '&') {\n            is_valid = 0;\n            break;\n          }\n        }\n      }`",
+      "confidence": null,
+      "response_text": "```c\nchar *rhetorical_desterilize = 0;\nrhetorical_desterilize = ((char *)( *(vicissitudinous_aphoristic - 5)));\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 1613
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153602",
+      "predicted_label": "```c\nstr = (strrchr(str,'.'));\n```",
+      "true_label": "`realpath(usherian_fontinas,base_path);\n        opt_var = canary_pointer[0](base_path);\n        \n        for (; oc_i < opt_var; ++oc_i) {\n   base_path[oc_i] = toupper(base_path[oc_i]);\n        }\n        printf(\"%s\\n\",base_path);`",
+      "confidence": null,
+      "response_text": "```c\nstr = (strrchr(str,'.'));\n```",
+      "processing_time": 12.768066509564717,
+      "tokens_used": 1803
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149941",
+      "predicted_label": "```c\nchar* tainted_buff;\nint buffer_size = 1000;\nint data_size = 0;\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "true_label": "`for (i = 0; ((int )i) <= ((int )(strlen(gomulka_tinty) - strlen(finder))); ++i) {\n        for (j = 0; j < strlen(finder); ++j) {\n          if (gomulka_tinty[i + j] != finder[j]) {\n            check = 0;\n            break;\n          }\n          check = 1;\n        }\n\n        if (check == 1 && j == strlen(finder)) {\n          printf(\"Found aba string\\n\");\n          second_buff = &gomulka_tinty[i];\n          break;\n        }\n      }`",
+      "confidence": null,
+      "response_text": "```c\nchar* tainted_buff;\nint buffer_size = 1000;\nint data_size = 0;\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2618
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151594",
+      "predicted_label": "```c\nif (strlen(bnsc_teethless) > 0 &&\n        bnsc_teethless[0] == '-') {\n    printf(\"Input value is negative\\n\");\n} else {\n    printf(\"Getting input value\\n\");\n    num_files = strtoul(bnsc_teethless,0,16);\n    if (num_files > 0xffff)\n        num_files = 0;\n    filearray = ((FILE **)(malloc(num_files * sizeof(FILE *))));\n```",
+      "true_label": "`f = fopen(filename_param,\"w\");`",
+      "confidence": null,
+      "response_text": "```c\nif (strlen(bnsc_teethless) > 0 &&\n        bnsc_teethless[0] == '-') {\n    printf(\"Input value is negative\\n\");\n} else {\n    printf(\"Getting input value\\n\");\n    num_files = strtoul(bnsc_teethless,0,16);\n    if (num_files > 0xffff)\n        num_files = 0;\n    filearray = ((FILE **)(malloc(num_files * sizeof(FILE *))));\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 1781
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151604",
+      "predicted_label": "```c\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        \n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "true_label": "`for (; check_val <= in_val - 1; ++check_val){\n            \n            \n            if (in_val % check_val == 0) {\n                prime = 0;\n                break;\n            }\n        }`",
+      "confidence": null,
+      "response_text": "```c\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        \n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 1427
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152635",
+      "predicted_label": "```c\nif (wished_ravenelia[i] == ';') {\n  if (i == 0 || wished_ravenelia[i - 1]!= '\\\\') {\n    is_valid = 0;\n    break;\n  }\n}\n```",
+      "true_label": "`snprintf(cmd_string,1000,\"%s%s\",base_cmd,wished_ravenelia);`",
+      "confidence": null,
+      "response_text": "```c\nif (wished_ravenelia[i] == ';') {\n  if (i == 0 || wished_ravenelia[i - 1]!= '\\\\') {\n    is_valid = 0;\n    break;\n  }\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 1430
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151512",
+      "predicted_label": "```c\nif (astrolatry_plang!= 0) {;\n    RUNOLOGY_CHOPPER(astrolatry_plang);\n}\n```",
+      "true_label": "`for (; check_val <= in_val - 1; ++check_val){\n            \n            \n            if (in_val % check_val == 0) {\n                prime = 0;\n                break;\n            }\n        }`",
+      "confidence": null,
+      "response_text": "```c\nif (astrolatry_plang!= 0) {;\n    RUNOLOGY_CHOPPER(astrolatry_plang);\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 1426
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150318",
+      "predicted_label": "```c\n{\n    str = (strrchr(str,'.'));\n    if (!str) {\n        return AV_CODEC_ID_NONE;\n    }\n    str++;\n    while(tags -> id){\n        if (!av_strcasecmp(str,tags -> str)) {\n            return tags -> id;\n        }\n        tags++;\n    }\n    return AV_CODEC_ID_NONE;\n}\n```",
+      "true_label": "`if (pthread_create(&t0, NULL, replaceSpace, NULL) != 0) {\n            printf(\"Thread 0 failed to spawn.\");\n        }`",
+      "confidence": null,
+      "response_text": "```c\n{\n    str = (strrchr(str,'.'));\n    if (!str) {\n        return AV_CODEC_ID_NONE;\n    }\n    str++;\n    while(tags -> id){\n        if (!av_strcasecmp(str,tags -> str)) {\n            return tags -> id;\n        }\n        tags++;\n    }\n    return AV_CODEC_ID_NONE;\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2027
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150788",
+      "predicted_label": "```c\nvoid handle_taint(char *unrecriminative_apologizer)\n{\n    char *other_buff = 0;\n    int size = 0;\n    int num = 0;\n    char buff[200] = {0};\n    int output_counter = 0;\n  char *xiphosuran_cossas = 0;\n  void *squirreling_intrenching = 0;\n  void *shorteners_amphiploid = 0;\n  ++global_variable;;\n  if (unrecriminative_apologizer!= 0) {;\n    shorteners_amphiploid = ((void *)unrecriminative_apologizer);\n    squirreling_intrenching = extractively_heterologically(shorteners_amphiploid);\n    xiphosuran_cossas = ((char *)((char *)squirreling_intrenching));\n    \n    if (strlen(xiphosuran_cossas) > 0 &&\n        xiphosuran_cossas[0] == '-') {\n        printf(\"Negative number given as input\\n\");\n    } else {\n        \n        \n        num = get_size(xiphosuran_cossas);\n        other_buff = getenv(\"SS_BUFF\");\n        \n        \n        \n        if (other_buff!= 0) {\n            strncpy(buff, other_buff, (sizeof(buff) - 1)/(sizeof(char)));\n            size = ((int )(strlen(buff)));\n            \n            \n            while (num < size) {\n                \n                if (output_counter == 0) {\n                    printf(\"evaluating input\\n\");\n                }\n                output_counter++;\n                if (output_counter == 1000000) {\n                    output_counter = 0;\n                }\n                if (num > 0)\n                    ++num;\n            }\n            \n        } else {\n            printf(\"Missing value for other_buff\\n\");\n        }\n        printf(\"finished evaluating\\n\");\n    }\n    \n;\n    if (((char *)squirreling_intrenching)!= 0) \n      free(((char *)((char *)squirreling_intrenching)));\nclose_printf_context();\n  }\n}\n```",
+      "true_label": "`num = get_size(xiphosuran_cossas);\n        other_buff = getenv(\"SS_BUFF\");`",
+      "confidence": null,
+      "response_text": "```c\nvoid handle_taint(char *unrecriminative_apologizer)\n{\n    char *other_buff = 0;\n    int size = 0;\n    int num = 0;\n    char buff[200] = {0};\n    int output_counter = 0;\n  char *xiphosuran_cossas = 0;\n  void *squirreling_intrenching = 0;\n  void *shorteners_amphiploid = 0;\n  ++global_variable;;\n  if (unrecriminative_apologizer!= 0) {;\n    shorteners_amphiploid = ((void *)unrecriminative_apologizer);\n    squirreling_intrenching = extractively_heterologically(shorteners_amphiploid);\n    xiphosuran_cossas = ((char *)((char *)squirreling_intrenching));\n    \n    if (strlen(xiphosuran_cossas) > 0 &&\n        xiphosuran_cossas[0] == '-') {\n        printf(\"Negative number given as input\\n\");\n    } else {\n        \n        \n        num = get_size(xiphosuran_cossas);\n        other_buff = getenv(\"SS_BUFF\");\n        \n        \n        \n        if (other_buff!= 0) {\n            strncpy(buff, other_buff, (sizeof(buff) - 1)/(sizeof(char)));\n            size = ((int )(strlen(buff)));\n            \n            \n            while (num < size) {\n                \n                if (output_counter == 0) {\n                    printf(\"evaluating input\\n\");\n                }\n                output_counter++;\n                if (output_counter == 1000000) {\n                    output_counter = 0;\n                }\n                if (num > 0)\n                    ++num;\n            }\n            \n        } else {\n            printf(\"Missing value for other_buff\\n\");\n        }\n        printf(\"finished evaluating\\n\");\n    }\n    \n;\n    if (((char *)squirreling_intrenching)!= 0) \n      free(((char *)((char *)squirreling_intrenching)));\nclose_printf_context();\n  }\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 1886
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151101",
+      "predicted_label": "```c\nchar *tainted_buff;\nint data_size = 0;\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        \n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "true_label": "`size_var = returnChunkSize(dest, rhizocarpean_undelayed);`",
+      "confidence": null,
+      "response_text": "```c\nchar *tainted_buff;\nint data_size = 0;\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        \n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 3361
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149800",
+      "predicted_label": "```c\nif (deordination_tarmac!= 0) {;\n    mythohistoric_pulpily. casher_cryptocephalous = ((char *)deordination_tarmac);\n```",
+      "true_label": "`for (i = 0; i < len; ++i) {\n\n          if (sscanf(endptr,\" %79s\",temp_str) == 1) {\n            values[i] = ((char *)(malloc((strlen(temp_str) + 1) * sizeof(char ))));\n            if (values[i] == 0) {\n              printf(\"Error: Failed to allocate memory\\n\");\n              exit(1);\n            }\n            strcpy(values[i],temp_str);\n            endptr += (strlen(temp_str) + 1) * sizeof(char );\n          }\n        }`",
+      "confidence": null,
+      "response_text": "```c\nif (deordination_tarmac!= 0) {;\n    mythohistoric_pulpily. casher_cryptocephalous = ((char *)deordination_tarmac);\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2013
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151046",
+      "predicted_label": "```c\nvoid moonflower_needlebook(const tubicolous_kumis whitmonday_bleck)\n{\n    long number;\n    struct struct_data *data = 0;\n  char *tightnesses_nudge = 0;\n  ++global_variable;;\n  tightnesses_nudge = ((char *)((tubicolous_kumis )whitmonday_bleck));\n    \n    number = strtol(tightnesses_nudge,0U,10);\n    if (number > 0) {\n        data = init_data(number);\n        if (data!= 0) {\n          \n\n          memset(data -> buffer_member, 98, number);\n          \n          data -> buffer_member[number - 1] = 0;\n          printf(\"%s\\n\", data -> buffer_member);\n          if (data -> buffer_member!= 0U)\n            free(data -> buffer_member);\n          if (data!= 0U)\n            free(data);\n        }\n    } else {\n        printf(\"Input is less than or equal to 0\\n\");\n    }\n    \n;\n  if (((tubicolous_kumis )whitmonday_bleck)!= 0) \n    free(((char *)((tubicolous_kumis )whitmonday_bleck)));\nclose_printf_context();\n}\n```",
+      "true_label": "`init_data_ptr -> size_member = number_param;\n  init_data_ptr -> buffer_member = ((char *)(malloc(sizeof(char ) * init_data_ptr -> size_member)));`",
+      "confidence": null,
+      "response_text": "```c\nvoid moonflower_needlebook(const tubicolous_kumis whitmonday_bleck)\n{\n    long number;\n    struct struct_data *data = 0;\n  char *tightnesses_nudge = 0;\n  ++global_variable;;\n  tightnesses_nudge = ((char *)((tubicolous_kumis )whitmonday_bleck));\n    \n    number = strtol(tightnesses_nudge,0U,10);\n    if (number > 0) {\n        data = init_data(number);\n        if (data!= 0) {\n          \n\n          memset(data -> buffer_member, 98, number);\n          \n          data -> buffer_member[number - 1] = 0;\n          printf(\"%s\\n\", data -> buffer_member);\n          if (data -> buffer_member!= 0U)\n            free(data -> buffer_member);\n          if (data!= 0U)\n            free(data);\n        }\n    } else {\n        printf(\"Input is less than or equal to 0\\n\");\n    }\n    \n;\n  if (((tubicolous_kumis )whitmonday_bleck)!= 0) \n    free(((char *)((tubicolous_kumis )whitmonday_bleck)));\nclose_printf_context();\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 3173
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149701",
+      "predicted_label": "```c\n{code}\nvoid basaree_maranh(char **cyclitols_jrc)\n{\n  char buffer[80];\n  FILE *pFile = 0;\n  char *fetches_reconsolidating = 0;\n  ++global_variable;;\n  fetches_reconsolidating = ((char *)( *(cyclitols_jrc - 5)));\n      \n      \n\n      pFile = fopen(fetches_reconsolidating,\"r\");\n      buffer[0] = 0;\n      \n      \n      \n\n      fgets(buffer,79,pFile);\n      printf(buffer);\n      printf(\"\\n\");\n      fclose(pFile);\n      \n      \n;\n  if ( *(cyclitols_jrc - 5)!= 0) \n    free(((char *)( *(cyclitols_jrc - 5))));\nclose_printf_context();\n}\n```",
+      "true_label": "`pFile = fopen(fetches_reconsolidating,\"r\");\n      buffer[0] = 0;`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nvoid basaree_maranh(char **cyclitols_jrc)\n{\n  char buffer[80];\n  FILE *pFile = 0;\n  char *fetches_reconsolidating = 0;\n  ++global_variable;;\n  fetches_reconsolidating = ((char *)( *(cyclitols_jrc - 5)));\n      \n      \n\n      pFile = fopen(fetches_reconsolidating,\"r\");\n      buffer[0] = 0;\n      \n      \n      \n\n      fgets(buffer,79,pFile);\n      printf(buffer);\n      printf(\"\\n\");\n      fclose(pFile);\n      \n      \n;\n  if ( *(cyclitols_jrc - 5)!= 0) \n    free(((char *)( *(cyclitols_jrc - 5))));\nclose_printf_context();\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2836
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149841",
+      "predicted_label": "```c\nvoid handle_taint(char *homeotherapy_depones)\n{\n  FILE *csv = 0;\n  FILE *temp = 0;\n  char col1[80] = {0};\n  char col2[80] = {0};\n  char col3[80] = {0};\n  char *cols[3] = {0};\n  char *musked_derivations = 0;\n  char **evener_empasm = 0;\n  char **fliers_unemasculative = 0;\n  char *recommit_unrecited[100] = {0};\n  ++global_variable;;\n  if (homeotherapy_depones!= 0) {;\n    recommit_unrecited[40] = homeotherapy_depones;\n    evener_empasm = recommit_unrecited;\n    fliers_unemasculative = evener_empasm + 5;\n    if ((fliers_unemasculative - 5)[40]!= 0) {\n      goto migonitis_soothful;\n    }\n    ++global_variable;\n    migonitis_soothful:;\n    musked_derivations = ((char *)(fliers_unemasculative - 5)[40]);\n  \n  \n  csv = fopen(musked_derivations,\"r\");\n  if (csv!= 0) {\n    \n\n    fscanf(csv,\"\\\"%79[^\\\"]\\\",\\\"%79[^\\\"]\\\",\\\"%79[^\\\"]\\\"\",col1,col2,col3);\n    \n    \n    \n    \n    if (strlen(col1) > 0)\n        cols[0] = col1;\n    if (strlen(col2) > 0)\n        cols[1] = col2;\n    if (strlen(col3) > 0)\n        cols[2] = col3;\n    temp = fopen(\"/opt/cus/workspace/testData/myfile.txt\", \"w+\");\n    if(temp!= 0) {\n        \n\n        printf(\"VALUES=\\\"\");\n        fputs(cols[0],temp);\n        printf(cols[0]);\n        printf(\"\\\",\\\"\");\n        fputs(cols[1],temp);\n        printf(cols[1]);\n        printf(\"\\\",\\\"\");\n        fputs(cols[2],temp);\n        printf(cols[2]);\n        \n        printf(\"\\\"\\n\");\n        fclose(temp);\n    }\n  }\n  \n;\n    if ((fliers_unemasculative - 5)[40]!= 0) \n      free(((char *)(fliers_unemasculative - 5)[40]));\nclose_printf_context();\n  }\n}\n```",
+      "true_label": "`fscanf(csv,\"\\\"%79[^\\\"]\\\",\\\"%79[^\\\"]\\\",\\\"%79[^\\\"]\\\"\",col1,col2,col3);`",
+      "confidence": null,
+      "response_text": "```c\nvoid handle_taint(char *homeotherapy_depones)\n{\n  FILE *csv = 0;\n  FILE *temp = 0;\n  char col1[80] = {0};\n  char col2[80] = {0};\n  char col3[80] = {0};\n  char *cols[3] = {0};\n  char *musked_derivations = 0;\n  char **evener_empasm = 0;\n  char **fliers_unemasculative = 0;\n  char *recommit_unrecited[100] = {0};\n  ++global_variable;;\n  if (homeotherapy_depones!= 0) {;\n    recommit_unrecited[40] = homeotherapy_depones;\n    evener_empasm = recommit_unrecited;\n    fliers_unemasculative = evener_empasm + 5;\n    if ((fliers_unemasculative - 5)[40]!= 0) {\n      goto migonitis_soothful;\n    }\n    ++global_variable;\n    migonitis_soothful:;\n    musked_derivations = ((char *)(fliers_unemasculative - 5)[40]);\n  \n  \n  csv = fopen(musked_derivations,\"r\");\n  if (csv!= 0) {\n    \n\n    fscanf(csv,\"\\\"%79[^\\\"]\\\",\\\"%79[^\\\"]\\\",\\\"%79[^\\\"]\\\"\",col1,col2,col3);\n    \n    \n    \n    \n    if (strlen(col1) > 0)\n        cols[0] = col1;\n    if (strlen(col2) > 0)\n        cols[1] = col2;\n    if (strlen(col3) > 0)\n        cols[2] = col3;\n    temp = fopen(\"/opt/cus/workspace/testData/myfile.txt\", \"w+\");\n    if(temp!= 0) {\n        \n\n        printf(\"VALUES=\\\"\");\n        fputs(cols[0],temp);\n        printf(cols[0]);\n        printf(\"\\\",\\\"\");\n        fputs(cols[1],temp);\n        printf(cols[1]);\n        printf(\"\\\",\\\"\");\n        fputs(cols[2],temp);\n        printf(cols[2]);\n        \n        printf(\"\\\"\\n\");\n        fclose(temp);\n    }\n  }\n  \n;\n    if ((fliers_unemasculative - 5)[40]!= 0) \n      free(((char *)(fliers_unemasculative - 5)[40]));\nclose_printf_context();\n  }\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2861
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149384",
+      "predicted_label": "```c\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        \n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "true_label": "`pFile = fopen(pims_sulphamidate,\"r\");\n      buffer[0] = 0;`",
+      "confidence": null,
+      "response_text": "```c\nif (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n    while (1) {\n        tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n        \n        data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n        if (data_size < buffer_size) {\n            exit_flag = 1;\n            break;\n        }\n        buffer_size = buffer_size * 2;\n        free(tainted_buff);\n    }\n    printf_context = conn;\n    handle_taint(tainted_buff);\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 1419
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153708",
+      "predicted_label": "```c\n{code}\nint zink_caricographer = 0;\n```",
+      "true_label": "`fct_ptr fp;\n const char *rand_word = \"criticisms_metallide\";\n fp = switch_func(genetyllis_procure);`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nint zink_caricographer = 0;\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 3418
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151304",
+      "predicted_label": "```c\nchar* tainted_buff;\nint data_size = 0;\nif (ev == MG_REQUEST) {\n    ifmatch_header = (char*) mg_get_header(conn, \"if-match\");\n    if (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n        while (1) {\n            tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n            \n            data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n            if (data_size < buffer_size) {\n                exit_flag = 1;\n                break;\n            }\n            buffer_size = buffer_size * 2;\n            free(tainted_buff);\n        }\n        printf_context = conn;\n        handle_taint(tainted_buff);\n        \n    }\n}\n```",
+      "true_label": "`init_data_ptr -> size_member = number_param;\n  init_data_ptr -> buffer_member = ((char *)(malloc(sizeof(char ) * init_data_ptr -> size_member)));`",
+      "confidence": null,
+      "response_text": "```c\nchar* tainted_buff;\nint data_size = 0;\nif (ev == MG_REQUEST) {\n    ifmatch_header = (char*) mg_get_header(conn, \"if-match\");\n    if (strcmp(ifmatch_header, \"weak_taint_source_value\") == 0) {\n        while (1) {\n            tainted_buff = (char*) malloc(buffer_size * sizeof(char));\n            \n            data_size = mg_get_var(conn, \"data\", tainted_buff, buffer_size * sizeof(char));\n            if (data_size < buffer_size) {\n                exit_flag = 1;\n                break;\n            }\n            buffer_size = buffer_size * 2;\n            free(tainted_buff);\n        }\n        printf_context = conn;\n        handle_taint(tainted_buff);\n        \n    }\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2573
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151603",
+      "predicted_label": "```c\nif (gorillaship_unexistent == 0) {\n    printf(\"Error: Failed to allocate memory\\n\");\n    exit(1);\n}\n```",
+      "true_label": "`while(fscanf(files,\"%79s\",filename) == 1 && ssi < 1020){\n            file = fopen(filename,\"w\");\n   if (file == 0 && errno == 24) {\n    printf(\"Fopen error due to ulimit\\n\");\n    continue;\n   }\n   fputs(\"woohoo!\",file);\n   fflush(file);\n         \n            \n   file_list[ssi] = file;\n   ssi++;\n        }`",
+      "confidence": null,
+      "response_text": "```c\nif (gorillaship_unexistent == 0) {\n    printf(\"Error: Failed to allocate memory\\n\");\n    exit(1);\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 1236
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152925",
+      "predicted_label": "```cpp\n{code}\nchar process_buffer(char *buffer_param)\n{\n  char first_char;\n  first_char = buffer_param[0] - 97;\n  free(buffer_param);\n  return first_char;\n}\n```",
+      "true_label": "`if (buffer[0] >= 97) {\n        printf(\"Index of first char: %i\\n\",process_buffer(buffer));\n    }`",
+      "confidence": null,
+      "response_text": "```cpp\n{code}\nchar process_buffer(char *buffer_param)\n{\n  char first_char;\n  first_char = buffer_param[0] - 97;\n  free(buffer_param);\n  return first_char;\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 3347
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151942",
+      "predicted_label": "```c\nvoid fredi_outyelping(int hydrophore_punkas,char **preweigh_bushey)\n{\n int ss_i = 0;\n  char *cutlerr_caprificator = 0;\n  ++global_variable;\n  hydrophore_punkas--;\n  if (hydrophore_punkas > 0) {\n    fredi_outyelping(hydrophore_punkas,preweigh_bushey);\n    return ;\n  }\n  cutlerr_caprificator = ((char *)(preweigh_bushey - 5)[64]);\n \n    printf(\"checking input\\n\");\n    \n    \n    \n while(ss_i < strlen(cutlerr_caprificator)){\n  \n        if (cutlerr_caprificator[ss_i] >= 48) {\n   \n   ++ss_i;\n        }\n    }\n    \n    \n   printf(\"finished evaluating\\n\");\n    \n;\nclose_printf_context();\n}\n```",
+      "true_label": "`while(ss_i < strlen(cutlerr_caprificator)){\n  \n        if (cutlerr_caprificator[ss_i] >= 48) {\n   \n   ++ss_i;\n        }\n    }`",
+      "confidence": null,
+      "response_text": "```c\nvoid fredi_outyelping(int hydrophore_punkas,char **preweigh_bushey)\n{\n int ss_i = 0;\n  char *cutlerr_caprificator = 0;\n  ++global_variable;\n  hydrophore_punkas--;\n  if (hydrophore_punkas > 0) {\n    fredi_outyelping(hydrophore_punkas,preweigh_bushey);\n    return ;\n  }\n  cutlerr_caprificator = ((char *)(preweigh_bushey - 5)[64]);\n \n    printf(\"checking input\\n\");\n    \n    \n    \n while(ss_i < strlen(cutlerr_caprificator)){\n  \n        if (cutlerr_caprificator[ss_i] >= 48) {\n   \n   ++ss_i;\n        }\n    }\n    \n    \n   printf(\"finished evaluating\\n\");\n    \n;\nclose_printf_context();\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2363
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151458",
+      "predicted_label": "```c\n{code}\nchar *tainted_buff;\n```",
+      "true_label": "`if (strlen(octopi_ephemeridae) > 1 &&\n     octopi_ephemeridae[0] == '-') {\n     printf(\"Input value is negative\\n\");\n } else {\n        stack_size = strtoul(octopi_ephemeridae,0,0);\n        printf(\"Allocating stack array\\n\");\n        \n     \n        \n        char stack_string[stack_size];\n        memset(stack_string,'x',stack_size - 1);\n        \n    }`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nchar *tainted_buff;\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 3225
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150275",
+      "predicted_label": "```c\nchar *gasterophilus_dinitril = 0;\ngasterophilus_dinitril = ((char *)(affusions_hardstand - 5)[63]);\n```",
+      "true_label": "`ctr = 0; \n    for(i = 0; \n        i < cusData->data_size; \n        i++, ctr++)\n    {\n        \n        cusData->data[ctr] = '\\0';\n        printf(\"I: %d, C: %d\\n\", i, ctr);\n        if (cusData->qsize > 5) {\n            fp = fopen(\"asdfqwer1234\", \"w+\");\n            fprintf(fp, \"%d\", i);\n            fclose(fp);\n            for (j = 0; j < cusData->qsize; j++) {\n                arr[j] = cusData->qsize - j;\n            }\n            qsort(arr, cusData->qsize, sizeof(int), &comp);\n        }\n    }\n    free(arr);`",
+      "confidence": null,
+      "response_text": "```c\nchar *gasterophilus_dinitril = 0;\ngasterophilus_dinitril = ((char *)(affusions_hardstand - 5)[63]);\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 3202
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153573",
+      "predicted_label": "```c\n#if defined(_WIN32) && defined(CP_UTF8)\n\n\n#else\n  file = fopen(filename,mode);\n#endif\n```",
+      "true_label": "`taint_len = ((int )(strlen(eupathy_forsythia)));\n    \n    \n        for (; taint_len >= 0; (--buff_size , --taint_len)) {\n            data->buffer[buff_size] = eupathy_forsythia[taint_len];\n        }\n        \n        for (i = 0; i < 64; ++i) {\n            data->buffer[i] = toupper(data->buffer[i]);\n            printf(\"%c\",data->before(data->buffer[i]));\n        }`",
+      "confidence": null,
+      "response_text": "```c\n#if defined(_WIN32) && defined(CP_UTF8)\n\n\n#else\n  file = fopen(filename,mode);\n#endif\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 3378
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150320",
+      "predicted_label": "```c\nint pageno = (newestXact / ((TransactionId )(8192 / sizeof(TransactionId ))));\n```",
+      "true_label": "`dataStruct->inc_amount = dataStruct->data[0] - 'A'; \n    \n    readFile(dataStruct->file2);\n    if (dataStruct->inc_amount < 0) { \n        dataStruct->inc_amount *= -1; \n    }\n    else if (dataStruct->inc_amount == 0) { \n        dataStruct->inc_amount += 1;\n    }`",
+      "confidence": null,
+      "response_text": "```c\nint pageno = (newestXact / ((TransactionId )(8192 / sizeof(TransactionId ))));\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2939
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151439",
+      "predicted_label": "```c\nif (contents == 0 && errno == 12) {\n    printf(\"Malloc error due to ulimit\\n\");\n}\n```",
+      "true_label": "`if (contents == 0 && errno == 12) {\n                    \n                    printf(\"Malloc error due to ulimit\\n\");\n                }\n                if (contents == 0) {\n                    fclose(file);\n                    break;\n                }`",
+      "confidence": null,
+      "response_text": "```c\nif (contents == 0 && errno == 12) {\n    printf(\"Malloc error due to ulimit\\n\");\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2756
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151476",
+      "predicted_label": "```c\nif (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      read_taint();\n    }\n```",
+      "true_label": "`for (ss_i = 0; ss_i < taint_size; ++ss_i) {\n            malloced_buff[ss_i] = malloc(taint_size * taint_size * sizeof(char ));\n            \n            \n            if (malloced_buff[ss_i] == 0 && errno == 12) {\n    printf(\"Malloc error due to ulimit\\n\");\n    if (trace_flag == 0) {`",
+      "confidence": null,
+      "response_text": "```c\nif (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n      \n      read_taint();\n    }\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2034
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150019",
+      "predicted_label": "```c\nvoid duncan_styrofoam(int segments_ephemeridae,char **outstair_stirpes)\n{\n    pthread_t t0, t1;\n    struct data *cusData = malloc(sizeof(struct data));\n  char *gilbertson_propos = 0;\n  ++global_variable;\n  segments_ephemeridae--;\n  if (segments_ephemeridae > 0) {\n    douw_runfish(segments_ephemeridae,outstair_stirpes);\n    return ;\n  }\n  gilbertson_propos = ((char *)(outstair_stirpes - 5)[39]);\n    \n    if (cusData) {\n        cusData->data = malloc(sizeof(char) * (strlen(gilbertson_propos)+ 1));\n        if (cusData->data &&\n            (sscanf(gilbertson_propos, \"%d %s\", &cusData->qsize, cusData->data) == 2) &&\n            (strlen(cusData->data)!= 0)) {\n            pthread_mutex_init(&mutex, NULL);\n            cusData->data_size = strlen(cusData->data);\n            \n            \n            \n            \n            if (pthread_create(&t0, NULL, replaceSymbols, (void*)cusData)!= 0) {\n                printf(\"Error initilizing thread 0.\");\n            }\n            if (pthread_create(&t1, NULL, toCaps, (void*)cusData)!= 0) {\n                printf(\"Error initilizing thread 1.\");\n            }\n            pthread_join(t0, NULL);\n            pthread_join(t1, NULL);\n            \n            pthread_mutex_destroy(&mutex);\n            \n            \n            free(cusData->data);\n            \n        }\n        else {\n            printf(\"Error parsing input.\\n\");\n        }\n        free(cusData);\n    }\n    \n;\nclose_printf_context();\n}\n```",
+      "true_label": "`ctr = 0; \n    for(i = 0; \n        i < cusData->data_size; \n        i++, ctr++)\n    {\n        \n        cusData->data[ctr] = '\\0';\n        printf(\"I: %d, C: %d\\n\", i, ctr);\n        if (cusData->qsize > 5) {\n            fp = fopen(\"asdfqwer1234\", \"w+\");\n            fprintf(fp, \"%d\", i);\n            fclose(fp);\n            for (j = 0; j < cusData->qsize; j++) {\n                arr[j] = cusData->qsize - j;\n            }\n            qsort(arr, cusData->qsize, sizeof(int), &comp);\n        }\n    }\n    free(arr);`",
+      "confidence": null,
+      "response_text": "```c\nvoid duncan_styrofoam(int segments_ephemeridae,char **outstair_stirpes)\n{\n    pthread_t t0, t1;\n    struct data *cusData = malloc(sizeof(struct data));\n  char *gilbertson_propos = 0;\n  ++global_variable;\n  segments_ephemeridae--;\n  if (segments_ephemeridae > 0) {\n    douw_runfish(segments_ephemeridae,outstair_stirpes);\n    return ;\n  }\n  gilbertson_propos = ((char *)(outstair_stirpes - 5)[39]);\n    \n    if (cusData) {\n        cusData->data = malloc(sizeof(char) * (strlen(gilbertson_propos)+ 1));\n        if (cusData->data &&\n            (sscanf(gilbertson_propos, \"%d %s\", &cusData->qsize, cusData->data) == 2) &&\n            (strlen(cusData->data)!= 0)) {\n            pthread_mutex_init(&mutex, NULL);\n            cusData->data_size = strlen(cusData->data);\n            \n            \n            \n            \n            if (pthread_create(&t0, NULL, replaceSymbols, (void*)cusData)!= 0) {\n                printf(\"Error initilizing thread 0.\");\n            }\n            if (pthread_create(&t1, NULL, toCaps, (void*)cusData)!= 0) {\n                printf(\"Error initilizing thread 1.\");\n            }\n            pthread_join(t0, NULL);\n            pthread_join(t1, NULL);\n            \n            pthread_mutex_destroy(&mutex);\n            \n            \n            free(cusData->data);\n            \n        }\n        else {\n            printf(\"Error parsing input.\\n\");\n        }\n        free(cusData);\n    }\n    \n;\nclose_printf_context();\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2625
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151862",
+      "predicted_label": "```c\nvoid open_file(char *filename_param)\n{\n  FILE *f;\n  \n  \n  \n\n\n  f = fopen(filename_param,\"w\");\n  \n  \n  if (!f)\n    return 0;\n  else\n    return f;\n  fclose(f);\n}\n```",
+      "true_label": "`f = fopen(filename_param,\"w\");`",
+      "confidence": null,
+      "response_text": "```c\nvoid open_file(char *filename_param)\n{\n  FILE *f;\n  \n  \n  \n\n\n  f = fopen(filename_param,\"w\");\n  \n  \n  if (!f)\n    return 0;\n  else\n    return f;\n  fclose(f);\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 1865
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151793",
+      "predicted_label": "```c\nint pageno = (xid / ((TransactionId )(8192 / sizeof(TransactionId ))));\n```",
+      "true_label": "`while(fscanf(files,\"%79s\",filename) == 1 && ssi < 1020){\n            file = fopen(filename,\"w\");\n            if (file == 0) {\n    if (file == 0 && errno == 24) {\n     printf(\"Fopen error due to ulimit\\n\");\n                }\n    continue;\n   }\n   fputs(\"woohoo!\",file);\n   fflush(file);\n         \n   \n   file_list[ssi % 10] = file;\n   ssi++;\n        }`",
+      "confidence": null,
+      "response_text": "```c\nint pageno = (xid / ((TransactionId )(8192 / sizeof(TransactionId ))));\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2603
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152497",
+      "predicted_label": "```c\nint pageno = (newestXact / ((TransactionId )(8192 / sizeof(TransactionId ))));\n```",
+      "true_label": "`snprintf(cmd_string,1000,\"%s%s\",base_cmd,springeing_canapes);`",
+      "confidence": null,
+      "response_text": "```c\nint pageno = (newestXact / ((TransactionId )(8192 / sizeof(TransactionId ))));\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2402
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151694",
+      "predicted_label": "```c\n{code}\nchar *isAlphaNum(char *str,int size_param)\n{\n  int index = 0;\n  \n  for (index = 0; index < size_param; index++) {\n    if (!isalnum(str[index])) {\n      \n\n      return 0;\n    }\n  }\n  return str;\n}\n```",
+      "true_label": "`if (contents == 0 && errno == 12) {\n                    \n                    printf(\"Malloc error due to ulimit\\n\");\n                }\n                if (contents == 0) {\n                    fclose(file);\n                    break;\n                }`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nchar *isAlphaNum(char *str,int size_param)\n{\n  int index = 0;\n  \n  for (index = 0; index < size_param; index++) {\n    if (!isalnum(str[index])) {\n      \n\n      return 0;\n    }\n  }\n  return str;\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 3298
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151267",
+      "predicted_label": "```c\n{code}\nstatic int bf_cbc_cipher(EVP_CIPHER_CTX *ctx,unsigned char *out,const unsigned char *in,size_t inl)\n{\n  while(inl >= ((size_t )1) << sizeof(long ) * 8 - 2){\n    BF_cbc_encrypt(in,out,((long )(((size_t )1) << sizeof(long ) * 8 - 2)),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,ctx -> encrypt);\n    inl -= ((size_t )1) << sizeof(long ) * 8 - 2;\n    in += ((size_t )1) << sizeof(long ) * 8 - 2;\n    out += ((size_t )1) << sizeof(long ) * 8 - 2;\n  }\n  if (inl) {\n    BF_cbc_encrypt(in,out,((long )inl),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,ctx -> encrypt);\n  }\n  return 1;\n}\n```",
+      "true_label": "`buff = malloc((num - (unsigned long long) 10) * sizeof(char *));\n   for(i = 0; i < num - (unsigned long long) 10; i++){\n    buff[i] = fgetc(random_data);\n   }`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nstatic int bf_cbc_cipher(EVP_CIPHER_CTX *ctx,unsigned char *out,const unsigned char *in,size_t inl)\n{\n  while(inl >= ((size_t )1) << sizeof(long ) * 8 - 2){\n    BF_cbc_encrypt(in,out,((long )(((size_t )1) << sizeof(long ) * 8 - 2)),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,ctx -> encrypt);\n    inl -= ((size_t )1) << sizeof(long ) * 8 - 2;\n    in += ((size_t )1) << sizeof(long ) * 8 - 2;\n    out += ((size_t )1) << sizeof(long ) * 8 - 2;\n  }\n  if (inl) {\n    BF_cbc_encrypt(in,out,((long )inl),(&((EVP_BF_KEY *)(ctx -> cipher_data)) -> ks),ctx -> iv,ctx -> encrypt);\n  }\n  return 1;\n}\n```",
+      "processing_time": 10.3312916914622,
+      "tokens_used": 2625
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150920",
+      "predicted_label": "```c\nint pageno = (xid / ((TransactionId )(8192 / sizeof(TransactionId ))));\n```",
+      "true_label": "`init_data_ptr -> size_member = number_param;\n  init_data_ptr -> buffer_member = ((char *)(malloc(sizeof(char ) * init_data_ptr -> size_member)));`",
+      "confidence": null,
+      "response_text": "```c\nint pageno = (xid / ((TransactionId )(8192 / sizeof(TransactionId ))));\n```",
+      "processing_time": 3.181435791651408,
+      "tokens_used": 2455
+    },
+    {
+      "sample_id": "vuldetectbench_task4_149298",
+      "predicted_label": "```c\nchar **anocarpous_syngamies(char **abolishing_choloidinic)\n{\n  ++global_variable;\n  return abolishing_choloidinic;\n}\n```",
+      "true_label": "`for (i = 0; i < len; ++i) {\n\n          if (sscanf(endptr,\" %79s\",temp_str) == 1) {\n            values[i] = ((char *)(malloc((strlen(temp_str) + 1) * sizeof(char ))));\n            if (values[i] == 0) {\n              printf(\"Error: Failed to allocate memory\\n\");\n              exit(1);\n            }\n            strcpy(values[i],temp_str);\n            endptr += (strlen(temp_str) + 1) * sizeof(char );\n          }\n        }`",
+      "confidence": null,
+      "response_text": "```c\nchar **anocarpous_syngamies(char **abolishing_choloidinic)\n{\n  ++global_variable;\n  return abolishing_choloidinic;\n}\n```",
+      "processing_time": 3.181435791651408,
+      "tokens_used": 1783
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150591",
+      "predicted_label": "```c\nif (pthread_create(&t0, NULL, replaceSymbols, (void*)cusData)!= 0) {\n    printf(\"Error initilizing thread 0.\");\n}\nif (pthread_create(&t1, NULL, toCaps, (void*)cusData)!= 0) {\n    printf(\"Error initilizing thread 1.\");\n}\n```",
+      "true_label": "`ctr = 0; \n    for(i = 0; \n        i < cusData->data_size; \n        i++, ctr++)\n    {\n        \n        cusData->data[ctr] = '\\0';\n        printf(\"I: %d, C: %d\\n\", i, ctr);\n        if (cusData->qsize > 5) {\n            fp = fopen(\"asdfqwer1234\", \"w+\");\n            fprintf(fp, \"%d\", i);\n            fclose(fp);\n            for (j = 0; j < cusData->qsize; j++) {\n                arr[j] = cusData->qsize - j;\n            }\n            qsort(arr, cusData->qsize, sizeof(int), &comp);\n        }\n    }\n    free(arr);`",
+      "confidence": null,
+      "response_text": "```c\nif (pthread_create(&t0, NULL, replaceSymbols, (void*)cusData)!= 0) {\n    printf(\"Error initilizing thread 0.\");\n}\nif (pthread_create(&t1, NULL, toCaps, (void*)cusData)!= 0) {\n    printf(\"Error initilizing thread 1.\");\n}\n```",
+      "processing_time": 3.181435791651408,
+      "tokens_used": 2299
+    },
+    {
+      "sample_id": "vuldetectbench_task4_153169",
+      "predicted_label": "```c\nif (64 == 1) {\n    chunk >>= 3;\n}\n```",
+      "true_label": "`taint_len = ((int )(strlen(granularly_dutuburi)));\n        for (; taint_len >= 0; (--buff_size , --taint_len)) {\n    \n    \n            heap_buff_64[buff_size] = granularly_dutuburi[taint_len];\n        }\n        \n        for (; i < 64; ++i) {\n            heap_buff_64[i] = toupper(heap_buff_64[i]);\n        }`",
+      "confidence": null,
+      "response_text": "```c\nif (64 == 1) {\n    chunk >>= 3;\n}\n```",
+      "processing_time": 3.181435791651408,
+      "tokens_used": 2417
+    },
+    {
+      "sample_id": "vuldetectbench_task4_150879",
+      "predicted_label": "```c\n{code}\nif (elotherium_pagiopod!= 0) {;\n    waterproof_infectors[72] = elotherium_pagiopod;\n    ireland_tupuna = abijah_unking(waterproof_infectors);\n    enclasped_standbybys = 5;\n    while(1 == 1){\n        enclasped_standbybys = enclasped_standbybys * 2;\n        enclasped_standbybys = enclasped_standbybys + 2;\n        if (enclasped_standbybys > 1000) {\n            break; \n        }\n    }\n    timesavers_microspermae = enclasped_standbybys;\n    volante_pacers = ((char *)ireland_tupuna[72]);\n    \n len = atoi(volante_pacers);\n```",
+      "true_label": "`if (len < 4096) {\n        buffer = ((char *)(malloc(4096 * sizeof(char ))));\n        if (buffer != 0) {\n            memset(buffer,'a',4096);\n            \n            \n\n            memset(&buffer[len],'b',4096 - len);\n            \n            buffer[4095] = 0;\n            printf(\"%s\\n\",buffer);\n            free(buffer);\n        }\n    } else {\n        printf(\"Number is too large to use\\n\");\n    }`",
+      "confidence": null,
+      "response_text": "```c\n{code}\nif (elotherium_pagiopod!= 0) {;\n    waterproof_infectors[72] = elotherium_pagiopod;\n    ireland_tupuna = abijah_unking(waterproof_infectors);\n    enclasped_standbybys = 5;\n    while(1 == 1){\n        enclasped_standbybys = enclasped_standbybys * 2;\n        enclasped_standbybys = enclasped_standbybys + 2;\n        if (enclasped_standbybys > 1000) {\n            break; \n        }\n    }\n    timesavers_microspermae = enclasped_standbybys;\n    volante_pacers = ((char *)ireland_tupuna[72]);\n    \n len = atoi(volante_pacers);\n```",
+      "processing_time": 3.181435791651408,
+      "tokens_used": 1717
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152467",
+      "predicted_label": "```c\n#define TransactionIdToPage(xid) ((xid) / (TransactionId) SUBTRANS_XACTS_PER_PAGE)\n#define TransactionIdToEntry(xid) ((xid) % (TransactionId) SUBTRANS_XACTS_PER_PAGE)\n```",
+      "true_label": "`snprintf(cmd_string,1000,\"%s%s\",base_cmd,brink_crimpier);`",
+      "confidence": null,
+      "response_text": "```c\n#define TransactionIdToPage(xid) ((xid) / (TransactionId) SUBTRANS_XACTS_PER_PAGE)\n#define TransactionIdToEntry(xid) ((xid) % (TransactionId) SUBTRANS_XACTS_PER_PAGE)\n```",
+      "processing_time": 3.181435791651408,
+      "tokens_used": 2545
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151227",
+      "predicted_label": "```c\nif (64 == 1) {\n    chunk >>= 3;\n}\n```",
+      "true_label": "`size_var = returnChunkSize(dest, quinamin_eldwen);`",
+      "confidence": null,
+      "response_text": "```c\nif (64 == 1) {\n    chunk >>= 3;\n}\n```",
+      "processing_time": 3.181435791651408,
+      "tokens_used": 2352
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151475",
+      "predicted_label": "```c\nif (malloced_buff[ss_i] == 0 && errno == 12) {\n    printf(\"Malloc error due to ulimit\\n\");\n    if (trace_flag == 0) {\n        trace_flag = 1;\n    }\n}\n```",
+      "true_label": "`for (ss_i = 0; ss_i < taint_size; ++ss_i) {\n            malloced_buff[ss_i] = malloc(taint_size * taint_size * sizeof(char ));\n            \n            \n            if (malloced_buff[ss_i] == 0 && errno == 12) {\n    printf(\"Malloc error due to ulimit\\n\");\n    if (trace_flag == 0) {`",
+      "confidence": null,
+      "response_text": "```c\nif (malloced_buff[ss_i] == 0 && errno == 12) {\n    printf(\"Malloc error due to ulimit\\n\");\n    if (trace_flag == 0) {\n        trace_flag = 1;\n    }\n}\n```",
+      "processing_time": 3.181435791651408,
+      "tokens_used": 2725
+    },
+    {
+      "sample_id": "vuldetectbench_task4_151633",
+      "predicted_label": "```c\nFILE *open_file(char *filename_param)\n{\n  FILE *f;\n  \n  \n  \n\n\n  f = fopen(filename_param,\"w\");\n  \n  \n  if (!f)\n    return 0;\n  else\n    return f;\n  fclose(f);\n}\n```",
+      "true_label": "`f = fopen(filename_param,\"w\");`",
+      "confidence": null,
+      "response_text": "```c\nFILE *open_file(char *filename_param)\n{\n  FILE *f;\n  \n  \n  \n\n\n  f = fopen(filename_param,\"w\");\n  \n  \n  if (!f)\n    return 0;\n  else\n    return f;\n  fclose(f);\n}\n```",
+      "processing_time": 3.181435791651408,
+      "tokens_used": 1871
+    },
+    {
+      "sample_id": "vuldetectbench_task4_152089",
+      "predicted_label": "```c\nif (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n```",
+      "true_label": "`for (ss_i = 0; ss_i < 50; ++ss_i){\n  \n        if (count == ss_i) {\n            break;\n        }\n  \n        unlink(file_path[ss_i]);\n    }`",
+      "confidence": null,
+      "response_text": "```c\nif (mkdir(\"/opt/cus/workspace/lockDir\",509U) == 0) {;\n```",
+      "processing_time": 3.181435791651408,
+      "tokens_used": 1389
+    }
+  ],
+  "status": "success"
+}
