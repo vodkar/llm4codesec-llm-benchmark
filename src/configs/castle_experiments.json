@@ -261,8 +261,7 @@
                 "qwen3-4b"
             ],
             "prompts": [
-                "detailed_analysis",
-                "step_by_step"
+                "detailed_analysis"
             ],
             "sample_limit": 100
         },
@@ -339,8 +338,7 @@
                 "deepseek-r1-distill-qwen2.5-7b"
             ],
             "prompts": [
-                "detailed_analysis",
-                "step_by_step"
+                "detailed_analysis"
             ],
             "sample_limit": 100
         },
@@ -378,8 +376,7 @@
                 "gemma3-27b"
             ],
             "prompts": [
-                "detailed_analysis",
-                "step_by_step"
+                "detailed_analysis"
             ],
             "sample_limit": 100
         },
