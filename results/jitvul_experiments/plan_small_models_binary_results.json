@@ -2,61 +2,57 @@
   {
     "experiment_name": "qwen3-4b_binary_all_detailed_analysis",
     "status": "success",
-    "accuracy": 0.46,
+    "accuracy": 0.515,
     "total_samples": 200,
-    "total_time": 415.0260992050171,
+    "total_time": 453.00399708747864,
     "output_dir": "results/jitvul_experiments/qwen3-4b_binary_all_detailed_analysis"
   },
   {
-    "experiment_name": "qwen3-4b_binary_all_step_by_step",
+    "experiment_name": "qwen3-4b-thinking_binary_all_detailed_analysis",
     "status": "success",
-    "accuracy": 0.5,
+    "accuracy": 0.495,
     "total_samples": 200,
-    "total_time": 323.70374488830566,
-    "output_dir": "results/jitvul_experiments/qwen3-4b_binary_all_step_by_step"
+    "total_time": 514.8855185508728,
+    "output_dir": "results/jitvul_experiments/qwen3-4b-thinking_binary_all_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-8b_binary_all_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.56,
+    "total_samples": 200,
+    "total_time": 270.8785676956177,
+    "output_dir": "results/jitvul_experiments/qwen3-8b_binary_all_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_binary_all_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.545,
+    "total_samples": 200,
+    "total_time": 186.16217708587646,
+    "output_dir": "results/jitvul_experiments/qwen3-8b-thinking_binary_all_detailed_analysis"
   },
   {
     "experiment_name": "llama3.2-3B_binary_all_detailed_analysis",
     "status": "success",
-    "accuracy": 0.505,
+    "accuracy": 0.54,
     "total_samples": 200,
-    "total_time": 7678.578689336777,
+    "total_time": 11575.16089463234,
     "output_dir": "results/jitvul_experiments/llama3.2-3B_binary_all_detailed_analysis"
   },
   {
-    "experiment_name": "llama3.2-3B_binary_all_step_by_step",
+    "experiment_name": "gemma3-4b_binary_all_detailed_analysis",
     "status": "success",
     "accuracy": 0.5,
     "total_samples": 200,
-    "total_time": 6942.331254243851,
-    "output_dir": "results/jitvul_experiments/llama3.2-3B_binary_all_step_by_step"
-  },
-  {
-    "experiment_name": "gemma3-4b_binary_all_detailed_analysis",
-    "status": "failed",
-    "error": "not enough values to unpack (expected 3, got 2)",
+    "total_time": 18973.81987142563,
     "output_dir": "results/jitvul_experiments/gemma3-4b_binary_all_detailed_analysis"
   },
   {
-    "experiment_name": "gemma3-4b_binary_all_step_by_step",
-    "status": "failed",
-    "error": "not enough values to unpack (expected 3, got 2)",
-    "output_dir": "results/jitvul_experiments/gemma3-4b_binary_all_step_by_step"
-  },
-  {
-    "experiment_name": "deepseek-r1-distill-qwen2.5-1.5b_binary_all_detailed_analysis",
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_binary_all_detailed_analysis",
     "status": "success",
     "accuracy": 0.515,
     "total_samples": 200,
-    "total_time": 8682.688056468964,
-    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-1.5b_binary_all_detailed_analysis"
-  },
-  {
-    "experiment_name": "deepseek-r1-distill-qwen2.5-1.5b_binary_all_step_by_step",
-    "status": "success",
-    "accuracy": 0.51,
-    "total_samples": 200,
-    "total_time": 8582.187423706055,
-    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-1.5b_binary_all_step_by_step"
+    "total_time": 26152.47284770012,
+    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-7b_binary_all_detailed_analysis"
   }
 ]

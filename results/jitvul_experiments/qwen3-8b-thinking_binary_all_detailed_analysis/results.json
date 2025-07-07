@@ -1,0 +1,1818 @@
+{
+  "accuracy": 0.545,
+  "metrics": {
+    "accuracy": 0.545,
+    "precision": 0.5897435897435898,
+    "recall": 0.6160714285714286,
+    "f1_score": 0.6026200873362446,
+    "specificity": 0.45454545454545453,
+    "true_positives": 69,
+    "true_negatives": 40,
+    "false_positives": 48,
+    "false_negatives": 43
+  },
+  "total_samples": 200,
+  "total_time": 186.16217708587646,
+  "predictions": [
+    {
+      "sample_id": "jitvul_794_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.637261438369751,
+      "tokens_used": 1465
+    },
+    {
+      "sample_id": "jitvul_110_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.637261438369751,
+      "tokens_used": 2036
+    },
+    {
+      "sample_id": "jitvul_26_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.637261438369751,
+      "tokens_used": 1014
+    },
+    {
+      "sample_id": "jitvul_818_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.637261438369751,
+      "tokens_used": 374
+    },
+    {
+      "sample_id": "jitvul_117_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.637261438369751,
+      "tokens_used": 517
+    },
+    {
+      "sample_id": "jitvul_442_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7872006893157959,
+      "tokens_used": 639
+    },
+    {
+      "sample_id": "jitvul_519_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7872006893157959,
+      "tokens_used": 635
+    },
+    {
+      "sample_id": "jitvul_633_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7872006893157959,
+      "tokens_used": 3313
+    },
+    {
+      "sample_id": "jitvul_594_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7872006893157959,
+      "tokens_used": 1330
+    },
+    {
+      "sample_id": "jitvul_138_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7872006893157959,
+      "tokens_used": 1085
+    },
+    {
+      "sample_id": "jitvul_830_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5102421760559082,
+      "tokens_used": 1157
+    },
+    {
+      "sample_id": "jitvul_342_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5102421760559082,
+      "tokens_used": 413
+    },
+    {
+      "sample_id": "jitvul_135_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5102421760559082,
+      "tokens_used": 1099
+    },
+    {
+      "sample_id": "jitvul_519_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5102421760559082,
+      "tokens_used": 643
+    },
+    {
+      "sample_id": "jitvul_658_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5102421760559082,
+      "tokens_used": 352
+    },
+    {
+      "sample_id": "jitvul_242_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.4054821491241456,
+      "tokens_used": 601
+    },
+    {
+      "sample_id": "jitvul_839_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.4054821491241456,
+      "tokens_used": 2006
+    },
+    {
+      "sample_id": "jitvul_777_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.4054821491241456,
+      "tokens_used": 2782
+    },
+    {
+      "sample_id": "jitvul_407_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.4054821491241456,
+      "tokens_used": 875
+    },
+    {
+      "sample_id": "jitvul_5_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.4054821491241456,
+      "tokens_used": 8123
+    },
+    {
+      "sample_id": "jitvul_487_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5231781005859375,
+      "tokens_used": 1048
+    },
+    {
+      "sample_id": "jitvul_617_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5231781005859375,
+      "tokens_used": 1149
+    },
+    {
+      "sample_id": "jitvul_643_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5231781005859375,
+      "tokens_used": 780
+    },
+    {
+      "sample_id": "jitvul_343_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5231781005859375,
+      "tokens_used": 682
+    },
+    {
+      "sample_id": "jitvul_879_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5231781005859375,
+      "tokens_used": 928
+    },
+    {
+      "sample_id": "jitvul_876_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7207027912139893,
+      "tokens_used": 706
+    },
+    {
+      "sample_id": "jitvul_201_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7207027912139893,
+      "tokens_used": 1920
+    },
+    {
+      "sample_id": "jitvul_73_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7207027912139893,
+      "tokens_used": 2777
+    },
+    {
+      "sample_id": "jitvul_748_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7207027912139893,
+      "tokens_used": 471
+    },
+    {
+      "sample_id": "jitvul_728_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7207027912139893,
+      "tokens_used": 1252
+    },
+    {
+      "sample_id": "jitvul_279_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.5843565464019775,
+      "tokens_used": 473
+    },
+    {
+      "sample_id": "jitvul_202_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.5843565464019775,
+      "tokens_used": 9492
+    },
+    {
+      "sample_id": "jitvul_289_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.5843565464019775,
+      "tokens_used": 382
+    },
+    {
+      "sample_id": "jitvul_732_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.5843565464019775,
+      "tokens_used": 1468
+    },
+    {
+      "sample_id": "jitvul_735_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.5843565464019775,
+      "tokens_used": 3013
+    },
+    {
+      "sample_id": "jitvul_295_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7613057136535645,
+      "tokens_used": 540
+    },
+    {
+      "sample_id": "jitvul_674_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7613057136535645,
+      "tokens_used": 628
+    },
+    {
+      "sample_id": "jitvul_491_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7613057136535645,
+      "tokens_used": 1303
+    },
+    {
+      "sample_id": "jitvul_693_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7613057136535645,
+      "tokens_used": 2495
+    },
+    {
+      "sample_id": "jitvul_764_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7613057136535645,
+      "tokens_used": 3105
+    },
+    {
+      "sample_id": "jitvul_753_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5100000858306885,
+      "tokens_used": 717
+    },
+    {
+      "sample_id": "jitvul_443_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5100000858306885,
+      "tokens_used": 1117
+    },
+    {
+      "sample_id": "jitvul_539_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5100000858306885,
+      "tokens_used": 1128
+    },
+    {
+      "sample_id": "jitvul_167_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5100000858306885,
+      "tokens_used": 277
+    },
+    {
+      "sample_id": "jitvul_770_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5100000858306885,
+      "tokens_used": 439
+    },
+    {
+      "sample_id": "jitvul_682_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6401279449462891,
+      "tokens_used": 2258
+    },
+    {
+      "sample_id": "jitvul_22_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6401279449462891,
+      "tokens_used": 504
+    },
+    {
+      "sample_id": "jitvul_204_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6401279449462891,
+      "tokens_used": 445
+    },
+    {
+      "sample_id": "jitvul_235_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6401279449462891,
+      "tokens_used": 344
+    },
+    {
+      "sample_id": "jitvul_215_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6401279449462891,
+      "tokens_used": 439
+    },
+    {
+      "sample_id": "jitvul_365_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7536495685577392,
+      "tokens_used": 1395
+    },
+    {
+      "sample_id": "jitvul_530_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7536495685577392,
+      "tokens_used": 283
+    },
+    {
+      "sample_id": "jitvul_99_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7536495685577392,
+      "tokens_used": 3101
+    },
+    {
+      "sample_id": "jitvul_415_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7536495685577392,
+      "tokens_used": 475
+    },
+    {
+      "sample_id": "jitvul_765_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7536495685577392,
+      "tokens_used": 374
+    },
+    {
+      "sample_id": "jitvul_788_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.6265077114105224,
+      "tokens_used": 10096
+    },
+    {
+      "sample_id": "jitvul_174_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.6265077114105224,
+      "tokens_used": 396
+    },
+    {
+      "sample_id": "jitvul_293_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.6265077114105224,
+      "tokens_used": 440
+    },
+    {
+      "sample_id": "jitvul_867_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.6265077114105224,
+      "tokens_used": 1063
+    },
+    {
+      "sample_id": "jitvul_62_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.6265077114105224,
+      "tokens_used": 1249
+    },
+    {
+      "sample_id": "jitvul_220_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5647661209106445,
+      "tokens_used": 297
+    },
+    {
+      "sample_id": "jitvul_240_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5647661209106445,
+      "tokens_used": 246
+    },
+    {
+      "sample_id": "jitvul_620_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5647661209106445,
+      "tokens_used": 1615
+    },
+    {
+      "sample_id": "jitvul_404_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5647661209106445,
+      "tokens_used": 513
+    },
+    {
+      "sample_id": "jitvul_742_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5647661209106445,
+      "tokens_used": 317
+    },
+    {
+      "sample_id": "jitvul_278_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6536691188812256,
+      "tokens_used": 2326
+    },
+    {
+      "sample_id": "jitvul_463_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6536691188812256,
+      "tokens_used": 479
+    },
+    {
+      "sample_id": "jitvul_363_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6536691188812256,
+      "tokens_used": 273
+    },
+    {
+      "sample_id": "jitvul_713_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6536691188812256,
+      "tokens_used": 422
+    },
+    {
+      "sample_id": "jitvul_465_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6536691188812256,
+      "tokens_used": 1409
+    },
+    {
+      "sample_id": "jitvul_14_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7991540431976318,
+      "tokens_used": 1111
+    },
+    {
+      "sample_id": "jitvul_416_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7991540431976318,
+      "tokens_used": 3484
+    },
+    {
+      "sample_id": "jitvul_56_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7991540431976318,
+      "tokens_used": 1295
+    },
+    {
+      "sample_id": "jitvul_234_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7991540431976318,
+      "tokens_used": 628
+    },
+    {
+      "sample_id": "jitvul_540_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7991540431976318,
+      "tokens_used": 550
+    },
+    {
+      "sample_id": "jitvul_852_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5732000827789306,
+      "tokens_used": 1300
+    },
+    {
+      "sample_id": "jitvul_509_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5732000827789306,
+      "tokens_used": 791
+    },
+    {
+      "sample_id": "jitvul_464_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5732000827789306,
+      "tokens_used": 965
+    },
+    {
+      "sample_id": "jitvul_561_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5732000827789306,
+      "tokens_used": 456
+    },
+    {
+      "sample_id": "jitvul_875_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5732000827789306,
+      "tokens_used": 1628
+    },
+    {
+      "sample_id": "jitvul_54_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.9475913524627686,
+      "tokens_used": 449
+    },
+    {
+      "sample_id": "jitvul_412_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.9475913524627686,
+      "tokens_used": 4655
+    },
+    {
+      "sample_id": "jitvul_513_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.9475913524627686,
+      "tokens_used": 383
+    },
+    {
+      "sample_id": "jitvul_157_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.9475913524627686,
+      "tokens_used": 635
+    },
+    {
+      "sample_id": "jitvul_198_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9475913524627686,
+      "tokens_used": 2935
+    },
+    {
+      "sample_id": "jitvul_671_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5624122142791748,
+      "tokens_used": 758
+    },
+    {
+      "sample_id": "jitvul_497_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5624122142791748,
+      "tokens_used": 740
+    },
+    {
+      "sample_id": "jitvul_28_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5624122142791748,
+      "tokens_used": 1188
+    },
+    {
+      "sample_id": "jitvul_618_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5624122142791748,
+      "tokens_used": 225
+    },
+    {
+      "sample_id": "jitvul_462_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5624122142791748,
+      "tokens_used": 1624
+    },
+    {
+      "sample_id": "jitvul_484_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.8307257175445557,
+      "tokens_used": 1223
+    },
+    {
+      "sample_id": "jitvul_369_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8307257175445557,
+      "tokens_used": 1322
+    },
+    {
+      "sample_id": "jitvul_490_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.8307257175445557,
+      "tokens_used": 710
+    },
+    {
+      "sample_id": "jitvul_267_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.8307257175445557,
+      "tokens_used": 719
+    },
+    {
+      "sample_id": "jitvul_386_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8307257175445557,
+      "tokens_used": 3744
+    },
+    {
+      "sample_id": "jitvul_161_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5049459934234619,
+      "tokens_used": 1113
+    },
+    {
+      "sample_id": "jitvul_192_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5049459934234619,
+      "tokens_used": 578
+    },
+    {
+      "sample_id": "jitvul_163_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5049459934234619,
+      "tokens_used": 774
+    },
+    {
+      "sample_id": "jitvul_354_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5049459934234619,
+      "tokens_used": 576
+    },
+    {
+      "sample_id": "jitvul_676_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5049459934234619,
+      "tokens_used": 441
+    },
+    {
+      "sample_id": "jitvul_154_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.7742535591125488,
+      "tokens_used": 881
+    },
+    {
+      "sample_id": "jitvul_169_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.7742535591125488,
+      "tokens_used": 434
+    },
+    {
+      "sample_id": "jitvul_115_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.7742535591125488,
+      "tokens_used": 11274
+    },
+    {
+      "sample_id": "jitvul_780_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.7742535591125488,
+      "tokens_used": 397
+    },
+    {
+      "sample_id": "jitvul_1_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.7742535591125488,
+      "tokens_used": 324
+    },
+    {
+      "sample_id": "jitvul_250_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7764640808105469,
+      "tokens_used": 1126
+    },
+    {
+      "sample_id": "jitvul_87_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7764640808105469,
+      "tokens_used": 501
+    },
+    {
+      "sample_id": "jitvul_718_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7764640808105469,
+      "tokens_used": 477
+    },
+    {
+      "sample_id": "jitvul_238_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7764640808105469,
+      "tokens_used": 3273
+    },
+    {
+      "sample_id": "jitvul_359_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7764640808105469,
+      "tokens_used": 340
+    },
+    {
+      "sample_id": "jitvul_292_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6052009582519531,
+      "tokens_used": 861
+    },
+    {
+      "sample_id": "jitvul_349_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6052009582519531,
+      "tokens_used": 462
+    },
+    {
+      "sample_id": "jitvul_64_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6052009582519531,
+      "tokens_used": 463
+    },
+    {
+      "sample_id": "jitvul_361_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6052009582519531,
+      "tokens_used": 554
+    },
+    {
+      "sample_id": "jitvul_286_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6052009582519531,
+      "tokens_used": 1834
+    },
+    {
+      "sample_id": "jitvul_763_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.0104727268218994,
+      "tokens_used": 953
+    },
+    {
+      "sample_id": "jitvul_305_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.0104727268218994,
+      "tokens_used": 279
+    },
+    {
+      "sample_id": "jitvul_422_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.0104727268218994,
+      "tokens_used": 4962
+    },
+    {
+      "sample_id": "jitvul_731_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.0104727268218994,
+      "tokens_used": 1185
+    },
+    {
+      "sample_id": "jitvul_609_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.0104727268218994,
+      "tokens_used": 3639
+    },
+    {
+      "sample_id": "jitvul_555_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6034533500671386,
+      "tokens_used": 956
+    },
+    {
+      "sample_id": "jitvul_762_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6034533500671386,
+      "tokens_used": 201
+    },
+    {
+      "sample_id": "jitvul_530_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6034533500671386,
+      "tokens_used": 282
+    },
+    {
+      "sample_id": "jitvul_845_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6034533500671386,
+      "tokens_used": 1817
+    },
+    {
+      "sample_id": "jitvul_267_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6034533500671386,
+      "tokens_used": 755
+    },
+    {
+      "sample_id": "jitvul_544_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6274683475494385,
+      "tokens_used": 355
+    },
+    {
+      "sample_id": "jitvul_842_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6274683475494385,
+      "tokens_used": 449
+    },
+    {
+      "sample_id": "jitvul_830_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6274683475494385,
+      "tokens_used": 1159
+    },
+    {
+      "sample_id": "jitvul_511_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6274683475494385,
+      "tokens_used": 421
+    },
+    {
+      "sample_id": "jitvul_181_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6274683475494385,
+      "tokens_used": 2112
+    },
+    {
+      "sample_id": "jitvul_270_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.683305311203003,
+      "tokens_used": 1605
+    },
+    {
+      "sample_id": "jitvul_218_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.683305311203003,
+      "tokens_used": 572
+    },
+    {
+      "sample_id": "jitvul_227_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.683305311203003,
+      "tokens_used": 385
+    },
+    {
+      "sample_id": "jitvul_211_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.683305311203003,
+      "tokens_used": 2422
+    },
+    {
+      "sample_id": "jitvul_709_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.683305311203003,
+      "tokens_used": 2283
+    },
+    {
+      "sample_id": "jitvul_606_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5256926536560058,
+      "tokens_used": 1008
+    },
+    {
+      "sample_id": "jitvul_141_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5256926536560058,
+      "tokens_used": 1156
+    },
+    {
+      "sample_id": "jitvul_586_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5256926536560058,
+      "tokens_used": 198
+    },
+    {
+      "sample_id": "jitvul_14_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5256926536560058,
+      "tokens_used": 1113
+    },
+    {
+      "sample_id": "jitvul_781_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5256926536560058,
+      "tokens_used": 1201
+    },
+    {
+      "sample_id": "jitvul_627_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6866080284118652,
+      "tokens_used": 465
+    },
+    {
+      "sample_id": "jitvul_244_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6866080284118652,
+      "tokens_used": 1560
+    },
+    {
+      "sample_id": "jitvul_711_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6866080284118652,
+      "tokens_used": 2455
+    },
+    {
+      "sample_id": "jitvul_393_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6866080284118652,
+      "tokens_used": 2364
+    },
+    {
+      "sample_id": "jitvul_502_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6866080284118652,
+      "tokens_used": 466
+    },
+    {
+      "sample_id": "jitvul_195_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6273603439331055,
+      "tokens_used": 816
+    },
+    {
+      "sample_id": "jitvul_844_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6273603439331055,
+      "tokens_used": 501
+    },
+    {
+      "sample_id": "jitvul_190_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6273603439331055,
+      "tokens_used": 1421
+    },
+    {
+      "sample_id": "jitvul_213_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6273603439331055,
+      "tokens_used": 487
+    },
+    {
+      "sample_id": "jitvul_814_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.6273603439331055,
+      "tokens_used": 2034
+    },
+    {
+      "sample_id": "jitvul_798_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9725605010986328,
+      "tokens_used": 526
+    },
+    {
+      "sample_id": "jitvul_34_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9725605010986328,
+      "tokens_used": 2164
+    },
+    {
+      "sample_id": "jitvul_13_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9725605010986328,
+      "tokens_used": 1320
+    },
+    {
+      "sample_id": "jitvul_426_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.9725605010986328,
+      "tokens_used": 4793
+    },
+    {
+      "sample_id": "jitvul_467_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9725605010986328,
+      "tokens_used": 932
+    },
+    {
+      "sample_id": "jitvul_46_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5615161418914795,
+      "tokens_used": 707
+    },
+    {
+      "sample_id": "jitvul_388_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5615161418914795,
+      "tokens_used": 809
+    },
+    {
+      "sample_id": "jitvul_623_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5615161418914795,
+      "tokens_used": 897
+    },
+    {
+      "sample_id": "jitvul_302_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5615161418914795,
+      "tokens_used": 1462
+    },
+    {
+      "sample_id": "jitvul_121_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5615161418914795,
+      "tokens_used": 319
+    },
+    {
+      "sample_id": "jitvul_131_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.1026938438415528,
+      "tokens_used": 2777
+    },
+    {
+      "sample_id": "jitvul_306_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.1026938438415528,
+      "tokens_used": 3395
+    },
+    {
+      "sample_id": "jitvul_712_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.1026938438415528,
+      "tokens_used": 5572
+    },
+    {
+      "sample_id": "jitvul_75_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.1026938438415528,
+      "tokens_used": 532
+    },
+    {
+      "sample_id": "jitvul_106_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.1026938438415528,
+      "tokens_used": 1281
+    },
+    {
+      "sample_id": "jitvul_868_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.0404335498809814,
+      "tokens_used": 5219
+    },
+    {
+      "sample_id": "jitvul_270_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.0404335498809814,
+      "tokens_used": 1598
+    },
+    {
+      "sample_id": "jitvul_863_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.0404335498809814,
+      "tokens_used": 1224
+    },
+    {
+      "sample_id": "jitvul_715_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.0404335498809814,
+      "tokens_used": 347
+    },
+    {
+      "sample_id": "jitvul_578_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.0404335498809814,
+      "tokens_used": 3387
+    },
+    {
+      "sample_id": "jitvul_843_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.1921116352081298,
+      "tokens_used": 6434
+    },
+    {
+      "sample_id": "jitvul_879_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.1921116352081298,
+      "tokens_used": 836
+    },
+    {
+      "sample_id": "jitvul_260_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.1921116352081298,
+      "tokens_used": 1872
+    },
+    {
+      "sample_id": "jitvul_805_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.1921116352081298,
+      "tokens_used": 1038
+    },
+    {
+      "sample_id": "jitvul_95_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.1921116352081298,
+      "tokens_used": 3773
+    },
+    {
+      "sample_id": "jitvul_447_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5856529712677002,
+      "tokens_used": 1221
+    },
+    {
+      "sample_id": "jitvul_190_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5856529712677002,
+      "tokens_used": 1580
+    },
+    {
+      "sample_id": "jitvul_542_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5856529712677002,
+      "tokens_used": 221
+    },
+    {
+      "sample_id": "jitvul_20_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5856529712677002,
+      "tokens_used": 420
+    },
+    {
+      "sample_id": "jitvul_506_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5856529712677002,
+      "tokens_used": 1654
+    },
+    {
+      "sample_id": "jitvul_237_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.3773811340332032,
+      "tokens_used": 7733
+    },
+    {
+      "sample_id": "jitvul_593_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.3773811340332032,
+      "tokens_used": 571
+    },
+    {
+      "sample_id": "jitvul_79_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.3773811340332032,
+      "tokens_used": 1948
+    },
+    {
+      "sample_id": "jitvul_329_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.3773811340332032,
+      "tokens_used": 5264
+    },
+    {
+      "sample_id": "jitvul_379_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.3773811340332032,
+      "tokens_used": 253
+    },
+    {
+      "sample_id": "jitvul_319_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5670320510864257,
+      "tokens_used": 1463
+    },
+    {
+      "sample_id": "jitvul_837_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5670320510864257,
+      "tokens_used": 1396
+    },
+    {
+      "sample_id": "jitvul_579_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5670320510864257,
+      "tokens_used": 620
+    },
+    {
+      "sample_id": "jitvul_58_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5670320510864257,
+      "tokens_used": 822
+    },
+    {
+      "sample_id": "jitvul_228_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5670320510864257,
+      "tokens_used": 802
+    },
+    {
+      "sample_id": "jitvul_47_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8537517070770264,
+      "tokens_used": 2319
+    },
+    {
+      "sample_id": "jitvul_210_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8537517070770264,
+      "tokens_used": 677
+    },
+    {
+      "sample_id": "jitvul_358_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8537517070770264,
+      "tokens_used": 1517
+    },
+    {
+      "sample_id": "jitvul_7_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.8537517070770264,
+      "tokens_used": 3224
+    },
+    {
+      "sample_id": "jitvul_846_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8537517070770264,
+      "tokens_used": 223
+    },
+    {
+      "sample_id": "jitvul_10_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5730204105377197,
+      "tokens_used": 947
+    },
+    {
+      "sample_id": "jitvul_584_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5730204105377197,
+      "tokens_used": 775
+    },
+    {
+      "sample_id": "jitvul_248_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5730204105377197,
+      "tokens_used": 269
+    },
+    {
+      "sample_id": "jitvul_277_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5730204105377197,
+      "tokens_used": 1224
+    },
+    {
+      "sample_id": "jitvul_499_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.5730204105377197,
+      "tokens_used": 242
+    }
+  ]
+}

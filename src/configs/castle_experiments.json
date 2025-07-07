@@ -90,7 +90,7 @@
             "model_type": "QWEN",
             "max_tokens": 2048,
             "temperature": 0.1,
-            "batch_size": 30,
+            "batch_size": 50,
             "use_quantization": true
         },
         "qwen3-4b-thinking": {
@@ -98,7 +98,7 @@
             "model_type": "QWEN",
             "max_tokens": 2048,
             "temperature": 0.1,
-            "batch_size": 30,
+            "batch_size": 50,
             "use_quantization": true,
             "enable_thinking": true
         },
@@ -107,7 +107,7 @@
             "model_type": "QWEN",
             "max_tokens": 2048,
             "temperature": 0.1,
-            "batch_size": 15,
+            "batch_size": 30,
             "use_quantization": true
         },
         "qwen3-8b-thinking": {
@@ -115,7 +115,7 @@
             "model_type": "QWEN",
             "max_tokens": 2048,
             "temperature": 0.1,
-            "batch_size": 15,
+            "batch_size": 30,
             "use_quantization": true,
             "enable_thinking": true
         },
@@ -150,7 +150,7 @@
             "model_type": "DEEPSEEK",
             "max_tokens": 2048,
             "temperature": 0.1,
-            "batch_size": 30,
+            "batch_size": 50,
             "use_quantization": true
         },
         "deepseek-r1-distill-qwen2.5-32b": {
@@ -174,7 +174,7 @@
             "model_type": "LLAMA",
             "max_tokens": 1024,
             "temperature": 0.1,
-            "batch_size": 15,
+            "batch_size": 30,
             "use_quantization": true
         },
         "llama4-scout-17b-16e": {
@@ -190,7 +190,7 @@
             "model_type": "GEMMA",
             "max_tokens": 1024,
             "temperature": 0.1,
-            "batch_size": 40,
+            "batch_size": 50,
             "use_quantization": true
         },
         "gemma3-27b": {
