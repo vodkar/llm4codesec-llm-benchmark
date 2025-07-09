@@ -1,0 +1,468 @@
+{
+  "accuracy": 0.48,
+  "metrics": {
+    "accuracy": 0.48,
+    "precision": 0.5,
+    "recall": 0.8846153846153846,
+    "f1_score": 0.6388888888888888,
+    "specificity": 0.041666666666666664,
+    "true_positives": 23,
+    "true_negatives": 1,
+    "false_positives": 23,
+    "false_negatives": 3
+  },
+  "total_samples": 50,
+  "total_time": 4966.040400266647,
+  "predictions": [
+    {
+      "sample_id": "jitvul_740_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.36751141548157,
+      "tokens_used": 509
+    },
+    {
+      "sample_id": "jitvul_506_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.36751141548157,
+      "tokens_used": 2024
+    },
+    {
+      "sample_id": "jitvul_549_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.36751141548157,
+      "tokens_used": 22134
+    },
+    {
+      "sample_id": "jitvul_667_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.36751141548157,
+      "tokens_used": 369
+    },
+    {
+      "sample_id": "jitvul_508_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.36751141548157,
+      "tokens_used": 883
+    },
+    {
+      "sample_id": "jitvul_797_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 96.43459973335266,
+      "tokens_used": 1063
+    },
+    {
+      "sample_id": "jitvul_346_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 96.43459973335266,
+      "tokens_used": 1155
+    },
+    {
+      "sample_id": "jitvul_482_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 96.43459973335266,
+      "tokens_used": 1217
+    },
+    {
+      "sample_id": "jitvul_242_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 96.43459973335266,
+      "tokens_used": 755
+    },
+    {
+      "sample_id": "jitvul_355_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 96.43459973335266,
+      "tokens_used": 1311
+    },
+    {
+      "sample_id": "jitvul_786_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 100.95312657356263,
+      "tokens_used": 1675
+    },
+    {
+      "sample_id": "jitvul_592_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 100.95312657356263,
+      "tokens_used": 2069
+    },
+    {
+      "sample_id": "jitvul_465_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 100.95312657356263,
+      "tokens_used": 1565
+    },
+    {
+      "sample_id": "jitvul_773_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE\n\n\nThe code is vulnerable to CWE-190 because it uses a pointer arithmetic operation (`data_ + i * info_.rowbytes`) within a loop that iterates over the `rowPtrs_` array. This can lead to a buffer overflow if `info_.height` is larger than the allocated size of `data_`. The `rowPtrs_` array is resized to point to the correct locations in `data_`, but the loop itself is still vulnerable.",
+      "processing_time": 100.95312657356263,
+      "tokens_used": 335
+    },
+    {
+      "sample_id": "jitvul_233_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 100.95312657356263,
+      "tokens_used": 942
+    },
+    {
+      "sample_id": "jitvul_697_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 99.3054792881012,
+      "tokens_used": 3313
+    },
+    {
+      "sample_id": "jitvul_677_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE\n,",
+      "processing_time": 99.3054792881012,
+      "tokens_used": 226
+    },
+    {
+      "sample_id": "jitvul_516_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 99.3054792881012,
+      "tokens_used": 403
+    },
+    {
+      "sample_id": "jitvul_347_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE\n\nREASON:\nThe code is vulnerable to CWE-190 (Integer Overflow) because `php_stream_read` can return a value greater than or equal to `length`. The code then attempts to write `length + 1` bytes to the allocated memory. If `php_stream_read` returns a value larger than `length`, it will write beyond the allocated buffer, leading to a buffer overflow. The `Z_STRVAL_P(return_value)[Z_STRLEN_P(return_value)] = 0;` line does not mitigate this vulnerability.",
+      "processing_time": 99.3054792881012,
+      "tokens_used": 553
+    },
+    {
+      "sample_id": "jitvul_61_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 99.3054792881012,
+      "tokens_used": 1808
+    },
+    {
+      "sample_id": "jitvul_482_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 94.77344074249268,
+      "tokens_used": 1489
+    },
+    {
+      "sample_id": "jitvul_477_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 94.77344074249268,
+      "tokens_used": 292
+    },
+    {
+      "sample_id": "jitvul_465_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 94.77344074249268,
+      "tokens_used": 1511
+    },
+    {
+      "sample_id": "jitvul_676_vulnerable",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 94.77344074249268,
+      "tokens_used": 513
+    },
+    {
+      "sample_id": "jitvul_347_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 94.77344074249268,
+      "tokens_used": 478
+    },
+    {
+      "sample_id": "jitvul_555_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 96.01414232254028,
+      "tokens_used": 1260
+    },
+    {
+      "sample_id": "jitvul_508_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 96.01414232254028,
+      "tokens_used": 836
+    },
+    {
+      "sample_id": "jitvul_794_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 96.01414232254028,
+      "tokens_used": 1703
+    },
+    {
+      "sample_id": "jitvul_477_non_vulnerable",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 96.01414232254028,
+      "tokens_used": 313
+    },
+    {
+      "sample_id": "jitvul_355_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 96.01414232254028,
+      "tokens_used": 1310
+    },
+    {
+      "sample_id": "jitvul_242_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 100.87294988632202,
+      "tokens_used": 718
+    },
+    {
+      "sample_id": "jitvul_866_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 100.87294988632202,
+      "tokens_used": 2618
+    },
+    {
+      "sample_id": "jitvul_795_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 100.87294988632202,
+      "tokens_used": 273
+    },
+    {
+      "sample_id": "jitvul_677_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE\n\n\n\n* **CWE-190: Integer Overflow:** The code checks if `nb_sectors` is greater than `INT_MAX / BDRV_SECTOR_SIZE`. If it is, it returns -EIO. This is a potential integer overflow. If `nb_sectors` is large enough, the division `INT_MAX / BDRV_SECTOR_SIZE` could overflow, leading to an incorrect check and potentially allowing a large number of sectors to be requested, exceeding the block device's capacity and causing a denial of service or other issues. The check itself is a mitigation, but it doesn't prevent the overflow from occurring.",
+      "processing_time": 100.87294988632202,
+      "tokens_used": 398
+    },
+    {
+      "sample_id": "jitvul_345_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 100.87294988632202,
+      "tokens_used": 1445
+    },
+    {
+      "sample_id": "jitvul_797_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.42522563934327,
+      "tokens_used": 1153
+    },
+    {
+      "sample_id": "jitvul_555_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.42522563934327,
+      "tokens_used": 1261
+    },
+    {
+      "sample_id": "jitvul_773_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.42522563934327,
+      "tokens_used": 407
+    },
+    {
+      "sample_id": "jitvul_549_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.42522563934327,
+      "tokens_used": 20641
+    },
+    {
+      "sample_id": "jitvul_592_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.42522563934327,
+      "tokens_used": 2125
+    },
+    {
+      "sample_id": "jitvul_516_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 98.75191178321839,
+      "tokens_used": 333
+    },
+    {
+      "sample_id": "jitvul_634_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 98.75191178321839,
+      "tokens_used": 1272
+    },
+    {
+      "sample_id": "jitvul_794_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 98.75191178321839,
+      "tokens_used": 1701
+    },
+    {
+      "sample_id": "jitvul_709_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 98.75191178321839,
+      "tokens_used": 2861
+    },
+    {
+      "sample_id": "jitvul_786_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 98.75191178321839,
+      "tokens_used": 1767
+    },
+    {
+      "sample_id": "jitvul_61_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.444988822937,
+      "tokens_used": 1810
+    },
+    {
+      "sample_id": "jitvul_837_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.444988822937,
+      "tokens_used": 1953
+    },
+    {
+      "sample_id": "jitvul_634_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.444988822937,
+      "tokens_used": 1270
+    },
+    {
+      "sample_id": "jitvul_709_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.444988822937,
+      "tokens_used": 2863
+    },
+    {
+      "sample_id": "jitvul_540_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.444988822937,
+      "tokens_used": 663
+    }
+  ]
+}

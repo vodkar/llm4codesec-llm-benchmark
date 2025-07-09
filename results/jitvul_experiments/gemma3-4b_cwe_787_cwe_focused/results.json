@@ -1,459 +1,36 @@
 {
-  "accuracy": 0.49,
+  "accuracy": 0.52,
   "metrics": {
-    "accuracy": 0.49,
-    "precision": 0.5053763440860215,
-    "recall": 0.9038461538461539,
-    "f1_score": 0.6482758620689656,
-    "specificity": 0.041666666666666664,
-    "true_positives": 47,
-    "true_negatives": 2,
-    "false_positives": 46,
-    "false_negatives": 5
+    "accuracy": 0.52,
+    "precision": 0.52,
+    "recall": 1.0,
+    "f1_score": 0.6842105263157895,
+    "specificity": 0.0,
+    "true_positives": 26,
+    "true_negatives": 0,
+    "false_positives": 24,
+    "false_negatives": 0
   },
-  "total_samples": 100,
-  "total_time": 5201.206988334656,
+  "total_samples": 50,
+  "total_time": 4984.268579244614,
   "predictions": [
     {
-      "sample_id": "jitvul_576_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 50.06612663269043,
-      "tokens_used": 602
-    },
-    {
-      "sample_id": "jitvul_181_vulnerable",
+      "sample_id": "jitvul_771_vulnerable",
       "predicted_label": 1,
       "true_label": 1,
       "confidence": null,
       "response_text": "VULNERABLE",
-      "processing_time": 50.06612663269043,
-      "tokens_used": 2771
-    },
-    {
-      "sample_id": "jitvul_792_vulnerable",
-      "predicted_label": 0,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "SAFE\n,",
-      "processing_time": 50.06612663269043,
-      "tokens_used": 208
+      "processing_time": 105.16293468475342,
+      "tokens_used": 12993
     },
     {
       "sample_id": "jitvul_790_non_vulnerable",
       "predicted_label": 1,
       "true_label": 0,
       "confidence": null,
-      "response_text": "VULNERABLE\n**Reasoning:**\n\nThe code is vulnerable to a heap buffer overflow due to the use of `mmap` and `mempool_alloc` without proper bounds checking. Specifically, the `REQ_LENGTH_MAX` variable defines the maximum size of the receive buffer. The `recvfrom` or `read` function can potentially receive more data than this limit. The code then attempts to process this data without checking if the length of the received data is within the bounds of the allocated memory. If the received data exceeds the allocated buffer, it can overwrite adjacent memory locations on the heap, leading to a heap buffer overflow.\n\nThe `ptr` variable is used to track the current position in the received data. The code increments `ptr` based on the length of the attributes being processed. However, there is no check to ensure that `ptr` does not exceed the bounds of the allocated memory.\n\nThe vulnerability is exacerbated by the use of `mempool_alloc` which can lead to memory fragmentation and unpredictable behavior. The lack of bounds checking combined with the potential for memory fragmentation makes this code highly susceptible to heap overflows.",
-      "processing_time": 50.06612663269043,
-      "tokens_used": 1945
-    },
-    {
-      "sample_id": "jitvul_798_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
       "response_text": "VULNERABLE",
-      "processing_time": 50.06612663269043,
-      "tokens_used": 598
-    },
-    {
-      "sample_id": "jitvul_244_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE\n**Explanation:**\n\nThis code snippet exhibits a potential vulnerability related to CWE-787: Out-of-bounds Write. Specifically, the `cdf_copy_info` function is used to copy data from the stream to the `inp` array. The code calculates `o4` (offset within the data) and `left` (remaining data length) to determine the size of the data to copy. However, the logic for handling `CDF_LENGTH32_STRING` (and related string types) is flawed.\n\nHere's a breakdown of the vulnerability:\n\n1. **`CDF_LENGTH32_STRING` Handling:** When encountering a `CDF_LENGTH32_STRING` property, the code iterates through the specified number of elements (`nelements`).  Inside the loop, it calculates `o4` and `left` repeatedly.  The critical issue is that `o4` is *not* reset to `slen * sizeof(uint32_t)` after each iteration of the inner loop.  This means that `o4` accumulates the size of the previous string, leading to an out-of-bounds write when copying the next string.\n\n2. **Accumulation of `o4`:** The `o4` variable is incremented by `sizeof(uint32_t)` in each iteration of the inner loop.  This means that the offset `o4` will eventually exceed the `left` value, leading to a write beyond the bounds of the `e` pointer (the end of the data).\n\n3. **Lack of Bounds Checking:** The code lacks proper bounds checking to ensure that the `o4` offset remains within the bounds of the data being copied.\n\n4. **Potential for Overwriting:**  The out-of-bounds write can overwrite adjacent memory locations, potentially leading to arbitrary code execution or data corruption.\n\n**Why it's CWE-787:**\n\nThe vulnerability falls squarely under CWE-787 because it involves writing data beyond the allocated buffer's boundaries. The flawed logic in handling string properties, specifically the accumulation of the offset `o4`, directly causes this out-of-bounds write.\n\n**Mitigation:**\n\n*   **Reset `o4`:** The `o4` variable should be reset to `slen * sizeof(uint32_t)` at the beginning of each iteration of the inner loop.\n*   **Thorough Bounds Checking:** Implement robust bounds checking to ensure that `o4` always remains within the valid range of the data being copied.\n*   **Consider using safer string handling functions:**  If possible, use safer string handling functions that automatically handle bounds checking.",
-      "processing_time": 49.85016584396362,
-      "tokens_used": 2456
-    },
-    {
-      "sample_id": "jitvul_784_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE\n**Reasoning:**\n\nThis code snippet exhibits a potential CWE-787 (Improper Neutralization of Input During Web Page Generation) vulnerability. Specifically, the `segment_size` parameter is used in the `MODE_CFB` mode, and the code performs validation on it. However, if `segment_size` is not a multiple of 8 (bits), the code doesn't prevent a malicious user from providing a value that could lead to unexpected behavior or potentially exploit the cipher.\n\nWhile the code checks if `segment_size` is a multiple of 8, it doesn't sanitize the input. A malicious user could provide a value like \"10\" or \"15\" for `segment_size`, which would cause the code to proceed with an invalid `segment_size`. This could lead to unexpected behavior or potentially be exploited in a more complex attack scenario.\n\nThe vulnerability lies in the lack of proper input validation and sanitization of the `segment_size` parameter, which could be used to manipulate the cipher's behavior.",
-      "processing_time": 49.85016584396362,
-      "tokens_used": 1544
-    },
-    {
-      "sample_id": "jitvul_76_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 49.85016584396362,
-      "tokens_used": 1130
-    },
-    {
-      "sample_id": "jitvul_218_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 49.85016584396362,
-      "tokens_used": 652
-    },
-    {
-      "sample_id": "jitvul_848_vulnerable",
-      "predicted_label": 0,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "SAFE\n\n,",
-      "processing_time": 49.85016584396362,
-      "tokens_used": 460
-    },
-    {
-      "sample_id": "jitvul_732_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 51.135016202926636,
-      "tokens_used": 1686
-    },
-    {
-      "sample_id": "jitvul_576_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 51.135016202926636,
-      "tokens_used": 599
-    },
-    {
-      "sample_id": "jitvul_266_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\n```c\nint ZEXPORT inflate(strm, flush)\nz_streamp strm;\nint flush;\n{\n    struct inflate_state FAR *state;\n    z_const unsigned char FAR *next;    /* next input */\n    unsigned char FAR *put;     /* next output */\n    unsigned have, left;        /* available input and output */\n    unsigned long hold;         /* bit buffer */\n    unsigned bits;              /* bits in bit buffer */\n    unsigned in, out;           /* save starting available input and output */\n    unsigned copy;              /* number of stored or match bytes to copy */\n    unsigned char FAR *from;    /* where to copy match bytes from */\n    code here;                  /* current decoding table entry */\n    code last;                  /* parent table entry */\n    unsigned len;               /* length to copy for repeats, bits to drop */\n    int ret;                    /* return code */\n#ifdef GUNZIP\n    unsigned char hbuf[4];      /* buffer for gzip header crc calculation */\n#endif\n    static const unsigned short order[19] = /* permutation of code lengths */\n        {16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15};\n\n    if (inflateStateCheck(strm) || strm->next_out == Z_NULL ||\n        (strm->next_in == Z_NULL && strm->avail_in!= 0))\n        return Z_STREAM_ERROR;\n\n    state = (struct inflate_state FAR *)strm->state;\n    if (state->mode == TYPE) state->mode = TYPEDO;      /* skip check */\n    LOAD();\n    in = have;\n    out = left;\n    ret = Z_OK;\n    for (;;)\n        switch (state->mode) {\n        case HEAD:\n            if (state->wrap == 0) {\n                state->mode = TYPEDO;\n                break;\n            }\n            NEEDBITS(16);\n#ifdef GUNZIP\n            if ((state->wrap & 2) && hold == 0x8b1f) {  /* gzip header */\n                if (state->wbits == 0)\n                    state->wbits = 15;\n                state->check = crc32(0L, Z_NULL, 0);\n                CRC2(state->check, hold);\n                INITBITS();\n                state->mode = FLAGS;\n                break;\n            }\n            if (state->head!= Z_NULL)\n                state->head->done = -1;\n            if (!(state->wrap & 1) ||   /* check if zlib header allowed */\n#else\n            if (\n#endif\n                ((BITS(8) << 8) + (hold >> 8)) % 31) {\n                strm->msg = (char *)\"incorrect header check\";\n                state->mode = BAD;\n                break;\n            }\n            if (BITS(4)!= Z_DEFLATED) {\n                strm->msg = (char *)\"unknown compression method\";\n                state->mode = BAD;\n                break;\n            }\n            DROPBITS(4);\n            len = BITS(4) + 8;\n            if (state->wbits == 0)\n                state->wbits = len;\n            if (len > 15 || len > state->wbits) {\n                strm->msg = (char *)\"invalid window size\";\n                state->mode = BAD;\n                break;\n            }\n            state->dmax = 1U << len;\n            state->flags = 0;               /* indicate zlib header */\n            Tracev((stderr, \"inflate:   zlib header ok\\n\"));\n            strm->adler = state->check = adler32(0L, Z_NULL, 0);\n            state->mode = hold & 0x200? DICTID : TYPE;\n            INITBITS();\n            break;\n#ifdef GUNZIP\n        case FLAGS:\n            NEEDBITS(16);\n            state->flags = (int)(hold);\n            if ((state->flags & 0xff)!= Z_DEFLATED) {\n                strm->msg = (char *)\"unknown compression method\";\n                state->mode = BAD;",
-      "processing_time": 51.135016202926636,
-      "tokens_used": 7970
-    },
-    {
-      "sample_id": "jitvul_838_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 51.135016202926636,
-      "tokens_used": 2925
-    },
-    {
-      "sample_id": "jitvul_262_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE\n \u05d4\u05e8\u05d5\u05e6\u05d4 \u05dc\u05d4\u05de\u05e9\u05d9\u05da \u05d5\u05dc\u05e2\u05d6\u05d5\u05e8.",
-      "processing_time": 51.135016202926636,
-      "tokens_used": 1294
-    },
-    {
-      "sample_id": "jitvul_285_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 50.34996643066406,
-      "tokens_used": 1466
-    },
-    {
-      "sample_id": "jitvul_784_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 50.34996643066406,
-      "tokens_used": 1318
-    },
-    {
-      "sample_id": "jitvul_220_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE\n3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:53 AM3/17/2024 1:27:5",
-      "processing_time": 50.34996643066406,
-      "tokens_used": 1242
-    },
-    {
-      "sample_id": "jitvul_577_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 50.34996643066406,
-      "tokens_used": 2812
-    },
-    {
-      "sample_id": "jitvul_509_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 50.34996643066406,
-      "tokens_used": 867
-    },
-    {
-      "sample_id": "jitvul_273_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\n\n3.  **CWE-787: Application Logic Vulnerability**\n\n    The code attempts to disable privilege mode using `setuid` or `setresuid`.  The `current_user.uid` and `current_user.gid` are directly used in the `setuid` or `setresuid` calls.  If `current_user.uid` or `current_user.gid` are not properly validated or sanitized, an attacker could potentially manipulate these values to gain elevated privileges.  The `EXIT_ON_SETUID_FAILURE` check is a mitigation, but it's only triggered for `EAGAIN`, which might not cover all possible failure scenarios.  The code also sets `current_user.euid = current_user.uid` and `current_user.egid = current_user.gid`, which could lead to unexpected privilege escalation if the initial `uid` or `gid` are not carefully controlled.  The use of `sys_error` is a standard practice, but doesn't address the underlying vulnerability.  The code lacks proper input validation, making it vulnerable to privilege escalation if the `current_user.uid` and `current_user.gid` are not carefully controlled.",
-      "processing_time": 50.54229474067688,
-      "tokens_used": 697
-    },
-    {
-      "sample_id": "jitvul_753_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 50.54229474067688,
-      "tokens_used": 858
-    },
-    {
-      "sample_id": "jitvul_230_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 50.54229474067688,
-      "tokens_used": 6418
-    },
-    {
-      "sample_id": "jitvul_169_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\nSIZE_MISUREMENT",
-      "processing_time": 50.54229474067688,
-      "tokens_used": 488
-    },
-    {
-      "sample_id": "jitvul_184_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\n\n3.  **CWE-787: Out-of-bounds Write**\n\nThe code has a potential out-of-bounds write vulnerability. Specifically, the `regs` array is used to store arguments. If `n` is greater than 15, the code copies elements of `regs` to overwrite memory outside the allocated bounds of `mrb->c->ci->stack`. This could lead to a crash or allow an attacker to overwrite critical data structures, potentially leading to arbitrary code execution. The `if (n == 15)` block is the primary area of concern. The loop `for (int i=0; i<n; i++) { regs[i] = regs[i+1]; }` could cause an out-of-bounds write if `n` is larger than the size of the `mrb->c->ci->stack` array.",
-      "processing_time": 50.54229474067688,
-      "tokens_used": 1041
-    },
-    {
-      "sample_id": "jitvul_214_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE\nECONOMY_TO_POINTER",
-      "processing_time": 50.11494565010071,
-      "tokens_used": 2582
-    },
-    {
-      "sample_id": "jitvul_816_vulnerable",
-      "predicted_label": 0,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "SAFE\n\n,",
-      "processing_time": 50.11494565010071,
-      "tokens_used": 474
-    },
-    {
-      "sample_id": "jitvul_166_non_vulnerable",
-      "predicted_label": 0,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "SAFE\n,",
-      "processing_time": 50.11494565010071,
-      "tokens_used": 575
-    },
-    {
-      "sample_id": "jitvul_278_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 50.11494565010071,
-      "tokens_used": 2924
-    },
-    {
-      "sample_id": "jitvul_274_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\n3\n9\n1\n2\n0\n4\n5\n6\n7\n8\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\n41\n42\n43\n44\n45\n46\n47\n48\n49\n50\n51\n52\n53\n54\n55\n56\n57\n58\n59\n60\n61\n62\n63\n64\n65\n66\n67\n68\n69\n70\n71\n72\n73\n74\n75\n76\n77\n78\n79\n80\n81\n82\n83\n84\n85\n86\n87\n88\n89\n90\n91\n92\n93\n94\n95\n96\n97\n98\n99\n100\n101\n102\n103\n104\n105\n106\n107\n108\n109\n110\n111\n112\n113\n114\n115\n116\n117\n118\n119\n120\n121\n122\n123\n124\n125\n126\n127\n128\n129\n130\n131\n132\n133\n134\n135\n136\n137\n138\n139\n140\n141\n142\n143\n144\n145\n146\n147\n148\n149\n150\n151\n152\n153\n154\n155\n156\n157\n158\n159\n160\n161\n162\n163\n164\n165\n166\n167\n168\n169\n170\n171\n172\n173\n174\n175\n176\n177\n178\n179\n180\n181\n182\n183\n184\n185\n186\n187\n188\n189\n190\n191\n192\n193\n194\n195\n196\n197\n198\n199\n200\n201\n202\n203\n204\n205\n206\n207\n208\n209\n210\n211\n212\n213\n214\n215\n216\n217\n218\n219\n220\n221\n222\n223\n224\n22",
-      "processing_time": 50.11494565010071,
-      "tokens_used": 1173
-    },
-    {
-      "sample_id": "jitvul_783_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 50.00250563621521,
-      "tokens_used": 1899
-    },
-    {
-      "sample_id": "jitvul_455_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 50.00250563621521,
-      "tokens_used": 1682
-    },
-    {
-      "sample_id": "jitvul_204_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 50.00250563621521,
-      "tokens_used": 499
-    },
-    {
-      "sample_id": "jitvul_193_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 50.00250563621521,
-      "tokens_used": 3700
-    },
-    {
-      "sample_id": "jitvul_214_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 50.00250563621521,
-      "tokens_used": 2571
-    },
-    {
-      "sample_id": "jitvul_274_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 49.84917769432068,
-      "tokens_used": 378
-    },
-    {
-      "sample_id": "jitvul_838_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 49.84917769432068,
-      "tokens_used": 2924
-    },
-    {
-      "sample_id": "jitvul_204_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 49.84917769432068,
-      "tokens_used": 494
-    },
-    {
-      "sample_id": "jitvul_802_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 49.84917769432068,
-      "tokens_used": 1598
-    },
-    {
-      "sample_id": "jitvul_148_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\nOUTPUT\nVULNERABLE",
-      "processing_time": 49.84917769432068,
-      "tokens_used": 1136
-    },
-    {
-      "sample_id": "jitvul_816_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 49.90981578826904,
-      "tokens_used": 477
-    },
-    {
-      "sample_id": "jitvul_759_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 49.90981578826904,
-      "tokens_used": 600
-    },
-    {
-      "sample_id": "jitvul_256_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\n\u5e73\u51e1\u7684\u7f13\u51b2\u533a\u6ea2\u51fa\u6f0f\u6d1e\u3002`r_buf_read_at` \u51fd\u6570\u53ef\u80fd\u8fd4\u56de\u5c0f\u4e8e\u8bf7\u6c42\u7684 `size` \u7684\u503c\uff0c\u5bfc\u81f4 `b` \u7f13\u51b2\u533a\u672a\u88ab\u5b8c\u5168\u586b\u5145\u3002\u7136\u540e\uff0c\u4ee3\u7801\u5c1d\u8bd5\u4f7f\u7528 `b` \u7f13\u51b2\u533a\u4e2d\u7684\u6570\u636e\uff0c\u800c\u8be5\u7f13\u51b2\u533a\u53ef\u80fd\u4e0d\u5b8c\u6574\uff0c\u4ece\u800c\u5bfc\u81f4\u540e\u7eed\u64cd\u4f5c\uff08\u4f8b\u5982 `memcmp`\uff09\u7684\u7ed3\u679c\u4e0d\u53ef\u9884\u6d4b\u3002\u6b64\u5916\uff0c\u4ee3\u7801\u5728 `off - 8` \u5904\u8bfb\u53d6\u6570\u636e\uff0c\u8fd9\u53ef\u80fd\u5bfc\u81f4\u7f13\u51b2\u533a\u6ea2\u51fa\uff0c\u5982\u679c `off` \u7684\u503c\u4e0d\u6b63\u786e\uff0c\u5219\u53ef\u80fd\u5bfc\u81f4\u610f\u5916\u884c\u4e3a\u3002",
-      "processing_time": 49.90981578826904,
-      "tokens_used": 1786
-    },
-    {
-      "sample_id": "jitvul_833_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 49.90981578826904,
-      "tokens_used": 2451
-    },
-    {
-      "sample_id": "jitvul_218_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 49.90981578826904,
-      "tokens_used": 587
-    },
-    {
-      "sample_id": "jitvul_229_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 54.112918329238894,
-      "tokens_used": 1064
-    },
-    {
-      "sample_id": "jitvul_832_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 54.112918329238894,
-      "tokens_used": 6681
-    },
-    {
-      "sample_id": "jitvul_257_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 54.112918329238894,
-      "tokens_used": 1271
-    },
-    {
-      "sample_id": "jitvul_283_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 54.112918329238894,
-      "tokens_used": 16016
+      "processing_time": 105.16293468475342,
+      "tokens_used": 1709
     },
     {
       "sample_id": "jitvul_247_vulnerable",
@@ -461,440 +38,80 @@
       "true_label": 1,
       "confidence": null,
       "response_text": "VULNERABLE",
-      "processing_time": 54.112918329238894,
-      "tokens_used": 1006
-    },
-    {
-      "sample_id": "jitvul_180_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 53.87932534217835,
-      "tokens_used": 637
-    },
-    {
-      "sample_id": "jitvul_776_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 53.87932534217835,
-      "tokens_used": 658
-    },
-    {
-      "sample_id": "jitvul_166_vulnerable",
-      "predicted_label": 0,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "SAFE",
-      "processing_time": 53.87932534217835,
-      "tokens_used": 532
-    },
-    {
-      "sample_id": "jitvul_256_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 53.87932534217835,
-      "tokens_used": 1653
-    },
-    {
-      "sample_id": "jitvul_283_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 53.87932534217835,
-      "tokens_used": 15989
-    },
-    {
-      "sample_id": "jitvul_832_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 52.482363033294675,
-      "tokens_used": 6518
-    },
-    {
-      "sample_id": "jitvul_853_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE\n**Explanation:**\n\nThis code exhibits a classic CWE-787 (Use-After-Free) vulnerability. Here's a breakdown of why:\n\n1. **`devices[i].keyHandle = NULL;`**: Inside the loop that processes each device, the `keyHandle` is explicitly set to `NULL` before the loop exits. This is intended to free the memory associated with the `keyHandle` when a new device is found.\n\n2. **`*n_devs = 0;`**:  This resets the `n_devs` counter to zero before each new user's devices are processed.\n\n3. **Race Condition**: The critical flaw lies in the fact that the `devices` array is not properly synchronized.  The `keyHandle` is freed *before* the loop finishes processing the current user's devices.  If the `keyHandle` is freed and then a subsequent device is processed, the code attempts to use the freed memory (a dangling pointer).  This is a use-after-free.\n\n4. **`devices[i].keyHandle = NULL;`**: This line is executed *after* the `keyHandle` has been freed.  This is the root cause of the vulnerability.\n\n**How it can be exploited:**\n\nAn attacker could potentially manipulate the `authfile` to contain multiple entries for the same user.  The code would process each entry, freeing the `keyHandle` for the previous device and then attempting to use that freed memory when processing the next device.  This could lead to arbitrary code execution or other memory corruption vulnerabilities.\n\n**Mitigation:**\n\n*   **Proper Synchronization:** Use mutexes or other synchronization primitives to protect the `devices` array and ensure that only one thread can access and modify it at a time.\n*   **Avoid Premature Freeing:**  Don't free memory that is still being used by the program.  In this case, the `keyHandle` should only be freed after the loop has completed processing all devices for the current user.\n*   **Consider a Different Data Structure:**  If the number of devices per user is highly variable, a different data structure (e.g., a hash map) might be more appropriate to avoid the need for manual memory management and synchronization.\n\nThe code's reliance on `fgets` and `strtok_r` without proper bounds checking or error handling further exacerbates the vulnerability.",
-      "processing_time": 52.482363033294675,
-      "tokens_used": 2468
-    },
-    {
-      "sample_id": "jitvul_210_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\nLENIENT",
-      "processing_time": 52.482363033294675,
-      "tokens_used": 811
-    },
-    {
-      "sample_id": "jitvul_801_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 52.482363033294675,
-      "tokens_used": 2079
-    },
-    {
-      "sample_id": "jitvul_708_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 52.482363033294675,
-      "tokens_used": 1926
-    },
-    {
-      "sample_id": "jitvul_853_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 51.69704246520996,
-      "tokens_used": 1957
-    },
-    {
-      "sample_id": "jitvul_509_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 51.69704246520996,
-      "tokens_used": 872
-    },
-    {
-      "sample_id": "jitvul_262_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 51.69704246520996,
-      "tokens_used": 1241
-    },
-    {
-      "sample_id": "jitvul_182_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 51.69704246520996,
-      "tokens_used": 2231
-    },
-    {
-      "sample_id": "jitvul_818_vulnerable",
-      "predicted_label": 0,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "SAFE",
-      "processing_time": 51.69704246520996,
-      "tokens_used": 409
-    },
-    {
-      "sample_id": "jitvul_151_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 51.72781624794006,
-      "tokens_used": 745
-    },
-    {
-      "sample_id": "jitvul_148_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 51.72781624794006,
-      "tokens_used": 1130
-    },
-    {
-      "sample_id": "jitvul_190_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 51.72781624794006,
-      "tokens_used": 1784
+      "processing_time": 105.16293468475342,
+      "tokens_used": 1001
     },
     {
       "sample_id": "jitvul_193_vulnerable",
       "predicted_label": 1,
       "true_label": 1,
       "confidence": null,
-      "response_text": "VULNERABLE\n\n summary:\nThe code contains a potential integer overflow vulnerability in the `header->ordnum` calculation. Specifically, the `f.readWord()` calls to read the number of order positions and the number of instruments and patterns could potentially overflow, leading to a buffer overflow if `header->ordnum`, `header->insnum`, or `header->patnum` are larger than the expected maximum values. Additionally, the `f.readDword()` calls could also lead to overflows. The code also has potential memory leaks and uses unsafe functions like `safeRead` without proper bounds checking.",
-      "processing_time": 51.72781624794006,
-      "tokens_used": 3791
-    },
-    {
-      "sample_id": "jitvul_211_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
       "response_text": "VULNERABLE",
-      "processing_time": 51.72781624794006,
-      "tokens_used": 2950
-    },
-    {
-      "sample_id": "jitvul_804_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\n3.  **CWE-787: Transitive File Inclusion**\n    *   **Description:** This CWE involves a vulnerability where an attacker can leverage a file inclusion vulnerability to include malicious files. In this case, the `strchr` function is used to check if a character is present in a string. If the `quote` string contains characters that could be used to construct a path, an attacker could potentially inject malicious code into the `src` string, leading to a file inclusion vulnerability.\n    *   **Pattern:** The code uses `strchr` to check if a character in the input string (`src`) is present in the `quote` string. If the `quote` string contains characters like `/`, `\\`, or other path separators, an attacker could craft a malicious input string that, when processed by `strchr`, could lead to a file inclusion vulnerability.\n    *   **Example:** If `src` is set to `\"../etc/passwd\"` and `quote` is `\"\\\"\\\\\"` then the code will escape the `.` and `/` characters, but if the `quote` string were to contain a path separator, it could be used to traverse the file system.",
-      "processing_time": 56.07279906272888,
-      "tokens_used": 618
-    },
-    {
-      "sample_id": "jitvul_192_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\nOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT_STARTOUTPUT_ENDOUTPUT",
-      "processing_time": 56.07279906272888,
-      "tokens_used": 1724
-    },
-    {
-      "sample_id": "jitvul_173_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\n summary:\nThe code snippet contains a potential vulnerability related to integer overflow during the `OP_ADD`, `OP_SUB`, `OP_MUL`, and `OP_DIV` operations. Specifically, the `OP_INT_OVERFLOW` case is triggered when the result of these operations exceeds the maximum or minimum representable integer value. This could lead to unexpected behavior, incorrect calculations, or even crashes. The code does not handle this overflow gracefully, potentially leading to incorrect results or unexpected program termination.",
-      "processing_time": 56.07279906272888,
-      "tokens_used": 19494
-    },
-    {
-      "sample_id": "jitvul_869_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 56.07279906272888,
-      "tokens_used": 2116
-    },
-    {
-      "sample_id": "jitvul_229_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 56.07279906272888,
-      "tokens_used": 1043
-    },
-    {
-      "sample_id": "jitvul_708_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 52.19438524246216,
-      "tokens_used": 1899
-    },
-    {
-      "sample_id": "jitvul_878_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\n\n\u09e9",
-      "processing_time": 52.19438524246216,
-      "tokens_used": 730
-    },
-    {
-      "sample_id": "jitvul_76_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 52.19438524246216,
-      "tokens_used": 1129
-    },
-    {
-      "sample_id": "jitvul_833_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 52.19438524246216,
-      "tokens_used": 2449
-    },
-    {
-      "sample_id": "jitvul_180_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\n\nUnder the `ACCUSOFT_CODE` macro, the code allocates memory using `m_pEnviron->AllocMem` without proper bounds checking. The `m_ucCount` variable is used to determine the size of the allocated memory blocks for `m_ppDecodingMCU` and `m_ppUpsampler`. If `m_ucCount` is larger than the expected size, it could lead to a buffer overflow when `memset` is called. The `memset` function is called with `sizeof(struct Line *) * m_ucCount * 8`, which could be larger than the allocated memory if `m_ucCount` is too large. This is a classic buffer overflow vulnerability.",
-      "processing_time": 52.19438524246216,
-      "tokens_used": 665
-    },
-    {
-      "sample_id": "jitvul_776_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 52.34367141723633,
-      "tokens_used": 646
-    },
-    {
-      "sample_id": "jitvul_234_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 52.34367141723633,
-      "tokens_used": 758
-    },
-    {
-      "sample_id": "jitvul_575_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\n\n3.  **CWE-787: Out-of-bounds Read**\n    *   **Description:** This CWE involves reading data from a memory location outside the boundaries of an array or buffer.\n    *   **Pattern:** The code calculates `size + 2` and compares it to `nestsize`. If `size + 2` exceeds `nestsize`, the code returns `GPMF_OK`. However, if `size` is large enough, `size + 2` could potentially exceed `nestsize`, leading to an out-of-bounds read when accessing `ms->buffer`. The `+ 2` is a potential issue because it might be an offset that, when combined with the `nest_size` value, could cause an out-of-bounds access.\n    *   **Reasoning:** The code doesn't properly validate the `size` against the `nestsize` to prevent reading beyond the allocated buffer. The `+ 2` could be a source of error.",
-      "processing_time": 52.34367141723633,
-      "tokens_used": 512
-    },
-    {
-      "sample_id": "jitvul_260_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE\nECONCERN: CWE-787: Out-of-bounds Write\nExplanation:\nThe code contains a potential out-of-bounds write vulnerability. Specifically, the line:\n\n```c\nfree_entp->firstchar = free_entp->next->firstchar;\nfree_entp->length = free_entp->next->length+1;\nfree_entp->value = (codep < free_entp)?\n    codep->firstchar : free_entp->firstchar;\n```\n\nIf `free_entp->next` is NULL, accessing `free_entp->next->firstchar`, `free_entp->next->length` and `free_entp->next` will cause a segmentation fault or other undefined behavior.  The code doesn't check for this NULL pointer before dereferencing it.  This is a classic out-of-bounds write vulnerability because `free_entp` is being advanced in memory, potentially overwriting data beyond the allocated buffer for `dec_codetab`.  The `free_entp` pointer is not properly managed, leading to a potential overwrite of adjacent memory locations.",
-      "processing_time": 52.34367141723633,
-      "tokens_used": 2337
-    },
-    {
-      "sample_id": "jitvul_692_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 52.34367141723633,
-      "tokens_used": 3214
-    },
-    {
-      "sample_id": "jitvul_234_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 54.66600217819214,
-      "tokens_used": 767
-    },
-    {
-      "sample_id": "jitvul_801_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 54.66600217819214,
-      "tokens_used": 2093
-    },
-    {
-      "sample_id": "jitvul_865_non_vulnerable",
-      "predicted_label": 0,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "SAFE",
-      "processing_time": 54.66600217819214,
-      "tokens_used": 4265
-    },
-    {
-      "sample_id": "jitvul_182_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 54.66600217819214,
-      "tokens_used": 2229
-    },
-    {
-      "sample_id": "jitvul_206_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 54.66600217819214,
-      "tokens_used": 15734
-    },
-    {
-      "sample_id": "jitvul_276_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 52.89048013687134,
-      "tokens_used": 581
-    },
-    {
-      "sample_id": "jitvul_869_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE\n**Reasoning:**\n\nThis code snippet exhibits a potential vulnerability related to CWE-787: Out-of-bounds Attack. Specifically, it's susceptible to a buffer overflow when parsing the `body_len` from the HTTP headers in the `STATE_READ_LINES` state.\n\nHere's a breakdown of the vulnerability:\n\n1. **`gst_rtsp_message_get_header`:** The code retrieves the `Content-Length` header using `gst_rtsp_message_get_header`.  If this header is present and valid, the code attempts to convert it to an integer and uses it to allocate memory for the `builder->body_data` buffer.\n\n2. **`g_try_malloc`:** The code uses `g_try_malloc` to allocate the `builder->body_data` buffer.  This function attempts to allocate memory and returns a pointer to the allocated memory if successful, or `NULL` if it fails.\n\n3. **Missing Bounds Checking:** The code *does not* check if `g_try_malloc` returns `NULL`. If the allocated memory fails, the code proceeds to use the potentially invalid `builder->body_len` value to initialize `builder->body_data`. This is a critical flaw.\n\n4. **Potential Overflow:** If `builder->body_len` is larger than the allocated size of `builder->body_data`, a buffer overflow occurs when `read_bytes` attempts to write data into `builder->body_data`.  This could lead to arbitrary code execution if an attacker can control the content of the `Content-Length` header.\n\n5. **`invalid_body_len` Label:** The `invalid_body_len` label is reached when `g_try_malloc` fails. However, the code doesn't handle this error properly. It simply returns an error, but the `builder->body_len` value is still used, potentially leading to a subsequent buffer overflow.\n\n**How an attacker could exploit this:**\n\nAn attacker could send an HTTP request with a `Content-Length` header containing a very large value.  If the application doesn't properly validate the `Content-Length` value before allocating memory, the `g_try_malloc` function might fail, but the code would still proceed to use the oversized value, leading to a buffer overflow.\n\n**Mitigation:**\n\n*   **Input Validation:**  Always validate the `Content-Length` header value to ensure it's within a reasonable range.\n*   **Safe Memory Allocation:**  Use `malloc` or `calloc` instead of `g_try_malloc` and always check the return value for `NULL`.\n*   **Error Handling:**  Handle the case where memory allocation fails gracefully, preventing the use of invalid values.\n\nBecause the code lacks proper bounds checking and error handling, it is vulnerable to CWE-787.",
-      "processing_time": 52.89048013687134,
-      "tokens_used": 2734
-    },
-    {
-      "sample_id": "jitvul_865_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 52.89048013687134,
-      "tokens_used": 4266
-    },
-    {
-      "sample_id": "jitvul_253_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
-      "response_text": "VULNERABLE\n\n```c\n// The code contains a potential race condition where the 'win' variable\n// might be modified after it's used to determine the new current window\n// (curwin). Specifically, autocmds can potentially delete or move the\n// window before the 'win_equal' and 'win_comp_pos' functions are called.\n// This can lead to an invalid 'curwin' and subsequent errors when\n// accessing its buffer or performing other operations.\n//\n// The code attempts to mitigate this by checking if 'win' is still valid\n// before using it to update 'curwin', but this check is not sufficient\n// to prevent all possible race conditions.\n//\n// CWE-787: Task Origin - Race Condition\n```",
-      "processing_time": 52.89048013687134,
-      "tokens_used": 2840
-    },
-    {
-      "sample_id": "jitvul_575_vulnerable",
-      "predicted_label": 1,
-      "true_label": 1,
-      "confidence": null,
-      "response_text": "VULNERABLE",
-      "processing_time": 52.89048013687134,
-      "tokens_used": 302
+      "processing_time": 105.16293468475342,
+      "tokens_used": 3665
     },
     {
       "sample_id": "jitvul_273_vulnerable",
       "predicted_label": 1,
       "true_label": 1,
       "confidence": null,
-      "response_text": "VULNERABLE\n\nThe code attempts to set the effective user ID (euid) and effective group ID (egid) to the current user's UID and GID, respectively. This can lead to a CWE-787 (Uncontrolled File Access) vulnerability if the `current_user` object is not properly sanitized or validated. If `current_user.uid` or `current_user.gid` are derived from user input without proper validation, an attacker could potentially manipulate these values to gain access to files and directories that the user should not have access to. The `setuid` and `setgid` functions can be exploited to escalate privileges, and the error handling is insufficient to prevent this. The `EXIT_ON_SETUID_FAILURE` check only exits on `EAGAIN`, which is a specific error, not a general failure to set the UID/GID.",
-      "processing_time": 52.967491960525514,
-      "tokens_used": 521
-    },
-    {
-      "sample_id": "jitvul_753_non_vulnerable",
-      "predicted_label": 1,
-      "true_label": 0,
-      "confidence": null,
       "response_text": "VULNERABLE",
-      "processing_time": 52.967491960525514,
-      "tokens_used": 860
+      "processing_time": 105.16293468475342,
+      "tokens_used": 336
     },
     {
-      "sample_id": "jitvul_455_vulnerable",
+      "sample_id": "jitvul_278_vulnerable",
       "predicted_label": 1,
       "true_label": 1,
       "confidence": null,
       "response_text": "VULNERABLE",
-      "processing_time": 52.967491960525514,
-      "tokens_used": 1636
+      "processing_time": 101.38541355133057,
+      "tokens_used": 2840
+    },
+    {
+      "sample_id": "jitvul_184_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.38541355133057,
+      "tokens_used": 850
+    },
+    {
+      "sample_id": "jitvul_253_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.38541355133057,
+      "tokens_used": 2670
+    },
+    {
+      "sample_id": "jitvul_818_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.38541355133057,
+      "tokens_used": 479
+    },
+    {
+      "sample_id": "jitvul_804_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 101.38541355133057,
+      "tokens_used": 365
+    },
+    {
+      "sample_id": "jitvul_865_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 96.05174980163574,
+      "tokens_used": 4263
     },
     {
       "sample_id": "jitvul_876_non_vulnerable",
@@ -902,17 +119,350 @@
       "true_label": 0,
       "confidence": null,
       "response_text": "VULNERABLE",
-      "processing_time": 52.967491960525514,
-      "tokens_used": 909
+      "processing_time": 96.05174980163574,
+      "tokens_used": 904
     },
     {
-      "sample_id": "jitvul_577_vulnerable",
+      "sample_id": "jitvul_802_vulnerable",
       "predicted_label": 1,
       "true_label": 1,
       "confidence": null,
-      "response_text": "VULNERABLE\n\n```c\n// CWE-787: Off-by-One Error\n// The code has an off-by-one error in the `sockgetlinebuf` function.\n// Specifically, the loop condition `i > 2` might cause the code to read beyond the bounds of the buffer.\n// If the input string is longer than LINESIZE - 1, the code will write past the end of the buffer, leading to a buffer overflow.\n// The `sockgetlinebuf` function is not provided, so it's difficult to determine the exact behavior.\n// However, the code reads `i` bytes from the socket into the buffer, and if `i` is greater than the buffer size, it will write past the end of the buffer.\n// This could lead to a buffer overflow, which could be exploited by an attacker to overwrite adjacent memory.\n// The code also has a potential vulnerability in the `strchr` function.\n// If the input string is not found, the `strchr` function will return NULL.\n// If the code dereferences the NULL pointer, it will cause a segmentation fault.\n// The code also has a potential vulnerability in the `mystrdup` function.\n// If the input string is NULL, the `mystrdup` function will return NULL.\n// If the code dereferences the NULL pointer, it will cause a segmentation fault.\n// The code also has a potential vulnerability in the `atoi` function.\n// If the input string is not a valid integer, the `atoi` function will return 0.\n// If the code uses the return value of `atoi` in a subsequent calculation, it could lead to an incorrect result.\n// The code also has a potential vulnerability in the `printstr` function.\n// If the input string is too long, the `printstr` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `sprintf` function.\n// If the input string is too long, the `sprintf` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `ACLmatches` function.\n// If the input string is not a valid ACL, the `ACLmatches` function could cause a segmentation fault.\n// The code also has a potential vulnerability in the `printuserlist` function.\n// If the input string is too long, the `printuserlist` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `printiplist` function.\n// If the input string is too long, the `printiplist` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `printportlist` function.\n// If the input string is too long, the `printportlist` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `decodeurl` function.\n// If the input string is not a valid URL, the `decodeurl` function could cause a segmentation fault.\n// The code also has a potential vulnerability in the `fprintf` function.\n// If the input string is too long, the `fprintf` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `ftruncate` function.\n// If the input string is too long, the `ftruncate` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `fread` function.\n// If the input string is too long, the `fread` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `fwrite` function.\n// If the input string is too long, the `fwrite` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `fseek` function.\n// If the input string is too long, the `fseek` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `fgets` function.\n// If the input string is too long, the `fgets` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `fputs` function.\n// If the input string is too long, the `fputs` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `fclose` function.\n// If the input string is too long, the `fclose` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `free` function.\n// If the input string is too long, the `free` function could cause a buffer overflow.\n// The code also has a potential vulnerability in the `malloc` function.\n// If the input string is too long, the `malloc` function could cause a buffer overflow.",
-      "processing_time": 52.967491960525514,
-      "tokens_used": 3806
+      "response_text": "VULNERABLE",
+      "processing_time": 96.05174980163574,
+      "tokens_used": 1591
+    },
+    {
+      "sample_id": "jitvul_280_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 96.05174980163574,
+      "tokens_used": 504
+    },
+    {
+      "sample_id": "jitvul_190_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 96.05174980163574,
+      "tokens_used": 1779
+    },
+    {
+      "sample_id": "jitvul_820_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 103.22762093544006,
+      "tokens_used": 411
+    },
+    {
+      "sample_id": "jitvul_801_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 103.22762093544006,
+      "tokens_used": 2074
+    },
+    {
+      "sample_id": "jitvul_771_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 103.22762093544006,
+      "tokens_used": 11908
+    },
+    {
+      "sample_id": "jitvul_181_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 103.22762093544006,
+      "tokens_used": 2766
+    },
+    {
+      "sample_id": "jitvul_278_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 103.22762093544006,
+      "tokens_used": 2919
+    },
+    {
+      "sample_id": "jitvul_166_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 94.90133585929871,
+      "tokens_used": 571
+    },
+    {
+      "sample_id": "jitvul_229_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 94.90133585929871,
+      "tokens_used": 1038
+    },
+    {
+      "sample_id": "jitvul_276_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 94.90133585929871,
+      "tokens_used": 576
+    },
+    {
+      "sample_id": "jitvul_708_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 94.90133585929871,
+      "tokens_used": 1894
+    },
+    {
+      "sample_id": "jitvul_838_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 94.90133585929871,
+      "tokens_used": 2920
+    },
+    {
+      "sample_id": "jitvul_693_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 95.32246375083923,
+      "tokens_used": 2900
+    },
+    {
+      "sample_id": "jitvul_693_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 95.32246375083923,
+      "tokens_used": 2902
+    },
+    {
+      "sample_id": "jitvul_759_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 95.32246375083923,
+      "tokens_used": 672
+    },
+    {
+      "sample_id": "jitvul_180_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 95.32246375083923,
+      "tokens_used": 515
+    },
+    {
+      "sample_id": "jitvul_784_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 95.32246375083923,
+      "tokens_used": 1320
+    },
+    {
+      "sample_id": "jitvul_575_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE\n\n,",
+      "processing_time": 97.33889508247375,
+      "tokens_used": 295
+    },
+    {
+      "sample_id": "jitvul_832_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 97.33889508247375,
+      "tokens_used": 6676
+    },
+    {
+      "sample_id": "jitvul_218_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 97.33889508247375,
+      "tokens_used": 647
+    },
+    {
+      "sample_id": "jitvul_76_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 97.33889508247375,
+      "tokens_used": 1124
+    },
+    {
+      "sample_id": "jitvul_244_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 97.33889508247375,
+      "tokens_used": 1891
+    },
+    {
+      "sample_id": "jitvul_262_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 100.11167483329773,
+      "tokens_used": 1278
+    },
+    {
+      "sample_id": "jitvul_210_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 100.11167483329773,
+      "tokens_used": 803
+    },
+    {
+      "sample_id": "jitvul_283_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 100.11167483329773,
+      "tokens_used": 15984
+    },
+    {
+      "sample_id": "jitvul_214_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 100.11167483329773,
+      "tokens_used": 2568
+    },
+    {
+      "sample_id": "jitvul_169_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 100.11167483329773,
+      "tokens_used": 478
+    },
+    {
+      "sample_id": "jitvul_169_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 95.20555400848389,
+      "tokens_used": 482
+    },
+    {
+      "sample_id": "jitvul_776_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 95.20555400848389,
+      "tokens_used": 653
+    },
+    {
+      "sample_id": "jitvul_833_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 95.20555400848389,
+      "tokens_used": 2444
+    },
+    {
+      "sample_id": "jitvul_878_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 95.20555400848389,
+      "tokens_used": 723
+    },
+    {
+      "sample_id": "jitvul_234_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 95.20555400848389,
+      "tokens_used": 762
+    },
+    {
+      "sample_id": "jitvul_869_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 103.92122144699097,
+      "tokens_used": 2111
+    },
+    {
+      "sample_id": "jitvul_509_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 103.92122144699097,
+      "tokens_used": 867
+    },
+    {
+      "sample_id": "jitvul_151_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 103.92122144699097,
+      "tokens_used": 740
+    },
+    {
+      "sample_id": "jitvul_783_non_vulnerable",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 103.92122144699097,
+      "tokens_used": 1894
+    },
+    {
+      "sample_id": "jitvul_173_vulnerable",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 103.92122144699097,
+      "tokens_used": 19386
     }
   ]
 }
