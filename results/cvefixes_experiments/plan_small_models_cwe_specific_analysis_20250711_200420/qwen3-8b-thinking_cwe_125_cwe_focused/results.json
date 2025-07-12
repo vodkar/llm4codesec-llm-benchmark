@@ -1,0 +1,198 @@
+{
+  "accuracy": 1.0,
+  "metrics": {
+    "accuracy": 1.0,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1_score": 0.0,
+    "specificity": 1.0,
+    "true_positives": 0,
+    "true_negatives": 20,
+    "false_positives": 0,
+    "false_negatives": 0
+  },
+  "total_samples": 20,
+  "total_time": 58.55129623413086,
+  "predictions": [
+    {
+      "sample_id": "CVE-2022-23949_file_1650",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.182436227798462,
+      "tokens_used": 2050
+    },
+    {
+      "sample_id": "CVE-2021-29501_file_1302",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.1975047588348389,
+      "tokens_used": 3084
+    },
+    {
+      "sample_id": "CVE-2015-8213_file_107",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.0677456855773926,
+      "tokens_used": 2115
+    },
+    {
+      "sample_id": "CVE-2021-21377_file_1180",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.0570290088653564,
+      "tokens_used": 1957
+    },
+    {
+      "sample_id": "CVE-2022-21725_file_668",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.1854572296142578,
+      "tokens_used": 3038
+    },
+    {
+      "sample_id": "CVE-2020-26280_file_1112",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.9116313457489014,
+      "tokens_used": 835
+    },
+    {
+      "sample_id": "CVE-2018-1000089_file_427",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.9911165237426758,
+      "tokens_used": 1475
+    },
+    {
+      "sample_id": "CVE-2022-41888_file_765",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.0460712909698486,
+      "tokens_used": 1708
+    },
+    {
+      "sample_id": "CVE-2022-4720_file_2080",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.0032567977905273,
+      "tokens_used": 1489
+    },
+    {
+      "sample_id": "CVE-2022-24757_file_1102",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.9104084968566895,
+      "tokens_used": 571
+    },
+    {
+      "sample_id": "CVE-2022-24737_file_1519",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.9631855487823486,
+      "tokens_used": 599
+    },
+    {
+      "sample_id": "CVE-2022-1730_file_1691",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 2.845970869064331,
+      "tokens_used": 13771
+    },
+    {
+      "sample_id": "CVE-2023-42439_file_2349",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 3.220268726348877,
+      "tokens_used": 16041
+    },
+    {
+      "sample_id": "CVE-2023-41319_file_2474",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.5858078002929688,
+      "tokens_used": 6052
+    },
+    {
+      "sample_id": "CVE-2021-25963_file_1228",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.045715570449829,
+      "tokens_used": 1910
+    },
+    {
+      "sample_id": "CVE-2022-31506_file_1918",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.052574634552002,
+      "tokens_used": 1895
+    },
+    {
+      "sample_id": "CVE-2023-36829_file_2454",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.351058006286621,
+      "tokens_used": 4172
+    },
+    {
+      "sample_id": "CVE-2023-32071_file_1331",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.167576789855957,
+      "tokens_used": 2845
+    },
+    {
+      "sample_id": "CVE-2022-3327_file_2008",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.1208219528198242,
+      "tokens_used": 2534
+    },
+    {
+      "sample_id": "CVE-2023-6507_file_596",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 7.22993016242981,
+      "tokens_used": 34370
+    }
+  ]
+}

@@ -1,0 +1,198 @@
+{
+  "accuracy": 0.05,
+  "metrics": {
+    "accuracy": 0.05,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1_score": 0.0,
+    "specificity": 0.05,
+    "true_positives": 0,
+    "true_negatives": 1,
+    "false_positives": 19,
+    "false_negatives": 0
+  },
+  "total_samples": 20,
+  "total_time": 165.2734637260437,
+  "predictions": [
+    {
+      "sample_id": "CVE-2014-125070_file_164",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.3625054359436035,
+      "tokens_used": 1079
+    },
+    {
+      "sample_id": "CVE-2016-1505_file_274",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.3508529663085938,
+      "tokens_used": 1134
+    },
+    {
+      "sample_id": "CVE-2022-24710_file_406",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.4497759342193604,
+      "tokens_used": 2206
+    },
+    {
+      "sample_id": "CVE-2022-4646_file_2079",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.3856744766235352,
+      "tokens_used": 1402
+    },
+    {
+      "sample_id": "CVE-2021-21376_file_1177",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 2.1238059997558594,
+      "tokens_used": 13006
+    },
+    {
+      "sample_id": "CVE-2022-23058_file_1743",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.4059908390045166,
+      "tokens_used": 3775
+    },
+    {
+      "sample_id": "CVE-2022-23951_file_1645",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 2.1626083850860596,
+      "tokens_used": 14640
+    },
+    {
+      "sample_id": "CVE-2022-41900_file_768",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.5187151432037354,
+      "tokens_used": 5680
+    },
+    {
+      "sample_id": "CVE-2021-21240_file_1029",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 2.364349842071533,
+      "tokens_used": 17045
+    },
+    {
+      "sample_id": "CVE-2018-6596_file_425",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.276122808456421,
+      "tokens_used": 1374
+    },
+    {
+      "sample_id": "CVE-2022-0315_file_1500",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "Based on the provided code, I have analyzed it for CWE-190 vulnerabilities. \n\nThe CWE-190 vulnerability is related to the use of environment variables and command-line arguments in a way that can lead to a denial-of-service (DoS) or privilege escalation attack.\n\nAfter analyzing the code, I did not find any obvious CWE-190 vulnerabilities. However, there are some potential issues that could be considered as CWE-190:\n\n1. In the `test_mpi_run_without_pythonpath` test, the `override_env` function is used to override the `PYTHONPATH` environment variable. This could potentially allow an attacker to execute arbitrary code if the `PYTHONPATH` variable is not properly sanitized.\n\n2. In the `test_mpi_run_env_override` test, the `override_env` function is used to override the `PYTHONPATH` environment variable. This could potentially allow an attacker to execute arbitrary code if the `PYTHONPATH` variable is not properly sanitized.\n\n3. In the `test_mpi_run_with_sys_pythonpath` test, the `override_env` function is used to override the `PYTHONPATH` environment variable. This could potentially allow an attacker to execute arbitrary code if the `PYTHONPATH` variable is not properly sanitized.\n\n4. In the `test_mpi_run_with_env_pythonpath` test, the `override_env` function is used to override the `PYTHONPATH` environment variable. This could potentially allow an attacker to execute arbitrary code if the `PYTHONPATH` variable is not properly sanitized.\n\n5. In the `test_mpi_run_with_both_pythonpaths` test, the `override_env` function is used to override the `PYTHONPATH` environment variable. This could potentially allow an attacker to execute arbitrary code if the `PYTHONPATH` variable is not properly sanitized.\n\nTo fix these potential issues, it is recommended to sanitize the `PYTHONPATH` variable before overriding it. This can be done by using the `os.pathsep` constant to join the path components and then using the `os.path.normpath` function to normalize the path.\n\nHere is an example of how to sanitize the `PYTHONPATH` variable:\n\n```python\nimport os\n\ndef sanitize_pythonpath(path):\n    return os.path.normpath(os.path.join(*path.split(os.pathsep)))\n\n#...\n\noverride_env({'PYTHONPATH': sanitize_pythonpath(['path1', 'path2'])})\n```\n\nBy sanitizing the `PYTHONPATH` variable, you can prevent an attacker from executing arbitrary code and reduce the risk of a CWE-190 vulnerability.",
+      "processing_time": 125.55089068412781,
+      "tokens_used": 11941
+    },
+    {
+      "sample_id": "CVE-2022-3364_file_1952",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.3771858215332031,
+      "tokens_used": 1367
+    },
+    {
+      "sample_id": "CVE-2024-32022_file_2832",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.4028213024139404,
+      "tokens_used": 1660
+    },
+    {
+      "sample_id": "CVE-2015-6240_file_199",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.3887176513671875,
+      "tokens_used": 1482
+    },
+    {
+      "sample_id": "CVE-2021-29431_file_885",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.3433680534362793,
+      "tokens_used": 811
+    },
+    {
+      "sample_id": "CVE-2018-7889_file_293",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.4351880550384521,
+      "tokens_used": 2063
+    },
+    {
+      "sample_id": "CVE-2023-42441_file_1832",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.4018502235412598,
+      "tokens_used": 1734
+    },
+    {
+      "sample_id": "CVE-2019-16785_file_968",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 2.1958048343658447,
+      "tokens_used": 14229
+    },
+    {
+      "sample_id": "CVE-2020-12889_file_1048",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.2987380027770996,
+      "tokens_used": 1444
+    },
+    {
+      "sample_id": "CVE-2016-4444_file_311",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.3646488189697266,
+      "tokens_used": 1135
+    }
+  ]
+}

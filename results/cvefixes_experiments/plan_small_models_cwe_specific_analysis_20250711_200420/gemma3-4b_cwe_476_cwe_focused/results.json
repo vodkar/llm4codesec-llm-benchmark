@@ -1,0 +1,198 @@
+{
+  "accuracy": 0.15,
+  "metrics": {
+    "accuracy": 0.15,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1_score": 0.0,
+    "specificity": 0.15,
+    "true_positives": 0,
+    "true_negatives": 3,
+    "false_positives": 17,
+    "false_negatives": 0
+  },
+  "total_samples": 20,
+  "total_time": 5347.838949203491,
+  "predictions": [
+    {
+      "sample_id": "CVE-2023-34094_file_2399",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 261.7842355966568,
+      "tokens_used": 5769
+    },
+    {
+      "sample_id": "CVE-2022-35987_file_709",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 261.7842355966568,
+      "tokens_used": 8597
+    },
+    {
+      "sample_id": "CVE-2022-41880_file_763",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 263.2900342941284,
+      "tokens_used": 1867
+    },
+    {
+      "sample_id": "CVE-2012-2101_file_39",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 263.2900342941284,
+      "tokens_used": 13991
+    },
+    {
+      "sample_id": "CVE-2021-27291_file_1288",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 275.65847182273865,
+      "tokens_used": 27510
+    },
+    {
+      "sample_id": "CVE-2024-31993_file_2777",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 275.65847182273865,
+      "tokens_used": 564
+    },
+    {
+      "sample_id": "CVE-2022-4869_file_2194",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 262.8416337966919,
+      "tokens_used": 1102
+    },
+    {
+      "sample_id": "CVE-2024-32026_file_2838",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 262.8416337966919,
+      "tokens_used": 3907
+    },
+    {
+      "sample_id": "CVE-2019-10682_file_838",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE\n\n**Explanation:**\n\nThis code snippet exhibits a classic CWE-476 vulnerability (Improper Input Validation). Specifically, it's vulnerable to a code injection attack.\n\nHere's why:\n\n1.  **Lack of Input Validation:** The `authenticate` method directly uses the `username` and `code` parameters provided by the user without any validation. This is a critical flaw.\n\n2.  **Code Injection Risk:** An attacker could potentially supply a malicious `code` value that, when combined with a crafted `username`, could execute arbitrary SQL queries. The `LoginCode.objects.get()` method is vulnerable to SQL injection if the `code` parameter is not properly sanitized.\n\n3.  **Missing Sanitization:** The code does *not* sanitize or validate the `code` parameter. It simply checks if the `timestamp` is greater than the `timestamp` of the `LoginCode` object. This doesn't prevent an attacker from providing a `code` that bypasses the timestamp check and potentially gains unauthorized access.\n\n4.  **No Context Awareness:** The code doesn't consider the context of the `username` or `code` values. It assumes they are legitimate, which is a dangerous assumption.\n\n5.  **Responsibility Shift:** The comment about the view/form deleting the token upon successful login is a mitigation, but it doesn't address the core vulnerability of accepting untrusted input. It's a reactive measure, not a preventative one.\n\nThe lack of input validation makes this code highly susceptible to SQL injection attacks, directly aligning with the characteristics of CWE-476.",
+      "processing_time": 273.08296597003937,
+      "tokens_used": 842
+    },
+    {
+      "sample_id": "CVE-2022-36002_file_717",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 273.08296597003937,
+      "tokens_used": 7093
+    },
+    {
+      "sample_id": "CVE-2020-15225_file_1081",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 261.05403995513916,
+      "tokens_used": 2384
+    },
+    {
+      "sample_id": "CVE-2021-43777_file_1037",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 261.05403995513916,
+      "tokens_used": 1267
+    },
+    {
+      "sample_id": "CVE-2014-125095_file_53",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 268.26363956928253,
+      "tokens_used": 9740
+    },
+    {
+      "sample_id": "CVE-2022-23949_file_1655",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 268.26363956928253,
+      "tokens_used": 13021
+    },
+    {
+      "sample_id": "CVE-2019-10682_file_848",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 275.67639672756195,
+      "tokens_used": 420
+    },
+    {
+      "sample_id": "CVE-2012-3360_file_46",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 275.67639672756195,
+      "tokens_used": 4731
+    },
+    {
+      "sample_id": "CVE-2024-32022_file_2816",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 259.99525904655457,
+      "tokens_used": 1512
+    },
+    {
+      "sample_id": "CVE-2023-40017_file_2347",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 259.99525904655457,
+      "tokens_used": 2242
+    },
+    {
+      "sample_id": "CVE-2021-43854_file_946",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 263.5405522584915,
+      "tokens_used": 15994
+    },
+    {
+      "sample_id": "CVE-2023-34457_file_2405",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 263.5405522584915,
+      "tokens_used": 3858
+    }
+  ]
+}
