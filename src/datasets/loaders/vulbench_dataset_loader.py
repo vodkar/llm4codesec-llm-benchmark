@@ -183,7 +183,7 @@ class VulBenchDatasetLoader:
                 )
             else:
                 # If not vulnerable, label as safe
-                label = "No-Vulnerability"
+                label = "SAFE"
 
             sample = BenchmarkSample(
                 id=f"vulbench_{dataset_name}_{line_num}_multiclass",
@@ -516,7 +516,6 @@ class VulBenchDatasetLoaderFramework:
     def load_dataset(
         self,
         dataset_path: str,
-        task_type: str = "binary_vulnerability",
         max_samples: Optional[int] = None,
         **kwargs,
     ) -> List[BenchmarkSample]:
@@ -540,9 +539,7 @@ class VulBenchDatasetLoaderFramework:
         )
 
         # Convert task type
-        if task_type == "binary_vulnerability":
-            vulbench_task_type = "binary"
-        elif task_type == "multiclass_vulnerability":
+        if "multiclass" in dataset_path:
             vulbench_task_type = "multiclass"
         else:
             vulbench_task_type = "binary"
