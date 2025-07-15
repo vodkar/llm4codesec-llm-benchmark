@@ -119,7 +119,7 @@ def run_experiment_plan(
                         "error": str(e),
                     }
                     results["experiments"].append(error_result)
-                    logger.error(f"✗ Experiment exception: {e}")
+                    logger.exception(f"✗ Experiment exception: {e}")
 
                 # Brief pause between experiments
                 time.sleep(2)
