@@ -1,0 +1,542 @@
+{
+  "accuracy": 0.18,
+  "metrics": {
+    "accuracy": 0.18,
+    "classification_report": {
+      "Buffer-Overflow": {
+        "precision": 0.02702702702702703,
+        "recall": 0.5,
+        "f1-score": 0.05128205128205128,
+        "support": 2.0
+      },
+      "Integer-Overflow": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 8.0
+      },
+      "No-Vulnerability": {
+        "precision": 0.6666666666666666,
+        "recall": 0.21052631578947367,
+        "f1-score": 0.32,
+        "support": 38.0
+      },
+      "Null-Pointer-Dereference": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "UNKNOWN": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "accuracy": 0.18,
+      "macro avg": {
+        "precision": 0.13873873873873874,
+        "recall": 0.14210526315789473,
+        "f1-score": 0.07425641025641025,
+        "support": 50.0
+      },
+      "weighted avg": {
+        "precision": 0.5077477477477477,
+        "recall": 0.18,
+        "f1-score": 0.24525128205128205,
+        "support": 50.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        1,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        4,
+        0,
+        3,
+        0,
+        1
+      ],
+      [
+        30,
+        0,
+        8,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "total_samples": 50,
+  "total_time": 298.20573902130127,
+  "predictions": [
+    {
+      "sample_id": "vulbench_d2a_64_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "UNKNOWN",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 366
+    },
+    {
+      "sample_id": "vulbench_d2a_54_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 507
+    },
+    {
+      "sample_id": "vulbench_d2a_46_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 453
+    },
+    {
+      "sample_id": "vulbench_d2a_6_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "Buffer-Overflow",
+      "confidence": null,
+      "response_text": "The precise vulnerability classification for this C/C++ code is:\n\n**Buffer-Overflow**\n\nThe vulnerability arises from the following lines of code:\n\n```c\nfor (n = 0; n <= buffer_length - 4; n+=4) {\n    float out0,tmp1,tmp2;\n    float val;\n\n    out0 = in[0];\n    out1 = in[1];\n    out2 = in[2];\n    out3 = in[3];\n\n    //...\n\n    out[0] = out0;\n    out[1] = out1;\n    out[2] = out2;\n    out[3] = out3;\n\n    out += 4;\n    in  += 4;\n}\n```\n\nThe issue is that the loop iterates from `n = 0` to `n <= buffer_length - 4`, which means it can access memory locations outside the bounds of the `out` and `in` arrays. This can lead to a buffer overflow, allowing an attacker to potentially write arbitrary data to memory locations outside the intended buffer. \n\nThe vulnerability is further exacerbated by the fact that the loop increments `out` and `in` by 4 each iteration, effectively skipping over the first 4 elements of the arrays and potentially overwriting adjacent memory locations.",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 1310
+    },
+    {
+      "sample_id": "vulbench_d2a_5_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "The precise vulnerability classification for this C/C++ code is:\n\n**Buffer-Overflow**\n\nThe vulnerability arises from the use of the `ff_cropTbl` pointer, which is not validated or checked for bounds before being used to access memory locations. The `MAX_NEG_CROP` constant is used to calculate the offset, but it is not checked if it exceeds the bounds of the `ff_cropTbl` array. This can lead to a buffer overflow, potentially allowing an attacker to write arbitrary data to memory locations outside the intended buffer.\n\nThe vulnerability is further exacerbated by the use of pointer arithmetic and bit shifting operations, which can lead to unexpected behavior and potential buffer overflows. The code also uses bitwise operations to manipulate the values, which can also contribute to the vulnerability.\n\nNote that the `av_always_inline` keyword does not provide any additional security guarantees, and the vulnerability classification remains the same.",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 858
+    },
+    {
+      "sample_id": "vulbench_d2a_45_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "The precise vulnerability classification for this C/C++ code is: **Buffer-Overflow**\n\nThe vulnerability arises from the way the `stream_ptr` pointer is incremented and accessed throughout the function. \n\nIn the `while` loop, the `stream_ptr` is incremented by `chunk_size` (which is read from the buffer using `AV_RL32(&buf[stream_ptr])`) without checking if it exceeds the buffer size. This can lead to a buffer overflow if the `chunk_size` value is larger than the remaining buffer size.\n\nAdditionally, the `stream_ptr` is also incremented by `2` in the `case FLI_256_COLOR` and `case FLI_COLOR` blocks, which can also lead to buffer overflows if the `chunk_size` value is larger than the remaining buffer size.\n\nThe vulnerability can be mitigated by adding bounds checking to ensure that `stream_ptr` does not exceed the buffer size before accessing the buffer. \n\nHere's an example of how the vulnerable code can be modified to add bounds checking:\n\n```c\nwhile ((frame_size > 0) && (num_chunks > 0)) {\n    if (stream_ptr + chunk_size > buf_size) {\n        av_log(avctx, AV_LOG_ERROR, \"Buffer overflow detected\");\n        return -1;\n    }\n\n    //...\n    stream_ptr += chunk_size;\n    //...\n}\n```\n\nThis modification will prevent the buffer overflow vulnerability, but it may also introduce additional overhead due to the extra checks. A more robust solution would be to use a safer data structure, such as a circular buffer, to manage the buffer access.",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 2939
+    },
+    {
+      "sample_id": "vulbench_d2a_0_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 279
+    },
+    {
+      "sample_id": "vulbench_d2a_39_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 347
+    },
+    {
+      "sample_id": "vulbench_d2a_59_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 289
+    },
+    {
+      "sample_id": "vulbench_d2a_58_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "The precise vulnerability classification for this C/C++ code is:\n\n**Buffer-Overflow**\n\nThe vulnerability arises from the line `bn_wexpand(r, a->top + nw + 1) == NULL`. This line attempts to expand the buffer `r` by `nw + 1` elements, but the `nw` variable is calculated as `n / BN_BITS2`, which can result in a value greater than the actual size of the buffer `r`. This can lead to a buffer overflow, potentially allowing an attacker to write beyond the bounds of the buffer and potentially execute arbitrary code.",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 666
+    },
+    {
+      "sample_id": "vulbench_d2a_44_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 1848
+    },
+    {
+      "sample_id": "vulbench_d2a_18_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 446
+    },
+    {
+      "sample_id": "vulbench_d2a_16_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 324
+    },
+    {
+      "sample_id": "vulbench_d2a_9_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Integer-Overflow",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 354
+    },
+    {
+      "sample_id": "vulbench_d2a_51_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "The precise vulnerability classification for this code snippet is:\n\n**Buffer-Overflow**\n\nThe vulnerability arises from the fact that the code does not properly validate the size of the input `words` before allocating memory for the `A` array. This can lead to a buffer overflow if `words` is larger than the maximum allowed value, potentially allowing an attacker to write beyond the bounds of the allocated memory.\n\nThe specific vulnerability-inducing lines are:\n\n```c\na=A=(BN_ULONG *)OPENSSL_malloc(sizeof(BN_ULONG)*(words+1));\n```\n\nThis line allocates memory for `words+1` elements, which can be larger than the maximum allowed value, leading to a buffer overflow. The code does not check if `words` is within the valid range, making it vulnerable to buffer overflow attacks.",
+      "processing_time": 6.7942786852518715,
+      "tokens_used": 926
+    },
+    {
+      "sample_id": "vulbench_d2a_8_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 730
+    },
+    {
+      "sample_id": "vulbench_d2a_21_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 380
+    },
+    {
+      "sample_id": "vulbench_d2a_3_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "The precise vulnerability classification for this C/C++ code is:\n\n**Buffer-Overflow**\n\nThe vulnerability arises from the use of the `mb_xy` variable, which is calculated as `s->mb_y * s->mb_stride + s->mb_x`. This can potentially lead to an out-of-bounds access when `s->mb_y` or `s->mb_x` is large, causing the `mb_xy` index to exceed the bounds of the `s->block_index` array.\n\nThis is a classic example of a buffer overflow vulnerability, where the program attempts to access memory outside the allocated bounds of an array, potentially leading to undefined behavior, crashes, or security breaches.",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 1100
+    },
+    {
+      "sample_id": "vulbench_d2a_53_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 355
+    },
+    {
+      "sample_id": "vulbench_d2a_60_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 233
+    },
+    {
+      "sample_id": "vulbench_d2a_32_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 503
+    },
+    {
+      "sample_id": "vulbench_d2a_4_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "Integer-Overflow",
+      "confidence": null,
+      "response_text": "The precise vulnerability classification for the provided C/C++ code is:\n\n**Buffer-Overflow**\n\nThe vulnerability is present in the following lines of code:\n\n```c\nbuffer = (unsigned char*) _TIFFmalloc(t2p->tiff_datasize);\nif(buffer==NULL){\n   ...\n}\n```\n\nand\n\n```c\nbufferoffset = TIFFWriteEncodedStrip(output, (tstrip_t) 0, buffer,\n                             TIFFStripSize(output)); \nif (buffer!= NULL) {\n    _TIFFfree(buffer);\n    buffer = NULL;\n}\n```\n\nHere's why:\n\n1. The `TIFFmalloc` function is used to allocate memory for the `buffer` variable, but it does not check if the allocated memory is sufficient to hold the entire `t2p->tiff_datasize` bytes. This can lead to a buffer overflow if the allocated memory is not enough to hold the data.\n\n2. The `TIFFWriteEncodedStrip` function writes data to the output buffer, but it does not check if the buffer is large enough to hold the data. If the buffer is not large enough, it can lead to a buffer overflow.\n\nTo fix this vulnerability, you should ensure that the allocated memory is sufficient to hold the entire data, and you should also check the buffer size before writing data to it. \n\nHere's an example of how you can fix the code:\n\n```c\nbuffer = (unsigned char*) _TIFFmalloc(t2p->tiff_datasize + 1);\nif(buffer==NULL){\n   ...\n}\n```\n\nand\n\n```c\nif (buffer!= NULL) {\n    buffer[t2p->tiff_datasize] = '\\0'; // null-terminate the buffer\n    TIFFWriteEncodedStrip(output, (tstrip_t) 0, buffer,\n                         TIFFStripSize(output)); \n    _TIFFfree(buffer);\n    buffer = NULL;\n}\n```\n\nThis will ensure that the buffer is large enough to hold the data and that it is properly null-terminated.",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 5219
+    },
+    {
+      "sample_id": "vulbench_d2a_15_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 243
+    },
+    {
+      "sample_id": "vulbench_d2a_2_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 751
+    },
+    {
+      "sample_id": "vulbench_d2a_55_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 352
+    },
+    {
+      "sample_id": "vulbench_d2a_52_multiclass",
+      "predicted_label": "UNKNOWN",
+      "true_label": "Integer-Overflow",
+      "confidence": null,
+      "response_text": "The provided C/C++ code snippet appears to be a part of the FFmpeg library, specifically the `sws_getContext` function. After analyzing the code, I have identified a potential vulnerability classification:\n\n**Buffer Overflow**\n\nThe vulnerability is located in the following lines:\n\n```c\nfor (i=0; i<c->vLumBufSize; i++)\n    c->lumPixBuf[i]= c->lumPixBuf[i+c->vLumBufSize]= av_mallocz(VOF+1);\nfor (i=0; i<c->vChrBufSize; i++)\n    c->chrPixBuf[i]= c->chrPixBuf[i+c->vChrBufSize]= av_mallocz(VOF+1);\n```\n\nThe `av_mallocz` function is used to allocate memory for the `lumPixBuf` and `chrPixBuf` arrays. However, the `VOF+1` argument passed to `av_mallocz` is not checked for overflow, which can lead to a buffer overflow if the `c->vLumBufSize` or `c->vChrBufSize` values exceed the maximum allowed size.\n\nThis vulnerability can be exploited by an attacker to cause the program to write beyond the bounds of the allocated memory, potentially leading to arbitrary code execution or data corruption.\n\nTo fix this vulnerability, the code should add bounds checking to ensure that the allocated memory size does not exceed the maximum allowed size.",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 8076
+    },
+    {
+      "sample_id": "vulbench_d2a_38_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 1114
+    },
+    {
+      "sample_id": "vulbench_d2a_30_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 805
+    },
+    {
+      "sample_id": "vulbench_d2a_56_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 468
+    },
+    {
+      "sample_id": "vulbench_d2a_40_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 9.485772625605266,
+      "tokens_used": 503
+    },
+    {
+      "sample_id": "vulbench_d2a_28_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "The precise vulnerability classification for this code is: **Buffer-Overflow**\n\nThe vulnerability arises from the fact that the code allocates memory for `words+1` elements, but the loop that copies data from the input `b` to the allocated memory only copies `words` elements. This leaves a buffer with an extra element that is not initialized, which can potentially be used as a buffer overflow attack vector. \n\nThe vulnerability is further exacerbated by the fact that the `words` parameter is not validated to ensure it is within the bounds of the allocated memory. If `words` is greater than the maximum allowed value, it can lead to a buffer overflow. \n\nThis vulnerability can be exploited by an attacker to execute arbitrary code or cause the program to crash.",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 914
+    },
+    {
+      "sample_id": "vulbench_d2a_26_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 503
+    },
+    {
+      "sample_id": "vulbench_d2a_49_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "Null-Pointer-Dereference",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 798
+    },
+    {
+      "sample_id": "vulbench_d2a_57_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "Integer-Overflow",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 336
+    },
+    {
+      "sample_id": "vulbench_d2a_36_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 261
+    },
+    {
+      "sample_id": "vulbench_d2a_24_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "Integer-Overflow",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 365
+    },
+    {
+      "sample_id": "vulbench_d2a_17_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Integer-Overflow",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 506
+    },
+    {
+      "sample_id": "vulbench_d2a_47_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 250
+    },
+    {
+      "sample_id": "vulbench_d2a_65_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "Integer-Overflow",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 461
+    },
+    {
+      "sample_id": "vulbench_d2a_11_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 510
+    },
+    {
+      "sample_id": "vulbench_d2a_35_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 503
+    },
+    {
+      "sample_id": "vulbench_d2a_7_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Integer-Overflow",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 1774
+    },
+    {
+      "sample_id": "vulbench_d2a_37_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 503
+    },
+    {
+      "sample_id": "vulbench_d2a_22_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 2012
+    },
+    {
+      "sample_id": "vulbench_d2a_68_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Buffer-Overflow",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 3.0296744187672933,
+      "tokens_used": 588
+    },
+    {
+      "sample_id": "vulbench_d2a_67_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.13265458742777506,
+      "tokens_used": 1233
+    },
+    {
+      "sample_id": "vulbench_d2a_43_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 0.13265458742777506,
+      "tokens_used": 309
+    },
+    {
+      "sample_id": "vulbench_d2a_19_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.13265458742777506,
+      "tokens_used": 4038
+    },
+    {
+      "sample_id": "vulbench_d2a_34_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 0.13265458742777506,
+      "tokens_used": 471
+    },
+    {
+      "sample_id": "vulbench_d2a_41_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 0.13265458742777506,
+      "tokens_used": 276
+    }
+  ]
+}

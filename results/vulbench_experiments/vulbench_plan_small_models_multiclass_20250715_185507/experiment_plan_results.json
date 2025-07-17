@@ -1,0 +1,331 @@
+{
+  "dataset_type": "vulbench",
+  "plan_name": "small_models_multiclass",
+  "description": "Evaluate small models on multiclass classification",
+  "start_time": "2025-07-15T18:55:07.466643",
+  "experiments": [
+    {
+      "experiment_name": "qwen3-4b_multiclass_d2a_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.48,
+      "total_samples": 50,
+      "total_time": 28.14466166496277,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b_multiclass_d2a_multiclass_comprehensive_20250715_185507",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b_multiclass_d2a_multiclass_comprehensive_20250715_185507/results.json"
+    },
+    {
+      "experiment_name": "qwen3-4b-thinking_multiclass_d2a_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.5,
+      "total_samples": 50,
+      "total_time": 26.66709303855896,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b-thinking_multiclass_d2a_multiclass_comprehensive_20250715_185535",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b-thinking_multiclass_d2a_multiclass_comprehensive_20250715_185535/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b_multiclass_d2a_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.6,
+      "total_samples": 50,
+      "total_time": 38.18253302574158,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b_multiclass_d2a_multiclass_comprehensive_20250715_185602",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b_multiclass_d2a_multiclass_comprehensive_20250715_185602/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b-thinking_multiclass_d2a_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.54,
+      "total_samples": 50,
+      "total_time": 45.939762592315674,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b-thinking_multiclass_d2a_multiclass_comprehensive_20250715_185640",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b-thinking_multiclass_d2a_multiclass_comprehensive_20250715_185640/results.json"
+    },
+    {
+      "experiment_name": "llama3.2-3B_multiclass_d2a_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.18,
+      "total_samples": 50,
+      "total_time": 298.20573902130127,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/llama3.2-3B_multiclass_d2a_multiclass_comprehensive_20250715_185727",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/llama3.2-3B_multiclass_d2a_multiclass_comprehensive_20250715_185727/results.json"
+    },
+    {
+      "experiment_name": "gemma3-4b_multiclass_d2a_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.3,
+      "total_samples": 50,
+      "total_time": 1053.4424793720245,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/gemma3-4b_multiclass_d2a_multiclass_comprehensive_20250715_190225",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/gemma3-4b_multiclass_d2a_multiclass_comprehensive_20250715_190225/results.json"
+    },
+    {
+      "experiment_name": "deepseek-r1-distill-qwen2.5-7b_multiclass_d2a_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.16,
+      "total_samples": 50,
+      "total_time": 2319.3326795101166,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/deepseek-r1-distill-qwen2.5-7b_multiclass_d2a_multiclass_comprehensive_20250715_191959",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/deepseek-r1-distill-qwen2.5-7b_multiclass_d2a_multiclass_comprehensive_20250715_191959/results.json"
+    },
+    {
+      "experiment_name": "qwen3-4b_multiclass_ctf_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 8.35394287109375,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b_multiclass_ctf_multiclass_comprehensive_20250715_195838",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b_multiclass_ctf_multiclass_comprehensive_20250715_195838/results.json"
+    },
+    {
+      "experiment_name": "qwen3-4b-thinking_multiclass_ctf_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 8.92736029624939,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b-thinking_multiclass_ctf_multiclass_comprehensive_20250715_195847",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b-thinking_multiclass_ctf_multiclass_comprehensive_20250715_195847/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b_multiclass_ctf_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 15.866941452026367,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b_multiclass_ctf_multiclass_comprehensive_20250715_195856",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b_multiclass_ctf_multiclass_comprehensive_20250715_195856/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b-thinking_multiclass_ctf_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 17.85398840904236,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b-thinking_multiclass_ctf_multiclass_comprehensive_20250715_195912",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b-thinking_multiclass_ctf_multiclass_comprehensive_20250715_195912/results.json"
+    },
+    {
+      "experiment_name": "llama3.2-3B_multiclass_ctf_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 3.5146875381469727,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/llama3.2-3B_multiclass_ctf_multiclass_comprehensive_20250715_195930",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/llama3.2-3B_multiclass_ctf_multiclass_comprehensive_20250715_195930/results.json"
+    },
+    {
+      "experiment_name": "gemma3-4b_multiclass_ctf_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 9.933009624481201,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/gemma3-4b_multiclass_ctf_multiclass_comprehensive_20250715_195933",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/gemma3-4b_multiclass_ctf_multiclass_comprehensive_20250715_195933/results.json"
+    },
+    {
+      "experiment_name": "deepseek-r1-distill-qwen2.5-7b_multiclass_ctf_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 15.210394382476807,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/deepseek-r1-distill-qwen2.5-7b_multiclass_ctf_multiclass_comprehensive_20250715_195943",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/deepseek-r1-distill-qwen2.5-7b_multiclass_ctf_multiclass_comprehensive_20250715_195943/results.json"
+    },
+    {
+      "experiment_name": "qwen3-4b_multiclass_magma_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 4.9197165966033936,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b_multiclass_magma_multiclass_comprehensive_20250715_195959",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b_multiclass_magma_multiclass_comprehensive_20250715_195959/results.json"
+    },
+    {
+      "experiment_name": "qwen3-4b-thinking_multiclass_magma_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 4.85889744758606,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b-thinking_multiclass_magma_multiclass_comprehensive_20250715_200004",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b-thinking_multiclass_magma_multiclass_comprehensive_20250715_200004/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b_multiclass_magma_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 15.507184743881226,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b_multiclass_magma_multiclass_comprehensive_20250715_200008",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b_multiclass_magma_multiclass_comprehensive_20250715_200008/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b-thinking_multiclass_magma_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 15.567299365997314,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b-thinking_multiclass_magma_multiclass_comprehensive_20250715_200024",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b-thinking_multiclass_magma_multiclass_comprehensive_20250715_200024/results.json"
+    },
+    {
+      "experiment_name": "llama3.2-3B_multiclass_magma_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 3.5232601165771484,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/llama3.2-3B_multiclass_magma_multiclass_comprehensive_20250715_200040",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/llama3.2-3B_multiclass_magma_multiclass_comprehensive_20250715_200040/results.json"
+    },
+    {
+      "experiment_name": "gemma3-4b_multiclass_magma_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 9.35834789276123,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/gemma3-4b_multiclass_magma_multiclass_comprehensive_20250715_200043",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/gemma3-4b_multiclass_magma_multiclass_comprehensive_20250715_200043/results.json"
+    },
+    {
+      "experiment_name": "deepseek-r1-distill-qwen2.5-7b_multiclass_magma_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 14.96953821182251,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/deepseek-r1-distill-qwen2.5-7b_multiclass_magma_multiclass_comprehensive_20250715_200053",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/deepseek-r1-distill-qwen2.5-7b_multiclass_magma_multiclass_comprehensive_20250715_200053/results.json"
+    },
+    {
+      "experiment_name": "qwen3-4b_multiclass_big_vul_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.46,
+      "total_samples": 50,
+      "total_time": 24.239286184310913,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b_multiclass_big_vul_multiclass_comprehensive_20250715_200108",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b_multiclass_big_vul_multiclass_comprehensive_20250715_200108/results.json"
+    },
+    {
+      "experiment_name": "qwen3-4b-thinking_multiclass_big_vul_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.46,
+      "total_samples": 50,
+      "total_time": 32.737032890319824,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b-thinking_multiclass_big_vul_multiclass_comprehensive_20250715_200132",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b-thinking_multiclass_big_vul_multiclass_comprehensive_20250715_200132/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b_multiclass_big_vul_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.58,
+      "total_samples": 50,
+      "total_time": 45.40617918968201,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b_multiclass_big_vul_multiclass_comprehensive_20250715_200205",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b_multiclass_big_vul_multiclass_comprehensive_20250715_200205/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b-thinking_multiclass_big_vul_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.54,
+      "total_samples": 50,
+      "total_time": 170.18026065826416,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b-thinking_multiclass_big_vul_multiclass_comprehensive_20250715_200251",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b-thinking_multiclass_big_vul_multiclass_comprehensive_20250715_200251/results.json"
+    },
+    {
+      "experiment_name": "llama3.2-3B_multiclass_big_vul_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.28,
+      "total_samples": 50,
+      "total_time": 287.3871729373932,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/llama3.2-3B_multiclass_big_vul_multiclass_comprehensive_20250715_200541",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/llama3.2-3B_multiclass_big_vul_multiclass_comprehensive_20250715_200541/results.json"
+    },
+    {
+      "experiment_name": "gemma3-4b_multiclass_big_vul_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.44,
+      "total_samples": 50,
+      "total_time": 1031.9444336891174,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/gemma3-4b_multiclass_big_vul_multiclass_comprehensive_20250715_201029",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/gemma3-4b_multiclass_big_vul_multiclass_comprehensive_20250715_201029/results.json"
+    },
+    {
+      "experiment_name": "deepseek-r1-distill-qwen2.5-7b_multiclass_big_vul_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.18,
+      "total_samples": 50,
+      "total_time": 2183.84272813797,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/deepseek-r1-distill-qwen2.5-7b_multiclass_big_vul_multiclass_comprehensive_20250715_202741",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/deepseek-r1-distill-qwen2.5-7b_multiclass_big_vul_multiclass_comprehensive_20250715_202741/results.json"
+    },
+    {
+      "experiment_name": "qwen3-4b_multiclass_devign_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.54,
+      "total_samples": 50,
+      "total_time": 24.33677887916565,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b_multiclass_devign_multiclass_comprehensive_20250715_210405",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b_multiclass_devign_multiclass_comprehensive_20250715_210405/results.json"
+    },
+    {
+      "experiment_name": "qwen3-4b-thinking_multiclass_devign_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.54,
+      "total_samples": 50,
+      "total_time": 24.610439777374268,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b-thinking_multiclass_devign_multiclass_comprehensive_20250715_210429",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-4b-thinking_multiclass_devign_multiclass_comprehensive_20250715_210429/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b_multiclass_devign_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.72,
+      "total_samples": 50,
+      "total_time": 39.86111068725586,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b_multiclass_devign_multiclass_comprehensive_20250715_210454",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b_multiclass_devign_multiclass_comprehensive_20250715_210454/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b-thinking_multiclass_devign_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.66,
+      "total_samples": 50,
+      "total_time": 37.643993616104126,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b-thinking_multiclass_devign_multiclass_comprehensive_20250715_210534",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/qwen3-8b-thinking_multiclass_devign_multiclass_comprehensive_20250715_210534/results.json"
+    },
+    {
+      "experiment_name": "llama3.2-3B_multiclass_devign_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.4,
+      "total_samples": 50,
+      "total_time": 328.93561816215515,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/llama3.2-3B_multiclass_devign_multiclass_comprehensive_20250715_210612",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/llama3.2-3B_multiclass_devign_multiclass_comprehensive_20250715_210612/results.json"
+    },
+    {
+      "experiment_name": "gemma3-4b_multiclass_devign_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.3,
+      "total_samples": 50,
+      "total_time": 1052.4789242744446,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/gemma3-4b_multiclass_devign_multiclass_comprehensive_20250715_211141",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/gemma3-4b_multiclass_devign_multiclass_comprehensive_20250715_211141/results.json"
+    },
+    {
+      "experiment_name": "deepseek-r1-distill-qwen2.5-7b_multiclass_devign_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.12,
+      "total_samples": 50,
+      "total_time": 1958.7593259811401,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/deepseek-r1-distill-qwen2.5-7b_multiclass_devign_multiclass_comprehensive_20250715_212914",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507/deepseek-r1-distill-qwen2.5-7b_multiclass_devign_multiclass_comprehensive_20250715_212914/results.json"
+    }
+  ],
+  "summary": {
+    "total_experiments": 35,
+    "successful": 35,
+    "failed": 0,
+    "success_rate": 1.0
+  },
+  "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_multiclass_20250715_185507",
+  "end_time": "2025-07-15T22:01:53.159158"
+}

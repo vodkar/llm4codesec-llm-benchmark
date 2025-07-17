@@ -169,7 +169,7 @@
             "model_type": "QWEN",
             "max_tokens": 2048,
             "temperature": 0.1,
-            "batch_size": 15,
+            "batch_size": 10,
             "use_quantization": true
         },
         "qwen3-8b-thinking": {
