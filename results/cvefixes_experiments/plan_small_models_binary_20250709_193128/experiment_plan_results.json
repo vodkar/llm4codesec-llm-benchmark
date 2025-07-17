@@ -1,0 +1,71 @@
+{
+  "plan_name": "small_models_binary",
+  "description": "Small models evaluation on binary classification tasks",
+  "start_time": "2025-07-10T18:37:34.283679",
+  "experiments": [
+    {
+      "experiment_name": "qwen3-4b_binary_java_file_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.9,
+      "total_samples": 50,
+      "total_time": 277.0230793952942,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_binary_20250709_193128/qwen3-4b_binary_java_file_detailed_analysis"
+    },
+    {
+      "experiment_name": "qwen3-4b-thinking_binary_java_file_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.9,
+      "total_samples": 50,
+      "total_time": 63.267956018447876,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_binary_20250709_193128/qwen3-4b-thinking_binary_java_file_detailed_analysis"
+    },
+    {
+      "experiment_name": "qwen3-8b_binary_java_file_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.22,
+      "total_samples": 50,
+      "total_time": 96.10022282600403,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_binary_20250709_193128/qwen3-8b_binary_java_file_detailed_analysis"
+    },
+    {
+      "experiment_name": "qwen3-8b-thinking_binary_java_file_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.18,
+      "total_samples": 50,
+      "total_time": 81.22140955924988,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_binary_20250709_193128/qwen3-8b-thinking_binary_java_file_detailed_analysis"
+    },
+    {
+      "experiment_name": "llama3.2-3B_binary_java_file_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.94,
+      "total_samples": 50,
+      "total_time": 5885.94025349617,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_binary_20250709_193128/llama3.2-3B_binary_java_file_detailed_analysis"
+    },
+    {
+      "experiment_name": "gemma3-4b_binary_java_file_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.58,
+      "total_samples": 50,
+      "total_time": 5805.115617275238,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_binary_20250709_193128/gemma3-4b_binary_java_file_detailed_analysis"
+    },
+    {
+      "experiment_name": "deepseek-r1-distill-qwen2.5-7b_binary_java_file_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.48,
+      "total_samples": 50,
+      "total_time": 10142.460017442703,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_binary_20250709_193128/deepseek-r1-distill-qwen2.5-7b_binary_java_file_detailed_analysis"
+    }
+  ],
+  "summary": {
+    "total_experiments": 7,
+    "successful": 7,
+    "failed": 0,
+    "success_rate": 1.0
+  },
+  "output_dir": "results/cvefixes_experiments/plan_small_models_binary_20250709_193128",
+  "end_time": "2025-07-11T02:47:59.706588"
+}

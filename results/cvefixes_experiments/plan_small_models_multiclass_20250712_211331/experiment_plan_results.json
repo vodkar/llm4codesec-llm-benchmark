@@ -1,0 +1,119 @@
+{
+  "plan_name": "small_models_multiclass",
+  "description": "Small models evaluation on multiclass classification tasks",
+  "start_time": "2025-07-10T18:37:34.283679",
+  "experiments": [
+    {
+      "experiment_name": "qwen3-4b_multiclass_java_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.0,
+      "total_samples": 100,
+      "total_time": 242.4090645313263,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/qwen3-4b_multiclass_java_file_multiclass_comprehensive"
+    },
+    {
+      "experiment_name": "qwen3-4b_multiclass_python_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.0,
+      "total_samples": 100,
+      "total_time": 271.4762136936188,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/qwen3-4b_multiclass_python_file_multiclass_comprehensive"
+    },
+    {
+      "experiment_name": "qwen3-4b-thinking_multiclass_java_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.02,
+      "total_samples": 100,
+      "total_time": 197.32458424568176,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/qwen3-4b-thinking_multiclass_java_file_multiclass_comprehensive"
+    },
+    {
+      "experiment_name": "qwen3-4b-thinking_multiclass_python_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.01,
+      "total_samples": 100,
+      "total_time": 257.93263268470764,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/qwen3-4b-thinking_multiclass_python_file_multiclass_comprehensive"
+    },
+    {
+      "experiment_name": "qwen3-8b_multiclass_java_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.03,
+      "total_samples": 100,
+      "total_time": 343.0459988117218,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/qwen3-8b_multiclass_java_file_multiclass_comprehensive"
+    },
+    {
+      "experiment_name": "qwen3-8b_multiclass_python_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.01,
+      "total_samples": 100,
+      "total_time": 324.322988986969,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/qwen3-8b_multiclass_python_file_multiclass_comprehensive"
+    },
+    {
+      "experiment_name": "qwen3-8b-thinking_multiclass_java_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.04,
+      "total_samples": 100,
+      "total_time": 302.7653820514679,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/qwen3-8b-thinking_multiclass_java_file_multiclass_comprehensive"
+    },
+    {
+      "experiment_name": "qwen3-8b-thinking_multiclass_python_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.16,
+      "total_samples": 100,
+      "total_time": 219.69385719299316,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/qwen3-8b-thinking_multiclass_python_file_multiclass_comprehensive"
+    },
+    {
+      "experiment_name": "llama3.2-3B_multiclass_java_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.08,
+      "total_samples": 100,
+      "total_time": 882.2209014892578,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/llama3.2-3B_multiclass_java_file_multiclass_comprehensive"
+    },
+    {
+      "experiment_name": "llama3.2-3B_multiclass_python_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.02,
+      "total_samples": 100,
+      "total_time": 1613.2568991184235,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/llama3.2-3B_multiclass_python_file_multiclass_comprehensive"
+    },
+    {
+      "experiment_name": "gemma3-4b_multiclass_java_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.15,
+      "total_samples": 100,
+      "total_time": 22873.475627422333,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/gemma3-4b_multiclass_java_file_multiclass_comprehensive"
+    },
+    {
+      "experiment_name": "gemma3-4b_multiclass_python_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.05,
+      "total_samples": 100,
+      "total_time": 22843.85693192482,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/gemma3-4b_multiclass_python_file_multiclass_comprehensive"
+    },
+    {
+      "experiment_name": "deepseek-r1-distill-qwen2.5-7b_multiclass_java_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.02,
+      "total_samples": 100,
+      "total_time": 16392.577353715897,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/deepseek-r1-distill-qwen2.5-7b_multiclass_java_file_multiclass_comprehensive"
+    }
+  ],
+  "summary": {
+    "total_experiments": 13,
+    "successful": 13,
+    "failed": 0,
+    "success_rate": 1.0
+  },
+  "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331",
+  "end_time": "2025-07-11T02:47:59.706588"
+}
