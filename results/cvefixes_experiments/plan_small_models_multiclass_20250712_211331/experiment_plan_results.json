@@ -106,11 +106,19 @@
       "total_samples": 100,
       "total_time": 16392.577353715897,
       "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/deepseek-r1-distill-qwen2.5-7b_multiclass_java_file_multiclass_comprehensive"
+    },
+    {
+      "experiment_name": "deepseek-r1-distill-qwen2.5-7b_multiclass_python_file_multiclass_comprehensive",
+      "status": "success",
+      "accuracy": 0.03,
+      "total_samples": 100,
+      "total_time": 16123.257303237915,
+      "output_dir": "results/cvefixes_experiments/plan_small_models_multiclass_20250712_211331/deepseek-r1-distill-qwen2.5-7b_multiclass_python_file_multiclass_comprehensive"
     }
   ],
   "summary": {
-    "total_experiments": 13,
-    "successful": 13,
+    "total_experiments": 14,
+    "successful": 14,
     "failed": 0,
     "success_rate": 1.0
   },
