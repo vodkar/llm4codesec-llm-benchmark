@@ -1,0 +1,468 @@
+{
+  "accuracy": 0.74,
+  "metrics": {
+    "accuracy": 0.74,
+    "precision": 0.8292682926829268,
+    "recall": 0.85,
+    "f1_score": 0.8395061728395061,
+    "specificity": 0.3,
+    "true_positives": 34,
+    "true_negatives": 3,
+    "false_positives": 7,
+    "false_negatives": 6
+  },
+  "total_samples": 50,
+  "total_time": 176.92818403244019,
+  "predictions": [
+    {
+      "sample_id": "vulbench_devign_67",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 1696
+    },
+    {
+      "sample_id": "vulbench_devign_27",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 627
+    },
+    {
+      "sample_id": "vulbench_devign_32",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 838
+    },
+    {
+      "sample_id": "vulbench_devign_49",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 1201
+    },
+    {
+      "sample_id": "vulbench_devign_30",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 1001
+    },
+    {
+      "sample_id": "vulbench_devign_57",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 905
+    },
+    {
+      "sample_id": "vulbench_devign_63",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 207
+    },
+    {
+      "sample_id": "vulbench_devign_42",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 2462
+    },
+    {
+      "sample_id": "vulbench_devign_1",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 1302
+    },
+    {
+      "sample_id": "vulbench_devign_24",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 428
+    },
+    {
+      "sample_id": "vulbench_devign_61",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 593
+    },
+    {
+      "sample_id": "vulbench_devign_25",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 302
+    },
+    {
+      "sample_id": "vulbench_devign_26",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE\n\nThe code contains several potential security vulnerabilities:\n\n1. **Integer Overflow in Sample Count Check**:\n   ```c\n   if(film->sample_count >= UINT_MAX / sizeof(film_sample))\n       return -1;\n   ```\n   This check is incorrect and can lead to integer overflow issues when calculating `UINT_MAX / sizeof(film_sample)`. It should use proper overflow checking mechanisms.\n\n2. **Uninitialized Variables**:\n   The code uses `film->sample_table` without initializing it properly, which could lead to undefined behavior if accessed before allocation.\n\n3. **Memory Corruption**:\n   The code reads data into a fixed-size buffer (`unsigned char scratch[256]`) without proper bounds checking, which can lead to buffer overflows if the actual data is larger than 256 bytes.\n\n4. **Potential Use-After-Free**:\n   The code allocates memory for `film->sample_table` and then frees it if an error occurs. However, there's no guarantee that the memory is properly managed in all cases, which could lead to use-after-free issues.\n\n5. **Incorrect Error Handling**:\n   The code returns `-1` for an integer overflow check, which is not a standard error code and could lead to confusion with other error codes.\n\nThese issues make the code vulnerable to various security problems including buffer overflows, memory corruption, and undefined behavior.",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 1905
+    },
+    {
+      "sample_id": "vulbench_devign_45",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 3516
+    },
+    {
+      "sample_id": "vulbench_devign_50",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 10.034828933080037,
+      "tokens_used": 458
+    },
+    {
+      "sample_id": "vulbench_devign_60",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 316
+    },
+    {
+      "sample_id": "vulbench_devign_62",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 640
+    },
+    {
+      "sample_id": "vulbench_devign_53",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 408
+    },
+    {
+      "sample_id": "vulbench_devign_13",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 2208
+    },
+    {
+      "sample_id": "vulbench_devign_11",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 1258
+    },
+    {
+      "sample_id": "vulbench_devign_23",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 246
+    },
+    {
+      "sample_id": "vulbench_devign_66",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 282
+    },
+    {
+      "sample_id": "vulbench_devign_3",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 1540
+    },
+    {
+      "sample_id": "vulbench_devign_54",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 248
+    },
+    {
+      "sample_id": "vulbench_devign_40",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 1312
+    },
+    {
+      "sample_id": "vulbench_devign_21",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 614
+    },
+    {
+      "sample_id": "vulbench_devign_29",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 3021
+    },
+    {
+      "sample_id": "vulbench_devign_10",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 1133
+    },
+    {
+      "sample_id": "vulbench_devign_56",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 212
+    },
+    {
+      "sample_id": "vulbench_devign_58",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.38710681597391766,
+      "tokens_used": 505
+    },
+    {
+      "sample_id": "vulbench_devign_14",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 1361
+    },
+    {
+      "sample_id": "vulbench_devign_5",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 445
+    },
+    {
+      "sample_id": "vulbench_devign_18",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 1818
+    },
+    {
+      "sample_id": "vulbench_devign_68",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 234
+    },
+    {
+      "sample_id": "vulbench_devign_51",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 1744
+    },
+    {
+      "sample_id": "vulbench_devign_64",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 376
+    },
+    {
+      "sample_id": "vulbench_devign_7",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 2887
+    },
+    {
+      "sample_id": "vulbench_devign_0",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 428
+    },
+    {
+      "sample_id": "vulbench_devign_12",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 3278
+    },
+    {
+      "sample_id": "vulbench_devign_4",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 871
+    },
+    {
+      "sample_id": "vulbench_devign_43",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 1519
+    },
+    {
+      "sample_id": "vulbench_devign_6",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 771
+    },
+    {
+      "sample_id": "vulbench_devign_47",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 2945
+    },
+    {
+      "sample_id": "vulbench_devign_35",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 638
+    },
+    {
+      "sample_id": "vulbench_devign_33",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.42260610262552895,
+      "tokens_used": 1272
+    },
+    {
+      "sample_id": "vulbench_devign_37",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.16627726554870606,
+      "tokens_used": 1504
+    },
+    {
+      "sample_id": "vulbench_devign_65",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.16627726554870606,
+      "tokens_used": 604
+    },
+    {
+      "sample_id": "vulbench_devign_8",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.16627726554870606,
+      "tokens_used": 774
+    },
+    {
+      "sample_id": "vulbench_devign_34",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.16627726554870606,
+      "tokens_used": 530
+    },
+    {
+      "sample_id": "vulbench_devign_17",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.16627726554870606,
+      "tokens_used": 269
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+[
+  {
+    "experiment_name": "qwen3-4b-thinking_cwe_125_cwe_focused",
+    "status": "success",
+    "accuracy": 0.46,
+    "total_samples": 50,
+    "total_time": 53.25749158859253,
+    "output_dir": "results/jitvul_experiments/qwen3-4b-thinking_cwe_125_cwe_focused"
+  },
+  {
+    "experiment_name": "qwen3-8b_cwe_125_cwe_focused",
+    "status": "success",
+    "accuracy": 0.32,
+    "total_samples": 50,
+    "total_time": 45.409496545791626,
+    "output_dir": "results/jitvul_experiments/qwen3-8b_cwe_125_cwe_focused"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_cwe_125_cwe_focused",
+    "status": "success",
+    "accuracy": 0.56,
+    "total_samples": 50,
+    "total_time": 62.89436912536621,
+    "output_dir": "results/jitvul_experiments/qwen3-8b-thinking_cwe_125_cwe_focused"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_cwe_125_cwe_focused",
+    "status": "success",
+    "accuracy": 0.62,
+    "total_samples": 50,
+    "total_time": 5475.314953804016,
+    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-7b_cwe_125_cwe_focused"
+  },
+  {
+    "experiment_name": "qwen3-4b-thinking_cwe_190_cwe_focused",
+    "status": "success",
+    "accuracy": 0.48,
+    "total_samples": 50,
+    "total_time": 37.90500855445862,
+    "output_dir": "results/jitvul_experiments/qwen3-4b-thinking_cwe_190_cwe_focused"
+  },
+  {
+    "experiment_name": "qwen3-8b_cwe_190_cwe_focused",
+    "status": "success",
+    "accuracy": 0.44,
+    "total_samples": 50,
+    "total_time": 52.652252435684204,
+    "output_dir": "results/jitvul_experiments/qwen3-8b_cwe_190_cwe_focused"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_cwe_190_cwe_focused",
+    "status": "success",
+    "accuracy": 0.54,
+    "total_samples": 50,
+    "total_time": 52.21943521499634,
+    "output_dir": "results/jitvul_experiments/qwen3-8b-thinking_cwe_190_cwe_focused"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_cwe_190_cwe_focused",
+    "status": "success",
+    "accuracy": 0.54,
+    "total_samples": 50,
+    "total_time": 4613.066037893295,
+    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-7b_cwe_190_cwe_focused"
+  },
+  {
+    "experiment_name": "qwen3-4b-thinking_cwe_476_cwe_focused",
+    "status": "success",
+    "accuracy": 0.48,
+    "total_samples": 50,
+    "total_time": 44.058680057525635,
+    "output_dir": "results/jitvul_experiments/qwen3-4b-thinking_cwe_476_cwe_focused"
+  },
+  {
+    "experiment_name": "qwen3-8b_cwe_476_cwe_focused",
+    "status": "success",
+    "accuracy": 0.46,
+    "total_samples": 50,
+    "total_time": 54.94884634017944,
+    "output_dir": "results/jitvul_experiments/qwen3-8b_cwe_476_cwe_focused"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_cwe_476_cwe_focused",
+    "status": "success",
+    "accuracy": 0.44,
+    "total_samples": 50,
+    "total_time": 51.61028337478638,
+    "output_dir": "results/jitvul_experiments/qwen3-8b-thinking_cwe_476_cwe_focused"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_cwe_476_cwe_focused",
+    "status": "success",
+    "accuracy": 0.56,
+    "total_samples": 50,
+    "total_time": 4272.558614253998,
+    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-7b_cwe_476_cwe_focused"
+  },
+  {
+    "experiment_name": "qwen3-4b-thinking_cwe_787_cwe_focused",
+    "status": "success",
+    "accuracy": 0.5,
+    "total_samples": 50,
+    "total_time": 52.84161019325256,
+    "output_dir": "results/jitvul_experiments/qwen3-4b-thinking_cwe_787_cwe_focused"
+  },
+  {
+    "experiment_name": "qwen3-8b_cwe_787_cwe_focused",
+    "status": "success",
+    "accuracy": 0.52,
+    "total_samples": 50,
+    "total_time": 79.00371265411377,
+    "output_dir": "results/jitvul_experiments/qwen3-8b_cwe_787_cwe_focused"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_cwe_787_cwe_focused",
+    "status": "success",
+    "accuracy": 0.46,
+    "total_samples": 50,
+    "total_time": 79.63140726089478,
+    "output_dir": "results/jitvul_experiments/qwen3-8b-thinking_cwe_787_cwe_focused"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_cwe_787_cwe_focused",
+    "status": "success",
+    "accuracy": 0.48,
+    "total_samples": 50,
+    "total_time": 4098.688928842545,
+    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-7b_cwe_787_cwe_focused"
+  }
+]
