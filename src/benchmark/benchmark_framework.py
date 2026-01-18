@@ -492,7 +492,7 @@ class HuggingFaceLLM(LLMInterface):
         attn_implementation = (
             "flash_attention_2"
             if _is_flash_attention_supported() and _is_flash_attention_available()
-            else None
+            else "sdpa"
         )
 
         if torch.cuda.is_available():
@@ -517,6 +517,7 @@ class HuggingFaceLLM(LLMInterface):
                         bnb_4bit_use_double_quant=True,
                         bnb_4bit_quant_type="nf4",
                     )
+                    torch_dtype = torch.bfloat16
                     logging.info("Using 4-bit quantization")
             else:
                 # No quantization - use optimal native precision

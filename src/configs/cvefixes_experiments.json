@@ -181,22 +181,6 @@
             "use_quantization": true,
             "enable_thinking": true
         },
-        "qwen3-guard-4b": {
-            "model_name": "Qwen3Guard-Gen-4B",
-            "model_type": "QWEN",
-            "max_tokens": 4096,
-            "temperature": 0.1,
-            "batch_size": 2,
-            "use_quantization": true
-        },
-        "qwen3-guard-8b": {
-            "model_name": "Qwen3Guard-Gen-8B",
-            "model_type": "QWEN",
-            "max_tokens": 4096,
-            "temperature": 0.1,
-            "batch_size": 1,
-            "use_quantization": true
-        },
         "qwen3-30b": {
             "model_name": "Qwen/Qwen3-30B-A3B",
             "model_type": "QWEN",
@@ -352,8 +336,6 @@
                 "qwen3-4b-thinking",
                 "qwen3-8b",
                 "qwen3-8b-thinking",
-                "qwen3-guard-4b",
-                "qwen3-guard-8b",
                 "llama3.2-3B",
                 "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
@@ -373,8 +355,6 @@
                 "qwen3-4b-thinking",
                 "qwen3-8b",
                 "qwen3-8b-thinking",
-                "qwen3-guard-4b",
-                "qwen3-guard-8b",
                 "llama3.2-3B",
                 "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
@@ -395,8 +375,6 @@
                 "qwen3-4b-thinking",
                 "qwen3-8b",
                 "qwen3-8b-thinking",
-                "qwen3-guard-4b",
-                "qwen3-guard-8b",
                 "llama3.2-3B",
                 "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
