@@ -177,6 +177,14 @@
             "batch_size": 5,
             "use_quantization": true
         },
+        "llama3.1-8B": {
+            "model_name": "meta-llama/Llama-3.1-8B-Instruct",
+            "model_type": "LLAMA",
+            "max_tokens": 1024,
+            "temperature": 0.1,
+            "batch_size": 2,
+            "use_quantization": true
+        },
         "llama4-scout-17b-16e": {
             "model_name": "meta-llama/Llama-4-Scout-17B-16E-Instruct",
             "model_type": "LLAMA",
@@ -299,6 +307,7 @@
                 "qwen3-8b",
                 "qwen3-8b-thinking",
                 "llama3.2-3B",
+                "llama3.1-8B",
                 "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
             ],
@@ -340,6 +349,7 @@
                 "qwen3-8b",
                 "qwen3-8b-thinking",
                 "llama3.2-3B",
+                "llama3.1-8B",
                 "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
             ],
@@ -359,6 +369,7 @@
                 "qwen3-8b",
                 "qwen3-8b-thinking",
                 "llama3.2-3B",
+                "llama3.1-8B",
                 "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
             ],
