@@ -224,13 +224,9 @@
                 "task1_vulnerability"
             ],
             "models": [
-                "qwen3-4b",
-                "qwen3-4b-thinking",
                 "qwen3-8b",
                 "qwen3-8b-thinking",
-                "llama3.2-3B",
                 "llama3.1-8B",
-                "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
             ],
             "prompts": [
@@ -263,13 +259,9 @@
                 "task2_multiclass"
             ],
             "models": [
-                "qwen3-4b",
-                "qwen3-4b-thinking",
                 "qwen3-8b",
                 "qwen3-8b-thinking",
-                "llama3.2-3B",
                 "llama3.1-8B",
-                "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
             ],
             "prompts": [
@@ -302,13 +294,9 @@
                 "task3_objects"
             ],
             "models": [
-                "qwen3-4b",
-                "qwen3-4b-thinking",
                 "qwen3-8b",
                 "qwen3-8b-thinking",
-                "llama3.2-3B",
                 "llama3.1-8B",
-                "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
             ],
             "prompts": [
@@ -343,13 +331,9 @@
                 "task4_root_cause"
             ],
             "models": [
-                "qwen3-4b",
-                "qwen3-4b-thinking",
                 "qwen3-8b",
                 "qwen3-8b-thinking",
-                "llama3.2-3B",
                 "llama3.1-8B",
-                "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
             ],
             "prompts": [
@@ -382,13 +366,9 @@
                 "task5_trigger_point"
             ],
             "models": [
-                "qwen3-4b",
-                "qwen3-4b-thinking",
                 "qwen3-8b",
                 "qwen3-8b-thinking",
-                "llama3.2-3B",
                 "llama3.1-8B",
-                "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
             ],
             "prompts": [
