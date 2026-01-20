@@ -150,7 +150,7 @@
             "model_type": "DEEPSEEK",
             "max_tokens": 4096,
             "temperature": 0.1,
-            "batch_size": 20,
+            "batch_size": 10,
             "use_quantization": true
         },
         "deepseek-r1-distill-qwen2.5-32b": {
@@ -174,7 +174,7 @@
             "model_type": "LLAMA",
             "max_tokens": 4096,
             "temperature": 0.1,
-            "batch_size": 10,
+            "batch_size": 5,
             "use_quantization": true
         },
         "llama3.1-8B": {
@@ -198,7 +198,7 @@
             "model_type": "GEMMA",
             "max_tokens": 4096,
             "temperature": 0.1,
-            "batch_size": 20,
+            "batch_size": 10,
             "use_quantization": true
         },
         "gemma3-27b": {
@@ -296,13 +296,9 @@
                 "cwe_787"
             ],
             "models": [
-                "qwen3-4b",
-                "qwen3-4b-thinking",
                 "qwen3-8b",
                 "qwen3-8b-thinking",
-                "llama3.2-3B",
                 "llama3.1-8B",
-                "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
             ],
             "prompts": [
@@ -338,13 +334,9 @@
                 "binary_all"
             ],
             "models": [
-                "qwen3-4b",
-                "qwen3-4b-thinking",
                 "qwen3-8b",
                 "qwen3-8b-thinking",
-                "llama3.2-3B",
                 "llama3.1-8B",
-                "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
             ],
             "prompts": [
@@ -358,13 +350,9 @@
                 "multiclass_all"
             ],
             "models": [
-                "qwen3-4b",
-                "qwen3-4b-thinking",
                 "qwen3-8b",
                 "qwen3-8b-thinking",
-                "llama3.2-3B",
                 "llama3.1-8B",
-                "gemma3-4b",
                 "deepseek-r1-distill-qwen2.5-7b"
             ],
             "prompts": [

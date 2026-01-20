@@ -121,6 +121,7 @@ class PredictionResult:
     response_text: str
     processing_time: float
     tokens_used: Optional[int] = None
+    context_tokens: Optional[int] = None
 
 
 @dataclass
@@ -598,7 +599,7 @@ class HuggingFaceLLM(LLMInterface):
 
         except Exception as e:
             logging.exception(f"Error generating response: {e}")
-            return f"ERROR: {str(e)}", None
+            return f"ERROR: {str(e)}", 0, 0.0
 
     def generate_responses_batch_optimized(
         self, system_prompts: list[str], user_prompts: list[str]
@@ -1047,12 +1048,15 @@ class BenchmarkRunner:
         # Prepare all prompts in advance for batch processing
         logging.info("Preparing prompts for batch processing...")
         formatted_prompts = []
+        prompt_token_counts = []
         for sample in samples:
             user_prompt = self.prompt_generator.get_user_prompt(
                 self.config.task_type, sample.code, self.config.cwe_type
             )
             formatted_prompt = self.llm._format_prompt(system_prompt, user_prompt)
             formatted_prompts.append(formatted_prompt)
+            prompt_tokens = len(self.llm.tokenizer.encode(formatted_prompt))
+            prompt_token_counts.append(prompt_tokens)
 
         # Process in batches
         logging.info(
@@ -1066,11 +1070,12 @@ class BenchmarkRunner:
             avg_processing_time = total_processing_time / len(samples)
 
             # Process results
-            for i, (sample, (response_text, tokens_used)) in enumerate(
+            for i, (sample, (response_text, tokens_used, _batch_duration)) in enumerate(
                 zip(samples, batch_responses)
             ):
                 # Parse response
                 predicted_label = self.response_parser.parse_response(response_text)
+                context_tokens = prompt_token_counts[i]
 
                 prediction = PredictionResult(
                     sample_id=sample.id,
@@ -1082,13 +1087,23 @@ class BenchmarkRunner:
                     response_text=response_text,
                     processing_time=avg_processing_time,  # Average time per sample
                     tokens_used=tokens_used,
+                    context_tokens=context_tokens,
                 )
 
                 predictions.append(prediction)
 
+                logging.info(
+                    "Sample %s context tokens: %s", sample.id, context_tokens
+                )
+
                 # Log progress
                 if (i + 1) % 50 == 0:
-                    logging.info(f"Processed {i + 1}/{len(samples)} predictions")
+                    logging.info(
+                        "Processed %s/%s predictions (avg context tokens: %.1f)",
+                        i + 1,
+                        len(samples),
+                        sum(prompt_token_counts[: i + 1]) / (i + 1),
+                    )
 
         except Exception as e:
             logging.warning(
@@ -1116,10 +1131,12 @@ class BenchmarkRunner:
             user_prompt = self.prompt_generator.get_user_prompt(
                 self.config.task_type, sample.code, self.config.cwe_type
             )
+            formatted_prompt = self.llm._format_prompt(system_prompt, user_prompt)
+            context_tokens = len(self.llm.tokenizer.encode(formatted_prompt))
 
             # Generate response
             start_time = time.time()
-            response_text, tokens_used = self.llm.generate_response(
+            response_text, tokens_used, _model_duration = self.llm.generate_response(
                 system_prompt, user_prompt
             )
             processing_time = time.time() - start_time
@@ -1137,13 +1154,21 @@ class BenchmarkRunner:
                 response_text=response_text,
                 processing_time=processing_time,
                 tokens_used=tokens_used,
+                context_tokens=context_tokens,
             )
 
             predictions.append(prediction)
 
+            logging.info("Sample %s context tokens: %s", sample.id, context_tokens)
+
             # Log progress
             if (i + 1) % 10 == 0:
-                logging.info(f"Completed {i + 1}/{len(samples)} predictions")
+                logging.info(
+                    "Completed %s/%s predictions (last context tokens: %s)",
+                    i + 1,
+                    len(samples),
+                    context_tokens,
+                )
 
         return predictions
 
@@ -1330,6 +1355,10 @@ class BenchmarkRunner:
         ):
             # Parse response
             predicted_label = response_parser.parse_response(response_text)
+            formatted_prompt = llm._format_prompt(
+                system_prompts[i], user_prompts[i]
+            )
+            context_tokens = len(llm.tokenizer.encode(formatted_prompt))
 
             # Handle true label - might be int or string depending on dataset
             if isinstance(sample.label, int):
@@ -1345,13 +1374,25 @@ class BenchmarkRunner:
                 response_text=response_text,
                 processing_time=processing_duration,
                 tokens_used=tokens_used,
+                context_tokens=context_tokens,
             )
 
             predictions.append(prediction)
 
+            logging.info("Sample %s context tokens: %s", sample.id, context_tokens)
+
             # Log progress
             if (i + 1) % 50 == 0:
-                logging.info(f"Processed {i + 1}/{len(samples)} predictions")
+                logging.info(
+                    "Processed %s/%s predictions (avg context tokens: %.1f)",
+                    i + 1,
+                    len(samples),
+                    sum(
+                        len(llm.tokenizer.encode(llm._format_prompt(sp, up)))
+                        for sp, up in zip(system_prompts[: i + 1], user_prompts[: i + 1])
+                    )
+                    / (i + 1),
+                )
 
         logging.info(f"Completed processing all {len(samples)} samples")
         return predictions
