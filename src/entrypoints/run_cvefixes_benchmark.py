@@ -15,9 +15,11 @@ import sys
 import time
 from pathlib import Path
 from typing import Any
+import os
 
 from benchmark.benchmark_framework import BenchmarkConfig, ModelType, TaskType
 from datasets.loaders.cvefixes_dataset_loader import CVEFixesJSONDatasetLoader
+from transformers import AutoTokenizer
 
 
 class CVEFixesBenchmarkRunner:
@@ -44,6 +46,23 @@ class CVEFixesBenchmarkRunner:
             # Load dataset using CVEFixes loader
             logging.info(f"Loading CVEFixes dataset from: {self.config.dataset_path}")
             samples = self.dataset_loader.load_dataset(self.config.dataset_path)
+
+            # Filter out samples with very long inputs (over 8k tokens)
+            tokenizer = AutoTokenizer.from_pretrained(
+                self.config.model_name,
+                trust_remote_code=True,
+                token=os.getenv("HF_TOKEN", None),
+            )
+            filtered_samples = []
+            for sample in samples:
+                token_count = len(tokenizer.encode(sample.code))
+                if token_count <= 8000:
+                    filtered_samples.append(sample)
+            excluded_count = len(samples) - len(filtered_samples)
+            if excluded_count > 0:
+                logging.info("Excluded %s samples over 8k tokens", excluded_count)
+
+            samples = filtered_samples
 
             # Apply sample limit if specified
             if sample_limit and sample_limit < len(samples):

@@ -511,15 +511,20 @@ class HuggingFaceLLM(LLMInterface):
                     )
                     logging.info("Using 8-bit quantization for A100")
                 else:
-                    # Fallback to 4-bit for very large models or smaller GPUs
+                    # # Fallback to 4-bit for very large models or smaller GPUs
+                    # quantization_config = BitsAndBytesConfig(
+                    #     load_in_4bit=True,
+                    #     bnb_4bit_compute_dtype=torch.float16,
+                    #     bnb_4bit_use_double_quant=True,
+                    #     bnb_4bit_quant_type="nf4",
+                    # )
+                    # torch_dtype = torch.bfloat16
+                    # logging.info("Using 4-bit quantization")
                     quantization_config = BitsAndBytesConfig(
                         load_in_8bit=True,
-                        bnb_4bit_compute_dtype=torch.bfloat16,
-                        bnb_4bit_use_double_quant=True,
-                        bnb_4bit_quant_type="nf4",
                     )
                     torch_dtype = torch.bfloat16
-                    logging.info("Using 4-bit quantization")
+                    logging.info("Using 8-bit quantization")
             else:
                 # No quantization - use optimal native precision
                 torch_dtype = torch.bfloat16 if gpu_memory >= 35 else torch.float16

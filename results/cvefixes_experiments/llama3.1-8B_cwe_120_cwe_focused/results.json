@@ -1,0 +1,518 @@
+{
+  "accuracy": 0.28,
+  "metrics": {
+    "accuracy": 0.28,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1_score": 0.0,
+    "specificity": 0.28,
+    "true_positives": 0,
+    "true_negatives": 14,
+    "false_positives": 36,
+    "false_negatives": 0
+  },
+  "total_samples": 50,
+  "total_time": 92.00461912155151,
+  "predictions": [
+    {
+      "sample_id": "CVE-2023-48705_file_2271",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8425190448760986,
+      "tokens_used": 1153,
+      "context_tokens": 1149
+    },
+    {
+      "sample_id": "CVE-2023-46121_file_2434",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8820652961730957,
+      "tokens_used": 1658,
+      "context_tokens": 1654
+    },
+    {
+      "sample_id": "CVE-2022-29210_file_701",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9380245208740234,
+      "tokens_used": 2190,
+      "context_tokens": 2186
+    },
+    {
+      "sample_id": "CVE-2023-41319_file_2472",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.948075532913208,
+      "tokens_used": 2265,
+      "context_tokens": 2261
+    },
+    {
+      "sample_id": "CVE-2023-41319_file_2468",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7435286045074463,
+      "tokens_used": 602,
+      "context_tokens": 598
+    },
+    {
+      "sample_id": "CVE-2023-22735_file_368",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.9417998790740967,
+      "tokens_used": 7915,
+      "context_tokens": 7911
+    },
+    {
+      "sample_id": "CVE-2022-23057_file_1744",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9600939750671387,
+      "tokens_used": 2186,
+      "context_tokens": 2182
+    },
+    {
+      "sample_id": "CVE-2024-32025_file_2789",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7273221015930176,
+      "tokens_used": 504,
+      "context_tokens": 500
+    },
+    {
+      "sample_id": "CVE-2016-10149_file_290",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7469968795776367,
+      "tokens_used": 806,
+      "context_tokens": 802
+    },
+    {
+      "sample_id": "CVE-2023-48705_file_2281",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.3325481414794922,
+      "tokens_used": 416,
+      "context_tokens": 415
+    },
+    {
+      "sample_id": "CVE-2024-31992_file_2768",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.34720277786254883,
+      "tokens_used": 592,
+      "context_tokens": 591
+    },
+    {
+      "sample_id": "CVE-2022-3363_file_2018",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8153688907623291,
+      "tokens_used": 1336,
+      "context_tokens": 1332
+    },
+    {
+      "sample_id": "CVE-2022-4722_file_2090",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7200591564178467,
+      "tokens_used": 3268,
+      "context_tokens": 3267
+    },
+    {
+      "sample_id": "CVE-2023-27494_file_2110",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9103221893310547,
+      "tokens_used": 1996,
+      "context_tokens": 1992
+    },
+    {
+      "sample_id": "CVE-2024-38459_file_2543",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.3160693645477295,
+      "tokens_used": 270,
+      "context_tokens": 269
+    },
+    {
+      "sample_id": "CVE-2012-10017_file_54",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6935203075408936,
+      "tokens_used": 3103,
+      "context_tokens": 3102
+    },
+    {
+      "sample_id": "CVE-2022-23949_file_1650",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9153132438659668,
+      "tokens_used": 2034,
+      "context_tokens": 2030
+    },
+    {
+      "sample_id": "CVE-2021-42134_file_1436",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.479006052017212,
+      "tokens_used": 5382,
+      "context_tokens": 5378
+    },
+    {
+      "sample_id": "CVE-2024-25128_file_1319",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7965691089630127,
+      "tokens_used": 1203,
+      "context_tokens": 1199
+    },
+    {
+      "sample_id": "CVE-2024-4941_file_1489",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8856546878814697,
+      "tokens_used": 1833,
+      "context_tokens": 1829
+    },
+    {
+      "sample_id": "CVE-2012-2144_file_65",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7604446411132812,
+      "tokens_used": 903,
+      "context_tokens": 899
+    },
+    {
+      "sample_id": "CVE-2021-21273_file_454",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.7197306156158447,
+      "tokens_used": 6636,
+      "context_tokens": 6632
+    },
+    {
+      "sample_id": "CVE-2022-3456_file_1999",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.0014278888702393,
+      "tokens_used": 2524,
+      "context_tokens": 2520
+    },
+    {
+      "sample_id": "CVE-2022-3371_file_1953",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.44399213790893555,
+      "tokens_used": 1364,
+      "context_tokens": 1363
+    },
+    {
+      "sample_id": "CVE-2023-2227_file_2222",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8060054779052734,
+      "tokens_used": 1275,
+      "context_tokens": 1271
+    },
+    {
+      "sample_id": "CVE-2021-25963_file_1228",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8960633277893066,
+      "tokens_used": 1914,
+      "context_tokens": 1910
+    },
+    {
+      "sample_id": "CVE-2024-22415_file_2685",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7858421802520752,
+      "tokens_used": 1055,
+      "context_tokens": 1051
+    },
+    {
+      "sample_id": "CVE-2022-3268_file_2105",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7074272632598877,
+      "tokens_used": 3198,
+      "context_tokens": 3197
+    },
+    {
+      "sample_id": "CVE-2021-29431_file_887",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.41979169845581055,
+      "tokens_used": 1167,
+      "context_tokens": 1166
+    },
+    {
+      "sample_id": "CVE-2016-10127_file_279",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.3498196601867676,
+      "tokens_used": 637,
+      "context_tokens": 636
+    },
+    {
+      "sample_id": "CVE-2022-41897_file_753",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.7069649696350098,
+      "tokens_used": 6703,
+      "context_tokens": 6699
+    },
+    {
+      "sample_id": "CVE-2023-2426_file_308",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.5692546367645264,
+      "tokens_used": 5967,
+      "context_tokens": 5963
+    },
+    {
+      "sample_id": "CVE-2022-0405_file_1251",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8815033435821533,
+      "tokens_used": 1781,
+      "context_tokens": 1777
+    },
+    {
+      "sample_id": "CVE-2021-21354_file_1170",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.35658979415893555,
+      "tokens_used": 652,
+      "context_tokens": 651
+    },
+    {
+      "sample_id": "CVE-2022-35952_file_711",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.4238977432250977,
+      "tokens_used": 5115,
+      "context_tokens": 5111
+    },
+    {
+      "sample_id": "CVE-2024-32027_file_2811",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.093435287475586,
+      "tokens_used": 3158,
+      "context_tokens": 3154
+    },
+    {
+      "sample_id": "CVE-2021-33880_file_1355",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8066186904907227,
+      "tokens_used": 1243,
+      "context_tokens": 1239
+    },
+    {
+      "sample_id": "CVE-2024-32481_file_1847",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.7964880466461182,
+      "tokens_used": 7165,
+      "context_tokens": 7161
+    },
+    {
+      "sample_id": "CVE-2024-31994_file_2762",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8806722164154053,
+      "tokens_used": 1818,
+      "context_tokens": 1814
+    },
+    {
+      "sample_id": "CVE-2023-43791_file_2517",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.796471118927002,
+      "tokens_used": 1157,
+      "context_tokens": 1153
+    },
+    {
+      "sample_id": "CVE-2023-47128_file_2512",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.9319751262664795,
+      "tokens_used": 4534,
+      "context_tokens": 4533
+    },
+    {
+      "sample_id": "CVE-2021-43777_file_1036",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9535818099975586,
+      "tokens_used": 2258,
+      "context_tokens": 2254
+    },
+    {
+      "sample_id": "CVE-2013-7416_file_153",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7953917980194092,
+      "tokens_used": 3712,
+      "context_tokens": 3711
+    },
+    {
+      "sample_id": "CVE-2022-3179_file_1932",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7019326686859131,
+      "tokens_used": 3161,
+      "context_tokens": 3160
+    },
+    {
+      "sample_id": "CVE-2022-4526_file_2159",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.34400320053100586,
+      "tokens_used": 552,
+      "context_tokens": 551
+    },
+    {
+      "sample_id": "CVE-2016-3120_file_0",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.1307082176208496,
+      "tokens_used": 3400,
+      "context_tokens": 3396
+    },
+    {
+      "sample_id": "CVE-2024-32026_file_2802",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8062043190002441,
+      "tokens_used": 1265,
+      "context_tokens": 1261
+    },
+    {
+      "sample_id": "CVE-2022-23057_file_1746",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9762263298034668,
+      "tokens_used": 2417,
+      "context_tokens": 2413
+    },
+    {
+      "sample_id": "CVE-2022-3456_file_1981",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.7391085624694824,
+      "tokens_used": 767,
+      "context_tokens": 763
+    },
+    {
+      "sample_id": "CVE-2020-25646_file_1099",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.6390628814697266,
+      "tokens_used": 6323,
+      "context_tokens": 6319
+    }
+  ]
+}

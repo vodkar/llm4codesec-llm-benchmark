@@ -10,6 +10,7 @@ import argparse
 import dataclasses
 import json
 import logging
+import os
 import time
 from pathlib import Path
 from typing import Any
@@ -28,6 +29,7 @@ from benchmark.benchmark_framework import (
 from datasets.loaders.vuldetectbench_dataset_loader import (
     VulDetectBenchDatasetLoaderFramework,
 )
+from transformers import AutoTokenizer
 
 
 class VulDetectBenchResponseParser(ResponseParser):
@@ -87,6 +89,23 @@ class VulDetectBenchBenchmarkRunner:
             samples = self.dataset_loader.load_processed_dataset(
                 Path(self.config.dataset_path)
             )
+
+            # Filter out samples with very long inputs (over 8k tokens)
+            tokenizer = AutoTokenizer.from_pretrained(
+                self.config.model_name,
+                trust_remote_code=True,
+                token=os.getenv("HF_TOKEN", None),
+            )
+            filtered_samples = []
+            for sample in samples:
+                token_count = len(tokenizer.encode(sample.code))
+                if token_count <= 8000:
+                    filtered_samples.append(sample)
+            excluded_count = len(samples) - len(filtered_samples)
+            if excluded_count > 0:
+                logging.info("Excluded %s samples over 8k tokens", excluded_count)
+
+            samples = filtered_samples
 
             # Apply sample limit if specified
             if sample_limit and sample_limit < len(samples):

@@ -1,0 +1,98 @@
+[
+  {
+    "experiment_name": "qwen3-8b_multiclass_java_file_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.02,
+    "total_samples": 50,
+    "total_time": 104.1571695804596,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b_multiclass_java_file_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_multiclass_java_file_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.02,
+    "total_samples": 50,
+    "total_time": 91.38893437385559,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b-thinking_multiclass_java_file_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "llama3.1-8B_multiclass_java_file_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.04,
+    "total_samples": 50,
+    "total_time": 227.98161506652832,
+    "output_dir": "results/cvefixes_experiments/llama3.1-8B_multiclass_java_file_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_multiclass_java_file_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.0,
+    "total_samples": 50,
+    "total_time": 4828.898849964142,
+    "output_dir": "results/cvefixes_experiments/deepseek-r1-distill-qwen2.5-7b_multiclass_java_file_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "qwen3-8b_multiclass_python_file_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.02,
+    "total_samples": 50,
+    "total_time": 114.6467809677124,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b_multiclass_python_file_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_multiclass_python_file_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.02,
+    "total_samples": 50,
+    "total_time": 107.30115413665771,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b-thinking_multiclass_python_file_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "llama3.1-8B_multiclass_python_file_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.06,
+    "total_samples": 50,
+    "total_time": 244.56861519813538,
+    "output_dir": "results/cvefixes_experiments/llama3.1-8B_multiclass_python_file_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_multiclass_python_file_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.02,
+    "total_samples": 50,
+    "total_time": 5088.145581245422,
+    "output_dir": "results/cvefixes_experiments/deepseek-r1-distill-qwen2.5-7b_multiclass_python_file_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "qwen3-8b_multiclass_c_file_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.02,
+    "total_samples": 50,
+    "total_time": 273.3738076686859,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b_multiclass_c_file_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_multiclass_c_file_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.06,
+    "total_samples": 50,
+    "total_time": 272.52781200408936,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b-thinking_multiclass_c_file_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "llama3.1-8B_multiclass_c_file_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.04,
+    "total_samples": 50,
+    "total_time": 420.13035345077515,
+    "output_dir": "results/cvefixes_experiments/llama3.1-8B_multiclass_c_file_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_multiclass_c_file_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.02,
+    "total_samples": 50,
+    "total_time": 5393.661199092865,
+    "output_dir": "results/cvefixes_experiments/deepseek-r1-distill-qwen2.5-7b_multiclass_c_file_multiclass_comprehensive"
+  }
+]

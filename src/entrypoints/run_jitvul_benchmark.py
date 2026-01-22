@@ -10,6 +10,7 @@ import argparse
 import dataclasses
 import json
 import logging
+import os
 import random
 import sys
 import time
@@ -18,6 +19,7 @@ from typing import Any
 
 from benchmark.benchmark_framework import BenchmarkConfig, ModelType, TaskType
 from datasets.loaders.jitvul_dataset_loader import JitVulDatasetLoaderFramework
+from transformers import AutoTokenizer
 
 
 class JitVulBenchmarkRunner:
@@ -45,11 +47,32 @@ class JitVulBenchmarkRunner:
             logging.info(f"Loading JitVul dataset from: {self.config.dataset_path}")
             samples = self.dataset_loader.load_dataset(self.config.dataset_path)
 
+            # Filter out samples with very long inputs (over 8k tokens)
+            tokenizer = AutoTokenizer.from_pretrained(
+                self.config.model_name,
+                trust_remote_code=True,
+                token=os.getenv("HF_TOKEN", None),
+            )
+            filtered_samples_with_context: list[tuple[Any, str]] = []
+            for sample in samples:
+                augmented_code = self._augment_code_with_context(sample)
+                token_count = len(tokenizer.encode(augmented_code))
+                if token_count <= 8000:
+                    filtered_samples_with_context.append((sample, augmented_code))
+
+            excluded_count = len(samples) - len(filtered_samples_with_context)
+            if excluded_count > 0:
+                logging.info("Excluded %s samples over 8k tokens", excluded_count)
+
             # Apply sample limit if specified
-            if sample_limit and sample_limit < len(samples):
-                random.shuffle(samples)
-                samples = samples[:sample_limit]
+            if sample_limit and sample_limit < len(filtered_samples_with_context):
+                random.shuffle(filtered_samples_with_context)
+                filtered_samples_with_context = filtered_samples_with_context[
+                    :sample_limit
+                ]
                 logging.info(f"Limited to {sample_limit} samples")
+
+            samples = [sample for sample, _ in filtered_samples_with_context]
 
             logging.info(f"Loaded {len(samples)} samples")
 
@@ -74,11 +97,10 @@ class JitVulBenchmarkRunner:
             # JitVul has special handling for call graph context, so we need a custom approach
             # Prepare samples with augmented code for batch processing
             augmented_samples = []
-            for sample in samples:
+            for sample, augmented_code in filtered_samples_with_context:
                 # Create a copy of the sample with augmented code
                 from benchmark.benchmark_framework import BenchmarkSample
 
-                augmented_code = self._augment_code_with_context(sample)
                 augmented_sample = BenchmarkSample(
                     id=sample.id,
                     code=augmented_code,

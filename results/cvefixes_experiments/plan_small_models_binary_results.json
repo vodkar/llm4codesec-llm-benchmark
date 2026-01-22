@@ -1,0 +1,194 @@
+[
+  {
+    "experiment_name": "qwen3-8b_binary_python_file_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.2,
+    "total_samples": 50,
+    "total_time": 95.27112126350403,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b_binary_python_file_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_binary_python_file_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.26,
+    "total_samples": 50,
+    "total_time": 98.5409004688263,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b-thinking_binary_python_file_detailed_analysis"
+  },
+  {
+    "experiment_name": "llama3.1-8B_binary_python_file_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.92,
+    "total_samples": 50,
+    "total_time": 4079.8149094581604,
+    "output_dir": "results/cvefixes_experiments/llama3.1-8B_binary_python_file_detailed_analysis"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_binary_python_file_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.56,
+    "total_samples": 50,
+    "total_time": 6198.260854244232,
+    "output_dir": "results/cvefixes_experiments/deepseek-r1-distill-qwen2.5-7b_binary_python_file_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-8b_binary_python_method_detailed_analysis",
+    "status": "success",
+    "accuracy": NaN,
+    "total_samples": 0,
+    "total_time": 20.24833035469055,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b_binary_python_method_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_binary_python_method_detailed_analysis",
+    "status": "success",
+    "accuracy": NaN,
+    "total_samples": 0,
+    "total_time": 9.243744134902954,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b-thinking_binary_python_method_detailed_analysis"
+  },
+  {
+    "experiment_name": "llama3.1-8B_binary_python_method_detailed_analysis",
+    "status": "success",
+    "accuracy": NaN,
+    "total_samples": 0,
+    "total_time": 17.981053113937378,
+    "output_dir": "results/cvefixes_experiments/llama3.1-8B_binary_python_method_detailed_analysis"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_binary_python_method_detailed_analysis",
+    "status": "success",
+    "accuracy": NaN,
+    "total_samples": 0,
+    "total_time": 18.572827100753784,
+    "output_dir": "results/cvefixes_experiments/deepseek-r1-distill-qwen2.5-7b_binary_python_method_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-8b_binary_java_file_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.14,
+    "total_samples": 50,
+    "total_time": 71.10312271118164,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b_binary_java_file_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_binary_java_file_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.12,
+    "total_samples": 50,
+    "total_time": 61.79844331741333,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b-thinking_binary_java_file_detailed_analysis"
+  },
+  {
+    "experiment_name": "llama3.1-8B_binary_java_file_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.76,
+    "total_samples": 50,
+    "total_time": 3595.2483410835266,
+    "output_dir": "results/cvefixes_experiments/llama3.1-8B_binary_java_file_detailed_analysis"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_binary_java_file_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.38,
+    "total_samples": 50,
+    "total_time": 6097.339818239212,
+    "output_dir": "results/cvefixes_experiments/deepseek-r1-distill-qwen2.5-7b_binary_java_file_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-8b_binary_java_method_detailed_analysis",
+    "status": "success",
+    "accuracy": NaN,
+    "total_samples": 0,
+    "total_time": 20.325427293777466,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b_binary_java_method_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_binary_java_method_detailed_analysis",
+    "status": "success",
+    "accuracy": NaN,
+    "total_samples": 0,
+    "total_time": 8.94007396697998,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b-thinking_binary_java_method_detailed_analysis"
+  },
+  {
+    "experiment_name": "llama3.1-8B_binary_java_method_detailed_analysis",
+    "status": "success",
+    "accuracy": NaN,
+    "total_samples": 0,
+    "total_time": 18.467551946640015,
+    "output_dir": "results/cvefixes_experiments/llama3.1-8B_binary_java_method_detailed_analysis"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_binary_java_method_detailed_analysis",
+    "status": "success",
+    "accuracy": NaN,
+    "total_samples": 0,
+    "total_time": 17.85944366455078,
+    "output_dir": "results/cvefixes_experiments/deepseek-r1-distill-qwen2.5-7b_binary_java_method_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-8b_binary_c_file_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.32,
+    "total_samples": 50,
+    "total_time": 265.92169189453125,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b_binary_c_file_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_binary_c_file_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.2,
+    "total_samples": 50,
+    "total_time": 255.86996817588806,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b-thinking_binary_c_file_detailed_analysis"
+  },
+  {
+    "experiment_name": "llama3.1-8B_binary_c_file_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.88,
+    "total_samples": 50,
+    "total_time": 4623.624077320099,
+    "output_dir": "results/cvefixes_experiments/llama3.1-8B_binary_c_file_detailed_analysis"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_binary_c_file_detailed_analysis",
+    "status": "success",
+    "accuracy": 0.32,
+    "total_samples": 50,
+    "total_time": 7204.409906387329,
+    "output_dir": "results/cvefixes_experiments/deepseek-r1-distill-qwen2.5-7b_binary_c_file_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-8b_binary_c_method_detailed_analysis",
+    "status": "success",
+    "accuracy": NaN,
+    "total_samples": 0,
+    "total_time": 20.92402195930481,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b_binary_c_method_detailed_analysis"
+  },
+  {
+    "experiment_name": "qwen3-8b-thinking_binary_c_method_detailed_analysis",
+    "status": "success",
+    "accuracy": NaN,
+    "total_samples": 0,
+    "total_time": 9.659070253372192,
+    "output_dir": "results/cvefixes_experiments/qwen3-8b-thinking_binary_c_method_detailed_analysis"
+  },
+  {
+    "experiment_name": "llama3.1-8B_binary_c_method_detailed_analysis",
+    "status": "success",
+    "accuracy": NaN,
+    "total_samples": 0,
+    "total_time": 19.916992664337158,
+    "output_dir": "results/cvefixes_experiments/llama3.1-8B_binary_c_method_detailed_analysis"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_binary_c_method_detailed_analysis",
+    "status": "success",
+    "accuracy": NaN,
+    "total_samples": 0,
+    "total_time": 21.754961729049683,
+    "output_dir": "results/cvefixes_experiments/deepseek-r1-distill-qwen2.5-7b_binary_c_method_detailed_analysis"
+  }
+]
