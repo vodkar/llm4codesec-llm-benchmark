@@ -1,0 +1,25 @@
+{
+  "accuracy": NaN,
+  "metrics": {
+    "accuracy": NaN,
+    "classification_report": {
+      "accuracy": 0.0,
+      "macro avg": {
+        "precision": NaN,
+        "recall": NaN,
+        "f1-score": NaN,
+        "support": 0.0
+      },
+      "weighted avg": {
+        "precision": NaN,
+        "recall": NaN,
+        "f1-score": NaN,
+        "support": 0.0
+      }
+    },
+    "confusion_matrix": []
+  },
+  "total_samples": 0,
+  "total_time": 8.763294219970703,
+  "predictions": []
+}

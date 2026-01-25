@@ -1,0 +1,196 @@
+{
+  "dataset_type": "vulbench",
+  "plan_name": "small_models_binary",
+  "description": "Evaluate small models on binary classification",
+  "start_time": "2026-01-24T00:45:56.567256",
+  "experiments": [
+    {
+      "experiment_name": "qwen3-8b_binary_d2a_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.58,
+      "total_samples": 50,
+      "total_time": 59.89916253089905,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b_binary_d2a_detailed_analysis_20260124_004556",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b_binary_d2a_detailed_analysis_20260124_004556/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b-thinking_binary_d2a_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.62,
+      "total_samples": 50,
+      "total_time": 47.94198393821716,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b-thinking_binary_d2a_detailed_analysis_20260124_004656",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b-thinking_binary_d2a_detailed_analysis_20260124_004656/results.json"
+    },
+    {
+      "experiment_name": "llama3.1-8B_binary_d2a_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.3,
+      "total_samples": 50,
+      "total_time": 2157.594773054123,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/llama3.1-8B_binary_d2a_detailed_analysis_20260124_004744",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/llama3.1-8B_binary_d2a_detailed_analysis_20260124_004744/results.json"
+    },
+    {
+      "experiment_name": "deepseek-r1-distill-qwen2.5-7b_binary_d2a_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.5,
+      "total_samples": 50,
+      "total_time": 8147.044834852219,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/deepseek-r1-distill-qwen2.5-7b_binary_d2a_detailed_analysis_20260124_012342",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/deepseek-r1-distill-qwen2.5-7b_binary_d2a_detailed_analysis_20260124_012342/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b_binary_ctf_detailed_analysis",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 20.42849898338318,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b_binary_ctf_detailed_analysis_20260124_033929",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b_binary_ctf_detailed_analysis_20260124_033929/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b-thinking_binary_ctf_detailed_analysis",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 8.421906471252441,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b-thinking_binary_ctf_detailed_analysis_20260124_033949",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b-thinking_binary_ctf_detailed_analysis_20260124_033949/results.json"
+    },
+    {
+      "experiment_name": "llama3.1-8B_binary_ctf_detailed_analysis",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 16.354312896728516,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/llama3.1-8B_binary_ctf_detailed_analysis_20260124_033958",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/llama3.1-8B_binary_ctf_detailed_analysis_20260124_033958/results.json"
+    },
+    {
+      "experiment_name": "deepseek-r1-distill-qwen2.5-7b_binary_ctf_detailed_analysis",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 16.812453985214233,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/deepseek-r1-distill-qwen2.5-7b_binary_ctf_detailed_analysis_20260124_034014",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/deepseek-r1-distill-qwen2.5-7b_binary_ctf_detailed_analysis_20260124_034014/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b_binary_magma_detailed_analysis",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 16.442200660705566,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b_binary_magma_detailed_analysis_20260124_034031",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b_binary_magma_detailed_analysis_20260124_034031/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b-thinking_binary_magma_detailed_analysis",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 9.9144446849823,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b-thinking_binary_magma_detailed_analysis_20260124_034048",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b-thinking_binary_magma_detailed_analysis_20260124_034048/results.json"
+    },
+    {
+      "experiment_name": "llama3.1-8B_binary_magma_detailed_analysis",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 16.260349988937378,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/llama3.1-8B_binary_magma_detailed_analysis_20260124_034058",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/llama3.1-8B_binary_magma_detailed_analysis_20260124_034058/results.json"
+    },
+    {
+      "experiment_name": "deepseek-r1-distill-qwen2.5-7b_binary_magma_detailed_analysis",
+      "status": "success",
+      "accuracy": NaN,
+      "total_samples": 0,
+      "total_time": 16.36826801300049,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/deepseek-r1-distill-qwen2.5-7b_binary_magma_detailed_analysis_20260124_034114",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/deepseek-r1-distill-qwen2.5-7b_binary_magma_detailed_analysis_20260124_034114/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b_binary_big_vul_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.56,
+      "total_samples": 50,
+      "total_time": 50.97423005104065,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b_binary_big_vul_detailed_analysis_20260124_034130",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b_binary_big_vul_detailed_analysis_20260124_034130/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b-thinking_binary_big_vul_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.6,
+      "total_samples": 50,
+      "total_time": 39.838637828826904,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b-thinking_binary_big_vul_detailed_analysis_20260124_034221",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b-thinking_binary_big_vul_detailed_analysis_20260124_034221/results.json"
+    },
+    {
+      "experiment_name": "llama3.1-8B_binary_big_vul_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.48,
+      "total_samples": 50,
+      "total_time": 2359.6250445842743,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/llama3.1-8B_binary_big_vul_detailed_analysis_20260124_034301",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/llama3.1-8B_binary_big_vul_detailed_analysis_20260124_034301/results.json"
+    },
+    {
+      "experiment_name": "deepseek-r1-distill-qwen2.5-7b_binary_big_vul_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.42,
+      "total_samples": 50,
+      "total_time": 6554.432138681412,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/deepseek-r1-distill-qwen2.5-7b_binary_big_vul_detailed_analysis_20260124_042221",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/deepseek-r1-distill-qwen2.5-7b_binary_big_vul_detailed_analysis_20260124_042221/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b_binary_devign_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.48,
+      "total_samples": 50,
+      "total_time": 53.222718477249146,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b_binary_devign_detailed_analysis_20260124_061135",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b_binary_devign_detailed_analysis_20260124_061135/results.json"
+    },
+    {
+      "experiment_name": "qwen3-8b-thinking_binary_devign_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.44,
+      "total_samples": 50,
+      "total_time": 43.9503448009491,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b-thinking_binary_devign_detailed_analysis_20260124_061229",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/qwen3-8b-thinking_binary_devign_detailed_analysis_20260124_061229/results.json"
+    },
+    {
+      "experiment_name": "llama3.1-8B_binary_devign_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.72,
+      "total_samples": 50,
+      "total_time": 2770.217997074127,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/llama3.1-8B_binary_devign_detailed_analysis_20260124_061313",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/llama3.1-8B_binary_devign_detailed_analysis_20260124_061313/results.json"
+    },
+    {
+      "experiment_name": "deepseek-r1-distill-qwen2.5-7b_binary_devign_detailed_analysis",
+      "status": "success",
+      "accuracy": 0.44,
+      "total_samples": 50,
+      "total_time": 7794.808292150497,
+      "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/deepseek-r1-distill-qwen2.5-7b_binary_devign_detailed_analysis_20260124_065923",
+      "results_file": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556/deepseek-r1-distill-qwen2.5-7b_binary_devign_detailed_analysis_20260124_065923/results.json"
+    }
+  ],
+  "summary": {
+    "total_experiments": 20,
+    "successful": 20,
+    "failed": 0,
+    "success_rate": 1.0
+  },
+  "output_dir": "results/vulbench_experiments/vulbench_plan_small_models_binary_20260124_004556",
+  "end_time": "2026-01-24T09:09:18.408659"
+}

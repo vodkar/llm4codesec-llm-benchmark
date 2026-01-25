@@ -1,254 +1,130 @@
 [
   {
-    "experiment_name": "qwen3-4b_cwe_125_cwe_focused",
-    "status": "success",
-    "accuracy": 0.52,
-    "total_samples": 100,
-    "total_time": 115.31091523170471,
-    "output_dir": "results/jitvul_experiments/qwen3-4b_cwe_125_cwe_focused"
-  },
-  {
-    "experiment_name": "llama3.2-3B_cwe_125_cwe_focused",
-    "status": "success",
-    "accuracy": 0.48,
-    "total_samples": 100,
-    "total_time": 75.18425703048706,
-    "output_dir": "results/jitvul_experiments/llama3.2-3B_cwe_125_cwe_focused"
-  },
-  {
-    "experiment_name": "gemma3-4b_cwe_125_cwe_focused",
-    "status": "failed",
-    "error": "not enough values to unpack (expected 3, got 2)",
-    "output_dir": "results/jitvul_experiments/gemma3-4b_cwe_125_cwe_focused"
-  },
-  {
-    "experiment_name": "deepseek-r1-distill-qwen2.5-1.5b_cwe_125_cwe_focused",
-    "status": "success",
-    "accuracy": 0.57,
-    "total_samples": 100,
-    "total_time": 3288.1793115139008,
-    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-1.5b_cwe_125_cwe_focused"
-  },
-  {
-    "experiment_name": "qwen3-4b_cwe_190_cwe_focused",
-    "status": "success",
-    "accuracy": 0.484375,
-    "total_samples": 64,
-    "total_time": 39.423555850982666,
-    "output_dir": "results/jitvul_experiments/qwen3-4b_cwe_190_cwe_focused"
-  },
-  {
-    "experiment_name": "llama3.2-3B_cwe_190_cwe_focused",
-    "status": "success",
-    "accuracy": 0.515625,
-    "total_samples": 64,
-    "total_time": 23.48738408088684,
-    "output_dir": "results/jitvul_experiments/llama3.2-3B_cwe_190_cwe_focused"
-  },
-  {
-    "experiment_name": "gemma3-4b_cwe_190_cwe_focused",
-    "status": "failed",
-    "error": "not enough values to unpack (expected 3, got 2)",
-    "output_dir": "results/jitvul_experiments/gemma3-4b_cwe_190_cwe_focused"
-  },
-  {
-    "experiment_name": "deepseek-r1-distill-qwen2.5-1.5b_cwe_190_cwe_focused",
-    "status": "success",
-    "accuracy": 0.5,
-    "total_samples": 64,
-    "total_time": 1976.414911031723,
-    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-1.5b_cwe_190_cwe_focused"
-  },
-  {
-    "experiment_name": "qwen3-4b_cwe_476_cwe_focused",
-    "status": "success",
-    "accuracy": 0.43,
-    "total_samples": 100,
-    "total_time": 50.465726137161255,
-    "output_dir": "results/jitvul_experiments/qwen3-4b_cwe_476_cwe_focused"
-  },
-  {
-    "experiment_name": "llama3.2-3B_cwe_476_cwe_focused",
-    "status": "success",
-    "accuracy": 0.49,
-    "total_samples": 100,
-    "total_time": 37.04495191574097,
-    "output_dir": "results/jitvul_experiments/llama3.2-3B_cwe_476_cwe_focused"
-  },
-  {
-    "experiment_name": "gemma3-4b_cwe_476_cwe_focused",
-    "status": "success",
-    "accuracy": 0.53,
-    "total_samples": 100,
-    "total_time": 5290.217232465744,
-    "output_dir": "results/jitvul_experiments/gemma3-4b_cwe_476_cwe_focused"
-  },
-  {
-    "experiment_name": "deepseek-r1-distill-qwen2.5-1.5b_cwe_476_cwe_focused",
-    "status": "success",
-    "accuracy": 0.48,
-    "total_samples": 100,
-    "total_time": 3059.497813940048,
-    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-1.5b_cwe_476_cwe_focused"
-  },
-  {
-    "experiment_name": "qwen3-4b_cwe_787_cwe_focused",
-    "status": "success",
-    "accuracy": 0.51,
-    "total_samples": 100,
-    "total_time": 73.4717333316803,
-    "output_dir": "results/jitvul_experiments/qwen3-4b_cwe_787_cwe_focused"
-  },
-  {
-    "experiment_name": "llama3.2-3B_cwe_787_cwe_focused",
-    "status": "success",
-    "accuracy": 0.52,
-    "total_samples": 100,
-    "total_time": 47.35593390464783,
-    "output_dir": "results/jitvul_experiments/llama3.2-3B_cwe_787_cwe_focused"
-  },
-  {
-    "experiment_name": "gemma3-4b_cwe_787_cwe_focused",
-    "status": "success",
-    "accuracy": 0.49,
-    "total_samples": 100,
-    "total_time": 5201.206988334656,
-    "output_dir": "results/jitvul_experiments/gemma3-4b_cwe_787_cwe_focused"
-  },
-  {
-    "experiment_name": "deepseek-r1-distill-qwen2.5-1.5b_cwe_787_cwe_focused",
-    "status": "success",
-    "accuracy": 0.5,
-    "total_samples": 100,
-    "total_time": 3163.4312365055084,
-    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-1.5b_cwe_787_cwe_focused"
-  },
-  {
-    "experiment_name": "qwen3-4b-thinking_cwe_125_cwe_focused",
-    "status": "success",
-    "accuracy": 0.46,
-    "total_samples": 50,
-    "total_time": 53.25749158859253,
-    "output_dir": "results/jitvul_experiments/qwen3-4b-thinking_cwe_125_cwe_focused"
-  },
-  {
     "experiment_name": "qwen3-8b_cwe_125_cwe_focused",
     "status": "success",
-    "accuracy": 0.32,
+    "accuracy": 0.72,
     "total_samples": 50,
-    "total_time": 45.409496545791626,
+    "total_time": 50.65397834777832,
     "output_dir": "results/jitvul_experiments/qwen3-8b_cwe_125_cwe_focused"
   },
   {
     "experiment_name": "qwen3-8b-thinking_cwe_125_cwe_focused",
     "status": "success",
-    "accuracy": 0.56,
+    "accuracy": 0.46,
     "total_samples": 50,
-    "total_time": 62.89436912536621,
+    "total_time": 41.637601137161255,
     "output_dir": "results/jitvul_experiments/qwen3-8b-thinking_cwe_125_cwe_focused"
+  },
+  {
+    "experiment_name": "llama3.1-8B_cwe_125_cwe_focused",
+    "status": "success",
+    "accuracy": 0.6,
+    "total_samples": 50,
+    "total_time": 60.195916175842285,
+    "output_dir": "results/jitvul_experiments/llama3.1-8B_cwe_125_cwe_focused"
   },
   {
     "experiment_name": "deepseek-r1-distill-qwen2.5-7b_cwe_125_cwe_focused",
     "status": "success",
-    "accuracy": 0.62,
+    "accuracy": 0.4,
     "total_samples": 50,
-    "total_time": 5475.314953804016,
+    "total_time": 4462.531351327896,
     "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-7b_cwe_125_cwe_focused"
-  },
-  {
-    "experiment_name": "qwen3-4b-thinking_cwe_190_cwe_focused",
-    "status": "success",
-    "accuracy": 0.48,
-    "total_samples": 50,
-    "total_time": 37.90500855445862,
-    "output_dir": "results/jitvul_experiments/qwen3-4b-thinking_cwe_190_cwe_focused"
   },
   {
     "experiment_name": "qwen3-8b_cwe_190_cwe_focused",
     "status": "success",
-    "accuracy": 0.44,
+    "accuracy": 0.5,
     "total_samples": 50,
-    "total_time": 52.652252435684204,
+    "total_time": 45.934945821762085,
     "output_dir": "results/jitvul_experiments/qwen3-8b_cwe_190_cwe_focused"
   },
   {
     "experiment_name": "qwen3-8b-thinking_cwe_190_cwe_focused",
     "status": "success",
-    "accuracy": 0.54,
+    "accuracy": 0.44,
     "total_samples": 50,
-    "total_time": 52.21943521499634,
+    "total_time": 34.03328776359558,
     "output_dir": "results/jitvul_experiments/qwen3-8b-thinking_cwe_190_cwe_focused"
+  },
+  {
+    "experiment_name": "llama3.1-8B_cwe_190_cwe_focused",
+    "status": "success",
+    "accuracy": 0.6,
+    "total_samples": 50,
+    "total_time": 53.532930850982666,
+    "output_dir": "results/jitvul_experiments/llama3.1-8B_cwe_190_cwe_focused"
   },
   {
     "experiment_name": "deepseek-r1-distill-qwen2.5-7b_cwe_190_cwe_focused",
     "status": "success",
-    "accuracy": 0.54,
+    "accuracy": 0.5,
     "total_samples": 50,
-    "total_time": 4613.066037893295,
+    "total_time": 4365.427319526672,
     "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-7b_cwe_190_cwe_focused"
-  },
-  {
-    "experiment_name": "qwen3-4b-thinking_cwe_476_cwe_focused",
-    "status": "success",
-    "accuracy": 0.48,
-    "total_samples": 50,
-    "total_time": 44.058680057525635,
-    "output_dir": "results/jitvul_experiments/qwen3-4b-thinking_cwe_476_cwe_focused"
   },
   {
     "experiment_name": "qwen3-8b_cwe_476_cwe_focused",
     "status": "success",
-    "accuracy": 0.46,
+    "accuracy": 0.52,
     "total_samples": 50,
-    "total_time": 54.94884634017944,
+    "total_time": 49.872146129608154,
     "output_dir": "results/jitvul_experiments/qwen3-8b_cwe_476_cwe_focused"
   },
   {
     "experiment_name": "qwen3-8b-thinking_cwe_476_cwe_focused",
     "status": "success",
-    "accuracy": 0.44,
+    "accuracy": 0.46,
     "total_samples": 50,
-    "total_time": 51.61028337478638,
+    "total_time": 38.08693528175354,
     "output_dir": "results/jitvul_experiments/qwen3-8b-thinking_cwe_476_cwe_focused"
+  },
+  {
+    "experiment_name": "llama3.1-8B_cwe_476_cwe_focused",
+    "status": "success",
+    "accuracy": 0.5,
+    "total_samples": 50,
+    "total_time": 53.421956062316895,
+    "output_dir": "results/jitvul_experiments/llama3.1-8B_cwe_476_cwe_focused"
   },
   {
     "experiment_name": "deepseek-r1-distill-qwen2.5-7b_cwe_476_cwe_focused",
     "status": "success",
-    "accuracy": 0.56,
+    "accuracy": 0.64,
     "total_samples": 50,
-    "total_time": 4272.558614253998,
+    "total_time": 4832.949236631393,
     "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-7b_cwe_476_cwe_focused"
-  },
-  {
-    "experiment_name": "qwen3-4b-thinking_cwe_787_cwe_focused",
-    "status": "success",
-    "accuracy": 0.5,
-    "total_samples": 50,
-    "total_time": 52.84161019325256,
-    "output_dir": "results/jitvul_experiments/qwen3-4b-thinking_cwe_787_cwe_focused"
   },
   {
     "experiment_name": "qwen3-8b_cwe_787_cwe_focused",
     "status": "success",
-    "accuracy": 0.52,
+    "accuracy": 0.46,
     "total_samples": 50,
-    "total_time": 79.00371265411377,
+    "total_time": 51.355313777923584,
     "output_dir": "results/jitvul_experiments/qwen3-8b_cwe_787_cwe_focused"
   },
   {
     "experiment_name": "qwen3-8b-thinking_cwe_787_cwe_focused",
     "status": "success",
-    "accuracy": 0.46,
+    "accuracy": 0.56,
     "total_samples": 50,
-    "total_time": 79.63140726089478,
+    "total_time": 41.41896390914917,
     "output_dir": "results/jitvul_experiments/qwen3-8b-thinking_cwe_787_cwe_focused"
+  },
+  {
+    "experiment_name": "llama3.1-8B_cwe_787_cwe_focused",
+    "status": "success",
+    "accuracy": 0.56,
+    "total_samples": 50,
+    "total_time": 58.12814283370972,
+    "output_dir": "results/jitvul_experiments/llama3.1-8B_cwe_787_cwe_focused"
   },
   {
     "experiment_name": "deepseek-r1-distill-qwen2.5-7b_cwe_787_cwe_focused",
     "status": "success",
-    "accuracy": 0.48,
+    "accuracy": 0.52,
     "total_samples": 50,
-    "total_time": 4098.688928842545,
+    "total_time": 4993.561346769333,
     "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-7b_cwe_787_cwe_focused"
   }
 ]

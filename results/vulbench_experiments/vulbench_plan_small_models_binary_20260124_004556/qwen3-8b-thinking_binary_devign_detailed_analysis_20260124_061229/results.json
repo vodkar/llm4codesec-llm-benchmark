@@ -1,0 +1,518 @@
+{
+  "accuracy": 0.44,
+  "metrics": {
+    "accuracy": 0.44,
+    "precision": 0.8,
+    "recall": 0.4,
+    "f1_score": 0.5333333333333333,
+    "specificity": 0.6,
+    "true_positives": 16,
+    "true_negatives": 6,
+    "false_positives": 4,
+    "false_negatives": 24
+  },
+  "total_samples": 50,
+  "total_time": 43.9503448009491,
+  "predictions": [
+    {
+      "sample_id": "vulbench_devign_40",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9557468891143799,
+      "tokens_used": 745,
+      "context_tokens": 741
+    },
+    {
+      "sample_id": "vulbench_devign_25",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.0506682395935059,
+      "tokens_used": 1312,
+      "context_tokens": 1308
+    },
+    {
+      "sample_id": "vulbench_devign_35",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4123044013977051,
+      "tokens_used": 324,
+      "context_tokens": 323
+    },
+    {
+      "sample_id": "vulbench_devign_34",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.39652347564697266,
+      "tokens_used": 207,
+      "context_tokens": 206
+    },
+    {
+      "sample_id": "vulbench_devign_58",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4230639934539795,
+      "tokens_used": 455,
+      "context_tokens": 454
+    },
+    {
+      "sample_id": "vulbench_devign_68",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.47126245498657227,
+      "tokens_used": 835,
+      "context_tokens": 834
+    },
+    {
+      "sample_id": "vulbench_devign_27",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9989926815032959,
+      "tokens_used": 948,
+      "context_tokens": 944
+    },
+    {
+      "sample_id": "vulbench_devign_28",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.40825462341308594,
+      "tokens_used": 302,
+      "context_tokens": 301
+    },
+    {
+      "sample_id": "vulbench_devign_18",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5154390335083008,
+      "tokens_used": 1130,
+      "context_tokens": 1129
+    },
+    {
+      "sample_id": "vulbench_devign_22",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5466442108154297,
+      "tokens_used": 1361,
+      "context_tokens": 1360
+    },
+    {
+      "sample_id": "vulbench_devign_65",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.038374423980713,
+      "tokens_used": 1280,
+      "context_tokens": 1276
+    },
+    {
+      "sample_id": "vulbench_devign_2",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.6228065490722656,
+      "tokens_used": 1815,
+      "context_tokens": 1814
+    },
+    {
+      "sample_id": "vulbench_devign_60",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9342525005340576,
+      "tokens_used": 445,
+      "context_tokens": 441
+    },
+    {
+      "sample_id": "vulbench_devign_44",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.41094088554382324,
+      "tokens_used": 384,
+      "context_tokens": 383
+    },
+    {
+      "sample_id": "vulbench_devign_47",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.44914841651916504,
+      "tokens_used": 604,
+      "context_tokens": 603
+    },
+    {
+      "sample_id": "vulbench_devign_53",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.42017674446105957,
+      "tokens_used": 453,
+      "context_tokens": 452
+    },
+    {
+      "sample_id": "vulbench_devign_3",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4222545623779297,
+      "tokens_used": 425,
+      "context_tokens": 424
+    },
+    {
+      "sample_id": "vulbench_devign_6",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.0596294403076172,
+      "tokens_used": 1302,
+      "context_tokens": 1298
+    },
+    {
+      "sample_id": "vulbench_devign_52",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.39304375648498535,
+      "tokens_used": 202,
+      "context_tokens": 201
+    },
+    {
+      "sample_id": "vulbench_devign_39",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.8381016254425049,
+      "tokens_used": 3018,
+      "context_tokens": 3017
+    },
+    {
+      "sample_id": "vulbench_devign_42",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4161105155944824,
+      "tokens_used": 502,
+      "context_tokens": 501
+    },
+    {
+      "sample_id": "vulbench_devign_8",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9372978210449219,
+      "tokens_used": 593,
+      "context_tokens": 589
+    },
+    {
+      "sample_id": "vulbench_devign_57",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9389376640319824,
+      "tokens_used": 614,
+      "context_tokens": 610
+    },
+    {
+      "sample_id": "vulbench_devign_24",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.8997514247894287,
+      "tokens_used": 321,
+      "context_tokens": 317
+    },
+    {
+      "sample_id": "vulbench_devign_62",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9325649738311768,
+      "tokens_used": 627,
+      "context_tokens": 623
+    },
+    {
+      "sample_id": "vulbench_devign_32",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5303502082824707,
+      "tokens_used": 1269,
+      "context_tokens": 1268
+    },
+    {
+      "sample_id": "vulbench_devign_45",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5656008720397949,
+      "tokens_used": 1493,
+      "context_tokens": 1492
+    },
+    {
+      "sample_id": "vulbench_devign_19",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5702180862426758,
+      "tokens_used": 1543,
+      "context_tokens": 1542
+    },
+    {
+      "sample_id": "vulbench_devign_16",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.409379243850708,
+      "tokens_used": 425,
+      "context_tokens": 424
+    },
+    {
+      "sample_id": "vulbench_devign_7",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4600398540496826,
+      "tokens_used": 812,
+      "context_tokens": 811
+    },
+    {
+      "sample_id": "vulbench_devign_55",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5225496292114258,
+      "tokens_used": 1255,
+      "context_tokens": 1254
+    },
+    {
+      "sample_id": "vulbench_devign_49",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4086723327636719,
+      "tokens_used": 293,
+      "context_tokens": 292
+    },
+    {
+      "sample_id": "vulbench_devign_12",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.3974895477294922,
+      "tokens_used": 3278,
+      "context_tokens": 3274
+    },
+    {
+      "sample_id": "vulbench_devign_26",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9706110954284668,
+      "tokens_used": 905,
+      "context_tokens": 901
+    },
+    {
+      "sample_id": "vulbench_devign_10",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9600491523742676,
+      "tokens_used": 771,
+      "context_tokens": 767
+    },
+    {
+      "sample_id": "vulbench_devign_67",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9072420597076416,
+      "tokens_used": 335,
+      "context_tokens": 331
+    },
+    {
+      "sample_id": "vulbench_devign_69",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.0579900741577148,
+      "tokens_used": 1504,
+      "context_tokens": 1500
+    },
+    {
+      "sample_id": "vulbench_devign_37",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.4525172710418701,
+      "tokens_used": 3516,
+      "context_tokens": 3512
+    },
+    {
+      "sample_id": "vulbench_devign_11",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.2381179332733154,
+      "tokens_used": 2462,
+      "context_tokens": 2458
+    },
+    {
+      "sample_id": "vulbench_devign_61",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.40773582458496094,
+      "tokens_used": 373,
+      "context_tokens": 372
+    },
+    {
+      "sample_id": "vulbench_devign_30",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4272348880767822,
+      "tokens_used": 527,
+      "context_tokens": 526
+    },
+    {
+      "sample_id": "vulbench_devign_43",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4353373050689697,
+      "tokens_used": 640,
+      "context_tokens": 639
+    },
+    {
+      "sample_id": "vulbench_devign_31",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.3839409351348877,
+      "tokens_used": 209,
+      "context_tokens": 208
+    },
+    {
+      "sample_id": "vulbench_devign_41",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.3856995105743408,
+      "tokens_used": 3129,
+      "context_tokens": 3125
+    },
+    {
+      "sample_id": "vulbench_devign_14",
+      "predicted_label": 1,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 0.9855117797851562,
+      "tokens_used": 908,
+      "context_tokens": 904
+    },
+    {
+      "sample_id": "vulbench_devign_54",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.39722371101379395,
+      "tokens_used": 269,
+      "context_tokens": 268
+    },
+    {
+      "sample_id": "vulbench_devign_20",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4813094139099121,
+      "tokens_used": 998,
+      "context_tokens": 997
+    },
+    {
+      "sample_id": "vulbench_devign_56",
+      "predicted_label": 1,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "VULNERABLE",
+      "processing_time": 1.0727131366729736,
+      "tokens_used": 1519,
+      "context_tokens": 1515
+    },
+    {
+      "sample_id": "vulbench_devign_36",
+      "predicted_label": 0,
+      "true_label": 0,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.38660192489624023,
+      "tokens_used": 234,
+      "context_tokens": 233
+    },
+    {
+      "sample_id": "vulbench_devign_15",
+      "predicted_label": 0,
+      "true_label": 1,
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.3864912986755371,
+      "tokens_used": 243,
+      "context_tokens": 242
+    }
+  ]
+}

@@ -1,34 +1,34 @@
 [
   {
-    "experiment_name": "qwen3-4b_multiclass_all_multiclass_comprehensive",
+    "experiment_name": "qwen3-8b_multiclass_all_multiclass_comprehensive",
     "status": "success",
-    "accuracy": 0.145,
+    "accuracy": 0.14,
     "total_samples": 200,
-    "total_time": 206.32627248764038,
-    "output_dir": "results/jitvul_experiments/qwen3-4b_multiclass_all_multiclass_comprehensive"
+    "total_time": 304.61578273773193,
+    "output_dir": "results/jitvul_experiments/qwen3-8b_multiclass_all_multiclass_comprehensive"
   },
   {
-    "experiment_name": "llama3.2-3B_multiclass_all_multiclass_comprehensive",
+    "experiment_name": "qwen3-8b-thinking_multiclass_all_multiclass_comprehensive",
     "status": "success",
-    "accuracy": 0.005,
+    "accuracy": 0.165,
     "total_samples": 200,
-    "total_time": 408.6249041557312,
-    "output_dir": "results/jitvul_experiments/llama3.2-3B_multiclass_all_multiclass_comprehensive"
+    "total_time": 289.65567684173584,
+    "output_dir": "results/jitvul_experiments/qwen3-8b-thinking_multiclass_all_multiclass_comprehensive"
   },
   {
-    "experiment_name": "gemma3-4b_multiclass_all_multiclass_comprehensive",
-    "status": "success",
-    "accuracy": 0.025,
-    "total_samples": 200,
-    "total_time": 13821.027764558792,
-    "output_dir": "results/jitvul_experiments/gemma3-4b_multiclass_all_multiclass_comprehensive"
-  },
-  {
-    "experiment_name": "deepseek-r1-distill-qwen2.5-1.5b_multiclass_all_multiclass_comprehensive",
+    "experiment_name": "llama3.1-8B_multiclass_all_multiclass_comprehensive",
     "status": "success",
     "accuracy": 0.075,
     "total_samples": 200,
-    "total_time": 9520.930256128311,
-    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-1.5b_multiclass_all_multiclass_comprehensive"
+    "total_time": 1403.1885163784027,
+    "output_dir": "results/jitvul_experiments/llama3.1-8B_multiclass_all_multiclass_comprehensive"
+  },
+  {
+    "experiment_name": "deepseek-r1-distill-qwen2.5-7b_multiclass_all_multiclass_comprehensive",
+    "status": "success",
+    "accuracy": 0.075,
+    "total_samples": 200,
+    "total_time": 23865.519778251648,
+    "output_dir": "results/jitvul_experiments/deepseek-r1-distill-qwen2.5-7b_multiclass_all_multiclass_comprehensive"
   }
 ]

@@ -1,0 +1,680 @@
+{
+  "accuracy": 0.66,
+  "metrics": {
+    "accuracy": 0.66,
+    "classification_report": {
+      "Buffer-Overflow": {
+        "precision": 0.5,
+        "recall": 0.2,
+        "f1-score": 0.2857142857142857,
+        "support": 5.0
+      },
+      "Improper-Access-Control": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 2.0
+      },
+      "Integer-Overflow": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "f1-score": 0.4,
+        "support": 1.0
+      },
+      "Memory-Leak": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "No-Vulnerability": {
+        "precision": 0.7045454545454546,
+        "recall": 0.8857142857142857,
+        "f1-score": 0.7848101265822784,
+        "support": 35.0
+      },
+      "Null-Pointer-Dereference": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 2.0
+      },
+      "Race-Condition": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "UNKNOWN": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 2.0
+      },
+      "Use-After-Free": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 1.0
+      },
+      "accuracy": 0.66,
+      "macro avg": {
+        "precision": 0.16161616161616163,
+        "recall": 0.2317460317460317,
+        "f1-score": 0.16339160136628492,
+        "support": 50.0
+      },
+      "weighted avg": {
+        "precision": 0.5481818181818182,
+        "recall": 0.66,
+        "f1-score": 0.5859385171790235,
+        "support": 50.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        1,
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        3,
+        0,
+        31,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "total_samples": 50,
+  "total_time": 36.72378587722778,
+  "predictions": [
+    {
+      "sample_id": "vulbench_vul_67_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.41304802894592285,
+      "tokens_used": 310,
+      "context_tokens": 309
+    },
+    {
+      "sample_id": "vulbench_vul_21_multiclass",
+      "predicted_label": "Integer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Integer-Overflow",
+      "processing_time": 1.2733523845672607,
+      "tokens_used": 3427,
+      "context_tokens": 3424
+    },
+    {
+      "sample_id": "vulbench_vul_47_multiclass",
+      "predicted_label": "Integer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Integer-Overflow",
+      "processing_time": 0.8208281993865967,
+      "tokens_used": 901,
+      "context_tokens": 898
+    },
+    {
+      "sample_id": "vulbench_vul_77_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.43389344215393066,
+      "tokens_used": 507,
+      "context_tokens": 506
+    },
+    {
+      "sample_id": "vulbench_vul_92_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.46079254150390625,
+      "tokens_used": 789,
+      "context_tokens": 788
+    },
+    {
+      "sample_id": "vulbench_vul_55_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4243488311767578,
+      "tokens_used": 439,
+      "context_tokens": 438
+    },
+    {
+      "sample_id": "vulbench_vul_105_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4004957675933838,
+      "tokens_used": 270,
+      "context_tokens": 269
+    },
+    {
+      "sample_id": "vulbench_vul_34_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4396209716796875,
+      "tokens_used": 635,
+      "context_tokens": 634
+    },
+    {
+      "sample_id": "vulbench_vul_44_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Buffer-Overflow",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4180126190185547,
+      "tokens_used": 481,
+      "context_tokens": 480
+    },
+    {
+      "sample_id": "vulbench_vul_102_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Improper-Access-Control",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.43895840644836426,
+      "tokens_used": 529,
+      "context_tokens": 528
+    },
+    {
+      "sample_id": "vulbench_vul_19_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Null-Pointer-Dereference",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4051845073699951,
+      "tokens_used": 329,
+      "context_tokens": 328
+    },
+    {
+      "sample_id": "vulbench_vul_61_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.3970787525177002,
+      "tokens_used": 250,
+      "context_tokens": 249
+    },
+    {
+      "sample_id": "vulbench_vul_69_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.40965914726257324,
+      "tokens_used": 292,
+      "context_tokens": 291
+    },
+    {
+      "sample_id": "vulbench_vul_6_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4390144348144531,
+      "tokens_used": 629,
+      "context_tokens": 628
+    },
+    {
+      "sample_id": "vulbench_vul_15_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "UNKNOWN",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4134550094604492,
+      "tokens_used": 379,
+      "context_tokens": 378
+    },
+    {
+      "sample_id": "vulbench_vul_75_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4290735721588135,
+      "tokens_used": 450,
+      "context_tokens": 449
+    },
+    {
+      "sample_id": "vulbench_vul_48_multiclass",
+      "predicted_label": "Integer-Overflow",
+      "true_label": "Integer-Overflow",
+      "confidence": null,
+      "response_text": "Integer-Overflow",
+      "processing_time": 0.8027591705322266,
+      "tokens_used": 770,
+      "context_tokens": 767
+    },
+    {
+      "sample_id": "vulbench_vul_36_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.7687122821807861,
+      "tokens_used": 2530,
+      "context_tokens": 2529
+    },
+    {
+      "sample_id": "vulbench_vul_29_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4328196048736572,
+      "tokens_used": 520,
+      "context_tokens": 519
+    },
+    {
+      "sample_id": "vulbench_vul_99_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.38757848739624023,
+      "tokens_used": 212,
+      "context_tokens": 211
+    },
+    {
+      "sample_id": "vulbench_vul_52_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Memory-Leak",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.7108709812164307,
+      "tokens_used": 7278,
+      "context_tokens": 7277
+    },
+    {
+      "sample_id": "vulbench_vul_88_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.38933229446411133,
+      "tokens_used": 224,
+      "context_tokens": 223
+    },
+    {
+      "sample_id": "vulbench_vul_50_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Buffer-Overflow",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4247429370880127,
+      "tokens_used": 451,
+      "context_tokens": 450
+    },
+    {
+      "sample_id": "vulbench_vul_79_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.41164469718933105,
+      "tokens_used": 358,
+      "context_tokens": 357
+    },
+    {
+      "sample_id": "vulbench_vul_54_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Improper-Access-Control",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.40787768363952637,
+      "tokens_used": 355,
+      "context_tokens": 354
+    },
+    {
+      "sample_id": "vulbench_vul_5_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "Buffer-Overflow",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 0.872307300567627,
+      "tokens_used": 1188,
+      "context_tokens": 1185
+    },
+    {
+      "sample_id": "vulbench_vul_45_multiclass",
+      "predicted_label": "Buffer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Buffer-Overflow",
+      "processing_time": 1.0868384838104248,
+      "tokens_used": 2427,
+      "context_tokens": 2424
+    },
+    {
+      "sample_id": "vulbench_vul_12_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.435316801071167,
+      "tokens_used": 445,
+      "context_tokens": 444
+    },
+    {
+      "sample_id": "vulbench_vul_41_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4423048496246338,
+      "tokens_used": 540,
+      "context_tokens": 539
+    },
+    {
+      "sample_id": "vulbench_vul_95_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5983395576477051,
+      "tokens_used": 1618,
+      "context_tokens": 1617
+    },
+    {
+      "sample_id": "vulbench_vul_94_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4482705593109131,
+      "tokens_used": 636,
+      "context_tokens": 635
+    },
+    {
+      "sample_id": "vulbench_vul_71_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4126863479614258,
+      "tokens_used": 283,
+      "context_tokens": 282
+    },
+    {
+      "sample_id": "vulbench_vul_56_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Use-After-Free",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4259486198425293,
+      "tokens_used": 433,
+      "context_tokens": 432
+    },
+    {
+      "sample_id": "vulbench_vul_39_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Race-Condition",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4068622589111328,
+      "tokens_used": 251,
+      "context_tokens": 250
+    },
+    {
+      "sample_id": "vulbench_vul_16_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.48903870582580566,
+      "tokens_used": 937,
+      "context_tokens": 936
+    },
+    {
+      "sample_id": "vulbench_vul_58_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.48900651931762695,
+      "tokens_used": 943,
+      "context_tokens": 942
+    },
+    {
+      "sample_id": "vulbench_vul_84_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4240701198577881,
+      "tokens_used": 344,
+      "context_tokens": 343
+    },
+    {
+      "sample_id": "vulbench_vul_28_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Null-Pointer-Dereference",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4629645347595215,
+      "tokens_used": 653,
+      "context_tokens": 652
+    },
+    {
+      "sample_id": "vulbench_vul_51_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 1.752903699874878,
+      "tokens_used": 7302,
+      "context_tokens": 7301
+    },
+    {
+      "sample_id": "vulbench_vul_53_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.42918920516967773,
+      "tokens_used": 458,
+      "context_tokens": 457
+    },
+    {
+      "sample_id": "vulbench_vul_30_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4606297016143799,
+      "tokens_used": 656,
+      "context_tokens": 655
+    },
+    {
+      "sample_id": "vulbench_vul_42_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Buffer-Overflow",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4447929859161377,
+      "tokens_used": 540,
+      "context_tokens": 539
+    },
+    {
+      "sample_id": "vulbench_vul_103_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.47438597679138184,
+      "tokens_used": 800,
+      "context_tokens": 799
+    },
+    {
+      "sample_id": "vulbench_vul_20_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.47971343994140625,
+      "tokens_used": 773,
+      "context_tokens": 772
+    },
+    {
+      "sample_id": "vulbench_vul_62_multiclass",
+      "predicted_label": "Integer-Overflow",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "Integer-Overflow",
+      "processing_time": 0.7746007442474365,
+      "tokens_used": 419,
+      "context_tokens": 416
+    },
+    {
+      "sample_id": "vulbench_vul_25_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.5206089019775391,
+      "tokens_used": 1092,
+      "context_tokens": 1091
+    },
+    {
+      "sample_id": "vulbench_vul_106_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.4046916961669922,
+      "tokens_used": 247,
+      "context_tokens": 246
+    },
+    {
+      "sample_id": "vulbench_vul_24_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "Buffer-Overflow",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.46552324295043945,
+      "tokens_used": 681,
+      "context_tokens": 680
+    },
+    {
+      "sample_id": "vulbench_vul_17_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "UNKNOWN",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.49634599685668945,
+      "tokens_used": 940,
+      "context_tokens": 939
+    },
+    {
+      "sample_id": "vulbench_vul_90_multiclass",
+      "predicted_label": "No-Vulnerability",
+      "true_label": "No-Vulnerability",
+      "confidence": null,
+      "response_text": "SAFE",
+      "processing_time": 0.43714356422424316,
+      "tokens_used": 485,
+      "context_tokens": 484
+    }
+  ]
+}
